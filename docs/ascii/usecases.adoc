@@ -1,0 +1,78 @@
+
+== Descripciones de Caso de Uso
+
+
+*CU01 Registrar PLAYER*
+
+*ID:* CU01 +
+*Nombre:* Customize Profile
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *crear una cuenta* del juego mediante la recopilación de su _Username_, _Email_ y _Password_ en el formulario de registro. El resultado es el *registro de la cuenta del PLAYER en la base de datos*. +
+*Disparador:* PLAYER selecciona "Registrar" LoginPage +
+*Precondiciones:* N/A
+
+*Flujo Normal* +
+1. El CLIENTE muestra la SignupPage al PLAYER. +
+2. El PLAYER ingresa su _Username_, _Email_ y _Password_. +
+3. El PLAYER selecciona "Registrar". +
+4. El CLIENTE recupera de SignupPage los datos ingresados del PLAYER (_Username_, _Email_ y _Password_). +
+5. El CLIENTE valida que ninguno de los datos esté vacío, que _Username_ tenga un formato correcto y que _Password_ cumpla con los requisitos de seguridad  (ver FA01). +
+6. El CLIENTE envía al SERVIDOR el _Username_ y el _Email_ para que valide su disponibilidad y formato (ver EX01). +
+7. El SERVIDOR regresa si _Username_ e _Email_ son validos (ver FA01)(ver EX01). +
+8. El CLIENTE encripta la _Password_ y envía los datos para registrar al PLAYER (ver EX01). +
+9. El CLIENTE envía el _Email_ y _ID_ al SERVIDOR para que envíe el correo de verificación (ver EX01). +
+10. El SERVIDOR registra al PLAYER.
+11. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Datos inválidos* +
+1. El CLIENTE abre NotificationWindow informando al PLAYER que algunos datos que ingresó son inválidos.
+2. El PLAYER selecciona "Aceptar".
+3. El CLIENTE cierra NotificationWindow.
+4. El CLIENTE actualiza el color de los TextBlock de los datos inválidos a color Rojo.
+5. El PLAYER corrige los datos inválidos.
+6. El PLAYER selecciona "Registrar".
+7. Regresa al flujo normal 4.
+
+*FA02 - Omitir verificación* +
+1. El PLAYER selecciona "Cancelar". +
+2. El CLIENTE cierra VerificationWindowXAML. +
+3. Termina el caso de uso. +
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre NotificationWindowXAML informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Aceptar". +
+5. El CLIENTE cierra NotificationWindowXAML. +
+6. Termina el caso de uso. +
+
+*Postcondiciones:*
+POST01: Se registró la cuenta del PLAYER en la base de datos +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* CU Verificar Cuenta
+
+
+casos de uso
+
+- Personalizar perfil
+- Jugar
+** Crear sala
+** Unirse a sala
+*** Unirse con código
+** Entrar a sala
+*** Chat de sala
+*** Marcar como "Listo"
+*** Jugar la partida
+- Amigos
+** Agregar amigo
+** Invitar a jugar a amigo
+** Eliminar amigo
+- Configuración
+** Cambiar idioma
+** Encender/apagar música

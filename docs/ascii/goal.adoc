@@ -1,0 +1,96 @@
+
+== Objetivo
+
+El objetivo del proyecto era construir un port del juego de mesa MasterMind a un videojuego mulitjugador en LAN. El objetivo es que cada jugador pueda jugar en tiempo real con sus amigos en su computadora.
+
+*El proyecto debe cumplir con las siguientes métricas:*
+
+* <2% deuda técnica
+
+* 0 smells
+
+* 0 hotspots de segurdidad
+
+* Código con complejidad ciclomática menor a 10
+
+
+*Y los siguientes requisitos:*
+
+- Registro de usuarios / jugadores
+
+** Con verificación por código o email
+
+- Cambio de contraseñas
+
+- Personalización de perfil
+
+** Los avatares deben tener roaming para que puedan verlas más usuarios
+
+- Inicio de sesión / jugar como invitado
+
+- Invitación de amigos (email/código)
+
+- Lista de amigos
+
+** Manejar presencia: saber cuándo está conectado o cuando no
+
+- Jugadores expulsados
+
+** Debe haber ban
+
+** Puede ser con reportes.
+
+** Las reglas del banneo deben ser claras y estar bien definidas.
+
+- Lobby / sala de espera
+
+- Chat colaborativo (en sala o en partida)
+
+- Unirse a la partida
+
+- Marcadores / tabla de ganadores
+
+- Iniciar juego
+
+- Personalización de reglas / look and feel
+
+- Juego mulitjugador
+
+** Multi partida
+
+- Soportar Inglés y Español (Internacionalización)
+
+** Si el SO está en inglés el juego también
+
+
+- Definición de artefactos de cada etapa de desarrollo
+
+- Registro de avance en github, gitlab o bitbucket
+
+- Uso de framework de persistencia
+
+** Entity Framework
+
+- Uso de framework de comunicación en red
+
+** WCF (Windows Communication Foundation)
+
+- Uso de framework de UI
+
+** WPF (Windows Presentation Foundation)
+
+- Prácticas seguras de escritura de código
+
+- Seguridad en la BD
+
+	- Se debe usar un usuario en la bd con permisos limitados
+
+	- No se debe entrar como super admin a menos que se vayan a realizar cambios mayores
+
+- Evitar el uso de antipatrones
+
+- Pruebas
+
+** Mínimo 300 pruebas
+
+** Flujos normales, al menos 3 alternos y todos los flujos de excepción

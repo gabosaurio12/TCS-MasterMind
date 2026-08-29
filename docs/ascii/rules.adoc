@@ -1,0 +1,89 @@
+
+== Instrucciones
+
+=== Objetivo
+
+En *MasterMind: Race For The Code!* hay dos modos de juego:
+
+* Contrarreloj: Descifra el código secreto antes que tu oponente dentro del tiempo establecido, tienes intentos ilimitados.
+
+* Número de Intentos: Descifra el código secreto haciendo menos intentos que tu oponente.
+
+=== Preparación
+
+Para jugar debes entrar a una sala pública donde haya alguien esperando. ¡Prepárense y comiencen a descifrar!
+
+Para jugar con tus amigos debes tener una cuenta, crear una sala privada, esta tendrá un código único; ellos deberán usar el código para unirse a la sala.
+
+=== Cómo jugar
+
+==== El _Código Secreto_
+
+El _Código Secreto_ consta de 4 fichas de colores, pueden repetirse colores o ir seguidos.
+
+Los colores posibles son:
+
+* Rojo
+
+* Verde
+
+* Azul
+
+* Amarillo
+
+* Blanco
+
+* Naranja
+
+==== Inicio del juego
+
+Los jugadores deberán ir probando combinaciones de colores para descifrar el _Código Secreto_. Tras cada intento, se revelarán los colores acertados y los colores y posiciones acertados:
+
+* Se mostrará el color blanco por cada color y posición acertadas
+
+* Se mostrará el color negro por cada color acertado
+
+Mediante estas pistas los jugadores deben adivinar el código e ir ajustando sus códigos.
+
+=== Modos de Juego
+
+==== Contrarreloj
+
+En este modo se tiene intentos ilimitados, consta de cuatro dificultades:
+
+* *Fácil:* 3 minutos
+
+* *Medio:* 2 minutos
+
+* *Difícil:* 1 minuto
+
+* *Enigma:* 30 segundos
+
+==== Intentos
+
+En este modo la dificultad varía según el número de intentos. Consta de cuatro dificultades:
+
+* *Fácil:* 10 intentos
+
+* *Medio:* 8 intentos
+
+* *Difícil:* 5 intentos
+
+* *Enigma:* 3 intentos
+
+
+=== Final del juego y ganador
+
+Dependiendo del modo de juego es como se decide el ganador de la ronda, para ganar la partida deben ganar tres rondas.
+
+==== Contrarreloj
+
+En el modo contrarreloj gana la ronda el que tenga el código correcto primero (el que lo haga en menos tiempo).
+
+==== Número de Intentos
+
+En el modo número de intentos gana la ronda el jugador que haya encontrado el código correcto en menos intentos.
+
+=== Regla De Oro
+
+*¡DIVIÉRTETE!*

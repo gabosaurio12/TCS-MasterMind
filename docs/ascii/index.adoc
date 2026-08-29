@@ -1,0 +1,45 @@
+
+= MasterMind: Race For The Code!
+:doctype: book
+:toc: left
+:toc-title: Índice
+:icons: font
+:source-highlighter: highlight.js
+:imagesdir: images
+:lang: es
+:sectnums:
+
+:chapter-label: Capítulo
+:appendix-caption: Apéndice
+:part-signifier: Parte
+:figure-caption: Figura
+:table-caption: Tabla
+:example-caption: Ejemplo
+:listing-caption: Listado
+:caution-caption: Precaución
+:important-caption: Importante
+:note-caption: Nota
+:tip-caption: Consejo
+:warning-caption: Advertencia
+
+include::cover.adoc[]
+include::introduction.adoc[]
+include::problem.adoc[]
+include::goal.adoc[]
+include::reach.adoc[]
+include::rules.adoc[]
+include::srs.adoc[]
+include::views/usecases.adoc[]
+include::usecases.adoc[]
+include::prototypes.adoc[]
+include::views/static.adoc[]
+include::views/sequence.adoc[]
+include::views/database.adoc[]
+include::views/deployment.adoc[]
+include::frameworks.adoc[]
+include::tests.adoc[]
+include::codeReport.adoc[]
+include::learning.adoc[]
+include::conclusions.adoc[]
+include::aiDeclaration.adoc[]
+include::references.adoc[]

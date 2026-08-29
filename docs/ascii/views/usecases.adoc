@@ -1,0 +1,4 @@
+
+== Vista de casos de uso
+
+image::../imgs/views/UseCasesView.png[width=650]

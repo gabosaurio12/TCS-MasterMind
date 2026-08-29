@@ -1,0 +1,16 @@
+
+== Introducción
+
+Como proyecto final para la materia de Tecnologías para la construcción de Software se solicitó un proyecto construido con .NET, WCF, WPF, Entity Framework y SQL Server.
+
+Se comenzó el proyecto el 25 de agosto del 2026. El tiempo de desarrollo fue de aproximadamente 14 semanas.
+
+Se utilizaron herramientas de apoyo como Git y SonarQube cloud.
+
+El proyecto debía tener temática de algún juego de mesa, se eligió el juego MasterMind. El objetivo principal del juego es decodificar un código de una secuencia de fichas que crea el adversario, se tienen cierto número de intentos y si no se logra descifrar el código se cambian los roles: el codificador ahora es decodificador y visceversa.
+
+En *MasterMind: Race For The Code!* los jugadores toman únicamente el rol de decodificador y deben descifrar el código, el que lo consiga primero antes de que se acaben los turnos o el tiempo gana.
+
+== Repositorio de Git
+
+https://github.com/gabosaurio12/TCS-MasterMind
