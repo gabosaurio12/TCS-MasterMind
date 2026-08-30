@@ -1,0 +1,10 @@
+
+== Vista Estática
+
+image::../imgs/views/DomainModel1.png[width=550]
+
+En el modelo de dominio se identifican los principales términos del dominio y se relacionan.
+
+image::../imgs/views/ClassesView1.png[width=550]
+
+En la primera versión del modelo de clases se identificaron algunos atributos de las clases y se cambiaron los tipos de relación de otras.
