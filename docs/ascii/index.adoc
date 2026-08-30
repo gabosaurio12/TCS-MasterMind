@@ -5,7 +5,7 @@
 :toc-title: Índice
 :icons: font
 :source-highlighter: highlight.js
-:imagesdir: images
+:imagesdir: imgs
 :lang: es
 :sectnums:
 
@@ -24,14 +24,14 @@
 
 include::cover.adoc[]
 include::introduction.adoc[]
-include::problem.adoc[]
+//include::problem.adoc[]
 include::goal.adoc[]
 include::reach.adoc[]
 include::rules.adoc[]
 include::srs.adoc[]
-include::views/usecases.adoc[]
-include::usecases.adoc[]
+//include::usecases.adoc[]
 include::prototypes.adoc[]
+include::views/usecases.adoc[]
 include::views/static.adoc[]
 include::views/sequence.adoc[]
 include::views/database.adoc[]

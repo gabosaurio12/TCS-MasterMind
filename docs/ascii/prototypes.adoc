@@ -1,0 +1,108 @@
+
+== Prototipos
+
+=== Páginas de inicio
+
+image::prototypes/LoginPage.png[width=600, title="Página de Login (LoginPage)", align="center"]
+
+Al intentar iniciar sesión se enviará un código de verificación al correo electrónico del jugador. El jugador deberá ingresar el código en el Modal de verificación (VerificationCodeModal) para completar el inicio de sesión:
+
+image::prototypes/LoginPageVerificationCode.png[width=600, title="LoginPage con modal de verificación de código (VerificationCodeModal)", align="center"]
+
+image::prototypes/MainPage.png[width=600, title="Página principal (MainPage)", align="center"]
+
+Al dar clic en el botón de 🌐 se cambia el idioma de la interfaz gráfica.
+
+=== Páginas de personalización de perfil
+
+image::prototypes/ProfilePage.png[width=600, title="Página de perfil del jugador (ProfilePage)", align="center"]
+
+Desde la página de perfil del jugador (ProfilePage) se pueden ver los detalles del perfil del jugador, reportar a los jugadores y actualizar la información del perfil del jugador. Al dar clic en el botón de "Actualizar" se actualizará la página a UpdateProfilePage:
+
+image::prototypes/UpdateProfilePage.png[width=600, title="Actualizar información del perfil (UpdateProfilePage)", align="center"]
+
+Al dar clic en el botón de "Cambiar contraseña" se abrirá el modal de cambio de contraseña (NewPasswordModal):
+
+image::prototypes/ProfilePageChangePassword.png[width=600, title="UpdateProfilePage con modal de cambio de contraseña (NewPasswordModal)", align="center"]
+
+=== Páginas de búsqueda de salas
+
+image::prototypes/rooms/RoomsPage.png[width=600, title="Página de búsqueda de salas (RoomsPage)", align="center"]
+
+Si un jugador intenta unirse a una sala privada, se le pedirá que ingrese el código de la sala (ver PrivateRoomCodeModal). Si el código es incorrecto, se mostrará un mensaje de error.
+
+image::prototypes/rooms/CreateRoomPageTimeTrialPrivate.png[width=600, title="Página de creación de sala privada en modo contrarreloj (CreateRoomPage)", align="center"]
+image::prototypes/rooms/CreateRoomPageTriesPublic.png[width=600, title="Página de creación de sala pública en modo intentos (CreateRoomPage)", align="center"]
+
+image::prototypes/rooms/CreateRoomPageSelectedColours.png[width=600, title="Página de creación de sala con todos los botones seleccionados (CreateRoomPage)", align="center"]
+
+Esta imagen es únicamente para mostrar como se vería la página de creación de sala (CreateRoomPage) si todos los botones de colores estuvieran seleccionados. En la versión final del juego, no se permitirá que todos los botones estén seleccionados al mismo tiempo.
+
+image::prototypes/rooms/RoomsPageCodeModal.png[width=600, title="RoomsPage con el Modal para ingresar el código de sala (PrivateRoomCodeModal)", align="center"]
+
+=== Páginas de salas
+
+image::prototypes/rooms/PublicRoom.png[width=600, title="Página de sala publica (PublicRoomPage)", align="center"]
+image::prototypes/rooms/PublicRoomPlayer1Ready.png[width=600, title="Página de sala pública con jugador 1 listo (PulicRoomPage)", align="center"]
+image::prototypes/rooms/PublicRoomPlayer2Escaped.png[width=600, title="Página de sala pública donde el jugador 2 abandonó la sala(PublicRoomPage)", align="center"]
+
+image::prototypes/rooms/PrivateRoom.png[width=600, title="Página de sala privada (PrivateRoomPage)", align="center"]
+image::prototypes/rooms/PrivateRoomBothPlayersReady.png[width=600, title="Página de sala privada con ambos jugadores listos (PrivateRoomPage)", align="center"]
+
+=== Páginas de juego
+
+==== Modo de intentos
+
+image::prototypes/matches/TriesMatchPage.png[width=600, title="Página de partida en modo intentos (TriesMatchPage)", align="center"]
+image::prototypes/matches/TriesMatchPageWithTries.png[width=600, title="Página de partida en modo intentos con intentos realizados (TriesMatchPage)", align="center"]
+image::prototypes/matches/TriesMatchPageNeedsReset.png[width=600, title="Página de partida en modo de intentos con el tablero lleno (TriesMatchPage)", align="center"]
+
+Aquí es donde el jugador al enviar un intento el sistema reinicia el tablero dejando solo su último intento y la retroalimentación de este. Esto es para que el jugador pueda seguir jugando sin tener que esperar a que se acabe el tiempo y sin tener que reiniciar la partida manualmente.
+
+image::prototypes/matches/TriesMatchTriesReset.png[width=600, title="Página de partida en modo intentos con reinicio de tablero (TriesMatchPage)", align="center"]
+
+Así se ve el tablero después de que el jugador envía un intento y el sistema reinicia el tablero dejando solo su último intento y la retroalimentación de este.
+
+image::prototypes/matches/TriesMatchPageWin.png[width=600, title="Página de partida en modo intentos con victoria (TriesMatchPage)", align="center"]
+image::prototypes/matches/TriesMatchPageGameOver.png[width=600, title="Página de partida en modo intentos con derrota (TriesMatchPage)", align="center"]
+
+==== Modo contrarreloj
+
+image::prototypes/matches/TimeTrialMatchPage.png[width=600, title="Página de partida en modo contrarreloj (TimeTrialMatchPage)", align="center"]
+image::prototypes/matches/TimeTrialMatchPageWithTries.png[width=600, title="Página de partida en modo contrarreloj con intentos realizados (TimeTrialMatchPage)", align="center"]
+image::prototypes/matches/TimeTrialMatchPageMaxTries.png[width=600, title="Página de partida en modo contrarreloj con el tablero lleno (TimeTrialMatchPage)", align="center"]
+
+Aquí es donde el jugador al enviar un intento el sistema reinicia el tablero dejando solo su último intento y la retroalimentación de este. Esto es para que el jugador pueda seguir jugando sin tener que esperar a que se acabe el tiempo y sin tener que reiniciar la partida manualmente.
+
+image::prototypes/matches/TimeTrialMatchTriesReset.png[width=600, title="Página de partida en modo contrarreloj con reinicio de tablero (TimeTrialMatchPage)", align="center"]
+
+Así se ve el tablero después de que el jugador envía un intento y el sistema reinicia el tablero dejando solo su último intento y la retroalimentación de este.
+
+image::prototypes/matches/TimeTrialMatchWin.png[width=600, title="Página de partida en modo contrarreloj con victoria (TimeTrialMatchPage)", align="center"]
+image::prototypes/matches/TimeTrialMatchGameOver.png[width=600, title="Página de partida en modo contrarreloj con derrota (TimeTrialMatchPage)", align="center"]
+
+=== Modales
+
+image::prototypes/modals/SuccessNotificationModal.png[width=600, title="Modal de notificación de éxito (SuccessNotificationModal)", align="center"]
+
+_NotificationMessage_ se deberá sustituir por el mensaje que se desee mostrar al usuario. Por ejemplo, "¡Has agregado un amigo!".
+
+image::prototypes/modals/ErrorNotificationModal.png[width=600, title="Modal de notificación de error (ErrorNotificationModal)", align="center"]
+
+_NotificationMessage_ se deberá sustituir por el mensaje que se desee mostrar al usuario. Por ejemplo, "¡No se pudo agregar al amigo!".
+
+image::prototypes/modals/FriendsModal.png[width=600, title="Modal de lista de amigos (FriendsModal)", align="center"]
+
+En este modal se puede invitar a un amigo a la partida al dar clic en el botón de "+" que está junto a su nombre. Eliminar al amigo al dar clic en el botón de "-" que está junto a su nombre. También se puede agregar un amigo al ingresar su nombre de usuario en la barra de búsqueda y dar clic en el botón de "+".
+
+image::prototypes/modals/NewPasswordModal.png[width=600, title="Modal de cambio de contraseña (NewPasswordModal)", align="center"]
+image::prototypes/modals/VerificationCodeModal.png[width=600, title="Modal de verificación de código (VerificationCodeModal)", align="center"]
+
+image::prototypes/modals/YouWonTriesModal.png[width=600, title="Modal de victoria en modo intentos (YouWonTriesModal)", align="center"]
+image::prototypes/modals/YouWonTimeTrialModal.png[width=600, title="Modal de victoria en modo contrarreloj (YouWonTimeTrialModal)", align="center"]
+image::prototypes/modals/GameOverTriesModal.png[width=600, title="Modal de derrota en modo intentos (GameOverTriesModal)", align="center"]
+image::prototypes/modals/GameOverTimeTrialModal.png[width=600, title="Modal de derrota en modo contrarreloj (GameOverTimeTrialModal)", align="center"]
+
+image::prototypes/modals/PrivateRoomCodeModal.png[width=600, title="Modal para ingresar el código de sala (PrivateRoomCodeModal)", align="center"]
+
+Si se ingresa un código de sala incorrecto, se mostrará un mensaje de error en el modal PrivateRoomCodeModal.

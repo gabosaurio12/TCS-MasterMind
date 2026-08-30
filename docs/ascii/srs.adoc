@@ -1,5 +1,126 @@
 
-== Especificación de Requisitos
+== Especificación de Requisitos de Software (ERS)
+ 
+=== Propósito
 
-=== Requisitos Funcionales
+La SRS va dirigida a los desarrolladores del juego MasterMind: Race For The Code! y a los interesados en conocer los requisitos del mismo. El propósito de este documento es definir los requisitos funcionales y no funcionales del juego, así como las restricciones y dependencias que puedan afectar su desarrollo.
 
+=== Alcance
+
+El producto se llama *MasterMind: Race For The Code!*, y es un juego de mesa que ha sido adaptado a un videojuego multijugador en LAN.
+
+El objetivo del juego es que cada jugador pueda jugar en tiempo real con sus amigos en su computadora, resolviendo códigos secretos y compitiendo por ser el primero en descifrarlos.
+
+El juego no incluirá modos de juego para un solo jugador, ni soporte para plataformas móviles o consolas. Se centrará exclusivamente en la experiencia multijugador en computadoras personales.
+
+=== Definiciones, acrónimos y abreviaturas
+
+*Record*: Un registro de la mejor puntuación obtenida por un jugador en una partida.
+
+*MasterMind: Race For The Code!*: es un videojuego multijugador LAN que se inspiró en el juego de mesa MasterMind.
+
+*MMRFTC*: Acrónimo de *MasterMind: Race For The Code!*
+
+*Proyecto*: Se refiere al desarrollo del videojuego *MasterMind: Race For The Code!*.
+
+*Juego*: Se refiere al videojuego *MasterMind: Race For The Code!*.
+
+*Lobby*: Un área de espera donde los jugadores pueden reunirse antes de iniciar una partida.
+
+=== Descripción general
+
+==== Características de los jugadores (nivel educativo, experiencia, pericia técnica)
+
+El juego va dirigido para jugadores de todas las edades. Se espera que los jugadores tengan experiencia básica en el uso de computadoras y juegos en línea.
+
+==== Supuestos y dependencias
+
+SD01: El juego depende de una conexión de red estable para permitir la comunicación entre los jugadores en tiempo real.
+
+SD02: El juego depende de un servidor central para gestionar las partidas y la información de los jugadores.
+
+SD03: El juego depende de un sistema de correo electrónico para enviar códigos de verificación y notificaciones a los jugadores.
+
+SD04: El juego depende de un sistema de autenticación seguro para proteger la información de los jugadores y garantizar que solo los usuarios autorizados puedan acceder a sus cuentas.
+
+=== Requisitos específicos
+
+Debe contener el nivel de detalle suficiente para diseñar y probar el sistema. Cada requisito debe ser identificable de forma única y referenciable.
+
+==== Funciones (validaciones de entrada, secuencia de operaciones, manejo de situaciones anómalas, efectos de parámetros, relación entradas/salidas) — redactadas como "El sistema deberá..."
+
+RF-01: El juego deberá permitir a los jugadores registrarse proporcionando un nombre de usuario, correo electrónico y contraseña.
+
+RF-02: El juego deberá enviar un correo electrónico de verificación al usuario después del registro.
+
+RF-03: El juego deberá permitir a los jugadores iniciar sesión utilizando su nombre de usuario y contraseña.
+
+RF-04: El juego deberá permitir a los jugadores cambiar su contraseña después de iniciar sesión.
+
+RF-05: El juego deberá permitir a los jugadores personalizar su perfil, incluyendo la selección de un avatar y la actualización de su información personal.
+
+RF-06: El juego deberá contar con roaming para que otros jugadores puedan ver el avatar del jugador en el chat y en la lista de amigos, incluso si el jugador no está conectado.
+
+RF-07: El juego deberá permitir a los jugadores jugar como invitados sin necesidad de registrarse.
+
+RF-08: El juego deberá permitir a los jugadores invitar a sus amigos a unirse al juego mediante correo electrónico o código de invitación.
+
+RF-09: El juego deberá permitir a los jugadores ver su lista de amigos y su estado de conexión (en línea o fuera de línea).
+
+RF-10: El juego deberá permitir expulsar a los jugadores de la partida en caso de que acumulen un total de 5 reportes por uso de lenguaje inapropiado.
+
+RF-11: El juego deberá proporcionar un lobby donde los jugadores puedan reunirse antes de iniciar la partida.
+
+RF-12: El juego deberá proporcionar un chat colaborativo en el lobby.
+
+RF-13: El juego deberá contar con un sistema de filtrado de mensajes para censurar palabras ofensivas o inapropiadas para ambos lenguajes soportados en el chat del juego.
+
+RF-14: El juego deberá permitir a los jugadores crear lobbies privados y públicos.
+
+RF-15: El juego deberá permitir a los jugadores unirse a un lobby.
+
+RF-16: El juego deberá permitir a los jugadores iniciar la partida una vez que todos los jugadores estén listos.
+
+RF-17: El juego deberá soportar internacionalización, permitiendo a los jugadores seleccionar entre inglés y español como idioma del juego.
+
+RF-18: El juego deberá actualizar el idioma de la interfaz automáticamente según la configuración del sistema operativo del jugador.
+
+RF-19: El juego deberá permitir a los jugadores ver una tabla de records con las mejores puntuaciones obtenidas en las partidas.
+
+RF-20: El juego deberá generar el _código secreto_ de manera aleatoria al inicio de cada partida y mantenerlo oculto para los jugadores.
+
+RF-21: El juego deberá permitir a los jugadores realizar intentos para adivinar el _código secreto_ y proporcionar retroalimentación sobre la exactitud de sus intentos.
+
+RF-22: El juego deberá finalizar la partida cuando un jugador adivine correctamente el _código secreto_, se le acabe el tiempo o cuando se alcance un número máximo de intentos.
+
+RF-23: El juego deberá mostrar un mensaje de victoria al jugador que gane tres rondas y finalizar la partida, mostrando los resultados finales y actualizando la tabla de records si corresponde.
+
+RF-24: El juego deberá permitir al jugador seleccionar la dificultad de la partida al momento de crearla.
+
+==== Requisitos No Funcionales
+
+RNF-01: El juego debe soportar al menos 2 jugadores simultáneos en una partida sin degradar el rendimiento.
+
+RNF-02: El juego debe soportar un mínimo de 2 partidas simultáneas sin degradar el rendimiento.
+
+RNF-03: El juego debe responder a las acciones del usuario en menos de 2 segundos en condiciones normales de operación.
+
+RNF-04: El juego debe almacenar la información de los jugadores, incluyendo nombre de usuario, correo electrónico, contraseña (encriptada), avatar y lista de amigos.
+
+RNF-05: El juego debe almacenar el historial de partidas de cada usuario, incluyendo resultados y records de juego.
+
+RNF-06: El juego debe sincronizar la información de los jugadores y las partidas en tiempo real entre todos los jugadores conectados para garantizar una experiencia de juego consistente, especialmente en el modo contrarreloj.
+
+==== Atributos de calidad prioritarios
+
+*1. Seguridad*
+
+La seguridad es la capacidad que tiene un sistema para proteger los datos y la información de accesos no autorizados, garantizando la confidencialidad, integridad y disponibilidad de la información. En el caso del MasterMind: Race For The Code!, la seguridad es un atributo de calidad prioritario debido a que se almacena información sensible de los jugadores.
+
+*2. Usabilidad*
+
+Al ser un videojuego y su objetivo principal es la diversión de los jugadores, es importante que la usabilidad de este sea intuitiva para que los jugadores puedan disfrutar de la experiencia sin complicaciones. La interfaz debe ser clara, fácil de navegar y accesible para jugadores de todas las edades y niveles de experiencia.
+
+*3. Modificabilidad*
+
+El cambio es una constante en el desarrollo de software y no solo durante la fase de diseño y construcción, sino durante todo el ciclo de vida del producto. La modificabilidad es un atributo de calidad prioritario para este juego porque permite al equipo de desarrollo adaptarse a nuevas necesidades, corregir errores y mejorar la experiencia del usuario sin comprometer la estabilidad del sistema.

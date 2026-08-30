@@ -1,6 +1,9 @@
 
 == Referencias
 
-https://es.scribd.com/document/946024950/00197632402794-8
+Bass, L., Clements, P., & Kazman, R. (2021). Software Architecture in practice. SEI Series in Software Engineering.
 
-https://www.youtube.com/watch?v=aKTCQ496GU4
+Cata Juegos. (2019, November 21). Master Mind. Adivina el código secreto [Video]. YouTube. https://www.youtube.com/watch?v=aKTCQ496GU4
+
+Client challenge. (n.d.). https://es.scribd.com/document/946024950/00197632402794-8
+

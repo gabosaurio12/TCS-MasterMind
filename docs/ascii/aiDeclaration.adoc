@@ -1,0 +1,18 @@
+
+== Declaración de IA
+
+
+
+=== Prompts
+
+```
+Ahora revisa este archivo por favor. Específicamente la sección de ERS, considera que no es tan estricta ni formal, solo es una breve guía y consideraciones que se deben tener. Pero si alguno de los requisitos está mal ubicado, taggeado, redactado o no tiene sentido, indícalo por favor.
+
+También señala áreas de mejora.
+
+Revisa la vista de casos de uso e indica si falta uno.
+
+Por otro lado, revisa los prototipos que se muestran y dime si hay algo que mejorar.
+
+Genera tu cadena de razonamiento auditable por favor.
+```
