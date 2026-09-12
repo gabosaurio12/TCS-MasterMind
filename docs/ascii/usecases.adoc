@@ -2,10 +2,10 @@
 == Descripciones de Caso de Uso
 
 
-*CU01 Registrar PLAYER*
+*CU01 Crear Cuenta*
 
 *ID:* CU01 +
-*Nombre:* Customize Profile
+*Nombre:* Crear Cuenta +
 *Actor principal:* PLAYER +
 *Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
 *Descripción:* Este caso de uso permite a PLAYER *crear una cuenta* del juego mediante la recopilación de su _Username_, _Email_ y _Password_ en el formulario de registro. El resultado es el *registro de la cuenta del PLAYER en la base de datos*. +
@@ -13,66 +13,751 @@
 *Precondiciones:* N/A
 
 *Flujo Normal* +
-1. El CLIENTE muestra la SignupPage al PLAYER. +
+1. El CLIENTE muestra la *SignupPage* al PLAYER. +
 2. El PLAYER ingresa su _Username_, _Email_ y _Password_. +
 3. El PLAYER selecciona "Registrar". +
-4. El CLIENTE recupera de SignupPage los datos ingresados del PLAYER (_Username_, _Email_ y _Password_). +
-5. El CLIENTE valida que ninguno de los datos esté vacío, que _Username_ tenga un formato correcto y que _Password_ cumpla con los requisitos de seguridad  (ver FA01). +
-6. El CLIENTE envía al SERVIDOR el _Username_ y el _Email_ para que valide su disponibilidad y formato (ver EX01). +
-7. El SERVIDOR regresa si _Username_ e _Email_ son validos (ver FA01)(ver EX01). +
-8. El CLIENTE encripta la _Password_ y envía los datos para registrar al PLAYER (ver EX01). +
-9. El CLIENTE envía el _Email_ y _ID_ al SERVIDOR para que envíe el correo de verificación (ver EX01). +
-10. El SERVIDOR registra al PLAYER.
-11. Termina el caso de uso.
+4. El CLIENTE recupera de *SignupPage* los datos ingresados del PLAYER (_Username_, _Email_ y _Password_). +
+5. El CLIENTE valida que ninguno de los datos esté vacío, que _Username_ y _Email_ tengan un formato correcto y que _Password_ cumpla con los requisitos de seguridad (ver FA01). +
+6. El CLIENTE envía al SERVIDOR el _Username_ y el _Email_ para que valide su disponibilidad (ver EX01). +
+7. El SERVIDOR regresa si _Username_ e _Email_ están disponibles (ver FA01)(ver EX01). +
+8. El CLIENTE hashea la _Password_ (ver EX01). +
+9. El CLIENTE envía _Username_, _Email_ y _Password_ al SERVIDOR para que registre al PLAYER (ver EX01). +
+10. El SERVIDOR registra al PLAYER. (ver EX02). +
+11. El SERVIDOR crea un código de verificación único y lo registra en la Base de Datos (ver EX02). +
+12. El SERVIDOR envía el correo de verificación al _Email_ de PLAYER (ver EX03). +
+13. El CLIENTE muestra *SuccessModal* informando a PLAYER que se registró su cuenta con éxito y que se envió un código de verificación a su correo electrónico. +
+14. El PLAYER selecciona "Continuar" y el CLIENTE cierra *SuccessModal*. +
+15. Incluye CU03. +
+16. EL CLIENTE muestra *MainPage*. +
+17. Termina el caso de uso.
 
 *Flujos Alternos*
 
 *FA01 - Datos inválidos* +
-1. El CLIENTE abre NotificationWindow informando al PLAYER que algunos datos que ingresó son inválidos.
-2. El PLAYER selecciona "Aceptar".
-3. El CLIENTE cierra NotificationWindow.
-4. El CLIENTE actualiza el color de los TextBlock de los datos inválidos a color Rojo.
-5. El PLAYER corrige los datos inválidos.
-6. El PLAYER selecciona "Registrar".
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que algunos datos que ingresó son inválidos. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. El CLIENTE actualiza el color de los campos de texto de los datos inválidos a color Rojo. +
+5. El PLAYER corrige los datos inválidos. +
+6. El PLAYER selecciona "Registrar". +
 7. Regresa al flujo normal 4.
-
-*FA02 - Omitir verificación* +
-1. El PLAYER selecciona "Cancelar". +
-2. El CLIENTE cierra VerificationWindowXAML. +
-3. Termina el caso de uso. +
 
 *Excepciones*
 
 *EX01 - Error al conectarse con el Servidor* +
 1. El CLIENTE recibe un FaultException. +
 2. El CLIENTE registra en el Log la excepción. +
-3. El CLIENTE abre NotificationWindowXAML informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
-4. El PLAYER selecciona "Aceptar". +
-5. El CLIENTE cierra NotificationWindowXAML. +
-6. Termina el caso de uso. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - Error al enviar correo electrónico*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al enviar el código de verificación y que debe comunicarse con el servicio técnico. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
 
 *Postcondiciones:*
 POST01: Se registró la cuenta del PLAYER en la base de datos +
 *Reglas de negocio:* N/A +
-*Incluye:* N/A +
-*Extiende:* CU Verificar Cuenta
+*Incluye:* CU03 +
+*Extiende:* N/A
 
+---
+
+*CU02 Iniciar Sesión*
+
+*ID:* CU02 +
+*Nombre:* Iniciar Sesión +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *iniciar sesión* en su cuenta del juego mediante la recopilación de su _Username_ y _Password_ en el formulario de inicio de sesión. El resultado es el *inicio de sesión en el CLIENTE*. +
+*Disparador:* N/A +
+*Precondiciones:* N/A
+
+*Flujo Normal* +
+1. El CLIENTE muestra la *LoginPage*. +
+2. El PLAYER ingresa su _Username_ y _Password_. +
+3. El PLAYER selecciona "Iniciar Sesión". +
+4. El CLIENTE recupera de *LoginPage* los datos ingresados del PLAYER (_Username_ y _Password_). +
+5. El CLIENTE valida que ninguno de los datos esté vacío (ver FA01). +
+6. El CLIENTE envía al SERVIDOR el _Username_ y _Password_ para que se verifique si coinciden con los de un PLAYER (ver EX01). +
+7. El SERVIDOR regresa si _Username_ y _Password_ coinciden con un PLAYER (ver FA01, FA02)(ver EX01, EX02). +
+8. El SERVIDOR crea un código de verificación único y lo registra en la Base de Datos (ver EX02). +
+9. El SERVIDOR envía el correo de verificación al _Email_ de PLAYER (ver EX03). +
+10. Incluye CU03. +
+11. El CLIENTE muestra MainPage. +
+12 Termina caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Usuario inexistente* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que el nombre de usuario ingresado no existe. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. El CLIENTE actualiza el color de la etiqueta _Username_ a color Rojo. +
+5. El PLAYER corrige el _Username_. +
+6. El PLAYER selecciona "Iniciar Sesión". +
+7. Regresa al flujo normal 4.
+
+*FA02 - Contraseña Incorrecta* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que la contraseña es incorrecta. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. El CLIENTE actualiza el color de la etiqueta _Password_ a color Rojo. +
+5. El PLAYER corrige la _Password_ ingresada. +
+6. El PLAYER selecciona "Iniciar Sesión". +
+7. Regresa al flujo normal 4.
+
+*FA02 - Código de verificación incorrecto* +
+1. El CLIENTE muestra *ErrorModal* informando a PLAYER que su código es incorrecto. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. Regresa al flujo normal 8.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso. +
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - Error al enviar correo electrónico*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al enviar el código de verificación y que debe comunicarse con el servicio técnico. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se inició sesión con la cuenta del PLAYER. +
+*Reglas de negocio:* N/A +
+*Incluye:* CU03 +
+*Extiende:* N/A
+
+---
+
+*CU03 Verificar cuenta con código*
+
+*ID:* CU03 +
+*Nombre:* Verificar cuenta con código +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *verificar su cuenta* mediante un código de uso único enviado a su correo electrónico. El resultado es la *verificación de su cuenta*. +
+*Disparador:* Realiza un caso de uso que requiera una verificación de cuenta. +
+*Precondiciones:* N/A
+
+*Flujo Normal* +
+1. El CLIENTE muestra *VerificationCodeModal*. +
+2. El PLAYER ingresa el código de verificación que llegó a su correo y selecciona "Aceptar". +
+3. El CLIENTE envía el código de verificación al SERVIDOR para que lo verifique (ver EX01). +
+4. El SERVIDOR verifica que el código de verificación sea correcto (EX02). +
+5. El SERVIDOR devuelve que el código es válido (ver FA02). +
+6. El CLIENTE cierra *VerificationCodeModal*. +
+7. El CLIENTE muestra *SuccessModal* informando a PLAYER que se verificó su cuenta con éxito. +
+8. El CLIENTE cierra *SuccessModal*. +
+9. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Reenviar código de verificación*
+1. El CLIENTE solicita al SERVIDOR que envíe un nuevo código de verificación (ver EX01). +
+2. El SERVIDOR elimina de la Base de Datos el código de verificación anterior (ver EX02). +
+3. El SERVIDOR crea un código de verificación único y lo registra en la Base de Datos (ver EX02). +
+4. El SERVIDOR envía el correo de verificación al _Email_ de PLAYER (ver EX03). +
+5. El CLIENTE muestra *SuccesModal* a PLAYER informando que se envió un nuevo código de verificación. +
+6. El PLAYER selecciona "Continuar". +
+6. Regresa a flujo normal 2.
+
+*FA02 - Código de verificación incorrecto* +
+1. El CLIENTE muestra *ErrorModal* informando a PLAYER que su código es incorrecto. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. Regresa al flujo normal 2.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso. +
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - Error al enviar correo electrónico*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al enviar el código de verificación y que debe comunicarse con el servicio técnico. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se verificó el código de verificación enviado al correo del PLAYER. +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* N/A
+
+---
+
+*CU04 Personalizar Perfil*
+
+*ID:* CU04 +
+*Nombre:* Personalizar Perfil +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *personalizar su perfil de usuario* que incluye cambiar _Username_ y _Email_. El resultado es que *personaliza sus datos*. +
+*Disparador:* Selecciona "Actualizar" en *ProfilePage*. +
+*Precondiciones:* PLAYER debe haber iniciado sesión con su cuenta.
+
+*Flujo Normal* +
+1. El CLIENTE muestra *UpdateProfilePage*. +
+2. El PLAYER puede seleccionar "Cancelar" (ver FA01). +
+3. El PLAYER puede cambiar su _Username_ en el UsernameTxt. +
+4. El PLAYER puede cambiar su _Email_ en el EmailTxt. +
+5. El PLAYER selecciona "Guardar". +
+6. El CLIENTE recupera el nuevo _Username_ y _Email_ de UsernameTxt y EmailTxt. +
+7. El CLIENTE valida que ninguno de los dos esté vacío (ver FA02). +
+8. SI PLAYER ingresó un nuevo _Username_ ENTONCES: +
+8.1. El CLIENTE agrega el nuevo _Username_ al objeto que se enviará al SERVIDOR para validar disponibilidad. +
+9. SI PLAYER ingresó un nuevo _Email_ ENTONCES: +
+9.1. El CLIENTE agrega el nuevo _Email_ al objeto que se enviará al SERVIDOR para validar disponibilidad. +
+10. El CLIENTE envía el objeto con los cambios para validar su disponibilidad al SERVIDOR (ver EX01). +
+11. El SERVIDOR regresa si _Username_ y/o _Email_ están disponibles (ver FA01)(ver EX02). +
+12. El CLIENTE envía _Username_ y/o _Email_ al SERVIDOR para actualizar los datos de PLAYER en la base de datos (ver EX01).
+13. El SERVIDOR actualiza los cambios de PLAYER. (ver EX02). +
+14. El SERVIDOR crea un código de verificación único y lo registra en la Base de Datos (ver EX02). +
+15. El SERVIDOR envía el correo de verificación al nuevo _Email_ de PLAYER (ver EX03). +
+16. El CLIENTE muestra SuccessModal informando a PLAYER que los cambios se realizaron con éxito y que se envió un correo de verificación a su nuevo correo. +
+17. Incluye CU03.
+18. El CLIENTE muestra ProfilePage.
+19. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Cancelar Cambio*
+1. El CLIENTE muestra *UpdateProfilePage*. +
+2. Termina el caso de uso.
+
+*FA02 - Datos vacíos* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que algunos datos que ingresó están vacíos. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. El CLIENTE actualiza el color de las Label de los campos inválidos a color Rojo. +
+5. El PLAYER corrige los datos inválidos. +
+6. El PLAYER selecciona "Registrar". +
+7. Regresa al flujo normal 4.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso. +
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - Error al enviar correo electrónico*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al enviar el código de verificación y que debe comunicarse con el servicio técnico. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se actualizaron los datos de la cuenta de PLAYER en la base de datos. +
+*Reglas de negocio:* N/A +
+*Incluye:* CU03 +
+*Extiende:* N/A
+
+---
+
+*CU05 Cambiar Contraseña*
+
+*ID:* CU05 +
+*Nombre:* Cambiar Contraseña +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *cambiar la contraseña* de su cuenta y verifica el cambio mediante un código de verificación enviado a su correo electrónico. El resultado es que *cambia su contraseña*. +
+*Disparador:* Selecciona "Cambiar Contraseña" en *ProfilePage*. +
+*Precondiciones:* PLAYER debe haber iniciado sesión con su cuenta.
+
+*Flujo Normal* +
+1. El CLIENTE muestra *NewPasswordModal*. +
+2. El PLAYER puede seleccionar "Cancelar". (ver FA01) +
+3. El PLAYER ingresa la nueva _Password_. +
+4. El PLAYER selecciona "Aceptar". +
+5. El CLIENTE recupera la nueva _Password_ de PasswordPwd. +
+6. El CLIENTE valida que _Password_ no esté vacía (ver FA02). +
+7. El CLIENTE valida que _Password_ cumpla con los requisitos de seguridad (ver FA03). +
+8. El CLIENTE envía la nueva _Password_ al SERVIDOR para que realice los cambios (ver EX01). +
+9. El SERVIDOR actualiza la nueva _Password_ de PLAYER (ver EX02). +
+10. El SERVIDOR crea un código de verificación único y lo registra en la Base de Datos (ver EX02). +
+11. El SERVIDOR envía un correo de verificación al _Email_ de PLAYER (ver EX03). +
+12. El CLIENTE muestra SuccessModal informando a PLAYER que su contraseña fue cambiada con éxito y que se envió un correo de verificación a su nuevo correo. +
+13. Incluye CU03. +
+14. El CLIENTE muestra ProfilePage. +
+15. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Cancelar Cambio*
+1. El CLIENTE cierra *NewPasswordModal*. +
+2. Termina el caso de uso.
+
+*FA02 - Contraseña vacía* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que la contraseña no puede estar vacía. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. El CLIENTE actualiza el color de PasswordLbl a color Rojo. +
+5. El PLAYER escribe una contraseña válida. +
+6. El PLAYER selecciona "Aceptar". +
+7. Regresa al flujo normal 4.
+
+*FA03 - Contraseña no cumple con los requisitos de seguridad*
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que la contraseña no cumple con los requisitos de seguridad y le indica cuáles. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. El CLIENTE actualiza el color de PasswordLbl a color Rojo. +
+5. El PLAYER escribe una contraseña válida. +
+6. El PLAYER selecciona "Aceptar". +
+7. Regresa al flujo normal 4.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso. +
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - Error al enviar correo electrónico*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al enviar el código de verificación y que debe comunicarse con el servicio técnico. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se actualizaron la contraseña de la cuenta de PLAYER en la base de datos. +
+*Reglas de negocio:* N/A +
+*Incluye:* CU03 +
+*Extiende:* N/A
+
+---
+
+*CU06 Cambiar Idioma*
+
+*ID:* CU06 +
+*Nombre:* Cambiar Idioma +
+*Actor principal:* PLAYER +
+*Actores secundarios:* CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *cambiar el idioma* de la interfaz de usuario del juego seleccionando el botón "Cambiar Idioma". El resultado es que *cambia de idioma la interfaz de usuario*. +
+*Disparador:* Player selecciona "Cambiar Idioma" en *MainPage*. +
+*Precondiciones:* N/A
+
+*Flujo Normal* +
+1. El CLIENTE cambia el idioma de la interfaz al que no se está usando (ver EX01). +
+2. El CLIENTE muestra *SuccessModal* informando a PLAYER que el idioma se cambió con éxito y que para que se reflejen los cambios debe reiniciar la aplicación. +
+3. El PLAYER selecciona "Continuar". +
+4. El CLIENTE cierra *SuccessModal*. +
+5. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*Excepciones*
+
+*EX01 - Error al cargar el archivo de Recursos* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que hubo un error al cargar el archivo de recursos y que no se cambiará el idioma. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. Termina el caso de uso. +
+
+*Postcondiciones:*
+POST01: Se cambió el idioma de la interfaz gráfica del CLIENTE. +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* N/A
+
+---
+
+*CU07 Enviar Solicitud de Amistad*
+
+*ID:* CU07 +
+*Nombre:* Enviar Solicitud de Amistad +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *enviar una solicitud de amistad* a otro PLAYER desde el menú de Amigos. El resultado es que *se envía una solicitud de amistad al otro PLAYER*. +
+*Disparador:* Selecciona "Amigos" en *MainPage*. +
+*Precondiciones:* PLAYER debe haber iniciado sesión con su cuenta.
+
+*Flujo Normal* +
+1. El CLIENTE muestra *FriendsModal*.
+2. El PLAYER puede seleccionar "Cerrar". (ver FA01) +
+3. El PLAYER ingresa el _Username_ del PLAYER al que quiere enviar la solicitud en FriendUsernameTxt. +
+4. El PLAYER selecciona "Enviar solicitud de amistad". +
+5. El CLIENTE recupera el _Username_ de FriendUsernameTxt +
+6. El CLIENTE valida que _Username_ no esté vacía (ver FA02). +
+7. El CLIENTE envía _Username_ al SERVIDOR para que envíe la solicitud de amistad (ver EX01). +
+8. El SERVIDOR registra la _Amistad_ con el _Sender_ (el que envía la solicitud), _Receiver_ (al que va dirigida) y el _Status_ (en este caso Pendiente) en la base de datos (ver EX02). +
+9. El CLIENTE muestra *SuccessModal* informando a PLAYER que la solicitud de amistad se envió con éxito. +
+10. El PLAYER selecciona "Continuar". +
+11. El CLIENTE cierra *SuccessModal*.
+12. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Cerrar*
+1. El CLIENTE cierra *FriendsModal*. +
+2. Termina el caso de uso.
+
+*FA02 - Username vacío* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que el _Username_ no puede estar vacío. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. El PLAYER escribe un _Username_. +
+5. El PLAYER selecciona "Enviar". +
+6. Regresa al flujo normal 5.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se registró en la base de datos la _Amistad_ con el PLAYER que envió la solicitud (_Sender_), el PLAYER que la recibió (_Receiver_) y el estado Pendiente (_Status_). +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* N/A
+
+---
+
+*CU08 Invitar Amigo a Jugar*
+
+*ID:* CU08 +
+*Nombre:* Invitar Amigo a Jugar +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *enviar una invitación a jugar* a otro PLAYER desde el menú de Amigos. El resultado es que *se envía una invitación a jugar a otro PLAYER*. +
+*Disparador:* Selecciona "Amigos" en *MainPage*. +
+*Precondiciones:* PLAYER debe haber iniciado sesión con su cuenta.
+
+*Flujo Normal* +
+1. El CLIENTE muestra *FriendsModal*.
+2. El PLAYER puede seleccionar "Cerrar". (ver FA01) +
+3. El PLAYER selecciona "Invitar a Jugar" en el perfil del PLAYER al que quiere invitar. +
+4. El CLIENTE recupera el _Username_ de PlayerUsernameTxt del Stack que PLAYER seleccionó. +
+5. El CLIENTE valida que _Username_ no esté vacía (ver EX03). +
+6. El CLIENTE envía _Username_ al SERVIDOR para que envíe la invitación a jugar (ver EX01). +
+7. El SERVIDOR registra la _Invitación_ con el _Sender_ (el que envía la invitación), _Receiver_ (al que va dirigida) y el _Status_ (en este caso Pendiente) en la base de datos(ver EX02). +
+8. El CLIENTE muestra *SuccessModal* informando a PLAYER que la invitación a jugar se envió con éxito. +
+9. El PLAYER selecciona "Continuar". +
+10. El CLIENTE cierra *SuccessModal*.
+11. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Cerrar*
+1. El CLIENTE cierra *FriendsModal*. +
+2. Termina el caso de uso.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - Username vacío* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que hubo un error al recuperar el usuario al que está tratando de invitar y que debe contactar al servicio técnico. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se registró en la base de datos la _Invitación_ con el PLAYER que envió la solicitud (_Sender_), el PLAYER que la recibió (_Receiver_) y el estado Pendiente (_Status_). +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* N/A
+
+---
+
+*CU09 Eliminar Amigo*
+
+*ID:* CU09 +
+*Nombre:* Eliminar Amigo +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *eliminar a un PLAYER de su lista de amigos* . El resultado es que *ya no estará registrada esa amistad en la base de datos*. +
+*Disparador:* Selecciona "Amigos" en *MainPage*. +
+*Precondiciones:* PLAYER debe haber iniciado sesión con su cuenta.
+
+*Flujo Normal* +
+1. El CLIENTE muestra *FriendsModal*.
+2. El PLAYER puede seleccionar "Cerrar". (ver FA01) +
+3. El PLAYER selecciona "Eliminar Amigo" en el perfil del PLAYER al que quiere eliminar. +
+4. El CLIENTE recupera el _Username_ de PlayerUsernameTxt del Stack que PLAYER seleccionó. +
+5. El CLIENTE valida que _Username_ no esté vacía (ver EX03). +
+6. El CLIENTE envía _Username_ al SERVIDOR para que lo elimine de la lista de amigos (ver EX01). +
+7. El SERVIDOR elimina de la base de datos esa _Amistad_ (ver EX02). +
+8. El CLIENTE muestra *SuccessModal* informando a PLAYER que se ha eliminado a ese PLAYER de su lista de amigos con éxito. +
+9. El PLAYER selecciona "Continuar". +
+10. El CLIENTE cierra *SuccessModal*.
+11. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Cerrar*
+1. El CLIENTE cierra *FriendsModal*. +
+2. Termina el caso de uso.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - Username vacío* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que hubo un error al recuperar el usuario al que está tratando de invitar y que debe contactar al servicio técnico. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se eliminó en la base de datos la _Amistad_ de los PLAYER. +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* N/A
+
+---
+
+*CU10 Aceptar Solicitud de Amistad*
+
+*ID:* CU10 +
+*Nombre:* Aceptar Solicitud de Amistad +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *aceptar la solicitud de amistad que recibió* . El resultado es que *cambia el estado de la _Amistad_ a Aceptada*. +
+*Disparador:* Selecciona "Solicitudes de Amistad" en *FriendsModal*. +
+*Precondiciones:* PLAYER debe haber iniciado sesión con su cuenta.
+
+*Flujo Normal* +
+1. El CLIENTE muestra *FriendRequestsModal*.
+2. El PLAYER puede seleccionar "Cerrar". (ver FA01) +
+3. El PLAYER selecciona "Aceptar" en la Solicitud de amistad que quiera aceptar. +
+4. El CLIENTE recupera el _ID_ de la solicitud que seleccionó. +
+5. El CLIENTE valida que el _ID_ no esté vacío (ver EX03). +
+6. El CLIENTE envía el _ID_ al SERVIDOR para que actualice el estado de la _Amistad_ (ver EX01). +
+7. El SERVIDOR actualiza en la base de datos el _Status_ de la _Amistad_ a Aceptada (ver EX02). +
+8. El CLIENTE muestra *SuccessModal* informando a PLAYER que se ha aceptado la solicitud de amistad con éxito. +
+9. El PLAYER selecciona "Continuar". +
+10. El CLIENTE cierra *SuccessModal*.
+11. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Cerrar*
+1. El CLIENTE cierra *FriendRequestsModal*. +
+2. Termina el caso de uso.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - ID vacío* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que hubo un error al recuperar el _ID_ de la solicitud de amistad que se seleccionó y que debe contactar al servicio técnico. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se actualizó en la base de datos el _Status_ de la _Amistad_ a Aceptada. +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* N/A
+
+---
+
+*CU11 Rechazar Solicitud de Amistad*
+
+*ID:* CU11 +
+*Nombre:* Rechazar Solicitud de Amistad +
+*Actor principal:* PLAYER +
+*Actores secundarios:* SERVIDOR, CLIENTE (Juego WPF MasterMind) +
+*Descripción:* Este caso de uso permite a PLAYER *rechazar la solicitud de amistad que recibió* . El resultado es que *cambia el estado de la _Amistad_ a Rechazada*. +
+*Disparador:* Selecciona "Solicitudes de Amistad" en *FriendsModal*. +
+*Precondiciones:* PLAYER debe haber iniciado sesión con su cuenta.
+
+*Flujo Normal* +
+1. El CLIENTE muestra *FriendRequestsModal*.
+2. El PLAYER puede seleccionar "Cerrar". (ver FA01) +
+3. El PLAYER selecciona "Rechazar" en la Solicitud de amistad que quiera aceptar. +
+4. El CLIENTE recupera el _ID_ de la solicitud que seleccionó. +
+5. El CLIENTE valida que el _ID_ no esté vacío (ver EX03). +
+6. El CLIENTE envía el _ID_ al SERVIDOR para que actualice el estado de la _Amistad_ (ver EX01). +
+7. El SERVIDOR actualiza en la base de datos el _Status_ de la _Amistad_ a Rechazada (ver EX02). +
+8. El CLIENTE muestra *SuccessModal* informando a PLAYER que se ha rechazado la solicitud de amistad con éxito. +
+9. El PLAYER selecciona "Continuar". +
+10. El CLIENTE cierra *SuccessModal*.
+11. Termina el caso de uso.
+
+*Flujos Alternos*
+
+*FA01 - Cerrar*
+1. El CLIENTE cierra *FriendRequestsModal*. +
+2. Termina el caso de uso.
+
+*Excepciones*
+
+*EX01 - Error al conectarse con el Servidor* +
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con el SERVIDOR. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX02 - Error al conectarse a la base de datos*
+1. El CLIENTE recibe un FaultException. +
+2. El CLIENTE registra en el Log la excepción. +
+3. El CLIENTE abre *ErrorModal* informando al PLAYER que hubo un error al conectarse con la Base de Datos. +
+4. El PLAYER selecciona "Continuar". +
+5. El CLIENTE cierra *ErrorModal*. +
+6. Termina el caso de uso.
+
+*EX03 - ID vacío* +
+1. El CLIENTE muestra *ErrorModal* informando al PLAYER que hubo un error al recuperar el _ID_ de la solicitud de amistad que se seleccionó y que debe contactar al servicio técnico. +
+2. El PLAYER selecciona "Continuar". +
+3. El CLIENTE cierra *ErrorModal*. +
+4. Termina el caso de uso.
+
+*Postcondiciones:*
+POST01: Se actualizó en la base de datos el _Status_ de la _Amistad_ a Rechazada. +
+*Reglas de negocio:* N/A +
+*Incluye:* N/A +
+*Extiende:* N/A
+
+---
 
 casos de uso
 
-- Personalizar perfil
-- Jugar
-** Crear sala
-** Unirse a sala
-*** Unirse con código
-** Entrar a sala
-*** Chat de sala
-*** Marcar como "Listo"
-*** Jugar la partida
-- Amigos
-** Agregar amigo
-** Invitar a jugar a amigo
-** Eliminar amigo
+PENDIENTES:
+
 - Configuración
-** Cambiar idioma
 ** Encender/apagar música
+
+SE PUEDEN ADELANTAR:
+
+- Crear sala
+- Unirse a sala
+- Unirse a sala con código
+
+AÚN NO:
+
+- Jugar
+- Chatear en sal1a
+** Marcar como "Listo"
+** Jugar la partida

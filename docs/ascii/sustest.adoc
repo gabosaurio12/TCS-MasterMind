@@ -1,0 +1,483 @@
+
+== Pruebas de usabilidad (SUS)
+
+=== Prueba 1
+
+Nombre: Leonardo Daniel Ortega Teoba
+
+Edad: 20
+
+Ocupación: Estudiante
+
+¿Te gustan los videojuegos?: Sí
+
+[cols="1,1,1,1,1,1"]
+
+|===
+
+|Pregunta
+|Totalmente en desacuerdo
+|En desacuerdo
+|Neutro
+|De acuerdo
+|Totalmente de acuerdo
+
+|Creo que me gustaría utilizar este sistema con frecuencia
+|
+|
+|
+|X
+|
+
+|Encontré el sistema innecesariamente complejo
+|X
+|
+|
+|
+|
+
+|Pensé que el sistema era fácil de usar
+|
+|
+|
+|
+|X
+
+
+|Creo que necesitaría el apoyo de un técnico para poder utilizar este sistema
+|X
+|
+|
+|
+|
+
+
+|Encontré que las diversas funciones de este sistema estaban bien integradas
+|
+|
+|
+|
+|X
+
+|Pensé que había demasiada inconsistencia en este sistema
+|X
+|
+|
+|
+|
+
+|Me imagino que la mayoría de la gente aprendería a utilizar este sistema muy rápidamente
+|
+|
+|
+|
+|X
+
+|Encontré el sistema muy complicado de usar
+|X
+|
+|
+|
+|
+
+|Me sentí muy seguro usando el sistema
+|
+|
+|
+|
+|X
+
+|Necesitaba aprender muchas cosas antes de empezar con este sistema
+|
+|X
+|
+|
+|
+
+|===
+
+Puntaje SUS: 95 
+
+=== Prueba 2
+
+Nombre: Wilma Martínez Ramírez
+
+Edad: 19
+
+Ocupación: Estudiante
+
+¿Te gustan los videojuegos?: Sí
+
+[cols="1,1,1,1,1,1"]
+
+|===
+
+|Pregunta
+|Totalmente en desacuerdo
+|En desacuerdo
+|Neutro
+|De acuerdo
+|Totalmente de acuerdo
+
+|Creo que me gustaría utilizar este sistema con frecuencia
+|
+|
+|
+|X
+|
+
+|Encontré el sistema innecesariamente complejo
+|X
+|
+|
+|
+|
+
+|Pensé que el sistema era fácil de usar
+|
+|
+|X
+|
+|
+
+
+|Creo que necesitaría el apoyo de un técnico para poder utilizar este sistema
+|X
+|
+|
+|
+|
+
+
+|Encontré que las diversas funciones de este sistema estaban bien integradas
+|
+|
+|
+|
+|X
+
+|Pensé que había demasiada inconsistencia en este sistema
+|
+|X
+|
+|
+|
+
+|Me imagino que la mayoría de la gente aprendería a utilizar este sistema muy rápidamente
+|
+|
+|
+|
+|X
+
+|Encontré el sistema muy complicado de usar
+|X
+|
+|
+|
+|
+
+|Me sentí muy seguro usando el sistema
+|
+|
+|
+|X
+|
+
+|Necesitaba aprender muchas cosas antes de empezar con este sistema
+|X
+|
+|
+|
+|
+
+|===
+
+Puntaje SUS: 87.5
+
+=== Prueba 3
+
+Nombre: Mitul Rebolledo Gallardo
+
+Edad: 19
+
+Ocupación: Estudiante
+
+¿Te gustan los videojuegos?: Sí
+
+[cols="1,1,1,1,1,1"]
+
+|===
+
+|Pregunta
+|Totalmente en desacuerdo
+|En desacuerdo
+|Neutro
+|De acuerdo
+|Totalmente de acuerdo
+
+|Creo que me gustaría utilizar este sistema con frecuencia
+|
+|
+|
+|
+|X
+
+|Encontré el sistema innecesariamente complejo
+|X
+|
+|
+|
+|
+
+|Pensé que el sistema era fácil de usar
+|
+|
+|
+|
+|X
+
+
+|Creo que necesitaría el apoyo de un técnico para poder utilizar este sistema
+|X
+|
+|
+|
+|
+
+
+|Encontré que las diversas funciones de este sistema estaban bien integradas
+|
+|
+|
+|
+|X
+
+|Pensé que había demasiada inconsistencia en este sistema
+|X
+|
+|
+|
+|
+
+|Me imagino que la mayoría de la gente aprendería a utilizar este sistema muy rápidamente
+|
+|
+|
+|
+|X
+
+|Encontré el sistema muy complicado de usar
+|X
+|
+|
+|
+|
+
+|Me sentí muy seguro usando el sistema
+|
+|
+|
+|
+|X
+
+|Necesitaba aprender muchas cosas antes de empezar con este sistema
+|X
+|
+|
+|
+|
+
+|===
+
+Puntaje SUS: 100
+
+=== Prueba 4
+
+Nombre:
+
+Edad:
+
+Ocupación:
+
+¿Te gustan los videojuegos?:
+
+[cols="1,1,1,1,1,1"]
+
+|===
+
+|Pregunta
+|Totalmente en desacuerdo
+|En desacuerdo
+|Neutro
+|De acuerdo
+|Totalmente de acuerdo
+
+|Creo que me gustaría utilizar este sistema con frecuencia
+|
+|
+|
+|
+|
+
+|Encontré el sistema innecesariamente complejo
+|
+|
+|
+|
+|
+
+|Pensé que el sistema era fácil de usar
+|
+|
+|
+|
+|
+
+
+|Creo que necesitaría el apoyo de un técnico para poder utilizar este sistema
+|
+|
+|
+|
+|
+
+
+|Encontré que las diversas funciones de este sistema estaban bien integradas
+|
+|
+|
+|
+|
+
+|Pensé que había demasiada inconsistencia en este sistema
+|
+|
+|
+|
+|
+
+|Me imagino que la mayoría de la gente aprendería a utilizar este sistema muy rápidamente
+|
+|
+|
+|
+|
+
+|Encontré el sistema muy complicado de usar
+|
+|
+|
+|
+|
+
+|Me sentí muy seguro usando el sistema
+|
+|
+|
+|
+|
+
+|Necesitaba aprender muchas cosas antes de empezar con este sistema
+|
+|
+|
+|
+|
+
+|===
+
+=== Prueba 5
+
+Nombre:
+
+Edad:
+
+Ocupación:
+
+¿Te gustan los videojuegos?:
+
+[cols="1,1,1,1,1,1"]
+
+|===
+
+|Pregunta
+|Totalmente en desacuerdo
+|En desacuerdo
+|Neutro
+|De acuerdo
+|Totalmente de acuerdo
+
+|Creo que me gustaría utilizar este sistema con frecuencia
+|
+|
+|
+|
+|
+
+|Encontré el sistema innecesariamente complejo
+|
+|
+|
+|
+|
+
+|Pensé que el sistema era fácil de usar
+|
+|
+|
+|
+|
+
+
+|Creo que necesitaría el apoyo de un técnico para poder utilizar este sistema
+|
+|
+|
+|
+|
+
+
+|Encontré que las diversas funciones de este sistema estaban bien integradas
+|
+|
+|
+|
+|
+
+|Pensé que había demasiada inconsistencia en este sistema
+|
+|
+|
+|
+|
+
+|Me imagino que la mayoría de la gente aprendería a utilizar este sistema muy rápidamente
+|
+|
+|
+|
+|
+
+|Encontré el sistema muy complicado de usar
+|
+|
+|
+|
+|
+
+|Me sentí muy seguro usando el sistema
+|
+|
+|
+|
+|
+
+|Necesitaba aprender muchas cosas antes de empezar con este sistema
+|
+|
+|
+|
+|
+
+|===

@@ -1,0 +1,22 @@
+
+== internacionalización
+
+[cols="1,1,1,1,1,1"]
+
+|===
+
+|ID_GUI
+|Elemento
+|Tipo
+|Texto_ES
+|Texto_EN
+|ID
+
+|LoginPage
+|Username
+|Label
+|Nombre de usuario
+|Username
+|UsernameLbl
+
+|===

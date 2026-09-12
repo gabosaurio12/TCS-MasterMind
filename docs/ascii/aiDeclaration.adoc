@@ -16,3 +16,9 @@ Por otro lado, revisa los prototipos que se muestran y dime si hay algo que mejo
 
 Genera tu cadena de razonamiento auditable por favor.
 ```
+
+```
+Realiza por favor una última revisión técnica, de diseño e implementación de este script para la base de datos del proyecto MasterMind. Toma en cuenta que debe estar normalizada (respetando 1F, 2F y 3F). Debe respetar principios como OCP, cada tabla debe representar solo una entidad, los nombres deben ser claros y consistentes. También revisa que la lógica y funcionamiento de Inserts, Triggers y Checks sean correctos por favor.
+
+Genera tu cadena de razonamiento auditable por favor.
+```

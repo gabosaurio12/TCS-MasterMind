@@ -1,0 +1,4 @@
+
+== Vista de bases de datos
+
+image::../imgs/views/EntityRelationView1.png[width=650]
