@@ -1,13 +1,3 @@
-IF NOT EXISTS (SELECT * FROM sys.databases WHERE name='MasterMind')
-BEGIN
-    ALTER DATABASE [MasterMind] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE [MasterMind];
-END
-GO
-
-CREATE DATABASE [MasterMind];
-GO
-
 USE MasterMind;
 GO
 
@@ -345,30 +335,4 @@ VALUES
   ('Yellow'),
   ('Orange'),
   ('White');
-GO
-
--- Triggers
-
-CREATE TRIGGER trigger_IncrementReportCount
-ON [PlayerReport]
-AFTER INSERT
-AS
-BEGIN
-  UPDATE p
-  SET p.number_of_reports = p.number_of_reports + 1
-  FROM [Player] p
-  INNER JOIN inserted i ON p.player_id = i.reported_player_id
-END
-GO
-
-CREATE TRIGGER trigger_DecreaseReportCount
-ON [PlayerReport]
-AFTER DELETE
-AS
-BEGIN
-  UPDATE p
-  SET p.number_of_reports = p.number_of_reports - 1
-  FROM [Player] p
-  INNER JOIN deleted i ON p.player_id = i.reported_player_id
-END
 GO
