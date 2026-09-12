@@ -1,4 +1,4 @@
 
 == Vista de bases de datos
 
-image::../imgs/views/EntityRelationView1.png[width=650]
+image::../imgs/views/EntityRelationView3.png[width=650, title="Modelo de Entidad-Relación de la base de datos", align="center"]
