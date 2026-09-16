@@ -1,0 +1,99 @@
+﻿<Page x:Class="MasterMind_Client.Pages.SignupPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MasterMind_Client.Pages"
+      mc:Ignorable="d"     
+      xmlns:p="clr-namespace:MasterMind_Client.Properties"
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="{x:Static p:Resources.SignupPage_Title}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="286" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <!-- Backgrounds -->
+        <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Fill="#141414" />
+        <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Fill="#585858" />
+        
+        <!-- Images -->
+        <Image Grid.Column="0" Grid.Row="0" Source="/Images/MasterMindLogo.png"
+               Width="625" Height="205"/>
+        <Image Grid.Column="0" Grid.Row="1" Source="/Images/DecodingMachine.png"
+               Width="533" Height="615"/>   
+
+        <!-- Column 2 -->
+        
+        <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.SignupPage_Title}"
+               Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource Aladin}"
+               FontSize="128"/>
+        
+        <UniformGrid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
+                     VerticalAlignment="Center" Rows="8" Columns="1" Margin="0,0,0,20">
+            
+            <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Foreground="White" FontFamily="{StaticResource Aladin}"
+                   FontSize="64"/>      
+
+            <TextBox x:Name="UsenameTxt"
+                   HorizontalAlignment="Center"
+                   Width="358" Height="52" FontSize="48"
+                   FontFamily="{StaticResource Aladin}" />
+
+            <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Foreground="White" FontFamily="{StaticResource Aladin}"
+                   FontSize="64"/>
+
+            <TextBox x:Name="EmailTxt"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Width="358" Height="52" FontSize="48"
+                   FontFamily="{StaticResource Aladin}" />
+
+            <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Foreground="White" FontFamily="{StaticResource Aladin}"
+                   FontSize="64"/>
+
+            <PasswordBox x:Name="PasswordTxt"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   Width="358" Height="52" FontSize="48"
+                   Background="White"
+                   Foreground="Black" FontFamily="{StaticResource Aladin}" />
+
+            <Button x:Name="RegisterBtn" Content="{x:Static p:Resources.SignupPage_Register}"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    Width="230" Height="80" 
+                    Background="#67D92A" Foreground="White" Style="{StaticResource RoundedButton}"
+                    FontSize="48" FontFamily="{StaticResource Aladin}"
+                    Click="RegisterBtn_Click" />
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.SignupPage_AccountQuestion}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Foreground="White" FontFamily="{StaticResource Aladin}"
+                       FontSize="36"/>
+
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontFamily="{StaticResource Aladin}" FontSize="36" >
+                    <Hyperlink x:Name="LoginLink" Click="LoginLink_Click" Foreground="#81A3FF" >
+                        <Run Text="{x:Static p:Resources.SignupPage_LoginLink}" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+
+        </UniformGrid>
+
+        
+    </Grid>
+</Page>
