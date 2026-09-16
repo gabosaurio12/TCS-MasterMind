@@ -2,6 +2,8 @@
 
 .DS_Store
 .DS_store
+Thumbs.db
+Desktop.ini
 
 # Docs
 
@@ -12,3 +14,37 @@ docs/ascii/imgs/act1/
 # Visual Studio
 
 .vs/
+*.user
+*.suo
+
+## Build results
+[Bb]in/
+[Oo]bj/
+
+## NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## User-specific files
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+## Otros archivos generados
+*.cache
+
+## Publish profiles
+
+**/Properties/PublishProfiles/*.pubxml
+**/Properties/PublishProfiles/*.pubxml.user
+
+## Sensible data
+
+appsettings.Development.json
+appsettings.Local.json
+*.config.local
+secrets.json
