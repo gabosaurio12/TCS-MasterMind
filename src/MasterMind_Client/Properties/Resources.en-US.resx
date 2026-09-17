@@ -165,13 +165,40 @@
   <data name="MainPage_Quit" xml:space="preserve">
     <value>Quit</value>
   </data>
-  <data name="ErrorModal_InvalidInput" xml:space="preserve">
-    <value>One or more fields you entered are invalid, please check that there are no empty fields, that the format is correct and that the password has a minimum of 8 characters, an uppercase letter, a lowercase letter and a number</value>
+  <data name="ErrorNotification_InvalidInput" xml:space="preserve">
+    <value>One or more fields you entered are empty fields, there should not be any empty record fields.</value>
   </data>
-  <data name="ErrorModal_InvalidInputTitle" xml:space="preserve">
-    <value>Invalid input</value>
+  <data name="ErrorNotification_WhiteInput" xml:space="preserve">
+    <value>One or more fields you entered are invalid, please check that the format is correct and that the password has a minimum of 8 characters, an uppercase letter, a lowercase letter and a number</value>
   </data>
-  <data name="ErrorModal_WrongCredentials" xml:space="preserve">
+  <data name="ErrorNotification_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorNotification_WrongCredentials" xml:space="preserve">
     <value>The credentials entered are incorrect</value>
+  </data>
+  <data name="SuccessNotification_Title" xml:space="preserve">
+    <value>Success!</value>
+  </data>
+  <data name="SuccessNotification_Register" xml:space="preserve">
+    <value>Your account was successfully registered! A verification code was sent to your email</value>
+  </data>
+  <data name="UI_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="NotificationModal_DefaultMessage" xml:space="preserve">
+    <value>If you see this message, something went wrong. Contact tech support.</value>
+  </data>
+  <data name="ErrorNotification_InvalidEmail" xml:space="preserve">
+    <value>The email address must be in a valid format. Check that it has only one '@', and that it has a valid extension like .com</value>
+  </data>
+  <data name="ErrorNotification_InvalidPassword" xml:space="preserve">
+    <value>The password must be at least 8 characters, one uppercase, one lowercase and one number</value>
+  </data>
+  <data name="ErrorNotification_UsernameTaken" xml:space="preserve">
+    <value>The username entered is taken, please try a different one</value>
+  </data>
+  <data name="ErrorNotification_EmailTaken" xml:space="preserve">
+    <value>The email entered is taken, please try a different one</value>
   </data>
 </root>

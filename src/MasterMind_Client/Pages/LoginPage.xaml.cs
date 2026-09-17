@@ -1,4 +1,5 @@
 ﻿using MasterMind_Client.Assets;
+using MasterMind_Client.Modals;
 using MasterMind_Client.TempData;
 using System;
 using System.Windows;
@@ -31,12 +32,12 @@ namespace MasterMind_Client.Pages
         {
             if (string.IsNullOrWhiteSpace(player.Username) || string.IsNullOrWhiteSpace(player.Password))
             {
-                MessageBox.Show(Properties.Resources.ErrorModal_InvalidInput, Properties.Resources.ErrorModal_InvalidInputTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
                 return false;
             }
-            if (!TempData.TempData.Players.Exists(p => p.Username == player.Username && p.Password == player.Password))
+            if (!TempData.TempAuthService.AuthPlayer(player))
             {
-                MessageBox.Show(Properties.Resources.ErrorModal_WrongCredentials, Properties.Resources.ErrorModal_InvalidInputTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_WrongCredentials).Show();
                 return false;
             }
             return true;

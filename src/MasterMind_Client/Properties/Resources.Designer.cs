@@ -61,29 +61,74 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Uno o más campos que ingresaste son inválidos, revisa por favor que no haya campos vacíos, que el formato sea correcto y que la contraseña tenga mínimo 8 caracteres, una mayúscula, una minúscula y un número.
+        ///   Busca una cadena traducida similar a La dirección de correo electrónico ingresada ya está en uso, prueba una distinta por favor.
         /// </summary>
-        public static string ErrorModal_InvalidInput {
+        public static string ErrorNotification_EmailTaken {
             get {
-                return ResourceManager.GetString("ErrorModal_InvalidInput", resourceCulture);
+                return ResourceManager.GetString("ErrorNotification_EmailTaken", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Campos ingresados inválidos.
+        ///   Busca una cadena traducida similar a La dirección de correo debe tener un formato válido. Revisa que tenga solo un &apos;@&apos;, y que tenga una extensión válida como .com.
         /// </summary>
-        public static string ErrorModal_InvalidInputTitle {
+        public static string ErrorNotification_InvalidEmail {
             get {
-                return ResourceManager.GetString("ErrorModal_InvalidInputTitle", resourceCulture);
+                return ResourceManager.GetString("ErrorNotification_InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Uno o más campos que ingresaste están campos vacíos, no debe haber ningún campo de registro vacío..
+        /// </summary>
+        public static string ErrorNotification_InvalidInput {
+            get {
+                return ResourceManager.GetString("ErrorNotification_InvalidInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número.
+        /// </summary>
+        public static string ErrorNotification_InvalidPassword {
+            get {
+                return ResourceManager.GetString("ErrorNotification_InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error.
+        /// </summary>
+        public static string ErrorNotification_Title {
+            get {
+                return ResourceManager.GetString("ErrorNotification_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre de usuario ingresado ya está en uso, prueba uno distinto por favor.
+        /// </summary>
+        public static string ErrorNotification_UsernameTaken {
+            get {
+                return ResourceManager.GetString("ErrorNotification_UsernameTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Uno o más campos que ingresaste son inválidos, revisa por favor que el formato sea correcto y que la contraseña tenga mínimo 8 caracteres, una mayúscula, una minúscula y un número.
+        /// </summary>
+        public static string ErrorNotification_WhiteInput {
+            get {
+                return ResourceManager.GetString("ErrorNotification_WhiteInput", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Busca una cadena traducida similar a Las credenciales ingresadas son incorrectas.
         /// </summary>
-        public static string ErrorModal_WrongCredentials {
+        public static string ErrorNotification_WrongCredentials {
             get {
-                return ResourceManager.GetString("ErrorModal_WrongCredentials", resourceCulture);
+                return ResourceManager.GetString("ErrorNotification_WrongCredentials", resourceCulture);
             }
         }
         
@@ -169,6 +214,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Si ves este mensaje, algo salió mal. Contacta a soporte técnico..
+        /// </summary>
+        public static string NotificationModal_DefaultMessage {
+            get {
+                return ResourceManager.GetString("NotificationModal_DefaultMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Correo electrónico.
         /// </summary>
         public static string Player_Email {
@@ -228,6 +282,33 @@ namespace MasterMind_Client.Properties {
         public static string SignupPage_Title {
             get {
                 return ResourceManager.GetString("SignupPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Tu cuenta fue registrada con éxito! Se envió un correo de verificación a tu correo.
+        /// </summary>
+        public static string SuccessNotification_Register {
+            get {
+                return ResourceManager.GetString("SuccessNotification_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Éxito!.
+        /// </summary>
+        public static string SuccessNotification_Title {
+            get {
+                return ResourceManager.GetString("SuccessNotification_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Continuar.
+        /// </summary>
+        public static string UI_Continue {
+            get {
+                return ResourceManager.GetString("UI_Continue", resourceCulture);
             }
         }
     }

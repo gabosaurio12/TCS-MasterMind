@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MasterMind_Client"
         mc:Ignorable="d"
         Title="MasterMind: Race For The Code!" Height="1080" Width="1920"
-        Source="Pages/SignupPage.xaml" ShowsNavigationUI="False"
+        Source="Pages/LoginPage.xaml" ShowsNavigationUI="False"
         Loaded="NavigationWindow_Loaded" >
    
 </NavigationWindow>

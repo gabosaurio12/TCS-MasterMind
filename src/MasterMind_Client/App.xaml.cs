@@ -18,23 +18,21 @@ namespace MasterMind_Client
             System.Threading.Thread.CurrentThread.CurrentUICulture = cultureToUse;
             CultureInfo.DefaultThreadCurrentUICulture = cultureToUse;
 
-            TempData.TempData.Players.Add(
+            TempAuthService.RegisterPlayer(
                 new TempPlayer
                 {
                     Username = "testuser",
                     Password = "password123",
                     Email = "testuser@example.com"
-                }
-            );
+                });
 
-            TempData.TempData.Players.Add(
+            TempAuthService.RegisterPlayer(
                 new TempPlayer
                 {
                     Username = "johndoe",
                     Password = "securepass",
                     Email = "johndoe@example.com"
-                }
-            );
+                });
         }
 
         private CultureInfo DetermineStartupCulture()

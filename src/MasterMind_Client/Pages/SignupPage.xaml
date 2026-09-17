@@ -45,9 +45,9 @@
                    Foreground="White" FontFamily="{StaticResource Aladin}"
                    FontSize="64"/>      
 
-            <TextBox x:Name="UsenameTxt"
+            <TextBox x:Name="UsernameTxt"
                    HorizontalAlignment="Center"
-                   Width="358" Height="52" FontSize="48"
+                   Width="535" Height="52" FontSize="38"
                    FontFamily="{StaticResource Aladin}" />
 
             <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
@@ -57,7 +57,7 @@
 
             <TextBox x:Name="EmailTxt"
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Width="358" Height="52" FontSize="48"
+                   Width="535" Height="52" FontSize="38"
                    FontFamily="{StaticResource Aladin}" />
 
             <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
@@ -67,7 +67,7 @@
 
             <PasswordBox x:Name="PasswordTxt"
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Width="358" Height="52" FontSize="48"
+                   Width="535" Height="52" FontSize="38"
                    Background="White"
                    Foreground="Black" FontFamily="{StaticResource Aladin}" />
 
