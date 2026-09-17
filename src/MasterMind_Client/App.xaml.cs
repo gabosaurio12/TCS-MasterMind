@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Globalization;
+using MasterMind_Client.TempData;
 
 namespace MasterMind_Client
 {
@@ -13,9 +9,46 @@ namespace MasterMind_Client
     /// </summary>
     public partial class App : Application
     {
-        App()
+        protected override void OnStartup(StartupEventArgs e)
         {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+            base.OnStartup(e);
+
+            CultureInfo cultureToUse = DetermineStartupCulture();
+
+            System.Threading.Thread.CurrentThread.CurrentUICulture = cultureToUse;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureToUse;
+
+            TempData.TempData.Players.Add(
+                new TempPlayer
+                {
+                    Username = "testuser",
+                    Password = "password123",
+                    Email = "testuser@example.com"
+                }
+            );
+
+            TempData.TempData.Players.Add(
+                new TempPlayer
+                {
+                    Username = "johndoe",
+                    Password = "securepass",
+                    Email = "johndoe@example.com"
+                }
+            );
+        }
+
+        private CultureInfo DetermineStartupCulture()
+        {
+            var systemCulture = CultureInfo.CurrentUICulture;
+
+            if (systemCulture.TwoLetterISOLanguageName == "es")
+            {
+                return new CultureInfo("es-ES");
+            }
+            else
+            {
+                return new CultureInfo("en-US");
+            }
         }
     }
 }

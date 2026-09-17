@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MasterMind_Client.Assets;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MasterMind_Client.Pages
 {
@@ -32,7 +23,12 @@ namespace MasterMind_Client.Pages
 
         private void LoginLink_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new LoginPage());
+            NavigationService.Navigate(new Uri("Pages/LoginPage.xaml", UriKind.Relative));
+        }
+
+        private void LanguageBtn_Click(object sender, RoutedEventArgs e)
+        {
+            UtilsUI.ChangeLanguage(NavigationService);
         }
     }
 }

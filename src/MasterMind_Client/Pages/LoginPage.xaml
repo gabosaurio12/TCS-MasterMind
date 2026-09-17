@@ -32,7 +32,7 @@
 
         <!-- Column 2 -->
 
-        <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.SignupPage_Title}"
+        <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.LoginPage_Title}"
            Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
            VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource Aladin}"
            FontSize="128"/>
@@ -45,7 +45,7 @@
                Foreground="White" FontFamily="{StaticResource Aladin}"
                FontSize="64"/>
 
-            <TextBox x:Name="UsenameTxt"
+            <TextBox x:Name="UsernameTxt"
                HorizontalAlignment="Center"
                Width="358" Height="52" FontSize="48"
                FontFamily="{StaticResource Aladin}" />
@@ -84,6 +84,11 @@
 
         </UniformGrid>
 
+        <Button x:Name="LanguageBtn" Grid.Column="1" Grid.Row="1"
+                Width="113" Height="85" Content="🌐"
+                Foreground="White" Style="{StaticResource RoundedButton}"
+                FontSize="64" FontFamily="{StaticResource Aladin}" Margin="792,666,55,43"
+                Click="LanguageBtn_Click"/>
 
     </Grid>
 </Page>

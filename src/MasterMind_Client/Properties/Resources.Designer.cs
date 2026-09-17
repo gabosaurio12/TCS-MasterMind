@@ -61,6 +61,33 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Uno o más campos que ingresaste son inválidos, revisa por favor que no haya campos vacíos, que el formato sea correcto y que la contraseña tenga mínimo 8 caracteres, una mayúscula, una minúscula y un número.
+        /// </summary>
+        public static string ErrorModal_InvalidInput {
+            get {
+                return ResourceManager.GetString("ErrorModal_InvalidInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Campos ingresados inválidos.
+        /// </summary>
+        public static string ErrorModal_InvalidInputTitle {
+            get {
+                return ResourceManager.GetString("ErrorModal_InvalidInputTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Las credenciales ingresadas son incorrectas.
+        /// </summary>
+        public static string ErrorModal_WrongCredentials {
+            get {
+                return ResourceManager.GetString("ErrorModal_WrongCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¿No tienes una cuenta?.
         /// </summary>
         public static string LoginPage_AccountQuestion {
@@ -93,6 +120,51 @@ namespace MasterMind_Client.Properties {
         public static string LoginPage_Title {
             get {
                 return ResourceManager.GetString("LoginPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Amigos.
+        /// </summary>
+        public static string MainPage_Friends {
+            get {
+                return ResourceManager.GetString("MainPage_Friends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Jugar.
+        /// </summary>
+        public static string MainPage_Play {
+            get {
+                return ResourceManager.GetString("MainPage_Play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Perfil.
+        /// </summary>
+        public static string MainPage_Profile {
+            get {
+                return ResourceManager.GetString("MainPage_Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Salir.
+        /// </summary>
+        public static string MainPage_Quit {
+            get {
+                return ResourceManager.GetString("MainPage_Quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Vamos a Descifrar!.
+        /// </summary>
+        public static string MainPage_Title {
+            get {
+                return ResourceManager.GetString("MainPage_Title", resourceCulture);
             }
         }
         
