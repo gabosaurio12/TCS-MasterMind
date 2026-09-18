@@ -16,9 +16,9 @@ namespace MasterMind_Client.Pages
     /// </summary>
     public partial class SignupPage : Page
     {
-        private readonly Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
+        private readonly Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         private readonly Regex emailRegex = new Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
         public SignupPage()
         {
