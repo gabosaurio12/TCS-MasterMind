@@ -1,11 +1,8 @@
 ﻿using MasterMind_Client.TempData.Enum;
-using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Security.Cryptography;
 
 namespace MasterMind_Client.TempData
 {
@@ -16,7 +13,8 @@ namespace MasterMind_Client.TempData
         private static int playersId = 0;
         public static List<TempVerificationCode> VerificationCodes { get; set; } = new List<TempVerificationCode>();
         private static int codesId = 0;
-        private static readonly Random Rand = new Random();
+        const string Digits = "0123456789";
+
 
         public static bool AuthPlayer(TempPlayer player)
         {
@@ -90,13 +88,29 @@ namespace MasterMind_Client.TempData
             }
         }
 
+        private static string GenerateVerificationCode()
+        {
+            int length = 5;
+            var bytes = new byte[length];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(bytes);
+            }
+
+            var charCode = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                charCode[i] = Digits[bytes[i] % Digits.Length];
+            }
+
+            return new string(charCode);
+        }
+
         private static bool CreateVerificationCode(int playerId)
         {
-            string code = "";
-            for (int i = 0; i < 5; i++)
-            {
-                code += Rand.Next(0,10).ToString();
-            }
+
+
+            string code = GenerateVerificationCode();
 
             if (VerificationCodes.FirstOrDefault(vc => vc.Code.Equals(code)) == null)
             {

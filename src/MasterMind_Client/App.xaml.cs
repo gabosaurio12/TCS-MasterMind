@@ -35,7 +35,7 @@ namespace MasterMind_Client
                 });
         }
 
-        private CultureInfo DetermineStartupCulture()
+        private static CultureInfo DetermineStartupCulture()
         {
             var systemCulture = CultureInfo.CurrentUICulture;
 
