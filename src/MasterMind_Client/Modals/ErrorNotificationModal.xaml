@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
         Title="{x:Static p:Resources.ErrorNotification_Title}" Height="470" Width="660"
-        Background="#452222" ResizeMode="NoResize" >
+        Background="#452222" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
 
     <Viewbox Stretch="Uniform">
         <StackPanel>
