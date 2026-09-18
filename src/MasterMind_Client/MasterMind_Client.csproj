@@ -59,6 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Modals\VerificationCodeModal.xaml.cs">
+      <DependentUpon>VerificationCodeModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TempData\TempVerificationCode.cs" />
     <Page Include="Assets\Styles.xaml">
       <SubType>Designer</SubType>
@@ -82,6 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modals\SuccessNotificationModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modals\VerificationCodeModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

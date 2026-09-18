@@ -46,7 +46,7 @@
                    FontSize="64"/>      
 
             <TextBox x:Name="UsernameTxt"
-                   HorizontalAlignment="Center"
+                   HorizontalAlignment="Center" Style="{StaticResource RoundedTextBox}"
                    Width="535" Height="52" FontSize="38"
                    FontFamily="{StaticResource Aladin}" />
 
@@ -55,7 +55,7 @@
                    Foreground="White" FontFamily="{StaticResource Aladin}"
                    FontSize="64"/>
 
-            <TextBox x:Name="EmailTxt"
+            <TextBox x:Name="EmailTxt" Style="{StaticResource RoundedTextBox}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Width="535" Height="52" FontSize="38"
                    FontFamily="{StaticResource Aladin}" />
@@ -65,7 +65,7 @@
                    Foreground="White" FontFamily="{StaticResource Aladin}"
                    FontSize="64"/>
 
-            <PasswordBox x:Name="PasswordTxt"
+            <PasswordBox x:Name="PasswordTxt" Style="{StaticResource RoundedPasswordBox}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Width="535" Height="52" FontSize="38"
                    Background="White"

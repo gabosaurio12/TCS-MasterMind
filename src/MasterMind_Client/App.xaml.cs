@@ -18,7 +18,7 @@ namespace MasterMind_Client
             System.Threading.Thread.CurrentThread.CurrentUICulture = cultureToUse;
             CultureInfo.DefaultThreadCurrentUICulture = cultureToUse;
 
-            TempAuthService.RegisterPlayer(
+            TempAuthService.MockRegisterPlayer(
                 new TempPlayer
                 {
                     Username = "testuser",
@@ -26,7 +26,7 @@ namespace MasterMind_Client
                     Email = "testuser@example.com"
                 });
 
-            TempAuthService.RegisterPlayer(
+            TempAuthService.MockRegisterPlayer(
                 new TempPlayer
                 {
                     Username = "johndoe",
