@@ -97,7 +97,7 @@ namespace MasterMind_Client.Pages
                 {
                     case RegistrationResult.Success:
                         new SuccessNotificationModal(Properties.Resources.SuccessNotification_Register).Show();
-                        NavigationService.Navigate(new Uri("Pages/LoginPage.xaml", UriKind.Relative));
+                        new VerificationCodeModal(player.Username, NavigationService).Show();
                         break;
                     case RegistrationResult.UsernameTaken:
                         new ErrorNotificationModal(Properties.Resources.ErrorNotification_UsernameTaken).Show();

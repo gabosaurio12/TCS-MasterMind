@@ -48,7 +48,7 @@
             <TextBox x:Name="UsernameTxt"
                HorizontalAlignment="Center"
                Width="535" Height="52" FontSize="38"
-               FontFamily="{StaticResource Aladin}" />
+               FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedTextBox}"  />
 
             <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
                HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -58,7 +58,7 @@
             <PasswordBox x:Name="PasswordTxt"
                HorizontalAlignment="Center" VerticalAlignment="Center" 
                Width="535" Height="52" FontSize="38"
-               Background="White"
+               Background="White" Style="{StaticResource RoundedPasswordBox}" 
                Foreground="Black" FontFamily="{StaticResource Aladin}" />
 
             <Button x:Name="LoginBtn" Content="{x:Static p:Resources.LoginPage_Login}"

@@ -35,7 +35,7 @@ namespace MasterMind_Client.Pages
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
                 return false;
             }
-            if (!TempData.TempAuthService.AuthPlayer(player))
+            if (!TempAuthService.AuthPlayer(player))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WrongCredentials).Show();
                 return false;
@@ -48,7 +48,7 @@ namespace MasterMind_Client.Pages
             var player = GetFormsData();
             if (ValidateFormsData(player))
             {
-                NavigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+                new VerificationCodeModal(player.Username, NavigationService).Show();
             }
         }
 

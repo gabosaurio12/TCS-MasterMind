@@ -201,4 +201,19 @@
   <data name="ErrorNotification_EmailTaken" xml:space="preserve">
     <value>La dirección de correo electrónico ingresada ya está en uso, prueba una distinto por favor</value>
   </data>
+  <data name="VerificationCodeModal_Title" xml:space="preserve">
+    <value>Escribe el código de verificación</value>
+  </data>
+  <data name="UI_Accept" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="UI_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="VerificationCodeModal_ResendCode" xml:space="preserve">
+    <value>Reenviar código de verificación</value>
+  </data>
+  <data name="ErrorNotification_WrongCode" xml:space="preserve">
+    <value>El código de verificación ingresado es incorrecto, intenta de nuevo.</value>
+  </data>
 </root>

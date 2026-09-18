@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:MasterMind_Client.Modals"
         mc:Ignorable="d"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
-        Title="SuccessNotificationModal" Height="470" Width="660"
-        Background="#224045" ResizeMode="NoResize" >
+        Title="{x:Static p:Resources.SuccessNotification_Title}" Height="470" Width="660"
+        Background="#224045" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
 
     <Viewbox Stretch="Uniform">
         <StackPanel>

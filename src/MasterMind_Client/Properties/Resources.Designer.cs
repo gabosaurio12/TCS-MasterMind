@@ -124,6 +124,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a El código de verificación ingresado es incorrecto, intenta de nuevo..
+        /// </summary>
+        public static string ErrorNotification_WrongCode {
+            get {
+                return ResourceManager.GetString("ErrorNotification_WrongCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Las credenciales ingresadas son incorrectas.
         /// </summary>
         public static string ErrorNotification_WrongCredentials {
@@ -286,7 +295,7 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a ¡Tu cuenta fue registrada con éxito! Se envió un correo de verificación a tu correo.
+        ///   Busca una cadena traducida similar a ¡Tu cuenta fue registrada con éxito! Se envió un código de verificación a tu correo.
         /// </summary>
         public static string SuccessNotification_Register {
             get {
@@ -304,11 +313,47 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Aceptar.
+        /// </summary>
+        public static string UI_Accept {
+            get {
+                return ResourceManager.GetString("UI_Accept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cancelar.
+        /// </summary>
+        public static string UI_Cancel {
+            get {
+                return ResourceManager.GetString("UI_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Continuar.
         /// </summary>
         public static string UI_Continue {
             get {
                 return ResourceManager.GetString("UI_Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Reenviar código de verificación.
+        /// </summary>
+        public static string VerificationCodeModal_ResendCode {
+            get {
+                return ResourceManager.GetString("VerificationCodeModal_ResendCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Escribe el código de verificación.
+        /// </summary>
+        public static string VerificationCodeModal_Title {
+            get {
+                return ResourceManager.GetString("VerificationCodeModal_Title", resourceCulture);
             }
         }
     }
