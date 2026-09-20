@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../MasterMind_Client.Tests/MasterMind_Client.Tests.csproj" Id="7e53fff3-e7e4-4f96-95f4-114a86821cdd" />
   <Project Path="MasterMind_Client.csproj" Id="ebdb5b50-ff60-489b-aa45-0fd2ad28c96c" />
 </Solution>
