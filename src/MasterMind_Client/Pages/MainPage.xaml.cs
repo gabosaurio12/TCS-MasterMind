@@ -1,18 +1,8 @@
 ﻿using MasterMind_Client.Assets;
+using MasterMind_Client.Modals;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MasterMind_Client.Pages
 {
@@ -33,12 +23,12 @@ namespace MasterMind_Client.Pages
 
         private void ProfileBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("Pages/ProfilePage.xaml", UriKind.Relative));
         }
 
         private void FriendsBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            new FriendsModal().Show();
         }
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)

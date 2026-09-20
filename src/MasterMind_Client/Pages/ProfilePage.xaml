@@ -1,0 +1,117 @@
+﻿<Page x:Class="MasterMind_Client.Pages.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MasterMind_Client.Pages"
+      mc:Ignorable="d" 
+      xmlns:p="clr-namespace:MasterMind_Client.Properties"
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="{x:Static p:Resources.MainPage_Profile}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="250" />
+        </Grid.RowDefinitions>
+
+        <!-- Backgrounds -->
+        <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Fill="#141414" Margin="0,0,5,0" />
+        <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Fill="#585858" />
+
+        <!-- Column 1-->
+
+        <Ellipse x:Name="Avatar" Grid.Row="0" Grid.Column="0"
+                 Height="250" Width="250" >
+            <Ellipse.Fill>
+                <ImageBrush x:Name="AvatarImg" ImageSource="/Images/Avatars/Link con fondo.png" Stretch="UniformToFill" />
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+            <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
+                   FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
+                   HorizontalAlignment="Center"/>
+            <Label x:Name="PlayerUsernameLbl" FontSize="48" Foreground="White"
+                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center" />
+
+            <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
+                   FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
+                   HorizontalAlignment="Center"/>
+            <Label x:Name="PlayerEmailLbl" FontSize="48" Foreground="White"
+                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+            <Button x:Name="UpdateBtn" Width="345" Height="85" FontSize="64"
+                    Content="{x:Static p:Resources.ProfilePage_Update}" Margin="5"
+                    FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedButton}"
+                    Click="UpdateBtn_Click"/>
+
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
+                       FontFamily="{StaticResource Aladin}" FontSize="36" Margin="5" >
+                <Hyperlink x:Name="ChangePasswordLink" Foreground="#81A3FF"
+                           Click="ChangePasswordLink_Click">
+                    <Run Text="{x:Static p:Resources.ProfilePage_ChangePassword}" />
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Column 2 -->
+
+        <Label x:Name="RecordsLbl" Content="{x:Static p:Resources.ProfilePage_Records}"
+               Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
+               FontSize="152"/>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Margin="20">
+                <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
+                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+
+                <Label x:Name="PlayerBestTimeLbl" Content="15"
+                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+
+                <Label x:Name="SecondsLbl" Content="{x:Static p:Resources.ProfilePage_Seconds}"
+                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="20">
+                <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
+                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+
+                <Label x:Name="PlayerLeastTriesLbl" Content="3"
+                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="20">
+                <Viewbox StretchDirection="DownOnly" MaxHeight="55">
+
+                    <TextBox x:Name="ReportUsernameTxt" Height="60" Width="496"
+                             Style="{StaticResource RoundedTextBox}" FontSize="42"
+                             Text="{x:Static p:Resources.ProfilePage_ReportPlayer}"
+                             FontFamily="{StaticResource Aladin}" Foreground="Gray"
+                             GotFocus="ReportUsernameTxt_GotFocus" LostFocus="ReportUsernameTxt_LostFocus" />
+                </Viewbox>
+
+                <Button x:Name="ReportBtn" Width="45" Height="45"
+                        Style="{StaticResource ModalRedButton}" FontFamily="{StaticResource Aladin}"
+                        FontSize="40" Content="!"
+                        Click="ReportBtn_Click" />
+            </StackPanel>
+        </StackPanel>
+
+        <Button x:Name="BackBtn" Grid.Row="2" Grid.Column="1" Width="345" Height="85" FontSize="64"
+                Content="{x:Static p:Resources.UI_Back}" Margin="5"
+                FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedRedButton}"
+                Click="BackBtn_Click"/>
+
+    </Grid>
+</Page>

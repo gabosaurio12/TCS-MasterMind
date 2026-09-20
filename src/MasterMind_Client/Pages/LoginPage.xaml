@@ -76,9 +76,9 @@
 
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                        FontFamily="{StaticResource Aladin}" FontSize="36" >
-                <Hyperlink x:Name="SignupLink" Click="SignupLink_Click" Foreground="#81A3FF" >
-                    <Run Text="{x:Static p:Resources.LoginPage_SignupLink}" />
-                </Hyperlink>
+                    <Hyperlink x:Name="SignupLink" Click="SignupLink_Click" Foreground="#81A3FF" >
+                        <Run Text="{x:Static p:Resources.LoginPage_SignupLink}" />
+                    </Hyperlink>
                 </TextBlock>
             </StackPanel>
 
