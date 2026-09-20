@@ -216,4 +216,79 @@
   <data name="ErrorNotification_WrongCode" xml:space="preserve">
     <value>The verification code you typed is wrong, try again.</value>
   </data>
+  <data name="PrivateRoomCodeModal_Title" xml:space="preserve">
+    <value>Type the Room Code</value>
+  </data>
+  <data name="PrivateRoomCodeModal_Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="PrivateRoomCodeModal_Escape" xml:space="preserve">
+    <value>Escape</value>
+  </data>
+  <data name="YouWonModal_Title" xml:space="preserve">
+    <value>You Won!</value>
+  </data>
+  <data name="YouWonTriesModal_SecretCode" xml:space="preserve">
+    <value>The Secret Code was:</value>
+  </data>
+  <data name="GameOverTriesModal_Title" xml:space="preserve">
+    <value>You ran out of tries!</value>
+  </data>
+  <data name="GameOverTimeTrialModal_Title" xml:space="preserve">
+    <value>Time's Up!</value>
+  </data>
+  <data name="GameOverModal_GameOver" xml:space="preserve">
+    <value>Game Over</value>
+  </data>
+  <data name="NewPasswordModal_Title" xml:space="preserve">
+    <value>Type your new password</value>
+  </data>
+  <data name="FriendsModal_Title" xml:space="preserve">
+    <value>Friends</value>
+  </data>
+  <data name="FriendRequestsModal_Title" xml:space="preserve">
+    <value>Friend Requests</value>
+  </data>
+  <data name="UI_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="FriendRequestsModal_AddFriendText" xml:space="preserve">
+    <value>Add a new friend</value>
+  </data>
+  <data name="SuccessNotification_FriendRequestSent" xml:space="preserve">
+    <value>The friend request was successfully sent!</value>
+  </data>
+  <data name="ErrorNotification_ErrorSendingFriendRequest" xml:space="preserve">
+    <value>There was an error while sending your friend request. Try later</value>
+  </data>
+  <data name="ErrorNotification_FriendRequestPending" xml:space="preserve">
+    <value>The friend request sent to this player is waiting to be accepted</value>
+  </data>
+  <data name="ProfilePage_Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="ProfilePage_ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="ProfilePage_Records" xml:space="preserve">
+    <value>Records</value>
+  </data>
+  <data name="ProfilePage_BestTime" xml:space="preserve">
+    <value>Best Time: </value>
+  </data>
+  <data name="ProfilePage_Seconds" xml:space="preserve">
+    <value> sec.</value>
+  </data>
+  <data name="ProfilePage_LeastTries" xml:space="preserve">
+    <value>Least Tries: </value>
+  </data>
+  <data name="ProfilePage_ReportPlayer" xml:space="preserve">
+    <value>Report a player</value>
+  </data>
+  <data name="UI_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="UpdateProfilePage_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>
