@@ -291,4 +291,61 @@
   <data name="UpdateProfilePage_Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="CreateRoomPage_Title" xml:space="preserve">
+    <value>Create a Room</value>
+  </data>
+  <data name="CreateRoomPage_Name" xml:space="preserve">
+    <value>Room Name</value>
+  </data>
+  <data name="CreateRoomPage_Mode" xml:space="preserve">
+    <value>Game mode</value>
+  </data>
+  <data name="Gamemode_TimeTrial" xml:space="preserve">
+    <value>Time Trial</value>
+  </data>
+  <data name="Gamemode_Tries" xml:space="preserve">
+    <value>Tries</value>
+  </data>
+  <data name="CreateRoomPage_Difficulty" xml:space="preserve">
+    <value>Difficulty</value>
+  </data>
+  <data name="GameDifficulty_Easy" xml:space="preserve">
+    <value>Easy</value>
+  </data>
+  <data name="GameDifficulty_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="GameDifficulty_Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="GameDifficulty_Enigma" xml:space="preserve">
+    <value>Enigma</value>
+  </data>
+  <data name="CreateRoomPage_Privacy" xml:space="preserve">
+    <value>Room Privacy</value>
+  </data>
+  <data name="RoomPrivacy_Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="RoomPrivacy_Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="UI_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="RoomsPage_Title" xml:space="preserve">
+    <value>Deciphering Rooms</value>
+  </data>
+  <data name="RoomsPage_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="RoomsPage_Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="RoomsPage_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="RoomsPage_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
 </root>
