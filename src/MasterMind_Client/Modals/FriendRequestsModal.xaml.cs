@@ -13,9 +13,6 @@ namespace MasterMind_Client.Modals
     /// </summary>
     public partial class FriendRequestsModal : Window
     {
-        private readonly static MasterMindEntities Context = new MasterMindEntities();
-
-
         public FriendRequestsModal()
         {
             InitializeComponent();
@@ -81,8 +78,8 @@ namespace MasterMind_Client.Modals
         private void SendFriendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
             var username = AddreseeUsernameTxt.Text.Trim();
-            int addreseeId = Context.Player.FirstOrDefault(p => p.username == username).player_id;
-            var result = FriendshipService.SendFrienshipRequest(addreseeId, CurrentPlayer.Instance.Id);
+            int addreseeId = TempPlayerService.GetPlayerByUsername(username).player_id;
+            var result = FriendshipService.SendFrienshipRequest(CurrentPlayer.Instance.Id, addreseeId);
 
             switch(result)
             {

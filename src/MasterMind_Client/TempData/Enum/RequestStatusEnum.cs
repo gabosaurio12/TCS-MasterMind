@@ -3,6 +3,6 @@
     public enum RequestStatusEnum
     {
         Accepted,
-        Pendant
+        Pending
     }
 }
