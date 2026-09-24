@@ -48,6 +48,7 @@ appsettings.Development.json
 appsettings.Local.json
 *.config.local
 secrets.json
+.env
 
 # Project files
 
