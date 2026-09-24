@@ -65,7 +65,7 @@ namespace MasterMind_Client.TempData
             return RegistrationResult.Success;
         }
 
-        public static bool AuthVerificationCode(string username, string code)
+        public static (bool, TempPlayer) AuthVerificationCode(string username, string code)
         {
             var player = Players.FirstOrDefault(p => p.Username == username);
             if (player != null)
@@ -73,10 +73,10 @@ namespace MasterMind_Client.TempData
                 var authCode = VerificationCodes.FirstOrDefault(vc => vc.Code == code && vc.PlayerId == player.Id);
                 if (authCode != null)
                 {
-                    return true;
+                    return (true, player);
                 }
             }
-            return false;
+            return (false, player);
         }
 
         private static void SendVerificationCode(int playerId)

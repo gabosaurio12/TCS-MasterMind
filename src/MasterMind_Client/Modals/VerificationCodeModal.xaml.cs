@@ -53,8 +53,9 @@ namespace MasterMind_Client.Modals
         {
             string code = GetCodeFromBoxes();
             var result = TempData.TempAuthService.AuthVerificationCode(username, code);
-            if (result)
+            if (result.Item1)
             {
+                CurrentPlayer.Instance.SetCurrentPlayer(result.Item2);
                 navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
                 Application.Current.Windows.OfType<VerificationCodeModal>().FirstOrDefault()?.Close();
             }

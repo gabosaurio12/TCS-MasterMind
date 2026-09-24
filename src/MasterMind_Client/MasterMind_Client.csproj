@@ -35,9 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=3.4.0.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.3.4.0\lib\net462\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,9 +64,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CurrentPlayer.cs" />
+    <Compile Include="Modals\FriendRequestsModal.xaml.cs">
+      <DependentUpon>FriendRequestsModal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modals\FriendsModal.xaml.cs">
+      <DependentUpon>FriendsModal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modals\ModalsUserControls\FriendRequestUserControl.xaml.cs">
+      <DependentUpon>FriendRequestUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modals\ModalsUserControls\FriendUserControl.xaml.cs">
+      <DependentUpon>FriendUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modals\VerificationCodeModal.xaml.cs">
       <DependentUpon>VerificationCodeModal.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CreateRoomPage.xaml.cs">
+      <DependentUpon>CreateRoomPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RoomsPage.xaml.cs">
+      <DependentUpon>RoomsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UpdateProfilePage.xaml.cs">
+      <DependentUpon>UpdateProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TempData\Enum\RequestResult.cs" />
+    <Compile Include="TempData\Enum\RequestStatusEnum.cs" />
+    <Compile Include="TempData\FriendshipService.cs" />
+    <Compile Include="TempData\TempFriendship.cs" />
+    <Compile Include="TempData\TempPlayerService.cs" />
     <Compile Include="TempData\TempVerificationCode.cs" />
     <Page Include="Assets\Styles.xaml">
       <SubType>Designer</SubType>
@@ -84,11 +119,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modals\FriendRequestsModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modals\FriendsModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modals\ModalsUserControls\FriendRequestUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modals\ModalsUserControls\FriendUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modals\SuccessNotificationModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modals\VerificationCodeModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CreateRoomPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,7 +155,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RoomsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\SignupPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UpdateProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,12 +236,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Avatars\Link con fondo.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\MasterMindLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\DecodingMachine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Avatars\MasterChief.jpg" />
+    <Resource Include="Images\Avatars\Patronus HD.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Avatars\Link.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

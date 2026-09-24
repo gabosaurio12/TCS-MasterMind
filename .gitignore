@@ -48,3 +48,7 @@ appsettings.Development.json
 appsettings.Local.json
 *.config.local
 secrets.json
+
+# Project files
+
+**/Images/Avatars/

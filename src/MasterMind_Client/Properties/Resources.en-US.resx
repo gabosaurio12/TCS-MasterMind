@@ -216,4 +216,136 @@
   <data name="ErrorNotification_WrongCode" xml:space="preserve">
     <value>The verification code you typed is wrong, try again.</value>
   </data>
+  <data name="PrivateRoomCodeModal_Title" xml:space="preserve">
+    <value>Type the Room Code</value>
+  </data>
+  <data name="PrivateRoomCodeModal_Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="PrivateRoomCodeModal_Escape" xml:space="preserve">
+    <value>Escape</value>
+  </data>
+  <data name="YouWonModal_Title" xml:space="preserve">
+    <value>You Won!</value>
+  </data>
+  <data name="YouWonTriesModal_SecretCode" xml:space="preserve">
+    <value>The Secret Code was:</value>
+  </data>
+  <data name="GameOverTriesModal_Title" xml:space="preserve">
+    <value>You ran out of tries!</value>
+  </data>
+  <data name="GameOverTimeTrialModal_Title" xml:space="preserve">
+    <value>Time's Up!</value>
+  </data>
+  <data name="GameOverModal_GameOver" xml:space="preserve">
+    <value>Game Over</value>
+  </data>
+  <data name="NewPasswordModal_Title" xml:space="preserve">
+    <value>Type your new password</value>
+  </data>
+  <data name="FriendsModal_Title" xml:space="preserve">
+    <value>Friends</value>
+  </data>
+  <data name="FriendRequestsModal_Title" xml:space="preserve">
+    <value>Friend Requests</value>
+  </data>
+  <data name="UI_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="FriendRequestsModal_AddFriendText" xml:space="preserve">
+    <value>Add a new friend</value>
+  </data>
+  <data name="SuccessNotification_FriendRequestSent" xml:space="preserve">
+    <value>The friend request was successfully sent!</value>
+  </data>
+  <data name="ErrorNotification_ErrorSendingFriendRequest" xml:space="preserve">
+    <value>There was an error while sending your friend request. Try later</value>
+  </data>
+  <data name="ErrorNotification_FriendRequestPending" xml:space="preserve">
+    <value>The friend request sent to this player is waiting to be accepted</value>
+  </data>
+  <data name="ProfilePage_Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="ProfilePage_ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="ProfilePage_Records" xml:space="preserve">
+    <value>Records</value>
+  </data>
+  <data name="ProfilePage_BestTime" xml:space="preserve">
+    <value>Best Time: </value>
+  </data>
+  <data name="ProfilePage_Seconds" xml:space="preserve">
+    <value> sec.</value>
+  </data>
+  <data name="ProfilePage_LeastTries" xml:space="preserve">
+    <value>Least Tries: </value>
+  </data>
+  <data name="ProfilePage_ReportPlayer" xml:space="preserve">
+    <value>Report a player</value>
+  </data>
+  <data name="UI_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="UpdateProfilePage_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="CreateRoomPage_Title" xml:space="preserve">
+    <value>Create a Room</value>
+  </data>
+  <data name="CreateRoomPage_Name" xml:space="preserve">
+    <value>Room Name</value>
+  </data>
+  <data name="CreateRoomPage_Mode" xml:space="preserve">
+    <value>Game mode</value>
+  </data>
+  <data name="Gamemode_TimeTrial" xml:space="preserve">
+    <value>Time Trial</value>
+  </data>
+  <data name="Gamemode_Tries" xml:space="preserve">
+    <value>Tries</value>
+  </data>
+  <data name="CreateRoomPage_Difficulty" xml:space="preserve">
+    <value>Difficulty</value>
+  </data>
+  <data name="GameDifficulty_Easy" xml:space="preserve">
+    <value>Easy</value>
+  </data>
+  <data name="GameDifficulty_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="GameDifficulty_Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="GameDifficulty_Enigma" xml:space="preserve">
+    <value>Enigma</value>
+  </data>
+  <data name="CreateRoomPage_Privacy" xml:space="preserve">
+    <value>Room Privacy</value>
+  </data>
+  <data name="RoomPrivacy_Private" xml:space="preserve">
+    <value>Private</value>
+  </data>
+  <data name="RoomPrivacy_Public" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="UI_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="RoomsPage_Title" xml:space="preserve">
+    <value>Deciphering Rooms</value>
+  </data>
+  <data name="RoomsPage_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="RoomsPage_Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="RoomsPage_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="RoomsPage_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
 </root>

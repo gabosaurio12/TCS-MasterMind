@@ -61,11 +61,74 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Dificultad.
+        /// </summary>
+        public static string CreateRoomPage_Difficulty {
+            get {
+                return ResourceManager.GetString("CreateRoomPage_Difficulty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Modo de juego.
+        /// </summary>
+        public static string CreateRoomPage_Mode {
+            get {
+                return ResourceManager.GetString("CreateRoomPage_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Nombre de la Sala.
+        /// </summary>
+        public static string CreateRoomPage_Name {
+            get {
+                return ResourceManager.GetString("CreateRoomPage_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Privacidad de Sala.
+        /// </summary>
+        public static string CreateRoomPage_Privacy {
+            get {
+                return ResourceManager.GetString("CreateRoomPage_Privacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Crear una Sala.
+        /// </summary>
+        public static string CreateRoomPage_Title {
+            get {
+                return ResourceManager.GetString("CreateRoomPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La dirección de correo electrónico ingresada ya está en uso, prueba una distinta por favor.
         /// </summary>
         public static string ErrorNotification_EmailTaken {
             get {
                 return ResourceManager.GetString("ErrorNotification_EmailTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hubo un error al enviar la solicitud de amistad. Intenta de nuevo más tarde.
+        /// </summary>
+        public static string ErrorNotification_ErrorSendingFriendRequest {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorSendingFriendRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La solicitud de amistad enviada a este jugador está en espera de ser aceptada.
+        /// </summary>
+        public static string ErrorNotification_FriendRequestPending {
+            get {
+                return ResourceManager.GetString("ErrorNotification_FriendRequestPending", resourceCulture);
             }
         }
         
@@ -138,6 +201,114 @@ namespace MasterMind_Client.Properties {
         public static string ErrorNotification_WrongCredentials {
             get {
                 return ResourceManager.GetString("ErrorNotification_WrongCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Agregar un nuevo amigo.
+        /// </summary>
+        public static string FriendRequestsModal_AddFriendText {
+            get {
+                return ResourceManager.GetString("FriendRequestsModal_AddFriendText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Solicitudes de amistad.
+        /// </summary>
+        public static string FriendRequestsModal_Title {
+            get {
+                return ResourceManager.GetString("FriendRequestsModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Amigos.
+        /// </summary>
+        public static string FriendsModal_Title {
+            get {
+                return ResourceManager.GetString("FriendsModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fácil.
+        /// </summary>
+        public static string GameDifficulty_Easy {
+            get {
+                return ResourceManager.GetString("GameDifficulty_Easy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enigma.
+        /// </summary>
+        public static string GameDifficulty_Enigma {
+            get {
+                return ResourceManager.GetString("GameDifficulty_Enigma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Difícil.
+        /// </summary>
+        public static string GameDifficulty_Hard {
+            get {
+                return ResourceManager.GetString("GameDifficulty_Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Normal.
+        /// </summary>
+        public static string GameDifficulty_Normal {
+            get {
+                return ResourceManager.GetString("GameDifficulty_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Contrarreloj.
+        /// </summary>
+        public static string Gamemode_TimeTrial {
+            get {
+                return ResourceManager.GetString("Gamemode_TimeTrial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Intentos.
+        /// </summary>
+        public static string Gamemode_Tries {
+            get {
+                return ResourceManager.GetString("Gamemode_Tries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fin del Juego.
+        /// </summary>
+        public static string GameOverModal_GameOver {
+            get {
+                return ResourceManager.GetString("GameOverModal_GameOver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Se acabó el Tiempo!.
+        /// </summary>
+        public static string GameOverTimeTrialModal_Title {
+            get {
+                return ResourceManager.GetString("GameOverTimeTrialModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Te quedaste sin intentos!.
+        /// </summary>
+        public static string GameOverTriesModal_Title {
+            get {
+                return ResourceManager.GetString("GameOverTriesModal_Title", resourceCulture);
             }
         }
         
@@ -223,6 +394,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Escribe tu nueva contraseña.
+        /// </summary>
+        public static string NewPasswordModal_Title {
+            get {
+                return ResourceManager.GetString("NewPasswordModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Si ves este mensaje, algo salió mal. Contacta a soporte técnico..
         /// </summary>
         public static string NotificationModal_DefaultMessage {
@@ -255,6 +435,159 @@ namespace MasterMind_Client.Properties {
         public static string Player_Username {
             get {
                 return ResourceManager.GetString("Player_Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Escapar.
+        /// </summary>
+        public static string PrivateRoomCodeModal_Escape {
+            get {
+                return ResourceManager.GetString("PrivateRoomCodeModal_Escape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Unirse.
+        /// </summary>
+        public static string PrivateRoomCodeModal_Join {
+            get {
+                return ResourceManager.GetString("PrivateRoomCodeModal_Join", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Escribe el Código de la Sala.
+        /// </summary>
+        public static string PrivateRoomCodeModal_Title {
+            get {
+                return ResourceManager.GetString("PrivateRoomCodeModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Mejor Tiempo: .
+        /// </summary>
+        public static string ProfilePage_BestTime {
+            get {
+                return ResourceManager.GetString("ProfilePage_BestTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cambiar Contraseña.
+        /// </summary>
+        public static string ProfilePage_ChangePassword {
+            get {
+                return ResourceManager.GetString("ProfilePage_ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Menos Intentos: .
+        /// </summary>
+        public static string ProfilePage_LeastTries {
+            get {
+                return ResourceManager.GetString("ProfilePage_LeastTries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Records.
+        /// </summary>
+        public static string ProfilePage_Records {
+            get {
+                return ResourceManager.GetString("ProfilePage_Records", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Reportar a un jugador.
+        /// </summary>
+        public static string ProfilePage_ReportPlayer {
+            get {
+                return ResourceManager.GetString("ProfilePage_ReportPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a  seg..
+        /// </summary>
+        public static string ProfilePage_Seconds {
+            get {
+                return ResourceManager.GetString("ProfilePage_Seconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actualizar.
+        /// </summary>
+        public static string ProfilePage_Update {
+            get {
+                return ResourceManager.GetString("ProfilePage_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Privada.
+        /// </summary>
+        public static string RoomPrivacy_Private {
+            get {
+                return ResourceManager.GetString("RoomPrivacy_Private", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pública.
+        /// </summary>
+        public static string RoomPrivacy_Public {
+            get {
+                return ResourceManager.GetString("RoomPrivacy_Public", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Código.
+        /// </summary>
+        public static string RoomsPage_Code {
+            get {
+                return ResourceManager.GetString("RoomsPage_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Crear.
+        /// </summary>
+        public static string RoomsPage_Create {
+            get {
+                return ResourceManager.GetString("RoomsPage_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Unirse.
+        /// </summary>
+        public static string RoomsPage_Join {
+            get {
+                return ResourceManager.GetString("RoomsPage_Join", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actualizar.
+        /// </summary>
+        public static string RoomsPage_Refresh {
+            get {
+                return ResourceManager.GetString("RoomsPage_Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Salas de deciframiento.
+        /// </summary>
+        public static string RoomsPage_Title {
+            get {
+                return ResourceManager.GetString("RoomsPage_Title", resourceCulture);
             }
         }
         
@@ -295,6 +628,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¡La solicitud de amistad fue enviada con éxito!.
+        /// </summary>
+        public static string SuccessNotification_FriendRequestSent {
+            get {
+                return ResourceManager.GetString("SuccessNotification_FriendRequestSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¡Tu cuenta fue registrada con éxito! Se envió un código de verificación a tu correo.
         /// </summary>
         public static string SuccessNotification_Register {
@@ -322,6 +664,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Regresar.
+        /// </summary>
+        public static string UI_Back {
+            get {
+                return ResourceManager.GetString("UI_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Cancelar.
         /// </summary>
         public static string UI_Cancel {
@@ -331,11 +682,38 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Cerrar.
+        /// </summary>
+        public static string UI_Close {
+            get {
+                return ResourceManager.GetString("UI_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Continuar.
         /// </summary>
         public static string UI_Continue {
             get {
                 return ResourceManager.GetString("UI_Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Crear.
+        /// </summary>
+        public static string UI_Create {
+            get {
+                return ResourceManager.GetString("UI_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar.
+        /// </summary>
+        public static string UpdateProfilePage_Save {
+            get {
+                return ResourceManager.GetString("UpdateProfilePage_Save", resourceCulture);
             }
         }
         
@@ -354,6 +732,24 @@ namespace MasterMind_Client.Properties {
         public static string VerificationCodeModal_Title {
             get {
                 return ResourceManager.GetString("VerificationCodeModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡Ganaste!.
+        /// </summary>
+        public static string YouWonModal_Title {
+            get {
+                return ResourceManager.GetString("YouWonModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El Código Secreto era:.
+        /// </summary>
+        public static string YouWonTriesModal_SecretCode {
+            get {
+                return ResourceManager.GetString("YouWonTriesModal_SecretCode", resourceCulture);
             }
         }
     }
