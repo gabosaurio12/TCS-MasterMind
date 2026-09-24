@@ -1,4 +1,5 @@
 ﻿using MasterMind_Client.Assets;
+using MasterMind_Client.Data;
 using MasterMind_Client.Modals;
 using MasterMind_Client.TempData;
 using System;
@@ -19,18 +20,18 @@ namespace MasterMind_Client.Pages
             InitializeComponent();
         }
 
-        private TempPlayer GetFormsData()
+        private Player GetFormsData()
         {
-            return new TempPlayer
+            return new Player
             {
-                Username = UsernameTxt.Text,
-                Password = PasswordTxt.Password
+                username = UsernameTxt.Text,
+                password = PasswordTxt.Password
             };
         }
 
-        private bool ValidateFormsData(TempPlayer player)
+        private bool ValidateFormsData(Player player)
         {
-            if (string.IsNullOrWhiteSpace(player.Username) || string.IsNullOrWhiteSpace(player.Password))
+            if (string.IsNullOrWhiteSpace(player.username) || string.IsNullOrWhiteSpace(player.password))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
                 return false;
@@ -48,7 +49,7 @@ namespace MasterMind_Client.Pages
             var player = GetFormsData();
             if (ValidateFormsData(player))
             {
-                new VerificationCodeModal(player.Username, NavigationService).Show();
+                new VerificationCodeModal(player.username, NavigationService).Show();
             }
         }
 

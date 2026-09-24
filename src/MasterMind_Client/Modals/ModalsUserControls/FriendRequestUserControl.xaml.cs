@@ -1,4 +1,5 @@
 ﻿using MasterMind_Client.Assets;
+using MasterMind_Client.Data;
 using MasterMind_Client.TempData;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,8 @@ namespace MasterMind_Client.Modals.ModalsUserControls
     /// </summary>
     public partial class FriendRequestUserControl : UserControl
     {
-        public event EventHandler<TempFriendship> Accepted;
-        public event EventHandler<TempFriendship> Rejected;
+        public event EventHandler<Friendship> Accepted;
+        public event EventHandler<Friendship> Rejected;
 
         public FriendRequestUserControl()
         {
@@ -42,13 +43,13 @@ namespace MasterMind_Client.Modals.ModalsUserControls
 
         private void AcceptFriendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            var request = (TempFriendship)DataContext;
+            var request = (Friendship)DataContext;
             Accepted?.Invoke(this, request);
         }
 
         private void RejectFriendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            var request = (TempFriendship)DataContext;
+            var request = (Friendship)DataContext;
             Rejected?.Invoke(this, request);
         }
     }

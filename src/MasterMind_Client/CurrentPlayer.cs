@@ -1,4 +1,4 @@
-﻿using MasterMind_Client.TempData;
+﻿using MasterMind_Client.Data;
 using System.Windows.Media;
 
 namespace MasterMind_Client
@@ -27,12 +27,11 @@ namespace MasterMind_Client
         {
         }
 
-        public void SetCurrentPlayer(TempPlayer player)
+        public void SetCurrentPlayer(Player player)
         {
-            Id = player.Id;
-            Username = player.Username;
-            Email = player.Email;
-            Avatar = player.Avatar;
+            Id = player.player_id;
+            Username = player.username;
+            Email = player.email;
         }
     }
 }

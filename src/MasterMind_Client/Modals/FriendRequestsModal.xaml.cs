@@ -1,4 +1,5 @@
-﻿using MasterMind_Client.Modals.ModalsUserControls;
+﻿using MasterMind_Client.Data;
+using MasterMind_Client.Modals.ModalsUserControls;
 using MasterMind_Client.TempData;
 using MasterMind_Client.TempData.Enum;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace MasterMind_Client.Modals
     /// </summary>
     public partial class FriendRequestsModal : Window
     {
+        private readonly static MasterMindEntities Context = new MasterMindEntities();
+
 
         public FriendRequestsModal()
         {
@@ -26,12 +29,9 @@ namespace MasterMind_Client.Modals
             {
                 var requestControl = new FriendRequestUserControl
                 {
-                    DataContext = FriendshipService.GetFriendRequest(requester.Id, CurrentPlayer.Instance.Id)
+                    DataContext = FriendshipService.GetFriendRequest(requester.player_id, CurrentPlayer.Instance.Id)
                 };
-                requestControl.UsernameTxt.Text = requester.Username;
-
-                if (requester.IsOnline)
-                    requestControl.SetOnlineVisibility();
+                requestControl.UsernameTxt.Text = requester.username;
 
                 requestControl.Accepted += RequestControl_Accepted;
                 requestControl.Rejected += RequestControl_Rejected;
@@ -40,15 +40,15 @@ namespace MasterMind_Client.Modals
             }
         }
 
-        private void RequestControl_Accepted(object sender, TempFriendship request)
+        private void RequestControl_Accepted(object sender, Friendship request)
         {
-            FriendshipService.AcceptFriendRequest(request.Id);
+            FriendshipService.AcceptFriendRequest(request.friendship_id);
             FriendRequestsStack.Children.Remove((UIElement)sender);
         }
 
-        private void RequestControl_Rejected(object sender, TempFriendship request)
+        private void RequestControl_Rejected(object sender, Friendship request)
         {
-            FriendshipService.RejectFriendRequest(request.Id);
+            FriendshipService.RejectFriendRequest(request.friendship_id);
             FriendRequestsStack.Children.Remove((UIElement)sender);
         }
 
@@ -81,7 +81,7 @@ namespace MasterMind_Client.Modals
         private void SendFriendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
             var username = AddreseeUsernameTxt.Text.Trim();
-            int addreseeId = TempAuthService.Players.FirstOrDefault(p => p.Username == username).Id;
+            int addreseeId = Context.Player.FirstOrDefault(p => p.username == username).player_id;
             var result = FriendshipService.SendFrienshipRequest(addreseeId, CurrentPlayer.Instance.Id);
 
             switch(result)

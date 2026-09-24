@@ -1,34 +1,98 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using log4net;
+using MasterMind_Client.Data;
+using MasterMind_Client.TempData.DTO;
+using MasterMind_Client.TempData.Enum;
+using System.Data.Entity.Core;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MasterMind_Client.TempData
 {
     public static class TempPlayerService
     {
-        private readonly static List<TempPlayer> reportedPlayers = new List<TempPlayer>();
+        private readonly static MasterMindEntities Context = new MasterMindEntities();
 
-        public static void UpdatePlayer(TempPlayer updatedPlayer)
+        private readonly static ILog logger = LogManager.GetLogger(typeof(TempPlayerService));
+        private readonly static int InappropriateLanguageId = Context.ReportReasonCatalog.FirstOrDefault(
+            r => r.reason == ReportReasonEnum.InappropriateLanguage.ToString()).report_reason_id;
+        private readonly static int CheatingId = Context.ReportReasonCatalog.FirstOrDefault(
+            r => r.reason == ReportReasonEnum.Cheating.ToString()).report_reason_id;
+
+        public static void UpdatePlayer(Player updatedPlayer)
         {
-            var player = TempAuthService.Players.FirstOrDefault(p => p.Id == updatedPlayer.Id);
-
-            if (player != null)
+            try
             {
-                player.Username = updatedPlayer.Username;
-                player.Email = updatedPlayer.Email;
-            }
+                var player = Context.Player.FirstOrDefault(p => p.player_id == updatedPlayer.player_id);
 
-            CurrentPlayer.Instance.SetCurrentPlayer(TempAuthService.Players.FirstOrDefault(p => p.Id == updatedPlayer.Id));
+                if (player != null)
+                {
+                    player.username = updatedPlayer.username;
+                    player.email = updatedPlayer.email;
+
+                    Context.SaveChanges();
+
+                    CurrentPlayer.Instance.SetCurrentPlayer(Context.Player.FirstOrDefault(
+                        p => p.player_id == updatedPlayer.player_id));
+                }
+
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+            
         }
 
-        public static void ReportPlayer(string username)
+        public static Player GetPlayerByUsername(string username)
         {
-            var player = TempAuthService.Players.FirstOrDefault(p => p.Username == username);
-            if (player != null)
+            try
             {
-                reportedPlayers.Add(player);
+                var player = Context.Player.FirstOrDefault(p => p.username == username);
+                if (player != null)
+                {
+                    return player;
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+            
+            return null;
+        }
+
+        public static void ReportPlayer(PlayerReportDto report)
+        {
+            try
+            {
+                var reportedPlayer = GetPlayerByUsername(report.ReportedPlayerUsername);
+                if (reportedPlayer != null)
+                {
+                    var reportedByPlayer = GetPlayerByUsername(report.ReportedByPlayerUsername);
+                    if (reportedByPlayer != null)
+                    {
+                        int reasonId;
+                        if (report.Reason == ReportReasonEnum.InappropriateLanguage)
+                        {
+                            reasonId = InappropriateLanguageId;
+                        }
+                        else
+                        {
+                            reasonId = CheatingId;
+                        }
+                        Context.PlayerReport.Add(new PlayerReport
+                        {
+                            reported_player_id = reportedPlayer.player_id,
+                            reported_by_player_id = reportedByPlayer.player_id,
+                            reason_id = reasonId
+                        });
+
+                        Context.SaveChanges();
+                    }
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
             }
         }
     }

@@ -1,53 +1,75 @@
-﻿using MasterMind_Client.TempData.Enum;
+﻿using log4net;
+using MasterMind_Client.Data;
+using MasterMind_Client.TempData.Enum;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.Linq;
 
 namespace MasterMind_Client.TempData
 {
     public static class FriendshipService
     {
-        public static List<TempFriendship> Friendships { get; set; } = new List<TempFriendship>();
-        private static int friendshipsId = 0;
+        private readonly static MasterMindEntities Context = new MasterMindEntities();
+
+        private readonly static ILog logger = LogManager.GetLogger(typeof(FriendshipService));
+        private readonly static int PendantStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Pendant.ToString()).request_status_id;
+        private readonly static int AcceptedStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Accepted.ToString()).request_status_id;
 
         public static RequestResult SendFrienshipRequest(int requesterId, int addresseeId)
         {
-            var request = Friendships.FirstOrDefault(
-                r => r.RequesterId == requesterId &&
-                r.AddreseeId == addresseeId &&
-                r.Status == Enum.RequestStatusEnum.Pendant);
-
-            if (request == null)
+            try
             {
-                Friendships.Add(
-                    new TempFriendship
-                    {
-                        Id = ++friendshipsId,
-                        RequesterId = requesterId,
-                        AddreseeId = addresseeId,
-                        Status = RequestStatusEnum.Pendant
-                    });
+                var request = Context.Friendship.FirstOrDefault(
+                    r => r.requester_id == requesterId &&
+                    r.addressee_id == addresseeId &&
+                    r.status_id == PendantStatusId);
 
-                return RequestResult.Success;
+                if (request == null)
+                {
+                    Context.Friendship.Add(
+                        new Friendship
+                        {
+                            requester_id = requesterId,
+                            addressee_id = addresseeId,
+                            status_id = PendantStatusId
+                        });
+
+                    Context.SaveChanges();
+
+                    return RequestResult.Success;
+                }
+                else
+                {
+                    if (request.status_id == PendantStatusId)
+                        return RequestResult.RequestIsPendant;
+                }
             }
-            else
+            catch (EntityException ex)
             {
-                if (request.Status == RequestStatusEnum.Pendant)
-                    return RequestResult.RequestIsPendant;
+                logger.Error(ex);
             }
-
+            
             return RequestResult.Error;
         }
 
         public static RequestResult AcceptFriendRequest(int requestId)
         {
-            var request = Friendships.FirstOrDefault(
-                r => r.Id == requestId &&
-                r.Status == RequestStatusEnum.Pendant);
-
-            if (request != null)
+            try
             {
-                request.Status = RequestStatusEnum.Accepted;
-                return RequestResult.Success;
+                var request = Context.Friendship.FirstOrDefault(
+                r => r.friendship_id == requestId &&
+                r.status_id == PendantStatusId);
+
+                if (request != null)
+                {
+                    request.status_id = AcceptedStatusId;
+                    Context.SaveChanges();
+                    return RequestResult.Success;
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
             }
 
             return RequestResult.Error;
@@ -55,100 +77,142 @@ namespace MasterMind_Client.TempData
 
         public static RequestResult RejectFriendRequest(int requestId)
         {
-            var request = Friendships.FirstOrDefault(
-                r => r.Id == requestId &&
-                r.Status == RequestStatusEnum.Pendant);
-
-            if (request != null)
+            try
             {
-                Friendships.Remove(request);
-                return RequestResult.Success;
-            }
+                var request = Context.Friendship.FirstOrDefault(
+                r => r.friendship_id == requestId &&
+                r.status_id == PendantStatusId);
 
+                if (request != null)
+                {
+                    Context.Friendship.Remove(request);
+                    Context.SaveChanges();
+                    return RequestResult.Success;
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+            
             return RequestResult.Error;
         }
 
-        public static List<TempPlayer> GetFriendRequests(int playerId)
+        public static List<Player> GetFriendRequests(int playerId)
         {
-            var friendships = Friendships.Where(f => f.AddreseeId == playerId &&
-                f.Status == RequestStatusEnum.Pendant).ToList();
-
-            List<int> friendsIds = new List<int>();
-
-            foreach (var i in friendships)
+            try
             {
-                friendsIds.Add(i.AddreseeId != playerId ? i.AddreseeId : i.RequesterId);
-            }
+                var friendships = Context.Friendship.Where(f => f.addressee_id == playerId &&
+                f.status_id == PendantStatusId).ToList();
 
-            List<TempPlayer> friends = new List<TempPlayer>();
+                List<int> friendsIds = new List<int>();
 
-            foreach (var i in friendsIds)
-            {
-                var friend = TempAuthService.Players.FirstOrDefault(p => p.Id == i);
-                if (friend != null)
+                foreach (var i in friendships)
                 {
-                    friends.Add(friend);
+                    friendsIds.Add(i.addressee_id != playerId ? i.addressee_id : i.requester_id);
                 }
+
+                List<Player> friends = new List<Player>();
+
+                foreach (var i in friendsIds)
+                {
+                    var friend = Context.Player.FirstOrDefault(p => p.player_id == i);
+                    if (friend != null)
+                    {
+                        friends.Add(friend);
+                    }
+                }
+
+                return friends;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
             }
 
-            return friends;
+            return new List<Player>();
+            
         }
 
-        public static List<TempPlayer> GetFrienships(int playerId)
+        public static List<Player> GetFrienships(int playerId)
         {
-            var friendships = Friendships.Where(f => (
-                f.RequesterId == playerId ||
-                f.AddreseeId == playerId) &&
-                f.Status == RequestStatusEnum.Accepted).ToList();
-
-            List<int> friendsIds = new List<int>();
-
-            foreach (var i in friendships)
+            try
             {
-                friendsIds.Add(i.AddreseeId != playerId ? i.AddreseeId : i.RequesterId);
-            }
+                var friendships = Context.Friendship.Where(f => (
+                f.requester_id == playerId ||
+                f.addressee_id == playerId) &&
+                f.status_id == AcceptedStatusId).ToList();
 
-            List<TempPlayer> friends = new List<TempPlayer>();
+                List<int> friendsIds = new List<int>();
 
-            foreach (var i in friendsIds)
-            {
-                var friend = TempAuthService.Players.FirstOrDefault(p => p.Id == i);
-                if (friend != null)
+                foreach (var i in friendships)
                 {
-                    friends.Add(friend);
+                    friendsIds.Add(i.addressee_id != playerId ? i.addressee_id : i.requester_id);
                 }
+
+                List<Player> friends = new List<Player>();
+
+                foreach (var i in friendsIds)
+                {
+                    var friend = Context.Player.FirstOrDefault(p => p.player_id == i);
+                    if (friend != null)
+                    {
+                        friends.Add(friend);
+                    }
+                }
+
+                return friends;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
             }
 
-            return friends;
+            return new List<Player>();            
         }
 
-        public static TempFriendship GetFriendRequest(int requesterId, int addresseeId)
+        public static Friendship GetFriendRequest(int requesterId, int addresseeId)
         {
-            var request = Friendships.FirstOrDefault(
-                r => r.RequesterId == requesterId &&
-                r.AddreseeId == addresseeId &&
-                r.Status == RequestStatusEnum.Pendant);
-
-            if (request != null)
+            try
             {
-                return request;
+                var request = Context.Friendship.FirstOrDefault(
+                r => r.requester_id == requesterId &&
+                r.addressee_id == addresseeId &&
+                r.status_id == PendantStatusId);
+
+                if (request != null)
+                {
+                    return request;
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
             }
 
             return null;
+            
         }
 
-        public static TempFriendship GetFriendship(int requesterId, int addresseeId)
+        public static Friendship GetFriendship(int requesterId, int addresseeId)
         {
-            var request = Friendships.FirstOrDefault(
-                r => r.RequesterId == requesterId &&
-                r.AddreseeId == addresseeId &&
-                r.Status == RequestStatusEnum.Accepted);
-
-            if (request != null)
+            try
             {
-                return request;
-            }
+                var request = Context.Friendship.FirstOrDefault(
+                                r => r.requester_id == requesterId &&
+                                r.addressee_id == addresseeId &&
+                                r.status_id == AcceptedStatusId);
 
+                if (request != null)
+                {
+                    return request;
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+            
             return null;
         }
     }

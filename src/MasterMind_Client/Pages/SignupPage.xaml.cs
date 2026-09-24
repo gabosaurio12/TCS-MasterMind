@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using MasterMind_Client.TempData.Enum;
 using System.Windows.Media;
+using MasterMind_Client.Data;
 
 namespace MasterMind_Client.Pages
 {
@@ -16,22 +17,22 @@ namespace MasterMind_Client.Pages
     /// </summary>
     public partial class SignupPage : Page
     {
-        private readonly Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
+        private readonly Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         private readonly Regex emailRegex = new Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
         public SignupPage()
         {
             InitializeComponent();
         }
 
-        private TempPlayer GetFormsData()
+        private Player GetFormsData()
         {
-            return new TempPlayer
+            return new Player
             {
-                Username = UsernameTxt.Text,
-                Password = PasswordTxt.Password,
-                Email = EmailTxt.Text
+                username = UsernameTxt.Text,
+                password = PasswordTxt.Password,
+                email = EmailTxt.Text
             };
         }
 
@@ -92,12 +93,12 @@ namespace MasterMind_Client.Pages
             if (ValidateFormsData())
             {
                 var player = GetFormsData();
-                var result = TempData.TempAuthService.RegisterPlayer(player);
+                var result = TempAuthService.RegisterPlayer(player);
                 switch (result)
                 {
                     case RegistrationResult.Success:
                         new SuccessNotificationModal(Properties.Resources.SuccessNotification_Register).Show();
-                        new VerificationCodeModal(player.Username, NavigationService).Show();
+                        new VerificationCodeModal(player.username, NavigationService).Show();
                         break;
                     case RegistrationResult.UsernameTaken:
                         new ErrorNotificationModal(Properties.Resources.ErrorNotification_UsernameTaken).Show();

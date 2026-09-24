@@ -1,12 +1,7 @@
 ﻿using MasterMind_Client.TempData.Enum;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using MasterMind_Client.Data;
+using System.Security.Cryptography;
 
 namespace MasterMind_Client.TempData
 {
@@ -14,10 +9,13 @@ namespace MasterMind_Client.TempData
     {
 
         private readonly static MasterMindEntities Context = new MasterMindEntities();
-        public static bool AuthPlayer(TempPlayer player)
+        const string Digits = "0123456789";
+
+
+        public static bool AuthPlayer(Player player)
         {
 
-            var authPlayer = Context.Player.FirstOrDefault(p => p.username == player.Username && p.password == player.Password);
+            var authPlayer = Context.Player.FirstOrDefault(p => p.username == player.username && p.password == player.password);
 
             if (authPlayer == null)
             {
@@ -49,19 +47,18 @@ namespace MasterMind_Client.TempData
             return RegistrationResult.Success;
         }
 
-        public static RegistrationResult MockRegisterPlayer(TempPlayer player)
+        public static RegistrationResult MockRegisterPlayer(Player player)
         {
-            if (Players.Any(p => p.Username == player.Username))
+            if (Context.Player.Any(p => p.username == player.username))
             {
                 return RegistrationResult.UsernameTaken;
             }
-            if (Players.Any(p => p.Email == player.Email))
+            if (Context.Player.Any(p => p.email == player.email))
             {
                 return RegistrationResult.EmailTaken;
             }
 
-            player.Id = ++playersId;
-            Players.Add(player);
+            Context.Player.Add(player);
 
             return RegistrationResult.Success;
         }
@@ -90,28 +87,40 @@ namespace MasterMind_Client.TempData
             }
         }
 
-        private static bool CreateVerificationCode(int playerId)
+        private static string GenerateVerificationCode()
         {
-            string code = "";
-            for (int i = 0; i < 5; i++)
+            int length = 5;
+            var bytes = new byte[length];
+            using (var rng = RandomNumberGenerator.Create())
             {
-                code += Rand.Next(0,10).ToString();
+                rng.GetBytes(bytes);
             }
 
-            if (VerificationCodes.FirstOrDefault(vc => vc.Code.Equals(code)) == null)
+            var charCode = new char[length];
+            for (int i = 0; i < length; i++)
             {
-                var currentCode = VerificationCodes.FirstOrDefault(vc => vc.PlayerId == playerId);
-                VerificationCodes.Remove(currentCode);
-                VerificationCodes.Add(
-                    new TempVerificationCode
+                charCode[i] = Digits[bytes[i] % Digits.Length];
+            }
+
+            return new string(charCode);
+        }
+
+        private static bool CreateVerificationCode(int playerId)
+        {
+
+
+            string code = GenerateVerificationCode();
+
+            if (Context.VerificationCode.FirstOrDefault(vc => vc.verification_code.Equals(code)) == null)
+            {
+                var currentCode = Context.VerificationCode.FirstOrDefault(vc => vc.player_id == playerId);
+                Context.VerificationCode.Remove(currentCode);
+                Context.VerificationCode.Add(
+                    new VerificationCode
                     {
-                        Id = ++codesId,
-                        Code = code,
-                        PlayerId = playerId
+                        verification_code = code,
+                        player_id = playerId
                     });
-
-
-                MessageBox.Show("Código actual: " + code);
 
                 return true;
             }

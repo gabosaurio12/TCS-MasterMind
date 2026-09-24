@@ -52,6 +52,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +77,93 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CurrentPlayer.cs" />
+    <Compile Include="Data\ClueColorsCatalog.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CodeColorsCatalog.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CorrectPositionAndColors.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CorrectPositionAndColorsClue.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DecipherTry.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DecipherTryCode.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Friendship.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\GameInvitation.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\GameModesCatalog.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MasterMindModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MasterMindModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MasterMindModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MasterMindModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MasterMindModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MatchResults.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MatchRoom.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MatchRoomSecretCode.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Player.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PlayerInMatch.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PlayerReport.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PlayerTimeTrialRecords.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\PlayerTriesRecords.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReportReasonCatalog.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\RequestStatusCatalog.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\RoundsTimeResults.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\RoundsTriesResults.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TimeTrialConfig.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TriesConfig.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VerificationCode.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Modals\FriendRequestsModal.xaml.cs">
       <DependentUpon>FriendRequestsModal.xaml</DependentUpon>
     </Compile>
@@ -102,12 +191,12 @@
     <Compile Include="Pages\UpdateProfilePage.xaml.cs">
       <DependentUpon>UpdateProfilePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TempData\DTO\PlayerReportDto.cs" />
+    <Compile Include="TempData\Enum\ReportReasonEnum.cs" />
     <Compile Include="TempData\Enum\RequestResult.cs" />
     <Compile Include="TempData\Enum\RequestStatusEnum.cs" />
     <Compile Include="TempData\FriendshipService.cs" />
-    <Compile Include="TempData\TempFriendship.cs" />
     <Compile Include="TempData\TempPlayerService.cs" />
-    <Compile Include="TempData\TempVerificationCode.cs" />
     <Page Include="Assets\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,7 +288,6 @@
       <DependentUpon>SignupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TempData\Enum\RegistrationResult.cs" />
-    <Compile Include="TempData\TempPlayer.cs" />
     <Compile Include="TempData\TempAuthService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -237,6 +325,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Assets\Fonts\Aladin-Regular.ttf" />
+    <EntityDeploy Include="Data\MasterMindModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MasterMindModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data\MasterMindModel.edmx.diagram">
+      <DependentUpon>MasterMindModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -262,8 +357,21 @@
   <ItemGroup>
     <Resource Include="Images\Avatars\Link.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Data\" />
+    <Content Include="Data\MasterMindModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MasterMindModel.edmx</DependentUpon>
+      <LastGenOutput>MasterMindModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\MasterMindModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MasterMindModel.edmx</DependentUpon>
+      <LastGenOutput>MasterMindModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

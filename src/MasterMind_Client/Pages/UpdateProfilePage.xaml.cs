@@ -1,4 +1,5 @@
-﻿using MasterMind_Client.TempData;
+﻿using MasterMind_Client.Data;
+using MasterMind_Client.TempData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,12 +41,11 @@ namespace MasterMind_Client.Pages
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            var player = new TempPlayer
+            var player = new Player
             {
-                Id = CurrentPlayer.Instance.Id,
-                Username = PlayerUsernameTxt.Text,
-                Email = PlayerEmailTxt.Text,
-                Avatar = CurrentPlayer.Instance.Avatar,
+                player_id = CurrentPlayer.Instance.Id,
+                username = PlayerUsernameTxt.Text,
+                email = PlayerEmailTxt.Text,
             };
 
             TempPlayerService.UpdatePlayer(player);
