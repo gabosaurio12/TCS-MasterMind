@@ -9,7 +9,7 @@ namespace MasterMind_Client.TempData
 {
     public static class TempPlayerService
     {
-        private readonly static MasterMindEntities Context = new MasterMindEntities();
+        private readonly static MasterMindEntities Context = new MasterMindEntities(true);
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(TempPlayerService));
         private readonly static int InappropriateLanguageId = Context.ReportReasonCatalog.FirstOrDefault(

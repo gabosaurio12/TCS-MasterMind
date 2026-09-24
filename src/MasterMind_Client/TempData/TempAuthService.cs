@@ -8,7 +8,7 @@ namespace MasterMind_Client.TempData
     public static class TempAuthService
     {
 
-        private readonly static MasterMindEntities Context = new MasterMindEntities();
+        private readonly static MasterMindEntities Context = new MasterMindEntities(true);
         const string Digits = "0123456789";
 
 

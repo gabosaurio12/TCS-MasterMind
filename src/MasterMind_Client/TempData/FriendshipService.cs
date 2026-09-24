@@ -9,7 +9,7 @@ namespace MasterMind_Client.TempData
 {
     public static class FriendshipService
     {
-        private readonly static MasterMindEntities Context = new MasterMindEntities();
+        private readonly static MasterMindEntities Context = new MasterMindEntities(true);
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(FriendshipService));
         private readonly static int PendantStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Pendant.ToString()).request_status_id;
