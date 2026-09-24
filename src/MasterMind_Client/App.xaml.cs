@@ -74,7 +74,7 @@ namespace MasterMind_Client
             log.Info("Seeding finished");
         }
 
-        private CultureInfo DetermineStartupCulture()
+        private static CultureInfo DetermineStartupCulture()
         {
             var systemCulture = CultureInfo.CurrentUICulture;
 
