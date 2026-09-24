@@ -10,6 +10,7 @@ namespace MasterMind_Client.TempData.Enum
     {
         Success,
         UsernameTaken,
-        EmailTaken
+        EmailTaken,
+        Error
     }
 }

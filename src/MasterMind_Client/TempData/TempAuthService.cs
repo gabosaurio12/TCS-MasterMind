@@ -1,12 +1,18 @@
-﻿using MasterMind_Client.TempData.Enum;
-using System.Linq;
+﻿using log4net;
+using log4net.Core;
+using log4net.Repository.Hierarchy;
 using MasterMind_Client.Data;
+using MasterMind_Client.TempData.Enum;
+using System.Data.Entity.Core;
+using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography;
 
 namespace MasterMind_Client.TempData
 {
     public static class TempAuthService
     {
+        private readonly static ILog logger = LogManager.GetLogger(typeof(TempAuthService));
 
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);
         const string Digits = "0123456789";
@@ -15,67 +21,78 @@ namespace MasterMind_Client.TempData
         public static bool AuthPlayer(Player player)
         {
 
-            var authPlayer = Context.Player.FirstOrDefault(p => p.username == player.username && p.password == player.password);
-
-            if (authPlayer == null)
+            try
             {
-                return false;
+                var authPlayer = Context.Player.FirstOrDefault(p => p.username == player.username && p.password == player.password);
+
+                if (authPlayer == null)
+                {
+                    return false;
+                }
+
+                SendVerificationCode(authPlayer.player_id);
+
+                return true;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
             }
 
-            SendVerificationCode(authPlayer.player_id);
-
-            return true;
-            
+            return false;
         }
 
         public static RegistrationResult RegisterPlayer(Player player)
         {
-            if (Context.Player.Any(p => p.username == player.username))
+            try
             {
-                return RegistrationResult.UsernameTaken;
-            }
-            if (Context.Player.Any(p => p.email == player.email))
-            {
-                return RegistrationResult.EmailTaken;
-            }
+                if (Context.Player.Any(p => p.username == player.username))
+                {
+                    return RegistrationResult.UsernameTaken;
+                }
+                if (Context.Player.Any(p => p.email == player.email))
+                {
+                    return RegistrationResult.EmailTaken;
+                }
 
-            Context.Player.Add(player);
-            Context.SaveChanges();
+                Context.Player.Add(player);
+                Context.SaveChanges();
 
-            SendVerificationCode(player.player_id);
-            
-            return RegistrationResult.Success;
-        }
+                SendVerificationCode(player.player_id);
 
-        public static RegistrationResult MockRegisterPlayer(Player player)
-        {
-            if (Context.Player.Any(p => p.username == player.username))
-            {
-                return RegistrationResult.UsernameTaken;
+                return RegistrationResult.Success;
             }
-            if (Context.Player.Any(p => p.email == player.email))
+            catch (EntityException ex)
             {
-                return RegistrationResult.EmailTaken;
+                logger.Error(ex);
             }
 
-            Context.Player.Add(player);
-
-            return RegistrationResult.Success;
+            return RegistrationResult.Error;
         }
 
         public static (bool, Player) AuthVerificationCode(string username, string code)
         {
 
-            var player = Context.Player.FirstOrDefault(p => p.username == username);
-            if (player != null)
+            try
             {
-                var authCode = Context.VerificationCode.FirstOrDefault(vc => vc.verification_code == code && vc.player_id == player.player_id);
-                if (authCode != null)
+                var player = Context.Player.FirstOrDefault(p => p.username == username);
+                if (player != null)
                 {
-                    return (true, player);
+                    var authCode = Context.VerificationCode.FirstOrDefault(vc => vc.verification_code == code && vc.player_id == player.player_id);
+                    if (authCode != null)
+                    {
+                        Context.VerificationCode.Remove(authCode);
+                        Context.SaveChanges();
+                        return (true, player);
+                    }
+                    return (false, player);
                 }
             }
-            return (false, player);
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+            return (false, null);
         }
 
         private static void SendVerificationCode(int playerId)
@@ -111,18 +128,32 @@ namespace MasterMind_Client.TempData
 
             string code = GenerateVerificationCode();
 
-            if (Context.VerificationCode.FirstOrDefault(vc => vc.verification_code.Equals(code)) == null)
+            try
             {
-                var currentCode = Context.VerificationCode.FirstOrDefault(vc => vc.player_id == playerId);
-                Context.VerificationCode.Remove(currentCode);
-                Context.VerificationCode.Add(
-                    new VerificationCode
+                if (Context.VerificationCode.FirstOrDefault(vc => vc.verification_code.Equals(code)) == null)
+                {
+                    var currentCode = Context.VerificationCode.FirstOrDefault(vc => vc.player_id == playerId);
+                    if (currentCode != null)
                     {
-                        verification_code = code,
-                        player_id = playerId
-                    });
+                        Context.VerificationCode.Remove(currentCode);
+                        Context.SaveChanges();
+                    }
 
-                return true;
+                    Context.VerificationCode.Add(
+                        new VerificationCode
+                        {
+                            verification_code = code,
+                            player_id = playerId
+                        });
+
+                    Context.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
             }
 
             return false;

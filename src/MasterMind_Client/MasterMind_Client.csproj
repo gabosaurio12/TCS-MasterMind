@@ -257,6 +257,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MasterMindModel.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\MasterMindModel.Context.Custom.cs" />
     <Compile Include="Data\MasterMindModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -477,6 +478,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MasterMindModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include=".env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Data\MasterMindModel.edmx.diagram">
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
     </None>

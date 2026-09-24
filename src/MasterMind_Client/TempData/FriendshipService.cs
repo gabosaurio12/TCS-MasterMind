@@ -12,7 +12,7 @@ namespace MasterMind_Client.TempData
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(FriendshipService));
-        private readonly static int PendantStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Pendant.ToString()).request_status_id;
+        private readonly static int PendingStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Pending.ToString()).request_status_id;
         private readonly static int AcceptedStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Accepted.ToString()).request_status_id;
 
         public static RequestResult SendFrienshipRequest(int requesterId, int addresseeId)
@@ -22,7 +22,7 @@ namespace MasterMind_Client.TempData
                 var request = Context.Friendship.FirstOrDefault(
                     r => r.requester_id == requesterId &&
                     r.addressee_id == addresseeId &&
-                    r.status_id == PendantStatusId);
+                    r.status_id == PendingStatusId);
 
                 if (request == null)
                 {
@@ -31,7 +31,7 @@ namespace MasterMind_Client.TempData
                         {
                             requester_id = requesterId,
                             addressee_id = addresseeId,
-                            status_id = PendantStatusId
+                            status_id = PendingStatusId
                         });
 
                     Context.SaveChanges();
@@ -40,7 +40,7 @@ namespace MasterMind_Client.TempData
                 }
                 else
                 {
-                    if (request.status_id == PendantStatusId)
+                    if (request.status_id == PendingStatusId)
                         return RequestResult.RequestIsPendant;
                 }
             }
@@ -58,7 +58,7 @@ namespace MasterMind_Client.TempData
             {
                 var request = Context.Friendship.FirstOrDefault(
                 r => r.friendship_id == requestId &&
-                r.status_id == PendantStatusId);
+                r.status_id == PendingStatusId);
 
                 if (request != null)
                 {
@@ -81,7 +81,7 @@ namespace MasterMind_Client.TempData
             {
                 var request = Context.Friendship.FirstOrDefault(
                 r => r.friendship_id == requestId &&
-                r.status_id == PendantStatusId);
+                r.status_id == PendingStatusId);
 
                 if (request != null)
                 {
@@ -103,7 +103,7 @@ namespace MasterMind_Client.TempData
             try
             {
                 var friendships = Context.Friendship.Where(f => f.addressee_id == playerId &&
-                f.status_id == PendantStatusId).ToList();
+                f.status_id == PendingStatusId).ToList();
 
                 List<int> friendsIds = new List<int>();
 
@@ -178,7 +178,7 @@ namespace MasterMind_Client.TempData
                 var request = Context.Friendship.FirstOrDefault(
                 r => r.requester_id == requesterId &&
                 r.addressee_id == addresseeId &&
-                r.status_id == PendantStatusId);
+                r.status_id == PendingStatusId);
 
                 if (request != null)
                 {
