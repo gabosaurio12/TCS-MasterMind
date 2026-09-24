@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="59909e27899b41d885377538b8216a7b" Name="Diagram1">
+        <EntityTypeShape EntityType="MasterMindModel.ClueColorsCatalog" Width="1.5" PointX="5.25" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.CodeColorsCatalog" Width="1.5" PointX="6" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.CorrectPositionAndColors" Width="1.5" PointX="5.25" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.CorrectPositionAndColorsClue" Width="1.5" PointX="7.5" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.DecipherTry" Width="1.5" PointX="3" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.DecipherTryCode" Width="1.5" PointX="8.25" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.Friendship" Width="1.5" PointX="6" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.GameInvitation" Width="1.5" PointX="3" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.GameModesCatalog" Width="1.5" PointX="0.75" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.MatchResults" Width="1.5" PointX="8.25" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.MatchRoom" Width="1.5" PointX="3" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.MatchRoomSecretCode" Width="1.5" PointX="10.25" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.Player" Width="1.5" PointX="0.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.PlayerInMatch" Width="1.5" PointX="3" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.PlayerReport" Width="1.5" PointX="6" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.PlayerTimeTrialRecords" Width="1.5" PointX="3" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.PlayerTriesRecords" Width="1.5" PointX="3" PointY="41.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.ReportReasonCatalog" Width="1.5" PointX="3.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.RequestStatusCatalog" Width="1.5" PointX="0.75" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.RoundsTimeResults" Width="1.5" PointX="5.25" PointY="30.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.RoundsTriesResults" Width="1.5" PointX="5.25" PointY="33" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.TimeTrialConfig" Width="1.5" PointX="5.25" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.TriesConfig" Width="1.5" PointX="5.25" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasterMindModel.VerificationCode" Width="1.5" PointX="3" PointY="44.25" IsExpanded="true" />
+        <AssociationConnector Association="MasterMindModel.FK__CorrectPo__clue___282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__DecipherT__color__25518C17" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchRoom__color__2EDAF651" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__CorrectPo__corre__2739D489" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__CorrectPo__decip__2645B050" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__DecipherT__decip__245D67DE" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__DecipherT__match__22751F6C" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__DecipherT__playe__236943A5" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__Friendshi__addre__17F790F9" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__Friendshi__reque__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__Friendshi__statu__18EBB532" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__GameInvit__addre__1AD3FDA4" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__GameInvit__match__1BC821DD" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__GameInvit__reque__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__GameInvit__statu__1CBC4616" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchRoom__gamem__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchResu__match__30C33EC3" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchResu__playe__31B762FC" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchResu__playe__32AB8735" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchRoom__match__2DE6D218" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchRoom__playe__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__MatchRoom__playe__2B0A656D" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__TimeTrial__match__2BFE89A6" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__TriesConf__match__2CF2ADDF" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__PlayerInM__playe__2FCF1A8A" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__PlayerRep__repor__1DB06A4F" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__PlayerRep__repor__1EA48E88" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__PlayerTim__playe__208CD6FA" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__PlayerTri__playe__2180FB33" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__Verificat__playe__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__RoundsTim__playe__339FAB6E" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__RoundsTri__playe__3493CFA7" ManuallyRouted="false" />
+        <AssociationConnector Association="MasterMindModel.FK__PlayerRep__reaso__1F98B2C1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

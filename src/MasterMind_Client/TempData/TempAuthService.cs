@@ -6,46 +6,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MasterMind_Client.Data;
 
 namespace MasterMind_Client.TempData
 {
     public static class TempAuthService
     {
 
-        public static List<TempPlayer> Players { get; set; } = new List<TempPlayer>();
-        private static int playersId = 0;
-        public static List<TempVerificationCode> VerificationCodes { get; set; } = new List<TempVerificationCode>();
-        private static int codesId = 0;
-        private static readonly Random Rand = new Random();
-
+        private readonly static MasterMindEntities Context = new MasterMindEntities();
         public static bool AuthPlayer(TempPlayer player)
         {
-            var authPlayer = Players.FirstOrDefault(p => p.Username == player.Username && p.Password == player.Password);
+
+            var authPlayer = Context.Player.FirstOrDefault(p => p.username == player.Username && p.password == player.Password);
+
             if (authPlayer == null)
             {
                 return false;
             }
 
-            SendVerificationCode(authPlayer.Id);
+            SendVerificationCode(authPlayer.player_id);
 
             return true;
+            
         }
 
-        public static RegistrationResult RegisterPlayer(TempPlayer player)
+        public static RegistrationResult RegisterPlayer(Player player)
         {
-            if (Players.Any(p => p.Username == player.Username))
+            if (Context.Player.Any(p => p.username == player.username))
             {
                 return RegistrationResult.UsernameTaken;
             }
-            if (Players.Any(p => p.Email == player.Email))
+            if (Context.Player.Any(p => p.email == player.email))
             {
                 return RegistrationResult.EmailTaken;
             }
 
-            player.Id = ++playersId;
-            Players.Add(player);
+            Context.Player.Add(player);
+            Context.SaveChanges();
 
-            SendVerificationCode(player.Id);
+            SendVerificationCode(player.player_id);
             
             return RegistrationResult.Success;
         }
@@ -67,12 +66,13 @@ namespace MasterMind_Client.TempData
             return RegistrationResult.Success;
         }
 
-        public static (bool, TempPlayer) AuthVerificationCode(string username, string code)
+        public static (bool, Player) AuthVerificationCode(string username, string code)
         {
-            var player = Players.FirstOrDefault(p => p.Username == username);
+
+            var player = Context.Player.FirstOrDefault(p => p.username == username);
             if (player != null)
             {
-                var authCode = VerificationCodes.FirstOrDefault(vc => vc.Code == code && vc.PlayerId == player.Id);
+                var authCode = Context.VerificationCode.FirstOrDefault(vc => vc.verification_code == code && vc.player_id == player.player_id);
                 if (authCode != null)
                 {
                     return (true, player);

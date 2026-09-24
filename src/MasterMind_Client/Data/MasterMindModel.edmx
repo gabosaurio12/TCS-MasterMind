@@ -1,0 +1,1843 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MasterMindModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClueColorsCatalog">
+          <Key>
+            <PropertyRef Name="clue_color_id" />
+          </Key>
+          <Property Name="clue_color_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="color" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CodeColorsCatalog">
+          <Key>
+            <PropertyRef Name="code_color_id" />
+          </Key>
+          <Property Name="code_color_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="color" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CorrectPositionAndColors">
+          <Key>
+            <PropertyRef Name="decipher_try_id" />
+          </Key>
+          <Property Name="decipher_try_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CorrectPositionAndColorsClue">
+          <Key>
+            <PropertyRef Name="correct_position_and_colors_id" />
+            <PropertyRef Name="position" />
+          </Key>
+          <Property Name="correct_position_and_colors_id" Type="int" Nullable="false" />
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="clue_color_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DecipherTry">
+          <Key>
+            <PropertyRef Name="decipher_try_id" />
+          </Key>
+          <Property Name="decipher_try_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="match_room_id" Type="int" Nullable="false" />
+          <Property Name="player_id" Type="int" Nullable="false" />
+          <Property Name="attempt_number" Type="int" />
+        </EntityType>
+        <EntityType Name="DecipherTryCode">
+          <Key>
+            <PropertyRef Name="decipher_try_id" />
+            <PropertyRef Name="position" />
+          </Key>
+          <Property Name="decipher_try_id" Type="int" Nullable="false" />
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="color_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Friendship">
+          <Key>
+            <PropertyRef Name="friendship_id" />
+          </Key>
+          <Property Name="friendship_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="requester_id" Type="int" Nullable="false" />
+          <Property Name="addressee_id" Type="int" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameInvitation">
+          <Key>
+            <PropertyRef Name="game_invitation_id" />
+          </Key>
+          <Property Name="game_invitation_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="requester_id" Type="int" Nullable="false" />
+          <Property Name="addressee_id" Type="int" Nullable="false" />
+          <Property Name="match_room_id" Type="int" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameModesCatalog">
+          <Key>
+            <PropertyRef Name="gamemode_id" />
+          </Key>
+          <Property Name="gamemode_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="gamemode" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MatchResults">
+          <Key>
+            <PropertyRef Name="match_results_id" />
+          </Key>
+          <Property Name="match_results_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="match_room_id" Type="int" />
+          <Property Name="player_one_results_id" Type="int" Nullable="false" />
+          <Property Name="player_two_results_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MatchRoom">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="gamemode_id" Type="int" Nullable="false" />
+          <Property Name="player_one_id" Type="int" Nullable="false" />
+          <Property Name="player_two_id" Type="int" Nullable="false" />
+          <Property Name="private_room_code" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MatchRoomSecretCode">
+          <Key>
+            <PropertyRef Name="position" />
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="match_room_id" Type="int" Nullable="false" />
+          <Property Name="color_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="player_id" />
+          </Key>
+          <Property Name="player_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" />
+          <Property Name="number_of_reports" Type="int" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="255" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="PlayerInMatch">
+          <Key>
+            <PropertyRef Name="player_in_match_id" />
+          </Key>
+          <Property Name="player_in_match_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="player_id" Type="int" Nullable="false" />
+          <Property Name="best_time" Type="int" />
+          <Property Name="least_tries" Type="int" />
+          <Property Name="rounds_won" Type="int" />
+        </EntityType>
+        <EntityType Name="PlayerReport">
+          <Key>
+            <PropertyRef Name="report_id" />
+          </Key>
+          <Property Name="report_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reported_player_id" Type="int" Nullable="false" />
+          <Property Name="reported_by_player_id" Type="int" Nullable="false" />
+          <Property Name="reason_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlayerTimeTrialRecords">
+          <Key>
+            <PropertyRef Name="records_id" />
+          </Key>
+          <Property Name="records_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="player_id" Type="int" Nullable="false" />
+          <Property Name="time_record" Type="int" />
+          <Property Name="rank" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlayerTriesRecords">
+          <Key>
+            <PropertyRef Name="records_id" />
+          </Key>
+          <Property Name="records_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="player_id" Type="int" Nullable="false" />
+          <Property Name="tries_record" Type="int" />
+          <Property Name="rank" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportReasonCatalog">
+          <Key>
+            <PropertyRef Name="report_reason_id" />
+          </Key>
+          <Property Name="report_reason_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reason" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequestStatusCatalog">
+          <Key>
+            <PropertyRef Name="request_status_id" />
+          </Key>
+          <Property Name="request_status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoundsTimeResults">
+          <Key>
+            <PropertyRef Name="rounds_time_results_id" />
+          </Key>
+          <Property Name="rounds_time_results_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="player_in_match_id" Type="int" Nullable="false" />
+          <Property Name="round" Type="int" />
+          <Property Name="time" Type="int" />
+        </EntityType>
+        <EntityType Name="RoundsTriesResults">
+          <Key>
+            <PropertyRef Name="rounds_tries_results_id" />
+          </Key>
+          <Property Name="rounds_tries_results_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="player_in_match_id" Type="int" Nullable="false" />
+          <Property Name="round" Type="int" />
+          <Property Name="tries" Type="int" />
+        </EntityType>
+        <EntityType Name="TimeTrialConfig">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="int" Nullable="false" />
+          <Property Name="max_time_of_seconds" Type="int" />
+        </EntityType>
+        <EntityType Name="TriesConfig">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="int" Nullable="false" />
+          <Property Name="max_of_tries" Type="int" />
+        </EntityType>
+        <EntityType Name="VerificationCode">
+          <Key>
+            <PropertyRef Name="verification_code_id" />
+          </Key>
+          <Property Name="verification_code_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="verification_code" Type="nvarchar" MaxLength="255" />
+          <Property Name="player_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__CorrectPo__clue___282DF8C2">
+          <End Role="ClueColorsCatalog" Type="Self.ClueColorsCatalog" Multiplicity="1" />
+          <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClueColorsCatalog">
+              <PropertyRef Name="clue_color_id" />
+            </Principal>
+            <Dependent Role="CorrectPositionAndColorsClue">
+              <PropertyRef Name="clue_color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CorrectPo__corre__2739D489">
+          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="1" />
+          <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CorrectPositionAndColors">
+              <PropertyRef Name="decipher_try_id" />
+            </Principal>
+            <Dependent Role="CorrectPositionAndColorsClue">
+              <PropertyRef Name="correct_position_and_colors_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CorrectPo__decip__2645B050">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DecipherTry">
+              <PropertyRef Name="decipher_try_id" />
+            </Principal>
+            <Dependent Role="CorrectPositionAndColors">
+              <PropertyRef Name="decipher_try_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__color__25518C17">
+          <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
+          <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CodeColorsCatalog">
+              <PropertyRef Name="code_color_id" />
+            </Principal>
+            <Dependent Role="DecipherTryCode">
+              <PropertyRef Name="color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__decip__245D67DE">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+          <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DecipherTry">
+              <PropertyRef Name="decipher_try_id" />
+            </Principal>
+            <Dependent Role="DecipherTryCode">
+              <PropertyRef Name="decipher_try_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__match__22751F6C">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="DecipherTry">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__playe__236943A5">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="DecipherTry">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Friendshi__addre__17F790F9">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="Friendship">
+              <PropertyRef Name="addressee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Friendshi__reque__17036CC0">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="Friendship">
+              <PropertyRef Name="requester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Friendshi__statu__18EBB532">
+          <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
+          <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatusCatalog">
+              <PropertyRef Name="request_status_id" />
+            </Principal>
+            <Dependent Role="Friendship">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__addre__1AD3FDA4">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="addressee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__match__1BC821DD">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__reque__19DFD96B">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="requester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__statu__1CBC4616">
+          <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatusCatalog">
+              <PropertyRef Name="request_status_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchResu__match__30C33EC3">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="0..1" />
+          <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="MatchResults">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchResu__playe__31B762FC">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="MatchResults">
+              <PropertyRef Name="player_one_results_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchResu__playe__32AB8735">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="MatchResults">
+              <PropertyRef Name="player_two_results_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__color__2EDAF651">
+          <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
+          <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CodeColorsCatalog">
+              <PropertyRef Name="code_color_id" />
+            </Principal>
+            <Dependent Role="MatchRoomSecretCode">
+              <PropertyRef Name="color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__gamem__29221CFB">
+          <End Role="GameModesCatalog" Type="Self.GameModesCatalog" Multiplicity="1" />
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameModesCatalog">
+              <PropertyRef Name="gamemode_id" />
+            </Principal>
+            <Dependent Role="MatchRoom">
+              <PropertyRef Name="gamemode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__match__2DE6D218">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="MatchRoomSecretCode">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__playe__2A164134">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="MatchRoom">
+              <PropertyRef Name="player_one_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__playe__2B0A656D">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="MatchRoom">
+              <PropertyRef Name="player_two_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerInM__playe__2FCF1A8A">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerInMatch">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerRep__reaso__1F98B2C1">
+          <End Role="ReportReasonCatalog" Type="Self.ReportReasonCatalog" Multiplicity="1" />
+          <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportReasonCatalog">
+              <PropertyRef Name="report_reason_id" />
+            </Principal>
+            <Dependent Role="PlayerReport">
+              <PropertyRef Name="reason_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerRep__repor__1DB06A4F">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerReport">
+              <PropertyRef Name="reported_player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerRep__repor__1EA48E88">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerReport">
+              <PropertyRef Name="reported_by_player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerTim__playe__208CD6FA">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerTimeTrialRecords" Type="Self.PlayerTimeTrialRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerTimeTrialRecords">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerTri__playe__2180FB33">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerTriesRecords" Type="Self.PlayerTriesRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerTriesRecords">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RoundsTim__playe__339FAB6E">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="RoundsTimeResults" Type="Self.RoundsTimeResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="RoundsTimeResults">
+              <PropertyRef Name="player_in_match_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RoundsTri__playe__3493CFA7">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="RoundsTriesResults" Type="Self.RoundsTriesResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="RoundsTriesResults">
+              <PropertyRef Name="player_in_match_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TimeTrial__match__2BFE89A6">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="TimeTrialConfig" Type="Self.TimeTrialConfig" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="TimeTrialConfig">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TriesConf__match__2CF2ADDF">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="TriesConfig" Type="Self.TriesConfig" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="TriesConfig">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Verificat__playe__160F4887">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="VerificationCode" Type="Self.VerificationCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="VerificationCode">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MasterMindModelStoreContainer">
+          <EntitySet Name="ClueColorsCatalog" EntityType="Self.ClueColorsCatalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CodeColorsCatalog" EntityType="Self.CodeColorsCatalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CorrectPositionAndColors" EntityType="Self.CorrectPositionAndColors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CorrectPositionAndColorsClue" EntityType="Self.CorrectPositionAndColorsClue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DecipherTry" EntityType="Self.DecipherTry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DecipherTryCode" EntityType="Self.DecipherTryCode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Friendship" EntityType="Self.Friendship" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameInvitation" EntityType="Self.GameInvitation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameModesCatalog" EntityType="Self.GameModesCatalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchResults" EntityType="Self.MatchResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchRoom" EntityType="Self.MatchRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchRoomSecretCode" EntityType="Self.MatchRoomSecretCode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerInMatch" EntityType="Self.PlayerInMatch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerReport" EntityType="Self.PlayerReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerTimeTrialRecords" EntityType="Self.PlayerTimeTrialRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerTriesRecords" EntityType="Self.PlayerTriesRecords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportReasonCatalog" EntityType="Self.ReportReasonCatalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestStatusCatalog" EntityType="Self.RequestStatusCatalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoundsTimeResults" EntityType="Self.RoundsTimeResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoundsTriesResults" EntityType="Self.RoundsTriesResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeTrialConfig" EntityType="Self.TimeTrialConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TriesConfig" EntityType="Self.TriesConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VerificationCode" EntityType="Self.VerificationCode" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CorrectPo__clue___282DF8C2" Association="Self.FK__CorrectPo__clue___282DF8C2">
+            <End Role="ClueColorsCatalog" EntitySet="ClueColorsCatalog" />
+            <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CorrectPo__corre__2739D489" Association="Self.FK__CorrectPo__corre__2739D489">
+            <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
+            <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CorrectPo__decip__2645B050" Association="Self.FK__CorrectPo__decip__2645B050">
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+            <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__color__25518C17" Association="Self.FK__DecipherT__color__25518C17">
+            <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
+            <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__decip__245D67DE" Association="Self.FK__DecipherT__decip__245D67DE">
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+            <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__match__22751F6C" Association="Self.FK__DecipherT__match__22751F6C">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__playe__236943A5" Association="Self.FK__DecipherT__playe__236943A5">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Friendshi__addre__17F790F9" Association="Self.FK__Friendshi__addre__17F790F9">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="Friendship" EntitySet="Friendship" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Friendshi__reque__17036CC0" Association="Self.FK__Friendshi__reque__17036CC0">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="Friendship" EntitySet="Friendship" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Friendshi__statu__18EBB532" Association="Self.FK__Friendshi__statu__18EBB532">
+            <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
+            <End Role="Friendship" EntitySet="Friendship" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__addre__1AD3FDA4" Association="Self.FK__GameInvit__addre__1AD3FDA4">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__match__1BC821DD" Association="Self.FK__GameInvit__match__1BC821DD">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__reque__19DFD96B" Association="Self.FK__GameInvit__reque__19DFD96B">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__statu__1CBC4616" Association="Self.FK__GameInvit__statu__1CBC4616">
+            <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchResu__match__30C33EC3" Association="Self.FK__MatchResu__match__30C33EC3">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="MatchResults" EntitySet="MatchResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchResu__playe__31B762FC" Association="Self.FK__MatchResu__playe__31B762FC">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="MatchResults" EntitySet="MatchResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchResu__playe__32AB8735" Association="Self.FK__MatchResu__playe__32AB8735">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="MatchResults" EntitySet="MatchResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__color__2EDAF651" Association="Self.FK__MatchRoom__color__2EDAF651">
+            <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
+            <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__gamem__29221CFB" Association="Self.FK__MatchRoom__gamem__29221CFB">
+            <End Role="GameModesCatalog" EntitySet="GameModesCatalog" />
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__match__2DE6D218" Association="Self.FK__MatchRoom__match__2DE6D218">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__playe__2A164134" Association="Self.FK__MatchRoom__playe__2A164134">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__playe__2B0A656D" Association="Self.FK__MatchRoom__playe__2B0A656D">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerInM__playe__2FCF1A8A" Association="Self.FK__PlayerInM__playe__2FCF1A8A">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerRep__reaso__1F98B2C1" Association="Self.FK__PlayerRep__reaso__1F98B2C1">
+            <End Role="ReportReasonCatalog" EntitySet="ReportReasonCatalog" />
+            <End Role="PlayerReport" EntitySet="PlayerReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerRep__repor__1DB06A4F" Association="Self.FK__PlayerRep__repor__1DB06A4F">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerReport" EntitySet="PlayerReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerRep__repor__1EA48E88" Association="Self.FK__PlayerRep__repor__1EA48E88">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerReport" EntitySet="PlayerReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerTim__playe__208CD6FA" Association="Self.FK__PlayerTim__playe__208CD6FA">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerTimeTrialRecords" EntitySet="PlayerTimeTrialRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerTri__playe__2180FB33" Association="Self.FK__PlayerTri__playe__2180FB33">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerTriesRecords" EntitySet="PlayerTriesRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RoundsTim__playe__339FAB6E" Association="Self.FK__RoundsTim__playe__339FAB6E">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="RoundsTimeResults" EntitySet="RoundsTimeResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RoundsTri__playe__3493CFA7" Association="Self.FK__RoundsTri__playe__3493CFA7">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="RoundsTriesResults" EntitySet="RoundsTriesResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TimeTrial__match__2BFE89A6" Association="Self.FK__TimeTrial__match__2BFE89A6">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="TimeTrialConfig" EntitySet="TimeTrialConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TriesConf__match__2CF2ADDF" Association="Self.FK__TriesConf__match__2CF2ADDF">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="TriesConfig" EntitySet="TriesConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Verificat__playe__160F4887" Association="Self.FK__Verificat__playe__160F4887">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="VerificationCode" EntitySet="VerificationCode" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MasterMindModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClueColorsCatalog">
+          <Key>
+            <PropertyRef Name="clue_color_id" />
+          </Key>
+          <Property Name="clue_color_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="color" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CorrectPositionAndColorsClue" Relationship="Self.FK__CorrectPo__clue___282DF8C2" FromRole="ClueColorsCatalog" ToRole="CorrectPositionAndColorsClue" />
+        </EntityType>
+        <EntityType Name="CodeColorsCatalog">
+          <Key>
+            <PropertyRef Name="code_color_id" />
+          </Key>
+          <Property Name="code_color_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="color" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DecipherTryCode" Relationship="Self.FK__DecipherT__color__25518C17" FromRole="CodeColorsCatalog" ToRole="DecipherTryCode" />
+          <NavigationProperty Name="MatchRoomSecretCode" Relationship="Self.FK__MatchRoom__color__2EDAF651" FromRole="CodeColorsCatalog" ToRole="MatchRoomSecretCode" />
+        </EntityType>
+        <EntityType Name="CorrectPositionAndColors">
+          <Key>
+            <PropertyRef Name="decipher_try_id" />
+          </Key>
+          <Property Name="decipher_try_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CorrectPositionAndColorsClue" Relationship="Self.FK__CorrectPo__corre__2739D489" FromRole="CorrectPositionAndColors" ToRole="CorrectPositionAndColorsClue" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__CorrectPo__decip__2645B050" FromRole="CorrectPositionAndColors" ToRole="DecipherTry" />
+        </EntityType>
+        <EntityType Name="CorrectPositionAndColorsClue">
+          <Key>
+            <PropertyRef Name="correct_position_and_colors_id" />
+            <PropertyRef Name="position" />
+          </Key>
+          <Property Name="correct_position_and_colors_id" Type="Int32" Nullable="false" />
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="clue_color_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClueColorsCatalog" Relationship="Self.FK__CorrectPo__clue___282DF8C2" FromRole="CorrectPositionAndColorsClue" ToRole="ClueColorsCatalog" />
+          <NavigationProperty Name="CorrectPositionAndColors" Relationship="Self.FK__CorrectPo__corre__2739D489" FromRole="CorrectPositionAndColorsClue" ToRole="CorrectPositionAndColors" />
+        </EntityType>
+        <EntityType Name="DecipherTry">
+          <Key>
+            <PropertyRef Name="decipher_try_id" />
+          </Key>
+          <Property Name="decipher_try_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="match_room_id" Type="Int32" Nullable="false" />
+          <Property Name="player_id" Type="Int32" Nullable="false" />
+          <Property Name="attempt_number" Type="Int32" />
+          <NavigationProperty Name="CorrectPositionAndColors" Relationship="Self.FK__CorrectPo__decip__2645B050" FromRole="DecipherTry" ToRole="CorrectPositionAndColors" />
+          <NavigationProperty Name="DecipherTryCode" Relationship="Self.FK__DecipherT__decip__245D67DE" FromRole="DecipherTry" ToRole="DecipherTryCode" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__DecipherT__match__22751F6C" FromRole="DecipherTry" ToRole="MatchRoom" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__DecipherT__playe__236943A5" FromRole="DecipherTry" ToRole="Player" />
+        </EntityType>
+        <EntityType Name="DecipherTryCode">
+          <Key>
+            <PropertyRef Name="decipher_try_id" />
+            <PropertyRef Name="position" />
+          </Key>
+          <Property Name="decipher_try_id" Type="Int32" Nullable="false" />
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="color_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CodeColorsCatalog" Relationship="Self.FK__DecipherT__color__25518C17" FromRole="DecipherTryCode" ToRole="CodeColorsCatalog" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__decip__245D67DE" FromRole="DecipherTryCode" ToRole="DecipherTry" />
+        </EntityType>
+        <EntityType Name="Friendship">
+          <Key>
+            <PropertyRef Name="friendship_id" />
+          </Key>
+          <Property Name="friendship_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="requester_id" Type="Int32" Nullable="false" />
+          <Property Name="addressee_id" Type="Int32" Nullable="false" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__Friendshi__addre__17F790F9" FromRole="Friendship" ToRole="Player" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__Friendshi__reque__17036CC0" FromRole="Friendship" ToRole="Player" />
+          <NavigationProperty Name="RequestStatusCatalog" Relationship="Self.FK__Friendshi__statu__18EBB532" FromRole="Friendship" ToRole="RequestStatusCatalog" />
+        </EntityType>
+        <EntityType Name="GameInvitation">
+          <Key>
+            <PropertyRef Name="game_invitation_id" />
+          </Key>
+          <Property Name="game_invitation_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="requester_id" Type="Int32" Nullable="false" />
+          <Property Name="addressee_id" Type="Int32" Nullable="false" />
+          <Property Name="match_room_id" Type="Int32" Nullable="false" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__GameInvit__addre__1AD3FDA4" FromRole="GameInvitation" ToRole="Player" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__GameInvit__match__1BC821DD" FromRole="GameInvitation" ToRole="MatchRoom" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__GameInvit__reque__19DFD96B" FromRole="GameInvitation" ToRole="Player" />
+          <NavigationProperty Name="RequestStatusCatalog" Relationship="Self.FK__GameInvit__statu__1CBC4616" FromRole="GameInvitation" ToRole="RequestStatusCatalog" />
+        </EntityType>
+        <EntityType Name="GameModesCatalog">
+          <Key>
+            <PropertyRef Name="gamemode_id" />
+          </Key>
+          <Property Name="gamemode_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="gamemode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__gamem__29221CFB" FromRole="GameModesCatalog" ToRole="MatchRoom" />
+        </EntityType>
+        <EntityType Name="MatchResults">
+          <Key>
+            <PropertyRef Name="match_results_id" />
+          </Key>
+          <Property Name="match_results_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="match_room_id" Type="Int32" />
+          <Property Name="player_one_results_id" Type="Int32" Nullable="false" />
+          <Property Name="player_two_results_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchResu__match__30C33EC3" FromRole="MatchResults" ToRole="MatchRoom" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__MatchResu__playe__31B762FC" FromRole="MatchResults" ToRole="PlayerInMatch" />
+          <NavigationProperty Name="PlayerInMatch1" Relationship="Self.FK__MatchResu__playe__32AB8735" FromRole="MatchResults" ToRole="PlayerInMatch" />
+        </EntityType>
+        <EntityType Name="MatchRoom">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="gamemode_id" Type="Int32" Nullable="false" />
+          <Property Name="player_one_id" Type="Int32" Nullable="false" />
+          <Property Name="player_two_id" Type="Int32" Nullable="false" />
+          <Property Name="private_room_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__match__22751F6C" FromRole="MatchRoom" ToRole="DecipherTry" />
+          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__match__1BC821DD" FromRole="MatchRoom" ToRole="GameInvitation" />
+          <NavigationProperty Name="GameModesCatalog" Relationship="Self.FK__MatchRoom__gamem__29221CFB" FromRole="MatchRoom" ToRole="GameModesCatalog" />
+          <NavigationProperty Name="MatchResults" Relationship="Self.FK__MatchResu__match__30C33EC3" FromRole="MatchRoom" ToRole="MatchResults" />
+          <NavigationProperty Name="MatchRoomSecretCode" Relationship="Self.FK__MatchRoom__match__2DE6D218" FromRole="MatchRoom" ToRole="MatchRoomSecretCode" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__MatchRoom__playe__2A164134" FromRole="MatchRoom" ToRole="Player" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__MatchRoom__playe__2B0A656D" FromRole="MatchRoom" ToRole="Player" />
+          <NavigationProperty Name="TimeTrialConfig" Relationship="Self.FK__TimeTrial__match__2BFE89A6" FromRole="MatchRoom" ToRole="TimeTrialConfig" />
+          <NavigationProperty Name="TriesConfig" Relationship="Self.FK__TriesConf__match__2CF2ADDF" FromRole="MatchRoom" ToRole="TriesConfig" />
+        </EntityType>
+        <EntityType Name="MatchRoomSecretCode">
+          <Key>
+            <PropertyRef Name="position" />
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="match_room_id" Type="Int32" Nullable="false" />
+          <Property Name="color_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CodeColorsCatalog" Relationship="Self.FK__MatchRoom__color__2EDAF651" FromRole="MatchRoomSecretCode" ToRole="CodeColorsCatalog" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__match__2DE6D218" FromRole="MatchRoomSecretCode" ToRole="MatchRoom" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="player_id" />
+          </Key>
+          <Property Name="player_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="number_of_reports" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__playe__236943A5" FromRole="Player" ToRole="DecipherTry" />
+          <NavigationProperty Name="Friendship" Relationship="Self.FK__Friendshi__addre__17F790F9" FromRole="Player" ToRole="Friendship" />
+          <NavigationProperty Name="Friendship1" Relationship="Self.FK__Friendshi__reque__17036CC0" FromRole="Player" ToRole="Friendship" />
+          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__addre__1AD3FDA4" FromRole="Player" ToRole="GameInvitation" />
+          <NavigationProperty Name="GameInvitation1" Relationship="Self.FK__GameInvit__reque__19DFD96B" FromRole="Player" ToRole="GameInvitation" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__playe__2A164134" FromRole="Player" ToRole="MatchRoom" />
+          <NavigationProperty Name="MatchRoom1" Relationship="Self.FK__MatchRoom__playe__2B0A656D" FromRole="Player" ToRole="MatchRoom" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__PlayerInM__playe__2FCF1A8A" FromRole="Player" ToRole="PlayerInMatch" />
+          <NavigationProperty Name="PlayerReport" Relationship="Self.FK__PlayerRep__repor__1DB06A4F" FromRole="Player" ToRole="PlayerReport" />
+          <NavigationProperty Name="PlayerReport1" Relationship="Self.FK__PlayerRep__repor__1EA48E88" FromRole="Player" ToRole="PlayerReport" />
+          <NavigationProperty Name="PlayerTimeTrialRecords" Relationship="Self.FK__PlayerTim__playe__208CD6FA" FromRole="Player" ToRole="PlayerTimeTrialRecords" />
+          <NavigationProperty Name="PlayerTriesRecords" Relationship="Self.FK__PlayerTri__playe__2180FB33" FromRole="Player" ToRole="PlayerTriesRecords" />
+          <NavigationProperty Name="VerificationCode" Relationship="Self.FK__Verificat__playe__160F4887" FromRole="Player" ToRole="VerificationCode" />
+        </EntityType>
+        <EntityType Name="PlayerInMatch">
+          <Key>
+            <PropertyRef Name="player_in_match_id" />
+          </Key>
+          <Property Name="player_in_match_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="player_id" Type="Int32" Nullable="false" />
+          <Property Name="best_time" Type="Int32" />
+          <Property Name="least_tries" Type="Int32" />
+          <Property Name="rounds_won" Type="Int32" />
+          <NavigationProperty Name="MatchResults" Relationship="Self.FK__MatchResu__playe__31B762FC" FromRole="PlayerInMatch" ToRole="MatchResults" />
+          <NavigationProperty Name="MatchResults1" Relationship="Self.FK__MatchResu__playe__32AB8735" FromRole="PlayerInMatch" ToRole="MatchResults" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerInM__playe__2FCF1A8A" FromRole="PlayerInMatch" ToRole="Player" />
+          <NavigationProperty Name="RoundsTimeResults" Relationship="Self.FK__RoundsTim__playe__339FAB6E" FromRole="PlayerInMatch" ToRole="RoundsTimeResults" />
+          <NavigationProperty Name="RoundsTriesResults" Relationship="Self.FK__RoundsTri__playe__3493CFA7" FromRole="PlayerInMatch" ToRole="RoundsTriesResults" />
+        </EntityType>
+        <EntityType Name="PlayerReport">
+          <Key>
+            <PropertyRef Name="report_id" />
+          </Key>
+          <Property Name="report_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reported_player_id" Type="Int32" Nullable="false" />
+          <Property Name="reported_by_player_id" Type="Int32" Nullable="false" />
+          <Property Name="reason_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerRep__repor__1DB06A4F" FromRole="PlayerReport" ToRole="Player" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__PlayerRep__repor__1EA48E88" FromRole="PlayerReport" ToRole="Player" />
+          <NavigationProperty Name="ReportReasonCatalog" Relationship="Self.FK__PlayerRep__reaso__1F98B2C1" FromRole="PlayerReport" ToRole="ReportReasonCatalog" />
+        </EntityType>
+        <EntityType Name="PlayerTimeTrialRecords">
+          <Key>
+            <PropertyRef Name="records_id" />
+          </Key>
+          <Property Name="records_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="player_id" Type="Int32" Nullable="false" />
+          <Property Name="time_record" Type="Int32" />
+          <Property Name="rank" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerTim__playe__208CD6FA" FromRole="PlayerTimeTrialRecords" ToRole="Player" />
+        </EntityType>
+        <EntityType Name="PlayerTriesRecords">
+          <Key>
+            <PropertyRef Name="records_id" />
+          </Key>
+          <Property Name="records_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="player_id" Type="Int32" Nullable="false" />
+          <Property Name="tries_record" Type="Int32" />
+          <Property Name="rank" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerTri__playe__2180FB33" FromRole="PlayerTriesRecords" ToRole="Player" />
+        </EntityType>
+        <EntityType Name="ReportReasonCatalog">
+          <Key>
+            <PropertyRef Name="report_reason_id" />
+          </Key>
+          <Property Name="report_reason_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PlayerReport" Relationship="Self.FK__PlayerRep__reaso__1F98B2C1" FromRole="ReportReasonCatalog" ToRole="PlayerReport" />
+        </EntityType>
+        <EntityType Name="RequestStatusCatalog">
+          <Key>
+            <PropertyRef Name="request_status_id" />
+          </Key>
+          <Property Name="request_status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Friendship" Relationship="Self.FK__Friendshi__statu__18EBB532" FromRole="RequestStatusCatalog" ToRole="Friendship" />
+          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__statu__1CBC4616" FromRole="RequestStatusCatalog" ToRole="GameInvitation" />
+        </EntityType>
+        <EntityType Name="RoundsTimeResults">
+          <Key>
+            <PropertyRef Name="rounds_time_results_id" />
+          </Key>
+          <Property Name="rounds_time_results_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="player_in_match_id" Type="Int32" Nullable="false" />
+          <Property Name="round" Type="Int32" />
+          <Property Name="time" Type="Int32" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__RoundsTim__playe__339FAB6E" FromRole="RoundsTimeResults" ToRole="PlayerInMatch" />
+        </EntityType>
+        <EntityType Name="RoundsTriesResults">
+          <Key>
+            <PropertyRef Name="rounds_tries_results_id" />
+          </Key>
+          <Property Name="rounds_tries_results_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="player_in_match_id" Type="Int32" Nullable="false" />
+          <Property Name="round" Type="Int32" />
+          <Property Name="tries" Type="Int32" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__RoundsTri__playe__3493CFA7" FromRole="RoundsTriesResults" ToRole="PlayerInMatch" />
+        </EntityType>
+        <EntityType Name="TimeTrialConfig">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="Int32" Nullable="false" />
+          <Property Name="max_time_of_seconds" Type="Int32" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__TimeTrial__match__2BFE89A6" FromRole="TimeTrialConfig" ToRole="MatchRoom" />
+        </EntityType>
+        <EntityType Name="TriesConfig">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="Int32" Nullable="false" />
+          <Property Name="max_of_tries" Type="Int32" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__TriesConf__match__2CF2ADDF" FromRole="TriesConfig" ToRole="MatchRoom" />
+        </EntityType>
+        <EntityType Name="VerificationCode">
+          <Key>
+            <PropertyRef Name="verification_code_id" />
+          </Key>
+          <Property Name="verification_code_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="verification_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="player_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__Verificat__playe__160F4887" FromRole="VerificationCode" ToRole="Player" />
+        </EntityType>
+        <Association Name="FK__CorrectPo__clue___282DF8C2">
+          <End Role="ClueColorsCatalog" Type="Self.ClueColorsCatalog" Multiplicity="1" />
+          <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClueColorsCatalog">
+              <PropertyRef Name="clue_color_id" />
+            </Principal>
+            <Dependent Role="CorrectPositionAndColorsClue">
+              <PropertyRef Name="clue_color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__color__25518C17">
+          <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
+          <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CodeColorsCatalog">
+              <PropertyRef Name="code_color_id" />
+            </Principal>
+            <Dependent Role="DecipherTryCode">
+              <PropertyRef Name="color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__color__2EDAF651">
+          <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
+          <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CodeColorsCatalog">
+              <PropertyRef Name="code_color_id" />
+            </Principal>
+            <Dependent Role="MatchRoomSecretCode">
+              <PropertyRef Name="color_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CorrectPo__corre__2739D489">
+          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="1" />
+          <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CorrectPositionAndColors">
+              <PropertyRef Name="decipher_try_id" />
+            </Principal>
+            <Dependent Role="CorrectPositionAndColorsClue">
+              <PropertyRef Name="correct_position_and_colors_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CorrectPo__decip__2645B050">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DecipherTry">
+              <PropertyRef Name="decipher_try_id" />
+            </Principal>
+            <Dependent Role="CorrectPositionAndColors">
+              <PropertyRef Name="decipher_try_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__decip__245D67DE">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+          <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DecipherTry">
+              <PropertyRef Name="decipher_try_id" />
+            </Principal>
+            <Dependent Role="DecipherTryCode">
+              <PropertyRef Name="decipher_try_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__match__22751F6C">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="DecipherTry">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DecipherT__playe__236943A5">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="DecipherTry">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Friendshi__addre__17F790F9">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="Friendship">
+              <PropertyRef Name="addressee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Friendshi__reque__17036CC0">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="Friendship">
+              <PropertyRef Name="requester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Friendshi__statu__18EBB532">
+          <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
+          <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatusCatalog">
+              <PropertyRef Name="request_status_id" />
+            </Principal>
+            <Dependent Role="Friendship">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__addre__1AD3FDA4">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="addressee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__match__1BC821DD">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__reque__19DFD96B">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="requester_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__GameInvit__statu__1CBC4616">
+          <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
+          <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatusCatalog">
+              <PropertyRef Name="request_status_id" />
+            </Principal>
+            <Dependent Role="GameInvitation">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__gamem__29221CFB">
+          <End Role="GameModesCatalog" Type="Self.GameModesCatalog" Multiplicity="1" />
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameModesCatalog">
+              <PropertyRef Name="gamemode_id" />
+            </Principal>
+            <Dependent Role="MatchRoom">
+              <PropertyRef Name="gamemode_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchResu__match__30C33EC3">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="0..1" />
+          <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="MatchResults">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchResu__playe__31B762FC">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="MatchResults">
+              <PropertyRef Name="player_one_results_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchResu__playe__32AB8735">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="MatchResults">
+              <PropertyRef Name="player_two_results_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__match__2DE6D218">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="MatchRoomSecretCode">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__playe__2A164134">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="MatchRoom">
+              <PropertyRef Name="player_one_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MatchRoom__playe__2B0A656D">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="MatchRoom">
+              <PropertyRef Name="player_two_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TimeTrial__match__2BFE89A6">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="TimeTrialConfig" Type="Self.TimeTrialConfig" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="TimeTrialConfig">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TriesConf__match__2CF2ADDF">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+          <End Role="TriesConfig" Type="Self.TriesConfig" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="TriesConfig">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerInM__playe__2FCF1A8A">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerInMatch">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerRep__repor__1DB06A4F">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerReport">
+              <PropertyRef Name="reported_player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerRep__repor__1EA48E88">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerReport">
+              <PropertyRef Name="reported_by_player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerTim__playe__208CD6FA">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerTimeTrialRecords" Type="Self.PlayerTimeTrialRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerTimeTrialRecords">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerTri__playe__2180FB33">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="PlayerTriesRecords" Type="Self.PlayerTriesRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="PlayerTriesRecords">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Verificat__playe__160F4887">
+          <End Role="Player" Type="Self.Player" Multiplicity="1" />
+          <End Role="VerificationCode" Type="Self.VerificationCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Player">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="VerificationCode">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RoundsTim__playe__339FAB6E">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="RoundsTimeResults" Type="Self.RoundsTimeResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="RoundsTimeResults">
+              <PropertyRef Name="player_in_match_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RoundsTri__playe__3493CFA7">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+          <End Role="RoundsTriesResults" Type="Self.RoundsTriesResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlayerInMatch">
+              <PropertyRef Name="player_in_match_id" />
+            </Principal>
+            <Dependent Role="RoundsTriesResults">
+              <PropertyRef Name="player_in_match_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlayerRep__reaso__1F98B2C1">
+          <End Role="ReportReasonCatalog" Type="Self.ReportReasonCatalog" Multiplicity="1" />
+          <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportReasonCatalog">
+              <PropertyRef Name="report_reason_id" />
+            </Principal>
+            <Dependent Role="PlayerReport">
+              <PropertyRef Name="reason_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MasterMindEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClueColorsCatalog" EntityType="Self.ClueColorsCatalog" />
+          <EntitySet Name="CodeColorsCatalog" EntityType="Self.CodeColorsCatalog" />
+          <EntitySet Name="CorrectPositionAndColors" EntityType="Self.CorrectPositionAndColors" />
+          <EntitySet Name="CorrectPositionAndColorsClue" EntityType="Self.CorrectPositionAndColorsClue" />
+          <EntitySet Name="DecipherTry" EntityType="Self.DecipherTry" />
+          <EntitySet Name="DecipherTryCode" EntityType="Self.DecipherTryCode" />
+          <EntitySet Name="Friendship" EntityType="Self.Friendship" />
+          <EntitySet Name="GameInvitation" EntityType="Self.GameInvitation" />
+          <EntitySet Name="GameModesCatalog" EntityType="Self.GameModesCatalog" />
+          <EntitySet Name="MatchResults" EntityType="Self.MatchResults" />
+          <EntitySet Name="MatchRoom" EntityType="Self.MatchRoom" />
+          <EntitySet Name="MatchRoomSecretCode" EntityType="Self.MatchRoomSecretCode" />
+          <EntitySet Name="Player" EntityType="Self.Player" />
+          <EntitySet Name="PlayerInMatch" EntityType="Self.PlayerInMatch" />
+          <EntitySet Name="PlayerReport" EntityType="Self.PlayerReport" />
+          <EntitySet Name="PlayerTimeTrialRecords" EntityType="Self.PlayerTimeTrialRecords" />
+          <EntitySet Name="PlayerTriesRecords" EntityType="Self.PlayerTriesRecords" />
+          <EntitySet Name="ReportReasonCatalog" EntityType="Self.ReportReasonCatalog" />
+          <EntitySet Name="RequestStatusCatalog" EntityType="Self.RequestStatusCatalog" />
+          <EntitySet Name="RoundsTimeResults" EntityType="Self.RoundsTimeResults" />
+          <EntitySet Name="RoundsTriesResults" EntityType="Self.RoundsTriesResults" />
+          <EntitySet Name="TimeTrialConfig" EntityType="Self.TimeTrialConfig" />
+          <EntitySet Name="TriesConfig" EntityType="Self.TriesConfig" />
+          <EntitySet Name="VerificationCode" EntityType="Self.VerificationCode" />
+          <AssociationSet Name="FK__CorrectPo__clue___282DF8C2" Association="Self.FK__CorrectPo__clue___282DF8C2">
+            <End Role="ClueColorsCatalog" EntitySet="ClueColorsCatalog" />
+            <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__color__25518C17" Association="Self.FK__DecipherT__color__25518C17">
+            <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
+            <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__color__2EDAF651" Association="Self.FK__MatchRoom__color__2EDAF651">
+            <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
+            <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CorrectPo__corre__2739D489" Association="Self.FK__CorrectPo__corre__2739D489">
+            <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
+            <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CorrectPo__decip__2645B050" Association="Self.FK__CorrectPo__decip__2645B050">
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+            <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__decip__245D67DE" Association="Self.FK__DecipherT__decip__245D67DE">
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+            <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__match__22751F6C" Association="Self.FK__DecipherT__match__22751F6C">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DecipherT__playe__236943A5" Association="Self.FK__DecipherT__playe__236943A5">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="DecipherTry" EntitySet="DecipherTry" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Friendshi__addre__17F790F9" Association="Self.FK__Friendshi__addre__17F790F9">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="Friendship" EntitySet="Friendship" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Friendshi__reque__17036CC0" Association="Self.FK__Friendshi__reque__17036CC0">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="Friendship" EntitySet="Friendship" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Friendshi__statu__18EBB532" Association="Self.FK__Friendshi__statu__18EBB532">
+            <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
+            <End Role="Friendship" EntitySet="Friendship" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__addre__1AD3FDA4" Association="Self.FK__GameInvit__addre__1AD3FDA4">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__match__1BC821DD" Association="Self.FK__GameInvit__match__1BC821DD">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__reque__19DFD96B" Association="Self.FK__GameInvit__reque__19DFD96B">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__GameInvit__statu__1CBC4616" Association="Self.FK__GameInvit__statu__1CBC4616">
+            <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
+            <End Role="GameInvitation" EntitySet="GameInvitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__gamem__29221CFB" Association="Self.FK__MatchRoom__gamem__29221CFB">
+            <End Role="GameModesCatalog" EntitySet="GameModesCatalog" />
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchResu__match__30C33EC3" Association="Self.FK__MatchResu__match__30C33EC3">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="MatchResults" EntitySet="MatchResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchResu__playe__31B762FC" Association="Self.FK__MatchResu__playe__31B762FC">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="MatchResults" EntitySet="MatchResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchResu__playe__32AB8735" Association="Self.FK__MatchResu__playe__32AB8735">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="MatchResults" EntitySet="MatchResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__match__2DE6D218" Association="Self.FK__MatchRoom__match__2DE6D218">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__playe__2A164134" Association="Self.FK__MatchRoom__playe__2A164134">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MatchRoom__playe__2B0A656D" Association="Self.FK__MatchRoom__playe__2B0A656D">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TimeTrial__match__2BFE89A6" Association="Self.FK__TimeTrial__match__2BFE89A6">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="TimeTrialConfig" EntitySet="TimeTrialConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TriesConf__match__2CF2ADDF" Association="Self.FK__TriesConf__match__2CF2ADDF">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="TriesConfig" EntitySet="TriesConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerInM__playe__2FCF1A8A" Association="Self.FK__PlayerInM__playe__2FCF1A8A">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerRep__repor__1DB06A4F" Association="Self.FK__PlayerRep__repor__1DB06A4F">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerReport" EntitySet="PlayerReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerRep__repor__1EA48E88" Association="Self.FK__PlayerRep__repor__1EA48E88">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerReport" EntitySet="PlayerReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerTim__playe__208CD6FA" Association="Self.FK__PlayerTim__playe__208CD6FA">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerTimeTrialRecords" EntitySet="PlayerTimeTrialRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerTri__playe__2180FB33" Association="Self.FK__PlayerTri__playe__2180FB33">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="PlayerTriesRecords" EntitySet="PlayerTriesRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Verificat__playe__160F4887" Association="Self.FK__Verificat__playe__160F4887">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="VerificationCode" EntitySet="VerificationCode" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RoundsTim__playe__339FAB6E" Association="Self.FK__RoundsTim__playe__339FAB6E">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="RoundsTimeResults" EntitySet="RoundsTimeResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RoundsTri__playe__3493CFA7" Association="Self.FK__RoundsTri__playe__3493CFA7">
+            <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
+            <End Role="RoundsTriesResults" EntitySet="RoundsTriesResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlayerRep__reaso__1F98B2C1" Association="Self.FK__PlayerRep__reaso__1F98B2C1">
+            <End Role="ReportReasonCatalog" EntitySet="ReportReasonCatalog" />
+            <End Role="PlayerReport" EntitySet="PlayerReport" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MasterMindModelStoreContainer" CdmEntityContainer="MasterMindEntities">
+          <EntitySetMapping Name="ClueColorsCatalog">
+            <EntityTypeMapping TypeName="MasterMindModel.ClueColorsCatalog">
+              <MappingFragment StoreEntitySet="ClueColorsCatalog">
+                <ScalarProperty Name="clue_color_id" ColumnName="clue_color_id" />
+                <ScalarProperty Name="color" ColumnName="color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CodeColorsCatalog">
+            <EntityTypeMapping TypeName="MasterMindModel.CodeColorsCatalog">
+              <MappingFragment StoreEntitySet="CodeColorsCatalog">
+                <ScalarProperty Name="code_color_id" ColumnName="code_color_id" />
+                <ScalarProperty Name="color" ColumnName="color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CorrectPositionAndColors">
+            <EntityTypeMapping TypeName="MasterMindModel.CorrectPositionAndColors">
+              <MappingFragment StoreEntitySet="CorrectPositionAndColors">
+                <ScalarProperty Name="decipher_try_id" ColumnName="decipher_try_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CorrectPositionAndColorsClue">
+            <EntityTypeMapping TypeName="MasterMindModel.CorrectPositionAndColorsClue">
+              <MappingFragment StoreEntitySet="CorrectPositionAndColorsClue">
+                <ScalarProperty Name="correct_position_and_colors_id" ColumnName="correct_position_and_colors_id" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="clue_color_id" ColumnName="clue_color_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DecipherTry">
+            <EntityTypeMapping TypeName="MasterMindModel.DecipherTry">
+              <MappingFragment StoreEntitySet="DecipherTry">
+                <ScalarProperty Name="decipher_try_id" ColumnName="decipher_try_id" />
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="attempt_number" ColumnName="attempt_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DecipherTryCode">
+            <EntityTypeMapping TypeName="MasterMindModel.DecipherTryCode">
+              <MappingFragment StoreEntitySet="DecipherTryCode">
+                <ScalarProperty Name="decipher_try_id" ColumnName="decipher_try_id" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="color_id" ColumnName="color_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Friendship">
+            <EntityTypeMapping TypeName="MasterMindModel.Friendship">
+              <MappingFragment StoreEntitySet="Friendship">
+                <ScalarProperty Name="friendship_id" ColumnName="friendship_id" />
+                <ScalarProperty Name="requester_id" ColumnName="requester_id" />
+                <ScalarProperty Name="addressee_id" ColumnName="addressee_id" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameInvitation">
+            <EntityTypeMapping TypeName="MasterMindModel.GameInvitation">
+              <MappingFragment StoreEntitySet="GameInvitation">
+                <ScalarProperty Name="game_invitation_id" ColumnName="game_invitation_id" />
+                <ScalarProperty Name="requester_id" ColumnName="requester_id" />
+                <ScalarProperty Name="addressee_id" ColumnName="addressee_id" />
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameModesCatalog">
+            <EntityTypeMapping TypeName="MasterMindModel.GameModesCatalog">
+              <MappingFragment StoreEntitySet="GameModesCatalog">
+                <ScalarProperty Name="gamemode_id" ColumnName="gamemode_id" />
+                <ScalarProperty Name="gamemode" ColumnName="gamemode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchResults">
+            <EntityTypeMapping TypeName="MasterMindModel.MatchResults">
+              <MappingFragment StoreEntitySet="MatchResults">
+                <ScalarProperty Name="match_results_id" ColumnName="match_results_id" />
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="player_one_results_id" ColumnName="player_one_results_id" />
+                <ScalarProperty Name="player_two_results_id" ColumnName="player_two_results_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchRoom">
+            <EntityTypeMapping TypeName="MasterMindModel.MatchRoom">
+              <MappingFragment StoreEntitySet="MatchRoom">
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="gamemode_id" ColumnName="gamemode_id" />
+                <ScalarProperty Name="player_one_id" ColumnName="player_one_id" />
+                <ScalarProperty Name="player_two_id" ColumnName="player_two_id" />
+                <ScalarProperty Name="private_room_code" ColumnName="private_room_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchRoomSecretCode">
+            <EntityTypeMapping TypeName="MasterMindModel.MatchRoomSecretCode">
+              <MappingFragment StoreEntitySet="MatchRoomSecretCode">
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="color_id" ColumnName="color_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Player">
+            <EntityTypeMapping TypeName="MasterMindModel.Player">
+              <MappingFragment StoreEntitySet="Player">
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="number_of_reports" ColumnName="number_of_reports" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerInMatch">
+            <EntityTypeMapping TypeName="MasterMindModel.PlayerInMatch">
+              <MappingFragment StoreEntitySet="PlayerInMatch">
+                <ScalarProperty Name="player_in_match_id" ColumnName="player_in_match_id" />
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="best_time" ColumnName="best_time" />
+                <ScalarProperty Name="least_tries" ColumnName="least_tries" />
+                <ScalarProperty Name="rounds_won" ColumnName="rounds_won" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerReport">
+            <EntityTypeMapping TypeName="MasterMindModel.PlayerReport">
+              <MappingFragment StoreEntitySet="PlayerReport">
+                <ScalarProperty Name="report_id" ColumnName="report_id" />
+                <ScalarProperty Name="reported_player_id" ColumnName="reported_player_id" />
+                <ScalarProperty Name="reported_by_player_id" ColumnName="reported_by_player_id" />
+                <ScalarProperty Name="reason_id" ColumnName="reason_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerTimeTrialRecords">
+            <EntityTypeMapping TypeName="MasterMindModel.PlayerTimeTrialRecords">
+              <MappingFragment StoreEntitySet="PlayerTimeTrialRecords">
+                <ScalarProperty Name="records_id" ColumnName="records_id" />
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="time_record" ColumnName="time_record" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerTriesRecords">
+            <EntityTypeMapping TypeName="MasterMindModel.PlayerTriesRecords">
+              <MappingFragment StoreEntitySet="PlayerTriesRecords">
+                <ScalarProperty Name="records_id" ColumnName="records_id" />
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="tries_record" ColumnName="tries_record" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportReasonCatalog">
+            <EntityTypeMapping TypeName="MasterMindModel.ReportReasonCatalog">
+              <MappingFragment StoreEntitySet="ReportReasonCatalog">
+                <ScalarProperty Name="report_reason_id" ColumnName="report_reason_id" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestStatusCatalog">
+            <EntityTypeMapping TypeName="MasterMindModel.RequestStatusCatalog">
+              <MappingFragment StoreEntitySet="RequestStatusCatalog">
+                <ScalarProperty Name="request_status_id" ColumnName="request_status_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoundsTimeResults">
+            <EntityTypeMapping TypeName="MasterMindModel.RoundsTimeResults">
+              <MappingFragment StoreEntitySet="RoundsTimeResults">
+                <ScalarProperty Name="rounds_time_results_id" ColumnName="rounds_time_results_id" />
+                <ScalarProperty Name="player_in_match_id" ColumnName="player_in_match_id" />
+                <ScalarProperty Name="round" ColumnName="round" />
+                <ScalarProperty Name="time" ColumnName="time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoundsTriesResults">
+            <EntityTypeMapping TypeName="MasterMindModel.RoundsTriesResults">
+              <MappingFragment StoreEntitySet="RoundsTriesResults">
+                <ScalarProperty Name="rounds_tries_results_id" ColumnName="rounds_tries_results_id" />
+                <ScalarProperty Name="player_in_match_id" ColumnName="player_in_match_id" />
+                <ScalarProperty Name="round" ColumnName="round" />
+                <ScalarProperty Name="tries" ColumnName="tries" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeTrialConfig">
+            <EntityTypeMapping TypeName="MasterMindModel.TimeTrialConfig">
+              <MappingFragment StoreEntitySet="TimeTrialConfig">
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="max_time_of_seconds" ColumnName="max_time_of_seconds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TriesConfig">
+            <EntityTypeMapping TypeName="MasterMindModel.TriesConfig">
+              <MappingFragment StoreEntitySet="TriesConfig">
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="max_of_tries" ColumnName="max_of_tries" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VerificationCode">
+            <EntityTypeMapping TypeName="MasterMindModel.VerificationCode">
+              <MappingFragment StoreEntitySet="VerificationCode">
+                <ScalarProperty Name="verification_code_id" ColumnName="verification_code_id" />
+                <ScalarProperty Name="verification_code" ColumnName="verification_code" />
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
