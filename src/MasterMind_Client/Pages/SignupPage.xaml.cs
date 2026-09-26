@@ -88,6 +88,18 @@ namespace MasterMind_Client.Pages
             return true;
         }
 
+        private void ModalVerificationSucceded(object sender, Player verifiedPlayer)
+        {
+            CurrentPlayer.Instance.SetCurrentPlayer(verifiedPlayer);
+
+            Properties.Settings.Default.RememberLogin = false;
+            Properties.Settings.Default.SavedUsername = "";
+
+            Properties.Settings.Default.Save();
+            NavigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+
+        }
+
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateFormsData())
@@ -98,7 +110,9 @@ namespace MasterMind_Client.Pages
                 {
                     case RegistrationResult.Success:
                         new SuccessNotificationModal(Properties.Resources.SuccessNotification_Register).Show();
-                        new VerificationCodeModal(player.username, NavigationService).Show();
+                        var modal = new VerificationCodeModal(player.username, NavigationService);
+                        modal.VerificationSucceded += ModalVerificationSucceded;
+                        modal.Show();
                         break;
                     case RegistrationResult.UsernameTaken:
                         new ErrorNotificationModal(Properties.Resources.ErrorNotification_UsernameTaken).Show();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MasterMind_Client.Data;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,10 +15,17 @@ namespace MasterMind_Client.Modals
     {
         private readonly string username;
         private readonly NavigationService navigationService;
+        public event EventHandler<Player> VerificationSucceded;
 
         public VerificationCodeModal()
         {
             InitializeComponent();
+        }
+
+        public VerificationCodeModal(string username)
+        {
+            InitializeComponent();
+            this.username = username;
         }
 
         public VerificationCodeModal(string username, NavigationService navigationService)
@@ -55,8 +63,7 @@ namespace MasterMind_Client.Modals
             var result = TempData.TempAuthService.AuthVerificationCode(username, code);
             if (result.Item1)
             {
-                CurrentPlayer.Instance.SetCurrentPlayer(result.Item2);
-                navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+                VerificationSucceded?.Invoke(this, result.Item2);
                 Application.Current.Windows.OfType<VerificationCodeModal>().FirstOrDefault()?.Close();
             }
             else

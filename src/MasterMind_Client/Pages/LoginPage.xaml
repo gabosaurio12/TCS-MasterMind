@@ -38,7 +38,7 @@
            FontSize="128"/>
 
         <UniformGrid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
-                 VerticalAlignment="Center" Rows="6" Columns="1" Margin="0,0,0,20">
+                 VerticalAlignment="Center" Rows="6" Columns="1" Margin="0,0,0,80">
 
             <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
                HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -61,6 +61,14 @@
                Background="White" Style="{StaticResource RoundedPasswordBox}" 
                Foreground="Black" FontFamily="{StaticResource Aladin}" />
 
+            <CheckBox x:Name="RememberLoginCheck" Content="{x:Static p:Resources.LoginPage_RememberLogin}"
+                      FontFamily="{StaticResource Aladin}" FontSize="16" Foreground="White"
+                      HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+
             <Button x:Name="LoginBtn" Content="{x:Static p:Resources.LoginPage_Login}"
                 HorizontalAlignment="Center" VerticalAlignment="Center" 
                 Width="230" Height="80" 
@@ -68,7 +76,7 @@
                 FontSize="48" FontFamily="{StaticResource Aladin}"
                 Click="LoginBtn_Click" />
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
                 <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.LoginPage_AccountQuestion}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Foreground="White" FontFamily="{StaticResource Aladin}"

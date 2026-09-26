@@ -5,7 +5,6 @@ using MasterMind_Client.TempData;
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using System.Windows.Navigation;
 
 namespace MasterMind_Client.Pages
@@ -44,12 +43,34 @@ namespace MasterMind_Client.Pages
             return true;
         }
 
+        private void ModalVerificationSucceded(object sender, Player verifiedPlayer)
+        {
+            CurrentPlayer.Instance.SetCurrentPlayer(verifiedPlayer);
+
+            if (RememberLoginCheck.IsChecked == true)
+            {
+                Properties.Settings.Default.RememberLogin = true;
+                Properties.Settings.Default.SavedUsername = verifiedPlayer.username;
+            }
+            else
+            {
+                Properties.Settings.Default.RememberLogin = false;
+                Properties.Settings.Default.SavedUsername = "";
+            }
+
+            Properties.Settings.Default.Save();
+            NavigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+
+        }
+
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             var player = GetFormsData();
             if (ValidateFormsData(player))
             {
-                new VerificationCodeModal(player.username, NavigationService).Show();
+                var modal = new VerificationCodeModal(player.username);
+                modal.VerificationSucceded += ModalVerificationSucceded;
+                modal.Show();
             }
         }
 

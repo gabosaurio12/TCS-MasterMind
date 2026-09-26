@@ -363,4 +363,7 @@
   <data name="RoomPage_Unready" xml:space="preserve">
     <value>Cancelar</value>
   </data>
+  <data name="LoginPage_RememberLogin" xml:space="preserve">
+    <value>¿Recordar inicio de sesión?</value>
+  </data>
 </root>

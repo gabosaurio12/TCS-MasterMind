@@ -331,6 +331,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Recordar inicio de sesión?.
+        /// </summary>
+        public static string LoginPage_RememberLogin {
+            get {
+                return ResourceManager.GetString("LoginPage_RememberLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Registrate.
         /// </summary>
         public static string LoginPage_SignupLink {
