@@ -439,15 +439,6 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Escapar.
-        /// </summary>
-        public static string PrivateRoomCodeModal_Escape {
-            get {
-                return ResourceManager.GetString("PrivateRoomCodeModal_Escape", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Unirse.
         /// </summary>
         public static string PrivateRoomCodeModal_Join {
@@ -525,6 +516,51 @@ namespace MasterMind_Client.Properties {
         public static string ProfilePage_Update {
             get {
                 return ResourceManager.GetString("ProfilePage_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Chat.
+        /// </summary>
+        public static string RoomPage_Chat {
+            get {
+                return ResourceManager.GetString("RoomPage_Chat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Decifradores.
+        /// </summary>
+        public static string RoomPage_Deciphers {
+            get {
+                return ResourceManager.GetString("RoomPage_Deciphers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Listo.
+        /// </summary>
+        public static string RoomPage_Ready {
+            get {
+                return ResourceManager.GetString("RoomPage_Ready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Sala.
+        /// </summary>
+        public static string RoomPage_Room {
+            get {
+                return ResourceManager.GetString("RoomPage_Room", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cancelar.
+        /// </summary>
+        public static string RoomPage_Unready {
+            get {
+                return ResourceManager.GetString("RoomPage_Unready", resourceCulture);
             }
         }
         
@@ -705,6 +741,15 @@ namespace MasterMind_Client.Properties {
         public static string UI_Create {
             get {
                 return ResourceManager.GetString("UI_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Escapar.
+        /// </summary>
+        public static string UI_Escape {
+            get {
+                return ResourceManager.GetString("UI_Escape", resourceCulture);
             }
         }
         

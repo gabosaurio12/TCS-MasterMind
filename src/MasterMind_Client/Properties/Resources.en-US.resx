@@ -222,7 +222,7 @@
   <data name="PrivateRoomCodeModal_Join" xml:space="preserve">
     <value>Join</value>
   </data>
-  <data name="PrivateRoomCodeModal_Escape" xml:space="preserve">
+  <data name="UI_Escape" xml:space="preserve">
     <value>Escape</value>
   </data>
   <data name="YouWonModal_Title" xml:space="preserve">
@@ -347,5 +347,20 @@
   </data>
   <data name="RoomsPage_Create" xml:space="preserve">
     <value>Create</value>
+  </data>
+  <data name="RoomPage_Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="RoomPage_Deciphers" xml:space="preserve">
+    <value>Deciphers</value>
+  </data>
+  <data name="RoomPage_Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="RoomPage_Room" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="RoomPage_Unready" xml:space="preserve">
+    <value>Unready</value>
   </data>
 </root>
