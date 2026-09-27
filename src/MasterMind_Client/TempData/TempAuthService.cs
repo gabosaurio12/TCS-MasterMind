@@ -1,12 +1,9 @@
 ﻿using BCrypt.Net;
 using log4net;
-using log4net.Core;
-using log4net.Repository.Hierarchy;
 using MasterMind_Client.Data;
 using MasterMind_Client.TempData.Enum;
 using System.Data.Entity.Core;
 using System.Linq;
-using System.Numerics;
 using System.Security.Cryptography;
 
 namespace MasterMind_Client.TempData
@@ -52,17 +49,17 @@ namespace MasterMind_Client.TempData
             return false;
         }
 
-        public static RegistrationResult RegisterPlayer(Player player)
+        public static PlayerRegistrationResultEnum RegisterPlayer(Player player)
         {
             try
             {
                 if (Context.Player.Any(p => p.username == player.username))
                 {
-                    return RegistrationResult.UsernameTaken;
+                    return PlayerRegistrationResultEnum.UsernameTaken;
                 }
                 if (Context.Player.Any(p => p.email == player.email))
                 {
-                    return RegistrationResult.EmailTaken;
+                    return PlayerRegistrationResultEnum.EmailTaken;
                 }
 
                 player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
@@ -72,14 +69,14 @@ namespace MasterMind_Client.TempData
 
                 SendVerificationCode(player.player_id);
 
-                return RegistrationResult.Success;
+                return PlayerRegistrationResultEnum.Success;
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
             }
 
-            return RegistrationResult.Error;
+            return PlayerRegistrationResultEnum.Error;
         }
 
         public static (bool, Player) AuthVerificationCode(string username, string code)
@@ -87,7 +84,7 @@ namespace MasterMind_Client.TempData
 
             try
             {
-                var player = Context.Player.FirstOrDefault(p => p.username == username);
+                var player = TempPlayerService.GetPlayerByUsername(username);
                 if (player != null)
                 {
                     var authCode = Context.VerificationCode.FirstOrDefault(vc => vc.verification_code == code && vc.player_id == player.player_id);

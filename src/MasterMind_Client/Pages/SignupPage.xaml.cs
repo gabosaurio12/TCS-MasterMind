@@ -117,18 +117,18 @@ namespace MasterMind_Client.Pages
                 var result = TempAuthService.RegisterPlayer(player);
                 switch (result)
                 {
-                    case RegistrationResult.Success:
+                    case PlayerRegistrationResultEnum.Success:
                         pendingPlayerUsername = player.username;
                         var successModal = new SuccessNotificationModal(Properties.Resources.SuccessNotification_Register, true);
                         successModal.ModalClosed += ModalClosed;
                         successModal.Show();
                         break;
                         
-                    case RegistrationResult.UsernameTaken:
+                    case PlayerRegistrationResultEnum.UsernameTaken:
                         new ErrorNotificationModal(Properties.Resources.ErrorNotification_UsernameTaken).Show();
                         break;
 
-                    case RegistrationResult.EmailTaken:
+                    case PlayerRegistrationResultEnum.EmailTaken:
                         new ErrorNotificationModal(Properties.Resources.ErrorNotification_EmailTaken).Show();
                         break;
                 }

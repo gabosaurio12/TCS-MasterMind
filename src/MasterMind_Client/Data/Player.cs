@@ -37,6 +37,8 @@ namespace MasterMind_Client.Data
         public int number_of_reports { get; set; }
         public string username { get; set; }
         public string password { get; set; }
+        public string avatar_path { get; set; }
+        public Nullable<byte> is_online { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DecipherTry> DecipherTry { get; set; }

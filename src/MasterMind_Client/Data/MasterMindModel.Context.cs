@@ -31,6 +31,7 @@ namespace MasterMind_Client.Data
         public virtual DbSet<CorrectPositionAndColorsClue> CorrectPositionAndColorsClue { get; set; }
         public virtual DbSet<DecipherTry> DecipherTry { get; set; }
         public virtual DbSet<DecipherTryCode> DecipherTryCode { get; set; }
+        public virtual DbSet<DifficultiesCatalog> DifficultiesCatalog { get; set; }
         public virtual DbSet<Friendship> Friendship { get; set; }
         public virtual DbSet<GameInvitation> GameInvitation { get; set; }
         public virtual DbSet<GameModesCatalog> GameModesCatalog { get; set; }
@@ -42,6 +43,7 @@ namespace MasterMind_Client.Data
         public virtual DbSet<PlayerReport> PlayerReport { get; set; }
         public virtual DbSet<PlayerTimeTrialRecords> PlayerTimeTrialRecords { get; set; }
         public virtual DbSet<PlayerTriesRecords> PlayerTriesRecords { get; set; }
+        public virtual DbSet<PrivacyCatalog> PrivacyCatalog { get; set; }
         public virtual DbSet<ReportReasonCatalog> ReportReasonCatalog { get; set; }
         public virtual DbSet<RequestStatusCatalog> RequestStatusCatalog { get; set; }
         public virtual DbSet<RoundsTimeResults> RoundsTimeResults { get; set; }

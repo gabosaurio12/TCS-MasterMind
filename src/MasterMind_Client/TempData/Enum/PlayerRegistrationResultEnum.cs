@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MasterMind_Client.TempData.Enum
 {
-    public enum RegistrationResult
+    public enum PlayerRegistrationResultEnum
     {
         Success,
         UsernameTaken,

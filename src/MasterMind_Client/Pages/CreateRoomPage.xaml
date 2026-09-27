@@ -62,15 +62,16 @@
                                FontSize="64" Margin="0,0,0,15"/>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="TimeTrialBtn" Content="{x:Static p:Resources.Gamemode_TimeTrial}"
-                                    Style="{StaticResource ModalButton}" FontFamily="{StaticResource Aladin}"
-                                    Width="250" Height="64" FontSize="48"
-                                    Margin="0,0,40,0" Click="TimeTrialBtn_Click"/>
+                            <RadioButton x:Name="TimeTrialBtn" Content="{x:Static p:Resources.Gamemode_TimeTrial}"
+                                         GroupName="GamemodeGroup"
+                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
+                                         Width="250" Height="64" FontSize="48"
+                                         Margin="0,0,40,0"/>
 
-                            <Button x:Name="TriesBtn" Content="{x:Static p:Resources.Gamemode_Tries}"
-                                    Style="{StaticResource ModalButton}" FontFamily="{StaticResource Aladin}"
-                                    Width="250" Height="64" FontSize="48"
-                                    Click="TriesBtn_Click"/>
+                            <RadioButton x:Name="TriesBtn" Content="{x:Static p:Resources.Gamemode_Tries}"
+                                         GroupName="GamemodeGroup"
+                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
+                                         Width="250" Height="64" FontSize="48"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -82,53 +83,54 @@
                                FontSize="64" Margin="0,0,0,15"/>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="PrivateBtn" Content="{x:Static p:Resources.RoomPrivacy_Private}"
-                                    Style="{StaticResource ModalRedButton}" FontFamily="{StaticResource Aladin}"
-                                    Width="250" Height="64" FontSize="48"
-                                    Margin="0,0,40,0" Click="PrivateBtn_Click"/>
+                            <RadioButton x:Name="PrivateBtn" Content="{x:Static p:Resources.RoomPrivacy_Private}"
+                                         GroupName="PrivacyGroup"
+                                         Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Aladin}"
+                                         Width="250" Height="64" FontSize="48"
+                                         Margin="0,0,40,0"/>
 
-                            <Button x:Name="PublicBtn" Content="{x:Static p:Resources.RoomPrivacy_Public}"
-                                    Style="{StaticResource ModalButton}" FontFamily="{StaticResource Aladin}"
-                                    Width="250" Height="64" FontSize="48"
-                                    Click="PublicBtn_Click"/>
+                            <RadioButton x:Name="PublicBtn" Content="{x:Static p:Resources.RoomPrivacy_Public}"
+                                         GroupName="PrivacyGroup"
+                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
+                                         Width="250" Height="64" FontSize="48"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
 
-                <!-- ButtonsGrid Column 1 -->
+                <!-- ButtonsGrid Column1 -->
                 <StackPanel Grid.Column="1" HorizontalAlignment="Center">
                     <Label x:Name="DifficultyLbl"
                            Content="{x:Static p:Resources.CreateRoomPage_Difficulty}"
                            FontFamily="{StaticResource Aladin}" Foreground="White"
                            FontSize="64" Margin="0,0,0,15"/>
 
+                    <!-- DifficultyStack -->
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="EasyBtn" Content="{x:Static p:Resources.GameDifficulty_Easy}"
-                                    Style="{StaticResource ModalButton}" FontFamily="{StaticResource Aladin}"
-                                    Width="200" Height="64" FontSize="48"
-                                    Margin="0,0,40,0" Click="EasyBtn_Click"/>
+                            <RadioButton x:Name="EasyBtn" Content="{x:Static p:Resources.GameDifficulty_Easy}"
+                                         GroupName="DifficultyGroup"
+                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
+                                         Width="200" Height="64" FontSize="48"
+                                         Margin="0,0,40,0"/>
 
-                            <Button x:Name="NormalBtn" Content="{x:Static p:Resources.GameDifficulty_Normal}"
-                                    Style="{StaticResource ModalYellowButton}" FontFamily="{StaticResource Aladin}"
-                                    Width="200" Height="64" FontSize="48"
-                                    Margin="0,0,40,0" Click="NormalBtn_Click"/>
+                            <RadioButton x:Name="NormalBtn" Content="{x:Static p:Resources.GameDifficulty_Normal}"
+                                         GroupName="DifficultyGroup"
+                                         Style="{StaticResource RadioButtonYellow}" FontFamily="{StaticResource Aladin}"
+                                         Width="200" Height="64" FontSize="48"
+                                         Margin="0,0,40,0"/>
 
-                            <Button x:Name="HardBtn" Content="{x:Static p:Resources.GameDifficulty_Hard}"
-                                    Style="{StaticResource ModalOrangeButton}" FontFamily="{StaticResource Aladin}"
-                                    Width="200" Height="64" FontSize="48"
-                                    Click="HardBtn_Click"/>
+                            <RadioButton x:Name="HardBtn" Content="{x:Static p:Resources.GameDifficulty_Hard}"
+                                         GroupName="DifficultyGroup"
+                                         Style="{StaticResource RadioButtonOrange}" FontFamily="{StaticResource Aladin}"
+                                         Width="200" Height="64" FontSize="48"/>
                         </StackPanel>
 
-                        <Button x:Name="Enigmabtn" Content="{x:Static p:Resources.GameDifficulty_Enigma}"
-                                Style="{StaticResource ModalRedButton}" FontFamily="{StaticResource Aladin}"
-                                Width="200" Height="64" FontSize="48"
-                                Margin="0,40,0,0" Click="Enigmabtn_Click" />
+                        <RadioButton x:Name="Enigmabtn" Content="{x:Static p:Resources.GameDifficulty_Enigma}"
+                                     GroupName="DifficultyGroup"
+                                     Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Aladin}"
+                                     Width="200" Height="64" FontSize="48"
+                                     Margin="0,40,0,0"/>
                     </StackPanel>
-
-
-
-
                 </StackPanel>
             </Grid>
         </Grid>

@@ -372,4 +372,10 @@
   <data name="LogOutModal_LogOut" xml:space="preserve">
     <value>Cerrar sesión</value>
   </data>
+  <data name="SuccessNotification_MatchRoomCreatedSuccessfully" xml:space="preserve">
+    <value>¡La sala fue creada con éxito!</value>
+  </data>
+  <data name="ErrorNotification_ErrorCreatingMatchRoom" xml:space="preserve">
+    <value>Hubo un error al crear la sala, intenta de nuevo más tarde</value>
+  </data>
 </root>

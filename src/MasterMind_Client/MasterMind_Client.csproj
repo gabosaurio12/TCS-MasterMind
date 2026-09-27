@@ -255,6 +255,9 @@
     <Compile Include="Data\DecipherTryCode.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\DifficultiesCatalog.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Friendship.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
@@ -304,6 +307,9 @@
     <Compile Include="Data\PlayerTriesRecords.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\PrivacyCatalog.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\ReportReasonCatalog.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
@@ -346,6 +352,9 @@
     <Compile Include="Pages\CreateRoomPage.xaml.cs">
       <DependentUpon>CreateRoomPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PagesUserControls\MatchRoomUserControl.xaml.cs">
+      <DependentUpon>MatchRoomUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PagesUserControls\RoomPlayerUserControl.xaml.cs">
       <DependentUpon>RoomPlayerUserControl.xaml</DependentUpon>
     </Compile>
@@ -361,11 +370,13 @@
     <Compile Include="Pages\UpdateProfilePage.xaml.cs">
       <DependentUpon>UpdateProfilePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TempData\DTO\MatchRoomDto.cs" />
     <Compile Include="TempData\DTO\PlayerReportDto.cs" />
+    <Compile Include="TempData\Enum\MatchRoomCreationResultEnum.cs" />
     <Compile Include="TempData\Enum\ReportReasonEnum.cs" />
-    <Compile Include="TempData\Enum\RequestResult.cs" />
     <Compile Include="TempData\Enum\RequestStatusEnum.cs" />
     <Compile Include="TempData\FriendshipService.cs" />
+    <Compile Include="TempData\TempMatchRoomsService.cs" />
     <Compile Include="TempData\TempPlayerService.cs" />
     <Page Include="Assets\Styles.xaml">
       <SubType>Designer</SubType>
@@ -428,6 +439,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\PagesUserControls\MatchRoomUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\PagesUserControls\RoomPlayerUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -469,7 +484,7 @@
     <Compile Include="Pages\SignupPage.xaml.cs">
       <DependentUpon>SignupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TempData\Enum\RegistrationResult.cs" />
+    <Compile Include="TempData\Enum\PlayerRegistrationResultEnum.cs" />
     <Compile Include="TempData\TempAuthService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -507,13 +522,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Assets\Fonts\Aladin-Regular.ttf" />
+    <None Include=".env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <EntityDeploy Include="Data\MasterMindModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MasterMindModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include=".env">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Data\MasterMindModel.edmx.diagram">
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
     </None>
@@ -542,7 +557,6 @@
   <ItemGroup>
     <Resource Include="Images\Avatars\Link.jpg" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Data\MasterMindModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -12,17 +12,45 @@ namespace MasterMind_Client.TempData
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(FriendshipService));
-        private readonly static int PendingStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Pending.ToString()).request_status_id;
-        private readonly static int AcceptedStatusId = Context.RequestStatusCatalog.FirstOrDefault(rq => rq.status == RequestStatusEnum.Accepted.ToString()).request_status_id;
+        private static int pendingStatusId;
+        private static int acceptedStatusId;
+        private static readonly object catalogLock = new object();
 
-        public static RequestResult SendFrienshipRequest(int requesterId, int addresseeId)
+        private static void EnsureCatalogsLoaded()
+        {
+            if (pendingStatusId != 0)
+            {
+                return;
+            }
+
+            lock (catalogLock)
+            {
+                if (pendingStatusId != 0)
+                {
+                    return;
+                }
+
+                using (var context = new MasterMindEntities(true))
+                {
+                    pendingStatusId = context.RequestStatusCatalog
+                        .FirstOrDefault(rq => rq.status == RequestStatusEnum.RequestIsPendant.ToString()).request_status_id;
+
+                    acceptedStatusId = context.RequestStatusCatalog
+                        .FirstOrDefault(rq => rq.status == RequestStatusEnum.Accepted.ToString()).request_status_id;
+                }
+            }
+        }
+
+        public static RequestStatusEnum SendFrienshipRequest(int requesterId, int addresseeId)
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var request = Context.Friendship.FirstOrDefault(
                     r => r.requester_id == requesterId &&
                     r.addressee_id == addresseeId &&
-                    r.status_id == PendingStatusId);
+                    r.status_id == pendingStatusId);
 
                 if (request == null)
                 {
@@ -31,17 +59,17 @@ namespace MasterMind_Client.TempData
                         {
                             requester_id = requesterId,
                             addressee_id = addresseeId,
-                            status_id = PendingStatusId
+                            status_id = pendingStatusId
                         });
 
                     Context.SaveChanges();
 
-                    return RequestResult.Success;
+                    return RequestStatusEnum.Success;
                 }
                 else
                 {
-                    if (request.status_id == PendingStatusId)
-                        return RequestResult.RequestIsPendant;
+                    if (request.status_id == pendingStatusId)
+                        return RequestStatusEnum.RequestIsPendant;
                 }
             }
             catch (EntityException ex)
@@ -49,22 +77,24 @@ namespace MasterMind_Client.TempData
                 logger.Error(ex);
             }
             
-            return RequestResult.Error;
+            return RequestStatusEnum.Error;
         }
 
-        public static RequestResult AcceptFriendRequest(int requestId)
+        public static RequestStatusEnum AcceptFriendRequest(int requestId)
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var request = Context.Friendship.FirstOrDefault(
                 r => r.friendship_id == requestId &&
-                r.status_id == PendingStatusId);
+                r.status_id == pendingStatusId);
 
                 if (request != null)
                 {
-                    request.status_id = AcceptedStatusId;
+                    request.status_id = acceptedStatusId;
                     Context.SaveChanges();
-                    return RequestResult.Success;
+                    return RequestStatusEnum.Success;
                 }
             }
             catch (EntityException ex)
@@ -72,22 +102,24 @@ namespace MasterMind_Client.TempData
                 logger.Error(ex);
             }
 
-            return RequestResult.Error;
+            return RequestStatusEnum.Error;
         }
 
-        public static RequestResult RejectFriendRequest(int requestId)
+        public static RequestStatusEnum RejectFriendRequest(int requestId)
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var request = Context.Friendship.FirstOrDefault(
                 r => r.friendship_id == requestId &&
-                r.status_id == PendingStatusId);
+                r.status_id == pendingStatusId);
 
                 if (request != null)
                 {
                     Context.Friendship.Remove(request);
                     Context.SaveChanges();
-                    return RequestResult.Success;
+                    return RequestStatusEnum.Success;
                 }
             }
             catch (EntityException ex)
@@ -95,15 +127,17 @@ namespace MasterMind_Client.TempData
                 logger.Error(ex);
             }
             
-            return RequestResult.Error;
+            return RequestStatusEnum.Error;
         }
 
         public static List<Player> GetFriendRequests(int playerId)
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var friendships = Context.Friendship.Where(f => f.addressee_id == playerId &&
-                f.status_id == PendingStatusId).ToList();
+                f.status_id == pendingStatusId).ToList();
 
                 List<int> friendsIds = new List<int>();
 
@@ -138,10 +172,12 @@ namespace MasterMind_Client.TempData
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var friendships = Context.Friendship.Where(f => (
                 f.requester_id == playerId ||
                 f.addressee_id == playerId) &&
-                f.status_id == AcceptedStatusId).ToList();
+                f.status_id == acceptedStatusId).ToList();
 
                 List<int> friendsIds = new List<int>();
 
@@ -175,10 +211,12 @@ namespace MasterMind_Client.TempData
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var request = Context.Friendship.FirstOrDefault(
                 r => r.requester_id == requesterId &&
                 r.addressee_id == addresseeId &&
-                r.status_id == PendingStatusId);
+                r.status_id == pendingStatusId);
 
                 if (request != null)
                 {
@@ -198,10 +236,12 @@ namespace MasterMind_Client.TempData
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var request = Context.Friendship.FirstOrDefault(
                                 r => r.requester_id == requesterId &&
                                 r.addressee_id == addresseeId &&
-                                r.status_id == AcceptedStatusId);
+                                r.status_id == acceptedStatusId);
 
                 if (request != null)
                 {

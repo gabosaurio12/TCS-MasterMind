@@ -1,9 +1,0 @@
-IF EXISTS (SELECT * FROM sys.databases WHERE name='MasterMind')
-BEGIN
-    ALTER DATABASE [MasterMind] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE [MasterMind];
-END
-GO
-
-CREATE DATABASE [MasterMind];
-GO

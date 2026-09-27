@@ -1,8 +1,12 @@
-﻿namespace MasterMind_Client.TempData.Enum
+﻿
+
+namespace MasterMind_Client.TempData.Enum
 {
     public enum RequestStatusEnum
     {
+        Success,
         Accepted,
-        Pending
+        RequestIsPendant,
+        Error
     }
 }
