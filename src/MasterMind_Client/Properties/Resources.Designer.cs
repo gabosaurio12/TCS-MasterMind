@@ -115,6 +115,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Hubo un error al crear la sala, intenta de nuevo más tarde.
+        /// </summary>
+        public static string ErrorNotification_ErrorCreatingMatchRoom {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorCreatingMatchRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Hubo un error al enviar la solicitud de amistad. Intenta de nuevo más tarde.
         /// </summary>
         public static string ErrorNotification_ErrorSendingFriendRequest {
@@ -687,6 +696,15 @@ namespace MasterMind_Client.Properties {
         public static string SuccessNotification_FriendRequestSent {
             get {
                 return ResourceManager.GetString("SuccessNotification_FriendRequestSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡La sala fue creada con éxito!.
+        /// </summary>
+        public static string SuccessNotification_MatchRoomCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("SuccessNotification_MatchRoomCreatedSuccessfully", resourceCulture);
             }
         }
         

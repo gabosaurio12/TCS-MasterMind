@@ -3,10 +3,12 @@ GO
 
 CREATE TABLE [Player] (
   [player_id] int PRIMARY KEY IDENTITY(1, 1),
-  [email] nvarchar(255) UNIQUE,
+  [email] nvarchar(255) NOT NULL UNIQUE,
   [number_of_reports] int NOT NULL DEFAULT 0,
-  [username] nvarchar(255) UNIQUE,
-  [password] nvarchar(255)
+  [username] nvarchar(255) NOT NULL UNIQUE,
+  [password] nvarchar(255) NOT NULL,
+  [avatar_path] nvarchar(500),
+  [is_online] tinyint
 )
 GO
 
@@ -113,11 +115,26 @@ CREATE TABLE [GameModesCatalog] (
 )
 GO
 
+CREATE TABLE [DifficultiesCatalog] (
+  [difficulty_id] int PRIMARY KEY IDENTITY(1, 1),
+  [difficulty] nvarchar(255) UNIQUE NOT NULL
+)
+GO
+
+CREATE TABLE [PrivacyCatalog] (
+  [privacy_id] int PRIMARY KEY IDENTITY(1, 1),
+  [privacy] nvarchar(255) UNIQUE NOT NULL
+)
+GO
+
 CREATE TABLE [MatchRoom] (
   [match_room_id] int PRIMARY KEY IDENTITY(1, 1),
+  [match_room_name] nvarchar(100) NOT NULL,
   [gamemode_id] int NOT NULL,
+  [difficulty_id] int NOT NULL,
   [player_one_id] int NOT NULL,
-  [player_two_id] int NOT NULL,
+  [player_two_id] int,
+  [room_privacy_id] int NOT NULL,
   [private_room_code] nvarchar(255)
 )
 GO
@@ -268,10 +285,16 @@ GO
 ALTER TABLE [MatchRoom] ADD FOREIGN KEY ([gamemode_id]) REFERENCES [GameModesCatalog] ([gamemode_id])
 GO
 
+ALTER TABLE [MatchRoom] ADD FOREIGN KEY (difficulty_id) REFERENCES [DifficultiesCatalog] ([difficulty_id])
+GO
+
 ALTER TABLE [MatchRoom] ADD FOREIGN KEY ([player_one_id]) REFERENCES [Player] ([player_id])
 GO
 
 ALTER TABLE [MatchRoom] ADD FOREIGN KEY ([player_two_id]) REFERENCES [Player] ([player_id])
+GO
+
+ALTER TABLE [MatchRoom] ADD FOREIGN KEY (room_privacy_id) REFERENCES [PrivacyCatalog] ([privacy_id])
 GO
 
 ALTER TABLE [TimeTrialConfig] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id])
@@ -309,13 +332,24 @@ GO
 INSERT INTO [RequestStatusCatalog] ([status])
 VALUES
   ('Pending'),
-  ('Accepted'),
-  ('Rejected');
+  ('Accepted');
 GO
 INSERT INTO [ReportReasonCatalog] ([reason])
 VALUES
   ('InappropriateLanguage'),
   ('Cheating');
+GO
+INSERT INTO [PrivacyCatalog] ([privacy])
+VALUES
+  ('Public'),
+  ('Private');
+GO
+INSERT INTO [DifficultiesCatalog] ([difficulty])
+VALUES
+  ('Easy'),
+  ('Normal'),
+  ('Hard'),
+  ('Enigma');
 GO
 INSERT INTO [ClueColorsCatalog] ([color])
 VALUES

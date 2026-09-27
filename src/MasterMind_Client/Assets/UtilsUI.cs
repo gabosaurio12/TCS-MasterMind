@@ -16,6 +16,9 @@ namespace MasterMind_Client.Assets
         public static readonly SolidColorBrush UnpressedRed = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D92A2D"));
         public static readonly SolidColorBrush UnpressedYellow = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9C22A"));
         public static readonly SolidColorBrush UnpressedOrange = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D97C2A"));
+        public static readonly SolidColorBrush PrivateRed = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D92A2D"));
+        public static readonly SolidColorBrush RoomDefaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#585858"));
+        public static readonly SolidColorBrush RoomSelectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#58A354"));
 
         public static void ChangeLanguage(NavigationService navigation)
         {

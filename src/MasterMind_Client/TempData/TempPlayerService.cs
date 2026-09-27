@@ -12,10 +12,28 @@ namespace MasterMind_Client.TempData
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(TempPlayerService));
-        private readonly static int InappropriateLanguageId = Context.ReportReasonCatalog.FirstOrDefault(
-            r => r.reason == ReportReasonEnum.InappropriateLanguage.ToString()).report_reason_id;
-        private readonly static int CheatingId = Context.ReportReasonCatalog.FirstOrDefault(
-            r => r.reason == ReportReasonEnum.Cheating.ToString()).report_reason_id;
+        private static int inappropriateLanguageId;
+        private static int cheatingId;
+        private static readonly object catalogLock = new object();
+
+        private static void EnsureCatalogsLoaded()
+        {
+            if (inappropriateLanguageId != 0) return;
+
+            lock (catalogLock)
+            {
+                if (inappropriateLanguageId != 0) return;
+
+                using (var context = new MasterMindEntities(true))
+                {
+                    inappropriateLanguageId = context.ReportReasonCatalog
+                        .FirstOrDefault(r => r.reason == ReportReasonEnum.InappropriateLanguage.ToString()).report_reason_id;
+
+                    cheatingId = context.ReportReasonCatalog
+                        .FirstOrDefault(r => r.reason == ReportReasonEnum.Cheating.ToString()).report_reason_id;
+                }
+            }
+        }
 
         public static void UpdatePlayer(Player updatedPlayer)
         {
@@ -30,8 +48,7 @@ namespace MasterMind_Client.TempData
 
                     Context.SaveChanges();
 
-                    CurrentPlayer.Instance.SetCurrentPlayer(Context.Player.FirstOrDefault(
-                        p => p.player_id == updatedPlayer.player_id));
+                    CurrentPlayer.Instance.SetCurrentPlayer(player);
                 }
 
             }
@@ -64,6 +81,8 @@ namespace MasterMind_Client.TempData
         {
             try
             {
+                EnsureCatalogsLoaded();
+
                 var reportedPlayer = GetPlayerByUsername(report.ReportedPlayerUsername);
                 if (reportedPlayer != null)
                 {
@@ -73,11 +92,11 @@ namespace MasterMind_Client.TempData
                         int reasonId;
                         if (report.Reason == ReportReasonEnum.InappropriateLanguage)
                         {
-                            reasonId = InappropriateLanguageId;
+                            reasonId = inappropriateLanguageId;
                         }
                         else
                         {
-                            reasonId = CheatingId;
+                            reasonId = cheatingId;
                         }
                         Context.PlayerReport.Add(new PlayerReport
                         {

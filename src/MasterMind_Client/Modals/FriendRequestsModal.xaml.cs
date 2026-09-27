@@ -2,7 +2,6 @@
 using MasterMind_Client.Modals.ModalsUserControls;
 using MasterMind_Client.TempData;
 using MasterMind_Client.TempData.Enum;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -83,13 +82,13 @@ namespace MasterMind_Client.Modals
 
             switch(result)
             {
-                case RequestResult.Success:
+                case RequestStatusEnum.Success:
                     new SuccessNotificationModal(Properties.Resources.SuccessNotification_FriendRequestSent).Show();
                     break;
-                case RequestResult.RequestIsPendant:
+                case RequestStatusEnum.RequestIsPendant:
                     new ErrorNotificationModal(Properties.Resources.ErrorNotification_FriendRequestPending).Show();
                     break;
-                case RequestResult.Error:
+                case RequestStatusEnum.Error:
                     new ErrorNotificationModal(Properties.Resources.ErrorNotification_ErrorSendingFriendRequest).Show();
                     break;
             }

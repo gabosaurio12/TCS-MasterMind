@@ -372,4 +372,10 @@
   <data name="LogOutModal_LogOut" xml:space="preserve">
     <value>Log out</value>
   </data>
+  <data name="SuccessNotification_MatchRoomCreatedSuccessfully" xml:space="preserve">
+    <value>The room was successfully created!</value>
+  </data>
+  <data name="ErrorNotification_ErrorCreatingMatchRoom" xml:space="preserve">
+    <value>There was an error while creating the room, try again later</value>
+  </data>
 </root>
