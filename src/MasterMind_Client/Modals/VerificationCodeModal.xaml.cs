@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace MasterMind_Client.Modals
 {
@@ -14,7 +13,6 @@ namespace MasterMind_Client.Modals
     public partial class VerificationCodeModal : Window
     {
         private readonly string username;
-        private readonly NavigationService navigationService;
         public event EventHandler<Player> VerificationSucceded;
 
         public VerificationCodeModal()
@@ -26,13 +24,6 @@ namespace MasterMind_Client.Modals
         {
             InitializeComponent();
             this.username = username;
-        }
-
-        public VerificationCodeModal(string username, NavigationService navigationService)
-        {
-            InitializeComponent();
-            this.username = username;
-            this.navigationService = navigationService;
         }
 
         private void MoveFocusToNext(TextBox currentTxt)

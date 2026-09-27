@@ -358,6 +358,24 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Cerrar sesión.
+        /// </summary>
+        public static string LogOutModal_LogOut {
+            get {
+                return ResourceManager.GetString("LogOutModal_LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Qué deseas hacer?.
+        /// </summary>
+        public static string LogOutModal_Title {
+            get {
+                return ResourceManager.GetString("LogOutModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Amigos.
         /// </summary>
         public static string MainPage_Friends {
@@ -381,15 +399,6 @@ namespace MasterMind_Client.Properties {
         public static string MainPage_Profile {
             get {
                 return ResourceManager.GetString("MainPage_Profile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Salir.
-        /// </summary>
-        public static string MainPage_Quit {
-            get {
-                return ResourceManager.GetString("MainPage_Quit", resourceCulture);
             }
         }
         
@@ -759,6 +768,15 @@ namespace MasterMind_Client.Properties {
         public static string UI_Escape {
             get {
                 return ResourceManager.GetString("UI_Escape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Salir.
+        /// </summary>
+        public static string UI_Quit {
+            get {
+                return ResourceManager.GetString("UI_Quit", resourceCulture);
             }
         }
         

@@ -402,4 +402,37 @@
         </Setter>
     </Style>
 
+    <Style x:Key="LargeCheckBox" TargetType="CheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <StackPanel Orientation="Horizontal">
+                        <Border x:Name="CheckBoxBorder"
+                            Width="30" Height="30"
+                            Background="White"
+                            BorderBrush="#585858"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            VerticalAlignment="Center">
+                            <Path x:Name="CheckMark"
+                              Data="M 2 8 L 7 13 L 16 2"
+                              Stroke="#67D92A"
+                              StrokeThickness="3"
+                              Visibility="Collapsed"
+                              Stretch="Uniform"
+                              Margin="4"/>
+                        </Border>
+                        <ContentPresenter Margin="8,0,0,0" 
+                                       VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

@@ -19,6 +19,23 @@ namespace MasterMind_Client
             CultureInfo.DefaultThreadCurrentUICulture = cultureToUse;
 
             XmlConfigurator.Configure();
+
+            var mainWindow = new MainWindow();
+
+            if (MasterMind_Client.Properties.Settings.Default.RememberLogin &&
+                !string.IsNullOrEmpty(MasterMind_Client.Properties.Settings.Default.SavedUsername))
+            {
+                var savedPlayer = TempData.TempPlayerService.GetPlayerByUsername(
+                    MasterMind_Client.Properties.Settings.Default.SavedUsername);
+
+                if (savedPlayer != null)
+                {
+                    CurrentPlayer.Instance.SetCurrentPlayer(savedPlayer);
+                    mainWindow.Source = new System.Uri("Pages/MainPage.xaml", System.UriKind.Relative);
+                }
+            }
+
+            mainWindow.Show();
         }
 
         private static CultureInfo DetermineStartupCulture()

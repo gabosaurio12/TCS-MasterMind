@@ -61,13 +61,11 @@
                Background="White" Style="{StaticResource RoundedPasswordBox}" 
                Foreground="Black" FontFamily="{StaticResource Aladin}" />
 
-            <CheckBox x:Name="RememberLoginCheck" Content="{x:Static p:Resources.LoginPage_RememberLogin}"
-                      FontFamily="{StaticResource Aladin}" FontSize="16" Foreground="White"
-                      HorizontalAlignment="Center" VerticalAlignment="Center" >
-                <CheckBox.LayoutTransform>
-                    <ScaleTransform ScaleX="2" ScaleY="2" />
-                </CheckBox.LayoutTransform>
-            </CheckBox>
+            <CheckBox x:Name="RememberLoginCheck" FontSize="32"
+                      Content="{x:Static p:Resources.LoginPage_RememberLogin}"
+                      FontFamily="{StaticResource Aladin}"
+                      Foreground="White" HorizontalAlignment="Center" 
+                      VerticalAlignment="Center" Style="{StaticResource LargeCheckBox}" />
 
             <Button x:Name="LoginBtn" Content="{x:Static p:Resources.LoginPage_Login}"
                 HorizontalAlignment="Center" VerticalAlignment="Center" 
