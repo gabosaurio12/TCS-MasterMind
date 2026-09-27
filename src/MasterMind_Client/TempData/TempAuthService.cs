@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using BCrypt.Net;
+using log4net;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
 using MasterMind_Client.Data;
@@ -23,16 +24,25 @@ namespace MasterMind_Client.TempData
 
             try
             {
-                var authPlayer = Context.Player.FirstOrDefault(p => p.username == player.username && p.password == player.password);
+                var authPlayer = Context.Player.FirstOrDefault(p => p.username == player.username);
 
                 if (authPlayer == null)
                 {
                     return false;
                 }
-
-                SendVerificationCode(authPlayer.player_id);
-
-                return true;
+                try
+                {
+                    if (BCrypt.Net.BCrypt.Verify(player.password, authPlayer.password))
+                    {
+                        SendVerificationCode(authPlayer.player_id);
+                        return true;
+                    }
+                }
+                catch (SaltParseException ex)
+                {
+                    logger.Error(ex);
+                }
+                
             }
             catch (EntityException ex)
             {
@@ -54,6 +64,8 @@ namespace MasterMind_Client.TempData
                 {
                     return RegistrationResult.EmailTaken;
                 }
+
+                player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
 
                 Context.Player.Add(player);
                 Context.SaveChanges();

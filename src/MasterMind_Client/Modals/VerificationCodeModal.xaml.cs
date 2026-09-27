@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MasterMind_Client.Data;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace MasterMind_Client.Modals
 {
@@ -13,18 +13,17 @@ namespace MasterMind_Client.Modals
     public partial class VerificationCodeModal : Window
     {
         private readonly string username;
-        private readonly NavigationService navigationService;
+        public event EventHandler<Player> VerificationSucceded;
 
         public VerificationCodeModal()
         {
             InitializeComponent();
         }
 
-        public VerificationCodeModal(string username, NavigationService navigationService)
+        public VerificationCodeModal(string username)
         {
             InitializeComponent();
             this.username = username;
-            this.navigationService = navigationService;
         }
 
         private void MoveFocusToNext(TextBox currentTxt)
@@ -55,8 +54,7 @@ namespace MasterMind_Client.Modals
             var result = TempData.TempAuthService.AuthVerificationCode(username, code);
             if (result.Item1)
             {
-                CurrentPlayer.Instance.SetCurrentPlayer(result.Item2);
-                navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+                VerificationSucceded?.Invoke(this, result.Item2);
                 Application.Current.Windows.OfType<VerificationCodeModal>().FirstOrDefault()?.Close();
             }
             else

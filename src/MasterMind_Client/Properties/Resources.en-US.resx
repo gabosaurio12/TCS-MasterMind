@@ -162,7 +162,7 @@
   <data name="MainPage_Friends" xml:space="preserve">
     <value>Friends</value>
   </data>
-  <data name="MainPage_Quit" xml:space="preserve">
+  <data name="UI_Quit" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="ErrorNotification_InvalidInput" xml:space="preserve">
@@ -362,5 +362,14 @@
   </data>
   <data name="RoomPage_Unready" xml:space="preserve">
     <value>Unready</value>
+  </data>
+  <data name="LoginPage_RememberLogin" xml:space="preserve">
+    <value>Remember Login?</value>
+  </data>
+  <data name="LogOutModal_Title" xml:space="preserve">
+    <value>What would you like to do?</value>
+  </data>
+  <data name="LogOutModal_LogOut" xml:space="preserve">
+    <value>Log out</value>
   </data>
 </root>

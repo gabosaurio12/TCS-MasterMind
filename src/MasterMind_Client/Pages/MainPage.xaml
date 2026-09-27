@@ -61,7 +61,7 @@
             <Button x:Name="ExitBtn" Style="{StaticResource RoundedRedButton}"
                     Width="345" Height="85" FontSize="64" 
                     Foreground="White" FontFamily="Aladin"
-                    Content="{x:Static p:Resources.MainPage_Quit}"
+                    Content="{x:Static p:Resources.UI_Quit}"
                     Click="ExitBtn_Click" />
 
         </UniformGrid>

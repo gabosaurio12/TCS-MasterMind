@@ -33,7 +33,7 @@ namespace MasterMind_Client.Pages
 
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            new LogOutModal().Show();
         }
 
         private void LanguageBtn_Click(object sender, RoutedEventArgs e)
