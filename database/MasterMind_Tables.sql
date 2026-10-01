@@ -129,13 +129,15 @@ GO
 
 CREATE TABLE [MatchRoom] (
   [match_room_id] int PRIMARY KEY IDENTITY(1, 1),
-  [match_room_name] nvarchar(100) NOT NULL,
+  [match_room_name] nvarchar(100) NOT NULL UNIQUE,
   [gamemode_id] int NOT NULL,
   [difficulty_id] int NOT NULL,
   [player_one_id] int NOT NULL,
   [player_two_id] int,
+  [player_one_status] tinyint NOT NULL DEFAULT 0,
+  [player_two_status] tinyint NOT NULL DEFAULT 0,
   [room_privacy_id] int NOT NULL,
-  [private_room_code] nvarchar(255)
+  [room_code] nvarchar(255)
 )
 GO
 

@@ -65,7 +65,7 @@ namespace MasterMind_Client.Pages
 
         private void CodeBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            var roomName = selectedRoomControl.RoomNameTxt.Text;
         }
 
         private void JoinBtn_Click(object sender, RoutedEventArgs e)
