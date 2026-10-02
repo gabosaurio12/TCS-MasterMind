@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MasterMind_Client.Modals
 {
@@ -19,9 +9,19 @@ namespace MasterMind_Client.Modals
     /// </summary>
     public partial class SuccessNotificationModal : Window
     {
+        public event EventHandler ModalClosed;
+        private readonly bool isRegisterModal;
+
         public SuccessNotificationModal()
         {
             InitializeComponent();
+        }
+
+        public SuccessNotificationModal(string message, bool isRegisterModal)
+        {
+            InitializeComponent();
+            NotificationMessageTxt.Text = message;
+            this.isRegisterModal = isRegisterModal;
         }
 
         public SuccessNotificationModal(string message)
@@ -32,6 +32,10 @@ namespace MasterMind_Client.Modals
 
         private void ContinueBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (isRegisterModal)
+            {
+                ModalClosed?.Invoke(this, EventArgs.Empty);
+            }
             Application.Current.Windows.OfType<SuccessNotificationModal>().FirstOrDefault()?.Close();
         }
     }

@@ -1,14 +1,15 @@
 ﻿using MasterMind_Client.Assets;
+using MasterMind_Client.Data;
 using MasterMind_Client.Modals;
 using MasterMind_Client.TempData;
+using MasterMind_Client.TempData.Enum;
 using System;
+using System.Numerics;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using MasterMind_Client.TempData.Enum;
 using System.Windows.Media;
-using MasterMind_Client.Data;
+using System.Windows.Navigation;
 
 namespace MasterMind_Client.Pages
 {
@@ -20,6 +21,7 @@ namespace MasterMind_Client.Pages
         private readonly Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
         private readonly Regex emailRegex = new Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
             RegexOptions.None, TimeSpan.FromMilliseconds(100));
+        private string pendingPlayerUsername;
 
         public SignupPage()
         {
@@ -30,7 +32,7 @@ namespace MasterMind_Client.Pages
         {
             return new Player
             {
-                username = UsernameTxt.Text,
+                username = UsernameTxt.Text.Trim(),
                 password = PasswordTxt.Password,
                 email = EmailTxt.Text
             };
@@ -66,6 +68,12 @@ namespace MasterMind_Client.Pages
                 return false;
             }
 
+            if (Regex.IsMatch(UsernameTxt.Text, @"\s"))
+            {
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_NoSpaces).Show();
+                return false;
+            }
+
             var email = EmailTxt.Text;
             var substringEmail = email.Split('@');
             if (!emailRegex.IsMatch(email))
@@ -88,6 +96,25 @@ namespace MasterMind_Client.Pages
             return true;
         }
 
+        private void ModalVerificationSucceded(object sender, Player verifiedPlayer)
+        {
+            CurrentPlayer.Instance.SetCurrentPlayer(verifiedPlayer);
+
+            Properties.Settings.Default.RememberLogin = false;
+            Properties.Settings.Default.SavedUsername = "";
+
+            Properties.Settings.Default.Save();
+            NavigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+
+        }
+
+        private void ModalClosed(object sender, EventArgs e)
+        {
+            var modal = new VerificationCodeModal(pendingPlayerUsername);
+            modal.VerificationSucceded += ModalVerificationSucceded;
+            modal.Show();
+        }
+
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateFormsData())
@@ -96,14 +123,18 @@ namespace MasterMind_Client.Pages
                 var result = TempAuthService.RegisterPlayer(player);
                 switch (result)
                 {
-                    case RegistrationResult.Success:
-                        new SuccessNotificationModal(Properties.Resources.SuccessNotification_Register).Show();
-                        new VerificationCodeModal(player.username, NavigationService).Show();
+                    case PlayerRegistrationResultEnum.Success:
+                        pendingPlayerUsername = player.username;
+                        var successModal = new SuccessNotificationModal(Properties.Resources.SuccessNotification_Register, true);
+                        successModal.ModalClosed += ModalClosed;
+                        successModal.Show();
                         break;
-                    case RegistrationResult.UsernameTaken:
+                        
+                    case PlayerRegistrationResultEnum.UsernameTaken:
                         new ErrorNotificationModal(Properties.Resources.ErrorNotification_UsernameTaken).Show();
                         break;
-                    case RegistrationResult.EmailTaken:
+
+                    case PlayerRegistrationResultEnum.EmailTaken:
                         new ErrorNotificationModal(Properties.Resources.ErrorNotification_EmailTaken).Show();
                         break;
                 }

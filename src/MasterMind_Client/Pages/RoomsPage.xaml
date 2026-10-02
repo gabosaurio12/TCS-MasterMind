@@ -21,10 +21,8 @@
                FontFamily="{StaticResource Aladin}" FontSize="112" Foreground="White"
                HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled">
-            <StackPanel x:Name="RoomsStack"  Background="#313539">
-
-            </StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="RoomsStack" Orientation="Vertical" Background="#313539" />
         </ScrollViewer>
         
 

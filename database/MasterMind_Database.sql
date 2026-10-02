@@ -1,3 +1,6 @@
+USE master;
+GO
+
 IF EXISTS (SELECT * FROM sys.databases WHERE name='MasterMind')
 BEGIN
     ALTER DATABASE [MasterMind] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;

@@ -162,7 +162,7 @@
   <data name="MainPage_Friends" xml:space="preserve">
     <value>Amigos</value>
   </data>
-  <data name="MainPage_Quit" xml:space="preserve">
+  <data name="UI_Quit" xml:space="preserve">
     <value>Salir</value>
   </data>
   <data name="ErrorNotification_InvalidInput" xml:space="preserve">
@@ -194,6 +194,9 @@
   </data>
   <data name="ErrorNotification_InvalidPassword" xml:space="preserve">
     <value>La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula y un número</value>
+  </data>
+  <data name="ErrorNotification_NoSpaces" xml:space="preserve">
+    <value>El nombre de usuario no puede contener espacios en blanco</value>
   </data>
   <data name="ErrorNotification_UsernameTaken" xml:space="preserve">
     <value>El nombre de usuario ingresado no está disponible, prueba uno distinto por favor</value>
@@ -362,5 +365,32 @@
   </data>
   <data name="RoomPage_Unready" xml:space="preserve">
     <value>Cancelar</value>
+  </data>
+  <data name="LoginPage_RememberLogin" xml:space="preserve">
+    <value>¿Recordar inicio de sesión?</value>
+  </data>
+  <data name="LogOutModal_Title" xml:space="preserve">
+    <value>¿Qué deseas hacer?</value>
+  </data>
+  <data name="LogOutModal_LogOut" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="SuccessNotification_MatchRoomCreatedSuccessfully" xml:space="preserve">
+    <value>¡La sala fue creada con éxito!</value>
+  </data>
+  <data name="ErrorNotification_ErrorCreatingMatchRoom" xml:space="preserve">
+    <value>Hubo un error al crear la sala, intenta de nuevo más tarde</value>
+  </data>
+  <data name="ErrorNotification_ErrorJoiningMatchRoom" xml:space="preserve">
+    <value>Hubo un error al unirte a la sala, intenta de nuevo más tarde</value>
+  </data>
+  <data name="ErrorNotification_OwnRoom" xml:space="preserve">
+    <value>No puedes unirte a tu propia sala</value>
+  </data>
+  <data name="ErrorNotification_RoomFull" xml:space="preserve">
+    <value>La sala está llena, no puedes unirte</value>
+  </data>
+  <data name="RoomPage_EmptySlot" xml:space="preserve">
+    <value>Vacío</value>
   </data>
 </root>

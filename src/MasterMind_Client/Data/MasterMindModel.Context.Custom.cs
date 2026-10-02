@@ -23,6 +23,7 @@ namespace MasterMind_Client.Data
                 Password = Environment.GetEnvironmentVariable("DB_PASSWORD"),
                 PersistSecurityInfo = true,
                 TrustServerCertificate = true,
+                Encrypt = false,
                 MultipleActiveResultSets = true
             };
 

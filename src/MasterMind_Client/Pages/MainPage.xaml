@@ -42,26 +42,26 @@
 
             <Button x:Name="PlayBtn" Style="{StaticResource RoundedGreenButton}" Margin="20"
                     Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="Aladin"
+                    Foreground="White" FontFamily="{StaticResource Aladin}"
                     Content="{x:Static p:Resources.MainPage_Play}"
                     Click="PlayBtn_Click"/>
 
             <Button x:Name="ProfileBtn" Style="{StaticResource RoundedButton}"
                     Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="Aladin"
+                    Foreground="White" FontFamily="{StaticResource Aladin}"
                     Content="{x:Static p:Resources.MainPage_Profile}"
                     Click="ProfileBtn_Click" />
 
             <Button x:Name="FriendsBtn" Style="{StaticResource RoundedButton}"
                     Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="Aladin"
+                    Foreground="White" FontFamily="{StaticResource Aladin}"
                     Content="{x:Static p:Resources.MainPage_Friends}"
                     Click="FriendsBtn_Click" />
 
             <Button x:Name="ExitBtn" Style="{StaticResource RoundedRedButton}"
                     Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="Aladin"
-                    Content="{x:Static p:Resources.MainPage_Quit}"
+                    Foreground="White" FontFamily="{StaticResource Aladin}"
+                    Content="{x:Static p:Resources.UI_Quit}"
                     Click="ExitBtn_Click" />
 
         </UniformGrid>

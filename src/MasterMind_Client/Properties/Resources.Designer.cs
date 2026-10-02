@@ -115,6 +115,24 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Hubo un error al crear la sala, intenta de nuevo más tarde.
+        /// </summary>
+        public static string ErrorNotification_ErrorCreatingMatchRoom {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorCreatingMatchRoom", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Hubo un error al unirte a la sala, intenta de nuevo más tarde.
+        /// </summary>
+        public static string ErrorNotification_ErrorJoiningMatchRoom {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorJoiningMatchRoom", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Busca una cadena traducida similar a Hubo un error al enviar la solicitud de amistad. Intenta de nuevo más tarde.
         /// </summary>
         public static string ErrorNotification_ErrorSendingFriendRequest {
@@ -158,7 +176,34 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_InvalidPassword", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre de usuario no puede contener espacios en blanco.
+        /// </summary>
+        public static string ErrorNotification_NoSpaces {
+            get {
+                return ResourceManager.GetString("ErrorNotification_NoSpaces", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a No puedes unirte a tu propia sala.
+        /// </summary>
+        public static string ErrorNotification_OwnRoom {
+            get {
+                return ResourceManager.GetString("ErrorNotification_OwnRoom", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a La sala está llena, no puedes unirte.
+        /// </summary>
+        public static string ErrorNotification_RoomFull {
+            get {
+                return ResourceManager.GetString("ErrorNotification_RoomFull", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a Error.
         /// </summary>
@@ -331,6 +376,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¿Recordar inicio de sesión?.
+        /// </summary>
+        public static string LoginPage_RememberLogin {
+            get {
+                return ResourceManager.GetString("LoginPage_RememberLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Registrate.
         /// </summary>
         public static string LoginPage_SignupLink {
@@ -345,6 +399,24 @@ namespace MasterMind_Client.Properties {
         public static string LoginPage_Title {
             get {
                 return ResourceManager.GetString("LoginPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cerrar sesión.
+        /// </summary>
+        public static string LogOutModal_LogOut {
+            get {
+                return ResourceManager.GetString("LogOutModal_LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¿Qué deseas hacer?.
+        /// </summary>
+        public static string LogOutModal_Title {
+            get {
+                return ResourceManager.GetString("LogOutModal_Title", resourceCulture);
             }
         }
         
@@ -372,15 +444,6 @@ namespace MasterMind_Client.Properties {
         public static string MainPage_Profile {
             get {
                 return ResourceManager.GetString("MainPage_Profile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Salir.
-        /// </summary>
-        public static string MainPage_Quit {
-            get {
-                return ResourceManager.GetString("MainPage_Quit", resourceCulture);
             }
         }
         
@@ -536,7 +599,16 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("RoomPage_Deciphers", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Busca una cadena traducida similar a Vacío.
+        /// </summary>
+        public static string RoomPage_EmptySlot {
+            get {
+                return ResourceManager.GetString("RoomPage_EmptySlot", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Busca una cadena traducida similar a Listo.
         /// </summary>
@@ -673,6 +745,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ¡La sala fue creada con éxito!.
+        /// </summary>
+        public static string SuccessNotification_MatchRoomCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("SuccessNotification_MatchRoomCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ¡Tu cuenta fue registrada con éxito! Se envió un código de verificación a tu correo.
         /// </summary>
         public static string SuccessNotification_Register {
@@ -750,6 +831,15 @@ namespace MasterMind_Client.Properties {
         public static string UI_Escape {
             get {
                 return ResourceManager.GetString("UI_Escape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Salir.
+        /// </summary>
+        public static string UI_Quit {
+            get {
+                return ResourceManager.GetString("UI_Quit", resourceCulture);
             }
         }
         
