@@ -1,0 +1,3364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
+<title>Estándar de codificación para C# y .NET</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Estándar de codificación para C# y .NET</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Índice</div>
+<ul class="sectlevel1">
+<li><a href="#_introducción">1. Introducción</a>
+<ul class="sectlevel2">
+<li><a href="#_lenguaje_de_desarrollo">1.1. Lenguaje de desarrollo</a></li>
+<li><a href="#_idioma_del_código_fuente">1.2. Idioma del código fuente</a></li>
+<li><a href="#_alcance_del_estándar">1.3. Alcance del estándar</a></li>
+</ul>
+</li>
+<li><a href="#_propósito">2. Propósito</a>
+<ul class="sectlevel2">
+<li><a href="#_mantenibilidad">2.1. Mantenibilidad</a></li>
+<li><a href="#_legibilidad">2.2. Legibilidad</a></li>
+<li><a href="#_consistncia_del_código">2.3. Consistncia del código</a></li>
+<li><a href="#_detección_temprana_de_errores">2.4. Detección temprana de errores</a></li>
+<li><a href="#_productividad_del_equipo">2.5. Productividad del equipo</a></li>
+</ul>
+</li>
+<li><a href="#_reglas_de_nombrado">3. Reglas de nombrado</a>
+<ul class="sectlevel2">
+<li><a href="#_variables">3.1. Variables</a></li>
+<li><a href="#_campos">3.2. Campos</a></li>
+<li><a href="#_constantes">3.3. Constantes</a></li>
+<li><a href="#_parámetros">3.4. Parámetros</a></li>
+<li><a href="#_métodos">3.5. Métodos</a></li>
+<li><a href="#_clases">3.6. Clases</a></li>
+<li><a href="#_interfaces">3.7. Interfaces</a></li>
+<li><a href="#_enumeraciones">3.8. Enumeraciones</a></li>
+<li><a href="#_propiedades">3.9. Propiedades</a></li>
+<li><a href="#_eventos">3.10. Eventos</a></li>
+<li><a href="#_manejadores_de_eventos">3.11. Manejadores de eventos</a></li>
+<li><a href="#_delegados">3.12. Delegados</a></li>
+<li><a href="#_namespaces">3.13. Namespaces</a></li>
+<li><a href="#_archivos">3.14. Archivos</a></li>
+<li><a href="#_abreviaturas_válidas">3.15. Abreviaturas válidas</a></li>
+<li><a href="#_prefijos_y_sufijos">3.16. Prefijos y Sufijos</a></li>
+</ul>
+</li>
+<li><a href="#_estilos_de_código">4. Estilos de código</a>
+<ul class="sectlevel2">
+<li><a href="#_indentación">4.1. Indentación</a></li>
+<li><a href="#_longitud_máxima_de_línea">4.2. Longitud máxima de línea</a></li>
+<li><a href="#_uso_de_espacios_en_blanco">4.3. Uso de espacios en blanco</a></li>
+<li><a href="#_llaves">4.4. Llaves</a></li>
+<li><a href="#_paréntesis">4.5. Paréntesis</a></li>
+</ul>
+</li>
+<li><a href="#_organización_del_código_dentro_de_una_clase">5. Organización del código dentro de una clase</a></li>
+<li><a href="#_prácticas_de_programación">6. Prácticas de programación</a>
+<ul class="sectlevel2">
+<li><a href="#_funciones_lambda">6.1. Funciones Lambda</a></li>
+<li><a href="#_uso_de_linq">6.2. Uso de LINQ</a></li>
+</ul>
+</li>
+<li><a href="#_estructuras_de_control">7. Estructuras de control</a>
+<ul class="sectlevel2">
+<li><a href="#_if_else">7.1. if - else</a></li>
+<li><a href="#_if_de_una_línea">7.2. If de una línea</a></li>
+<li><a href="#_else_if">7.3. Else If</a></li>
+<li><a href="#_switch">7.4. Switch</a></li>
+<li><a href="#_operadores_ternarios">7.5. Operadores ternarios</a></li>
+<li><a href="#_while">7.6. While</a></li>
+<li><a href="#_do_while">7.7. Do-While</a></li>
+<li><a href="#_for">7.8. For</a></li>
+</ul>
+</li>
+<li><a href="#_manejo_de_excepciones">8. Manejo de Excepciones</a>
+<ul class="sectlevel2">
+<li><a href="#_bloques_try_catch">8.1. Bloques Try-Catch</a></li>
+</ul>
+</li>
+<li><a href="#_registro_y_depuración_bitácora">9. Registro y depuración (bitácora)</a>
+<ul class="sectlevel2">
+<li><a href="#_identificación_de_tipos_de_error">9.1. Identificación de tipos de error</a></li>
+</ul>
+</li>
+<li><a href="#_comentarios">10. Comentarios</a>
+<ul class="sectlevel2">
+<li><a href="#_comentarios_de_línea_única">10.1. Comentarios de línea única</a></li>
+<li><a href="#_comentarios_de_bloque">10.2. Comentarios de bloque</a></li>
+<li><a href="#_comentarios_de_una_línea_en_xaml">10.3. Comentarios de una línea en XAML</a></li>
+<li><a href="#_comentarios_de_api_pública">10.4. Comentarios de API pública</a></li>
+</ul>
+</li>
+<li><a href="#_seguridad">11. Seguridad</a></li>
+<li><a href="#_pruebas">12. Pruebas</a>
+<ul class="sectlevel2">
+<li><a href="#_nombrado_de_pruebas">12.1. Nombrado de pruebas</a></li>
+</ul>
+</li>
+<li><a href="#_control_de_versiones">13. Control de versiones</a>
+<ul class="sectlevel2">
+<li><a href="#_sistema_de_control_de_versiones">13.1. Sistema de control de versiones</a></li>
+<li><a href="#_repositorio">13.2. Repositorio</a></li>
+<li><a href="#_estructura_de_ramas">13.3. Estructura de ramas</a></li>
+<li><a href="#_commits">13.4. Commits</a></li>
+<li><a href="#_pull_requests">13.5. Pull Requests</a></li>
+<li><a href="#_resolución_de_conflictos">13.6. Resolución de conflictos</a></li>
+</ul>
+</li>
+<li><a href="#_declaración_de_ia">14. Declaración de IA</a>
+<ul class="sectlevel2">
+<li><a href="#_prompts">14.1. Prompts</a></li>
+</ul>
+</li>
+<li><a href="#_bibliografía">15. Bibliografía</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Tecnologías para la Construcción de Software</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>Docente:</strong> Juan Carlos Pérez Arriaga</p>
+</div>
+<div class="paragraph">
+<p><strong>Estudiantes:</strong> Gabriel Antonio González López</p>
+</div>
+<div class="paragraph">
+<p><em>Universidad Veracruzana, Facultad de Estadística e Informática, Ingeniería de Software</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introducción">1. Introducción</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Este estándar está dirigido para estudiantes de Tecnologías para la Construcción de Software en la carrera de Ingeniería de Software, se recomienda usarlo para el desarrollo de los proyectos en clase y productos de software, con el objetivo de establecer una base para la construcción y lectura del código.</p>
+</div>
+<div class="sect2">
+<h3 id="_lenguaje_de_desarrollo">1.1. Lenguaje de desarrollo</h3>
+<div class="paragraph">
+<p>Este estándar está pensado para aplicarse al lenguaje de C# como lenguaje principal del proyecto.</p>
+</div>
+<div class="paragraph">
+<p>C# es un lenguaje de programación moderno, innovador, de código abierto, multiplataforma orientado a objetos.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_idioma_del_código_fuente">1.2. Idioma del código fuente</h3>
+<div class="paragraph">
+<p>El código fuente debe escribirse en inglés. Se tomó esta decisión para motivar a los estudiantes a desarrollar y mejorar su dominio del idioma, así como adaptarse al ambiente laboral general del mundo.</p>
+</div>
+<div class="paragraph">
+<p>En cuanto al lenguaje de la GUI (Graphic User Interface) puede ser en cualquier idioma, los proyectos pueden incluír varios perfiles de idiomas.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_alcance_del_estándar">1.3. Alcance del estándar</h3>
+<div class="paragraph">
+<p>El estándar abarca buenas prácticas de programación (convenciones del lenguaje brindadas por Microsoft), su legibilidad, orden, espaciado y nombramiento, manejo de excepciones, registros y reglas de pruebas.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_propósito">2. Propósito</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Este estándar tiene como propósito brindar especificaciones que ayuden a desarrollar un código seguro, mantenible y legible con C#. Así como brindar un seguimiento de parámetros definidos para contar con una guía clara y estructurada para el desarrollo de software apegada completamente a las siguientes pautas que
+hemos definido.</p>
+</div>
+<div class="paragraph">
+<p>Se entiende como código seguro a aquel que no sea susceptible a inyecciones de código, acceso
+a datos sensibles no cifrados o sin una verificación de credenciales previa.</p>
+</div>
+<div class="sect2">
+<h3 id="_mantenibilidad">2.1. Mantenibilidad</h3>
+<div class="paragraph">
+<p>Se invita al desarrollador a seguir buenas prácticas de diseño y construcción para que el producto resultante sea mantenible y el esfuerzo extra necesario para hacer un nuevo <em>release</em> sea el mínimo necesario.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_legibilidad">2.2. Legibilidad</h3>
+<div class="paragraph">
+<p>Al seguir ciertas recomendaciones de estilo de código se aumenta la legibilidad del código escrito, lo que facilita el encontrar errores de sintaxis, de lógica o refactorizar disminuyendo el tiempo necesario de inversión.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consistncia_del_código">2.3. Consistncia del código</h3>
+<div class="paragraph">
+<p>Cuando el código que se escribe está estandarizado y sigue un estilo constante las personas que lo lean o trabajen en el requieren menos tiempo para entenderlo y/o modificarlo.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_detección_temprana_de_errores">2.4. Detección temprana de errores</h3>
+<div class="paragraph">
+<p>Un código limpio permitirá al desarrollador no ocultar errores debajo de código repetitivo o difícil de leer, lo que le permitirá ahorrar tiempo y ser más eficiente.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_productividad_del_equipo">2.5. Productividad del equipo</h3>
+<div class="paragraph">
+<p>Todas estas características juntas le permiten al equipo desarrollar el producto más rápido y mantener una calidad constante más fácilmente.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reglas_de_nombrado">3. Reglas de nombrado</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Estas reglas establecen las convenciones que el equipo deberá seguir para asignar nombres a los elementos del código, el objetivo es mantener un código <strong>uniforme, claro y fácil de comprender y mantener</strong>. Este proyecto adoptará las convenciones de nomenclatura recomendadas para C# por Microsoft. Solo bajo algunos casos se podrán usar abreviaciones cuyo significado se podrá encontrar al final de la sección.</p>
+</div>
+<div class="paragraph">
+<p>Se utilizarán principalmente las convenciones <em>PascalCase</em> y <em>camelCase</em>, más adelante se explicará a más detalle cuando se utilizará cada una. Es importante utilizar en general nombres <strong>significativos</strong> y <strong>descritpivos</strong>(Microsoft, 2026).</p>
+</div>
+<div class="sect2">
+<h3 id="_variables">3.1. Variables</h3>
+<div class="paragraph">
+<p>Las variables deben utilizar nombres acordes con el dominio, claros y descriptivos usando camelCase. Se deberán evitar los nombres abreviados o de una sola letra para variables que no sean contadores (ver la sección de "Estructuras de Control" para más información), parámetros de expresiones lambda (ver la sección de "Prácticas de Programación" para ver ejemplos) o convenciones ya conocidas.</p>
+</div>
+<div class="paragraph">
+<p>El objetivo es que cualquier integrante pueda comprender qué almacena una variable sin tener que revisar su implementación (Microsoft, 2026).</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int playerHealth = 100;
+float movementSpeed = 5.5f;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int ph = 100;
+float MOVEMENT_SPEED = 5.5f;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_campos">3.2. Campos</h3>
+<div class="paragraph">
+<p>Los campos de las clases deberán tener nombres descriptivos y ser escritos con <strong>camelCase</strong> (sin importar si son públicos, privados, internos, etc).</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private int currentWeapon;
+private static Random randInstance;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private int number_Of_Orders;
+public static Queue csmrQ;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_constantes">3.3. Constantes</h3>
+<div class="paragraph">
+<p>Las variables constantes deberán usar <strong>PascalCase</strong>, independientemente de que sean privadas, internas o públicas. Los nombres deberán representar el significado del valor constante (Microsoft, 2026).</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public const int MaximumTry = 3;
+private const double Pi = 3.1459;
+private const float Gravity = 9.81f;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private const int a = 10;
+public const double EULER = 2.71828;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parámetros">3.4. Parámetros</h3>
+<div class="paragraph">
+<p>Los parámetros de los métodos deben utilizar camelCase y tener nombres que describan claramente el dato que reciben. No se deben usar nombres ambiguos o abreviaturas innecesarias (Microsoft, 2026).</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void DealDamage(int dealtDamage, int currentHp)
+{
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void DealDamage(int Dmg, int h)
+{
+
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento">3.4.1. Razonamiento</h4>
+<div class="paragraph">
+<p>En este caso los parámetros en el segundo ejemplo son incorrectos porque están en PascalCase o todos en mayúsculas y porque son abreviaciones, por lo que no son descriptivos y no se entiende qué es lo que almacenan.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_métodos">3.5. Métodos</h3>
+<div class="paragraph">
+<p>Los métodos deben tener nombres claros, descriptivos y representar la acción que realizan. Para facilitar su lectura y comprensión, se usará <em>PascalCase</em> y no se utilizarán guiones bajos para separar palabras.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void StartGame()
+{
+
+}
+
+public void CalculatePlayerDamage()
+{
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void start_game()
+{
+
+}
+
+public void calcDmg()
+{
+
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_2">3.5.1. Razonamiento</h4>
+<div class="paragraph">
+<p>En estos ejemplos, start_game() es incorrecto porque no utiliza PascalCase y calcDmg() es incorrecto porque utiliza una abreviatura poco descriptiva y camelCase().</p>
+</div>
+<div class="paragraph">
+<p>Esta regla busca que la funcionalidad de los métodos puedan identificarse fácilmente por su nombre y que todo el equipo mantenga una convención uniforme.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_clases">3.6. Clases</h3>
+<div class="paragraph">
+<p>Las clases deberán ser nombradas con un sustantivo descriptivo y escritas con <em>PascalCase</em>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public class Client
+{
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public class myClass
+{
+
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_3">3.6.1. Razonamiento</h4>
+<div class="paragraph">
+<p>El nombre myClass no es descriptivo y no está escrito con PascalCase.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_interfaces">3.7. Interfaces</h3>
+<div class="paragraph">
+<p>Las interfaces deben comenzar con la letra I mayúsucla (de Interface) seguido por el nombre de la interfaz escrito en <em>PascalCase</em>. El nombre debe ser descriptivo y representar el comportamiento o contrato que proporciona la interfaz.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public interface IDamageable
+{
+    void TakeDamage(int damageAmount);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public interface Damageable
+{
+    void TakeDamage(int damageAmount);
+}
+
+public interface IL()
+{
+    void Login();
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_4">3.7.1. Razonamiento</h4>
+<div class="paragraph">
+<p>No debe ser necesario leer los métodos en una interfaz para saber qué es o qué hace.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enumeraciones">3.8. Enumeraciones</h3>
+<div class="paragraph">
+<p>Deberán utilizar PascalCase y se recomienda el uso de sustantivos para nombrarlo.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public enum WeaponType
+{
+    Sword,
+    Bow,
+    Staff
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public enum weapon_types
+{
+    SWORD,
+    BOW,
+    STAFF
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_propiedades">3.9. Propiedades</h3>
+<div class="paragraph">
+<p>Las propiedades deben ser escritas en PascalCase y deben ser sustantivos que describan claramente el dato o característica que expone la propiedad.</p>
+</div>
+<div class="paragraph">
+<p>Se utiliza get para obtener valores y set para asignar respectivamente, siempre se escriben en minúsculas debido a que forman parte del lenguaje.</p>
+</div>
+<div class="paragraph">
+<p>Se pueden crear propiedades personalizadas para agregar lógica adicional al leer o asignar un valor.</p>
+</div>
+<div class="paragraph">
+<p>Se utilizan las propiedades para:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Validar datos antes de asignarlos.</p>
+</li>
+<li>
+<p>Aplicar reglas de negocio.</p>
+</li>
+<li>
+<p>Transformar información antes de devolverla.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>No se debe ocupar verbos como GetId o SetAge.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto de propiedades automáticas</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public int CurrentHealth { get; private set; }
+public string PlayerName { get; set; }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Correcto de propiedades personalizadas</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private int name;
+public int Name
+{
+    get =&gt; name
+    set
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException("The name can't be empty");
+        name = value;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto de propiedades automáticas</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public string getName {get; set; }
+public string playerName { get; set; }
+public string current_health { get; private set; }</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cuando_usar_propiedades_automáticas_y_personalizadas">3.9.1. Cuando usar propiedades automáticas y personalizadas</h4>
+<div class="paragraph">
+<p>Se deben usar <strong>propiedades automáticas</strong> cuando:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No se necesita lógica adicional al obtener o establecer el valor</p>
+</li>
+<li>
+<p>Solo se expone un campo de forma simple, sin validación ni transformación</p>
+</li>
+<li>
+<p>Se desea mantener el código limpio y conciso&#8201;&#8212;&#8201;La mayoría de las propiedades en un proyecto bien diseñado deberían ser así</p>
+</li>
+<li>
+<p>Se está definiendo DTOs, modelos de datos, o de clases de configuración donde el propósito es solo almacenar datos</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Se deben usar <strong>propiedades personalizadas</strong> cuando se necesita:
+- Validación en el setter (rangos, formatos, valores no nulos, etc.)
+- Lógica de transformación al asignar o leer (trim, normalización, formateo)
+- Efectos secundarios como disparar eventos, actualizar otras propiedades, etc.
+- Lazy loading para calcular o cargar el valor solo la primera vez que se accede
+- Propiedades calculadas que dependen de otros campos
+- Control de acceso asimétrico más complejo que private set, como en lógica condicional sobre quién puede modificar el valor</p>
+</div>
+<div class="paragraph">
+<p>En resumen, por defecto se deben utilizar propiedades automáticas. Se utiliza una propiedad personalizada solo cuando se necesita una lógica adicional.</p>
+</div>
+<div class="paragraph">
+<p>Si se tienen validaciones repetidas en varias propiedades se recomienda considerar centralizarlas con Data Annotations, un método Validate() o un value object; esto es preferible a llenar una clase de setters personalizados.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_eventos">3.10. Eventos</h3>
+<div class="paragraph">
+<p>Los eventos deben usar PascalCase y sus nombres deberán representar una acción que está ocurriendo o que ya ocurrió. Se recomienda el uso de nombres verbales y distinguir entre acciones previas y posteriores con tiempos verbales como Closing o Closed (Microsoft, 2023).</p>
+</div>
+<div class="paragraph">
+<p><strong>Buen uso</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public event EventHandler PlayerDied;
+public event EventHandler GameStarted;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public event EventHandler player_died;
+public event EventHandler PlayerDeathEvent;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_manejadores_de_eventos">3.11. Manejadores de eventos</h3>
+<div class="paragraph">
+<p>Los manejadores de eventos Deberán utilizar PascalCase y se debe usar un guión bajo (_) para separar el nombre del elemento e indicar el activador.</p>
+</div>
+<div class="paragraph">
+<p><strong>Buen uso</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private void LoginLink_Click(object sender, RoutedEventArgs e)
+{
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private void LoginLinkClick(object sender, RoutedEventArgs e)
+{
+}
+
+private void cancelOperation(object sender, RoutedEventArgs e)
+{
+}</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_5">3.11.1. Razonamiento</h4>
+<div class="paragraph">
+<p>PlayerDeathEvent no es un nombre que represente una acción y el sufijo <em>Event</em> no es necesario si se tiene un nombre de tipo verbal.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_delegados">3.12. Delegados</h3>
+<div class="paragraph">
+<p>Los tipos delegado debe utilizar PascalCase. Cuando representan manejadores de eventos deben incluír el sufijo EventHandler cuando corresponda (Microsoft, 2026; Microsoft, 2023).</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public delegate void DamageHandler(int damageAmount);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public delegate void damage_handler(int damageAmount);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_namespaces">3.13. Namespaces</h3>
+<div class="paragraph">
+<p>Para los namespaces, los cuales son necesarios para crear claridad para el programador para que cuando se usen sepa perfectamente qué es lo que contiene, se debe usar PascalCase.
+Pueden usarse nombres en plural cuando sea apropiado, pero no se deberán usarse nombres genéricos como Element, Node, Log y Message.
+Deberán tener la siguiente estructura:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">&lt;Proyecto&gt;.&lt;Feature&gt;.&lt;Subnamespace&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">namespace MyGame.Combat
+{
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">namespace mygame.combat_system
+{
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_archivos">3.14. Archivos</h3>
+<div class="paragraph">
+<p>Los archivos de código deberán utilizar nombres que identifiquen claramente el tipo o elemento principal que contienen y deberá mantenerse la correspondencia entre el nombre del archivo y el nombre del tipo principal cuando sea aplicable.</p>
+</div>
+<div class="paragraph">
+<p>Esta regla se establece como una convención del proyecto para facilitar la localización y mantenimiento de código.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">PlayerController.cs
+EnemyController.cs
+InventoryManager.cs
+DamageSystem.cs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">stuff.cs
+enemies.cs
+code.cs
+clase1.cs</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_6">3.14.1. Razonamiento</h4>
+<div class="paragraph">
+<p>PlayerController.cs guardaría la clase PlayerController, DamageSystem.cs la clase DamageSystem y de esta forma en todos los casos, un ejemplo erroneo sería que stuff.cs guardara la clase PlayerController o que enemies.cs guardara la clase EnemyController.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_abreviaturas_válidas">3.15. Abreviaturas válidas</h3>
+<div class="paragraph">
+<p>Las abreviaturas serán válidas en tres casos, que sean referentes a reglas de negocio o dominio o que estén en el siguiente diccionario.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Abreviatura</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Significado</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DAO</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data Access Object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DataBase</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rand</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Random</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Min</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_prefijos_y_sufijos">3.16. Prefijos y Sufijos</h3>
+<div class="paragraph">
+<p>En la capa gráfica se permitirán el uso de prefijos o sufijos, a continuación se nombrarán los prefijos y sufijos utilizados y sus significados, no deberán usarse otros que no estén en esta lista y pueden usarse tanto como sufijos como prefijos para mejorar la legibilidad de la variable.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Sufijo</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Significado</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Btn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Button</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lbl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Label</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Txt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TextBlock, TextBox</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pwd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PasswordBox</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CheckBox</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ListBox</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Img</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stack</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">StackPanel</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">&lt;StackPanel x:Name="InteractionStack" Orientation="Vertical"&gt;
+    &lt;TextBlock x:Name="TxtTitle" Text = "Super App" /&gt;
+    &lt;Slider x:Name="UserAge" Minimum="1" Maximum="120" /&gt;
+    &lt;Label x:Name="AgeLbl" /&gt;
+    &lt;Button x:Name="PlayBtn" Content="Play" /&gt;
+    &lt;Button x:Name="QuitBtn" Content="Quit" /&gt;
+&lt;/StackPanel&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">&lt;StackPanel x:Name="istack" Orientation="Vertical"&gt;
+    &lt;Label x:Name="lbAge" /&gt;
+    &lt;Slider x:Name="SAge" Minimum="1" Maximum="110" /&gt;
+    &lt;Button x:Name="ButtQuit" Content="Quit" /&gt;
+&lt;/StackPanel&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_estilos_de_código">4. Estilos de código</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_indentación">4.1. Indentación</h3>
+<div class="paragraph">
+<p>Para los espacios de indentación deberán usarse espacios en blanco como media, cada nivel equivale a 4 espacios. Un "tab" será igual a 4 espacios en blanco.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public class Person
+{
+    private string PrivateName;
+    public string Name { get; set; }
+
+    public void PrintName(int repetitions)
+    {
+        for (int i = 0; i &lt; repetitions; i++)
+        {
+            Console.WriteLine(name);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public class Person
+{
+  private string PrivateName;
+  public string Name { get; set; }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_longitud_máxima_de_línea">4.2. Longitud máxima de línea</h3>
+<div class="paragraph">
+<p>Cada línea debe tener por mucho 120 caracteres, en caso de que se exceda esa cantidad se debe continuar en la siguiente línea cuando se encuentre alguno de los siguientes caracteres:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Operadores matemáticos (+, -, *, /).</p>
+</li>
+<li>
+<p>Paréntesis (), cuando se abren o cierran.</p>
+</li>
+<li>
+<p>Comas (,), especialmente en listas de argumentos.</p>
+</li>
+<li>
+<p>Llaves ({}), si es el inicio o fin de un bloque de código.</p>
+</li>
+<li>
+<p>Corchetes ([]), cuando se declaran o acceden a arreglos.</p>
+</li>
+<li>
+<p>Operadores ternarios (?, :)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">string myVeryLongText = "This is a very long text that it's split because it follows the standard rools. " +
+    "It's easier to read because the line is not longer than 120 characters.";</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">string myVeryLongText = "This is a very long text that should be split but it's not, making it hard to read and maintain in any code editor without horizontal scrolling."</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_uso_de_espacios_en_blanco">4.3. Uso de espacios en blanco</h3>
+<div class="paragraph">
+<p>Se usará un espacio en blanco cada vez que escribamos una palabra (el nombre de una variable cuenta como una palabra) o caracter:</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int totalSummatory = firstNumber + secondNumber;
+Console.WriteLine("Calculation result: " + totalSummatory);
+
+for (int i = 0; i &lt; 10; i++)
+{
+    Console.WriteLine("Iteration: " + currentIteration);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int sum=a+b;
+Console.WriteLine("Result: "+sum);
+for(int i=0;i&lt;10;i++)
+{
+    Console.WriteLine(i);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_llaves">4.4. Llaves</h3>
+<div class="paragraph">
+<p>Las llaves de apertura de clases, interfaces y métodos deben estar una línea después de la línea en la que se hizo la declaración. La llave de cierre debe estar en una nueva línea sola e identada para coincidir con el comienzo de la declaración.</p>
+</div>
+<div class="paragraph">
+<p>Los bloques de estructuras de control (while, for, foreach, switch) deben estar encerrados con llaves.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public class Client()
+{
+    public void Greet()
+    {
+        Console.WriteLine("Hello!");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public class Client() {
+    public void Greet() { Console.WriteLine("Hello!"); }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_paréntesis">4.5. Paréntesis</h3>
+<div class="paragraph">
+<p>Habrá líneas de código donde el contendio dentro de los paréntesis sea muy largo, la recomendación es usar los paréntesis como llaves, solo que aquí el paréntesis de apertura debe quedarse en la misma línea donde debería empezar.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Character.Equip(
+    fightingEquipment,
+    potions,
+    fastHabilities
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Character.Equip(fighingEquipment, potions);
+Character.Unequip
+(
+    fightingEquipment,
+    potions
+);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_organización_del_código_dentro_de_una_clase">5. Organización del código dentro de una clase</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Los miembros deberán mantener este orden constante dentro de una clase:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Constantes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>const float Pi = 3.14159f;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Campos estáticos</p>
+<div class="ulist">
+<ul>
+<li>
+<p>static int GameLevel;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Campos de instancia</p>
+<div class="ulist">
+<ul>
+<li>
+<p>int Age;</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Propiedades</p>
+<div class="ulist">
+<ul>
+<li>
+<p>int Weapon { get; set; }</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Constructores</p>
+</li>
+<li>
+<p>Métodos públicos</p>
+</li>
+<li>
+<p>Métodos protegidos</p>
+</li>
+<li>
+<p>Métodos privados</p>
+</li>
+<li>
+<p>Eventos</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_prácticas_de_programación">6. Prácticas de programación</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El uso de las siguientes prácticas es extremadamente recomendado y necesiario, se recomienda hacer revisiones de código constantes para validar y verificar su uso:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Principio de Responsabilidad Única (SRP)</p>
+</li>
+<li>
+<p>Evitar código duplicado</p>
+</li>
+<li>
+<p>Métodos pequeños y específicos</p>
+<div class="ulist">
+<ul>
+<li>
+<p>De aproximadamente 30 líneas máximo. Una buena forma de mantenerlos específicos es que hagan únicamente lo necesario para que lleven a cabo la función a la que hace referencia su nombre.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Número máximo de parámetros</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Un método no debe tener más de 3 parámetros</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Complejidad ciclomática</p>
+<div class="ulist">
+<ul>
+<li>
+<p>La complejidad ciclomática de un método no debe superar el valor de 10</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Números mágicos</p>
+<div class="ulist">
+<ul>
+<li>
+<p>El código no debe tener números mágicos</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Código muerto</p>
+<div class="ulist">
+<ul>
+<li>
+<p>No hay que encariñarse con el código, el que no se use se debe borrar, <strong>está prohibido comentarlo "para no borrarlo"</strong></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Valores nulos</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Se debe evitar usar o regresar valores nulos</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Uso de var</p>
+<div class="ulist">
+<ul>
+<li>
+<p>El uso de var es recomendado</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Uso de async/await</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Debe usarse en operaciones asíncronas del videojuego</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Uso de expresiones lambda</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Se recomienda su uso para hacer que el código sea un poco más corto, limpio y legible.</p>
+</li>
+<li>
+<p>Para más información ver la sección de "Funciones Lambda" más adelante.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Uso de LINQ</p>
+<div class="ulist">
+<ul>
+<li>
+<p>LINQ debe usarse siempre que se pueda ya que es una forma de mitigar ciertas vulnerabilidades</p>
+</li>
+<li>
+<p>Para más información ver la sección de "Uso de LINQ" más adelante.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Optimización</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Se debe optimizar cuando exista una necesidad justificada y no debe comprometer innecesariamente la legibilidad</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Expresiones regulares</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Se recomienda el uso de expresiones regulares para validaciones</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_funciones_lambda">6.1. Funciones Lambda</h3>
+<div class="paragraph">
+<p>Son una forma abreviada de escribir una función anónima, es un bloque de código ejecutable que no tiene nombre propio, se puede asignar a una variable de tipo delegado o a una expresión y se pasa usualmente commo argumento a otros métodos:</p>
+</div>
+<div class="paragraph">
+<p><strong>Sintaxis básica</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">(parameters) =&gt; expression_or_block</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Ejemplos:</strong></p>
+</div>
+<div class="paragraph">
+<p>Con un sólo parámetro:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Func&lt;int, int&gt; isEven = n =&gt; n % 2 == 0;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Con múltiples parámetros:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Func&lt;int, int, int&gt; addNumbers = (a, b) =&gt; a + b;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sin parámetros:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Action greet = () =&gt; Console.WriteLine("WAZZAAP!")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Con cuerpo de bloque (varias líneas):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Func&lt;int, string&gt; clasifyNumber = n =&gt;
+{
+    if (n &lt; 0) return "Negative";
+    if (n == 0) return "Zero";
+    return "Positive";
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Como argumento directo en LINQ:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var player = players.FirstOrDefault(p =&gt; p.Name == searchedName);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Como Expression&lt;Func&lt;T, bool&gt;&gt; (para proveedores como Entity Framework):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Expression&lt;Func&lt;Jugador, bool&gt;&gt; filtro = p =&gt; p.Puntos &gt; 100;</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_nota_de_nombrado_de_variables">6.1.1. Nota de nombrado de variables</h4>
+<div class="paragraph">
+<p>En las funciones lambda se permite el uso de variables de una sola letra o abreviaciones.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cuando_se_deben_usar">6.1.2. Cuando se deben usar</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Operaciones LINQ (Where, Select, OrderBy, FirstOrDefault, etc.), donde se expresa una condición o transformación de forma concisa:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var playersOnline = players.Where(p =&gt; p.online);</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Callbacks o delegados de corta duraión, como manejadores de eventos simples o comparadores:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">matchTable.Sort((a, b) =&gt; a.Points.CompareTo(b.Points));</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Inyección de comportamiento en métodos genéricos, como en el patrón Strategy simplificado, esto evita crear una clase o método completo para la lógica de una sola línea.</p>
+</li>
+<li>
+<p>Programación asíncrona ligera, en trabajo puntual como en:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Task.Run(() =&gt; ...)</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Expresiones que se traducen a otra representación, como en Entity Framework, donde una lambda se convierte en una Expression&lt;Func&lt;T, bool&gt;&gt; para generar SQL.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cuando_no_se_deben_usar">6.1.3. Cuando no se deben usar</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Cuando la lógica es compleja o extensa. Si supera un aproximado de menos de 10 líneas o necesita varias condiciones anidadas, es mejor extraerla a un método con nombre porque así se mejora la legibilidad y la capacidad de prueba</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var result = players.Where(IsEligiblePlayer).ToList();
+
+bool IsEligiblePlayer(Player p)
+{
+    var score = p.Wins * 3 + p.Draws;
+    var bonus = p.IsCaptain ? 10 : 0;
+    var adjusted = score + bonus - p.Penalties;
+    return adjusted &gt; 50 &amp;&amp; p.YearsActive &gt; 2 &amp;&amp; !p.IsSuspended;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var result = players.Where(p =&gt;
+{
+    var score = p.Wins * 3 + p.Draws;
+    var bonus = p.IsCaptain ? 10 : 0;
+    var adjusted = score + bonus - p.Penalties;
+    return adjusted &gt; 50 &amp;&amp; p.YearsActive &gt; 2 &amp;&amp; !p.IsSuspended;
+}).ToList();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Razonamiento</strong></p>
+</div>
+<div class="paragraph">
+<p>Este es un Incorrecto porque la lógica es compleja para una función lambda.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Cuando se necesita reutilizar la misma lógica en varios lugares. No se debe copiar y pegar la misma lambda en distintas partes del código.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Predicate&lt;User&gt; IsAdult = u =&gt; u.Age &gt;= 18;
+var adults1 = usersA.Where(u =&gt; IsAdult(u));
+var adults2 = usersB.Where(u =&gt; IsAdult(u));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var adults1 = usersA.Where(u =&gt; u.Age &gt;= 18);
+var adults2 = usersB.Where(u =&gt; u.Age &gt;= 18);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Razonamiento</strong></p>
+</div>
+<div class="paragraph">
+<p>Se debe definir una vez como un método o predicado para reusarlo, no repetir lambdas.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Cuando afecta negativamente el rendimiento en rutas críticas. Las lambdas que capturan variables externas (closures) generan asignaciones de memoria adicionales; en bucles muy exigentes (por ejemplo, dentro de un ciclo ejecutado millones de veces), esto introduce sobrecarga innecesaria.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var actions = new List&lt;Action&gt;();
+for (int i = 0; i &lt; 3; i++)
+{
+    int local = i;
+    actions.Add(() =&gt; AgeLbl.Text = local.toString());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var actions = new List&lt;Action&gt;();
+for (int i = 0; i &lt; 3; i++)
+{
+    actions.Add(() =&gt; AgeLbl.Text = local.toString());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Razonamiento</strong></p>
+</div>
+<div class="paragraph">
+<p>Es incorrecto porque todas las lambdas capturan la misma variable "i", la salida sería 3, 3, 3, no 0, 1, 2.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Cuando reduce la depurabilidad. Las lambdas anónimas son más difíciles de inspecciionar en el depurador o de identificar en un stack trace.</p>
+</li>
+<li>
+<p>Cuando el nombre del método aportaría valor semántico. Si una función lambda representa un concepto de negocio importante, es mejor nombrar explícitamente un método.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_uso_de_linq">6.2. Uso de LINQ</h3>
+<div class="paragraph">
+<p>LINQ (Language Integrated Query) es un conjunto de características de .NET que permite escribir consultas (filtrar, ordenar, agrupar, transformar) directamente en C#.</p>
+</div>
+<div class="paragraph">
+<p>Usa una sintaxis unificada, no importa si la fuente de datos es una colección en memoria, una base de datos, XML o cualquier otra fuente que implemente IEnumerable&lt;T&gt; o IQueryable&lt;T&gt;.</p>
+</div>
+<div class="paragraph">
+<p><strong>Existen dos estilos de sintaxis equivalentes</strong></p>
+</div>
+<div class="paragraph">
+<p>Method syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var result = players.Where(p =&gt; p.Score &gt; 100).OrderBy(p =&gt; p.Name);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Query Syntax</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var result = from p in players
+             where p.Score &gt; 100
+             orderby p.Name
+             select p;</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cuando_se_debe_usar">6.2.1. Cuando se debe usar</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Filtrar, transformar o agregar colecciones en memoria:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var topScores = players.Where(p =&gt; p.Score &gt; 100)
+                        .OrderByDescending(p =&gt; p.Score)
+                        .Select(p =&gt; p.Name)
+                        .ToList();</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Consultas a bases de datos vía un ORM (como Entity Framewokr)</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var recentOrders = dbContext.Orders
+    .Where(o =&gt; o.CreatedAt &gt; DateTime.UtcNow.AddDays(-30))
+    .ToList();</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Cuando la legibilidad y el mantenimiento importan más que exprimir cada milisegundo</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var names = users.Select(u =&gt; u.FullName).Distinct();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cuando_no_se_debe_usar">6.2.2. Cuando no se debe usar</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Rutas de código muy sensibles al rendimiento (hot paths):</p>
+<div class="ulist">
+<ul>
+<li>
+<p>LINQ añade overhead (delegados, iteradores, a veces asignaciones en el heap) comparado con un bucle for manual</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">for (int frame = 0; frame &lt; 1000000; frame++)
+{
+    for (int i = 0; i &lt; entities.Count; i++)
+    {
+        if (entities[i].IsVisible)
+            Render(entities[i]);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">for (int frame = 0; frame &lt; 1000000; frame++)
+{
+    var visible = entities.Where(e =&gt; e.IsVisible).ToList();
+    Render(visible);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Razonamiento</strong></p>
+</div>
+<div class="paragraph">
+<p>El uso de ciclos manuales, como en el caso corercto, evita asignaciones y la sobrecarga del iterador en una ruta crítica.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Ejecución diferida (deferred execution) sin entenderla, lo que genera bugs o consultas repetidas</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var orders = dbContext.Orders.Where(o =&gt; o.Total &gt; 100).ToList();
+Console.WriteLine(orders.Count);
+Console.WriteLine(orders);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var query = dbContext.Orders.Where(o =&gt; o.Total &gt; 100);
+Console.WriteLine(query.Count());
+Console.WriteLine(query.ToList());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Razonamiento</strong></p>
+</div>
+<div class="paragraph">
+<p>En el caso incorrecto la consulta vuelve a ejecutar contra la base de datos cada vez que se enumera.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Construir queries con IQueryable mezclando lógca que no se puede traducir a SQL.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var result = dbContext.Orders
+    .ToList()
+    .Where(o =&gt; CustomBusinessLogic(o));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var result = dbContext.Orders
+    .Where(o =&gt; CustomBusinessLogic(o))
+    .ToList();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Razonamiento</strong></p>
+</div>
+<div class="paragraph">
+<p>En el caso incorrecto Entity Framewokr no puede traducir un método personalizado de C# a SQL, lo correcto es primero traer la información a la memoria (con AsEnumerable o ToList) y luego aplicar la lógica personalizada.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vulnerabilidades_mitigadas">6.2.3. Vulnerabilidades mitigadas</h4>
+<div class="paragraph">
+<p>LINQ no es una herramienta de seguridad explícita, pero indirectamente mitiga varias vulnerabilidades al reemplazar patrones manuales riesgosos como:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inyección SQL&#8201;&#8212;&#8201;Aplica cuando se usa LINQ to Entities/Entity Framework correctamente, si se mezca LINQ con FromSqlRaw o ExecuteSqlRaw y se concatenan strings la vulnerabilidad vuelve.</p>
+</li>
+<li>
+<p>Errores de manejo manual de índices o bucles (off-by-one, null references)</p>
+</li>
+<li>
+<p>Exposición de datos sensibles por sobre-selección (over-fetching)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_estructuras_de_control">7. Estructuras de control</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_if_else">7.1. if - else</h3>
+<div class="paragraph">
+<p>Debe haber un espacio entre <strong>if</strong> y la condición, se deben utilizar llaves si el resultado es de más de una línea.</p>
+</div>
+<div class="paragraph">
+<p>El <strong>else</strong> debe ir en la línea de abajo de la llave de cierre del <strong>if</strong>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void CheckAge(int studentAge)
+{
+    int adultStudents = 0;
+    int underageStudents = 0;
+    int adultAge = 18;
+    if (studentAge &gt;= adultAge)
+    {
+        adultStudents++;
+        Console.WriteLine("The student is an adult.");
+    }
+    else
+    {
+        underageStudents++;
+        Console.WriteLine("The student is underage.");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void CheckAge(int studentAge)
+{
+    int adultStudents = 0;
+    int underageStudents = 0;
+    int adultAge = 18;
+    if(studentAge &gt;= adultAge) {
+        adultStudents++;
+        Console.WriteLine("The student is an adult.");
+    } else { underageStudents++; Console.WriteLine("The student is underage."); }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_if_de_una_línea">7.2. If de una línea</h3>
+<div class="paragraph">
+<p>Se permite utilizar el <strong>If</strong> de una solo para funciones lambda. Para métodos debe llevar corchetes.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Func&lt;int, string&gt; clasifyNumber = n =&gt;
+{
+    if (n &lt; 0) return "Negative";
+    if (n == 0) return "Zero";
+    return "Positive";
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void CheckAge(int studentAge)
+{
+    int adultAge = 18;
+    if (studentAge &gt;= adultAge) Console.WriteLine("The student is an adult.");
+    else
+        Console.WriteLine("The student is underage.");
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_else_if">7.3. Else If</h3>
+<div class="paragraph">
+<p>La estructura tiene que comenzar en la línea debajo de la última llave del bloque <strong>if</strong>. La structura <strong>else if</strong> tiene que ir seguida por un espcio en blanco antes de la condición y la llave de inicio.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void CheckGrade(int grade)
+{
+    int excellentGrade = 8;
+    int goodGrade = 6;
+    if (grade &gt;= excellentGrade)
+    {
+        GradeLbl.Text = "Excellent!";
+    }
+    else if (grade &gt;= goodGrade)
+    {
+        GradeLbl.Text = "Good!";
+    }
+    else
+    {
+        GradeLbl.Text = "You can do it better!";
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void CheckGrade(int grade)
+{
+    int excellentGrade = 8;
+    int goodGrade = 6;
+    if (grade &gt;= excellentGrade)
+    {
+        GradeLbl.Text = "Excellent!";
+    }
+    else
+    if (grade &gt;= goodGrade)
+    {
+        GradeLbl.Text = "Good!";
+    }
+    else
+    {
+        GradeLbl.Text = "You can do it better!";
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_switch">7.4. Switch</h3>
+<div class="paragraph">
+<p>Debe declararse en una nueva línea y debe tener un espacio antes de la condición. Cada uno de los <strong>case</strong> deben ser indentados un nivel.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void Menu(int option)
+{
+    switch (option)
+    {
+        case 1:
+            Console.WriteLine("You select the option 1");
+            break;
+        default:
+            Console.WriteLine("Select a valid option");
+            break;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void Menu(int option)
+{
+    switch(option)
+    {
+    case 1:
+    Console.WriteLine("You select the option 1");
+    break;
+    default:
+    Console.WriteLine("Select a valid option");
+    break;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_operadores_ternarios">7.5. Operadores ternarios</h3>
+<div class="paragraph">
+<p>El uso de operadores ternarios está permitido si se cumplen las siguientes condiciones:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Solo hay dos posibles valores para asignar a una variable</p>
+</li>
+<li>
+<p>Otra persona puede entender la lógica detrás del operador a la primera leída</p>
+</li>
+<li>
+<p>No se permite la anidación de operadores ternarios bajo ninguna circunstancia</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int adultAge = 18;
+int adultAccessFee = 0;
+int minorsAccessFee = 10;
+var isAdult = age &gt;= adultAge;
+var accessFee = isAdult ? 0 : 10;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">var triangleType = (sideA == sideB &amp;&amp; sideB == sideC) ? "Equilateral" :
+    (sideA == sideC || sideB == sideC || sideA == sideC) ?
+    "Isosceles" : "Scalene";</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_while">7.6. While</h3>
+<div class="paragraph">
+<p>Debe existir un espacio entre la palabra <strong>while</strong> y la condición. Si el bloque solo contiene una línea está permitido el omitir los corchetes.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">while (numberA &gt;= 0)
+{
+    Console.WriteLine(numberA);
+}
+
+while (numberA &gt;= 0)
+    Console.WriteLine(numberA);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">while (numberA &gt;= 0) {
+    Console.WriteLine(numberA);
+}
+
+while(true) Console.WriteLine("Executting...");</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_do_while">7.7. Do-While</h3>
+<div class="paragraph">
+<p>En la línea siguiente a la palabra do debe ir la llave de inicio, la palabra while debe ir en la misma línea de la llave de cierre, separado por un espacio de la condición.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int numberA = 0;
+do
+{
+    Console.WriteLine(numberA);
+    i++;
+} while (numberA &lt;= 5);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">string input;
+do {
+    input = Console.ReadLine();
+} while (!CheckInput(input));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_for">7.8. For</h3>
+<div class="paragraph">
+<p>Debe haber un espacio entre la palabra <strong>for</strong> y la condición, la declaración dentro de los paréntesis debe estar separada por <strong>;</strong> junto con un espacio después de cada uno, la llave de inicio deberá ir en la línea siguiente a la declaraación del <strong>for</strong>.</p>
+</div>
+<div class="paragraph">
+<p>En este caso, por ser una práctica muy común se permite que la variable del contador sea una letra como: i, j, k.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int evenCounter = 0;
+for (int currentNumber = 1; currentNumber &lt;= 20; currentNumber++)
+{
+    if (currentNumber % 2 == 0)
+    {
+        evenCounter++;
+    }
+}
+Console.WriteLine("Even numbers:" + evenCounter);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">int sum = 0;
+for(int currentNumber = 0;currentNumber&lt;10;currentNumber++)
+{
+    sum += currentNumber;
+}
+Console.WriteLine("Sum:" + sum);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_manejo_de_excepciones">8. Manejo de Excepciones</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Las excepciones se deben propagar cuando los métodos donde puede ocurrir la excepción se llamarán desde otro método de otra clase, y en el caso donde se llaman es donde se capturarán las excepciones lanzadas. Un ejemplo de esto es un DAO que puede lanzar un SQLException, dentor del DAO se propagan mientras que capturamos las excepciones cuando los mandamos a llamar.</p>
+</div>
+<div class="paragraph">
+<p>En el caso de que un cliente llame a un método de un servidor el servidor registra en su log la excepción y le envía al cliente un <em>FaultException</em> con la información que le interesa.</p>
+</div>
+<div class="paragraph">
+<p>Todos los errores se deben registrar en la bitácora (logger). En caso de que un error cause el cierre total del programa se debe informar al usuario que hubo un error inesperado y que se cerrará la aplicación, en casos como estos es de suma importancia que se registre en la bitácora. Se debe intentar perder la menor cantidad de información posible.</p>
+</div>
+<div class="paragraph">
+<p>Siempre que ocurra un error se debe informar a los interesados, por ejemplo, si no se pudo escribir alguna actualización solicitada por el usuario se le deberá avisar mediante un mensaje en la pantalla, si hubo algún error de compilación o vulnerabilidad que no afecte directamente a la UX se deberá registrar en el logger.</p>
+</div>
+<div class="paragraph">
+<p>Las excepciones de tipo Exception se usarán como último recurso en el nivel de cacheo, es decir, primero se atraparán las excepciones específicas y por último la de tipo Exception en caso de ser necesario. Este manejo debe estar muy bien vigilado y justificado porque puede resultar en un antipatrón.</p>
+</div>
+<div class="sect2">
+<h3 id="_bloques_try_catch">8.1. Bloques Try-Catch</h3>
+<div class="paragraph">
+<p>Dentro del <strong>try</strong>, de preferencia, solo deberá estar el código que pueda lanzar una excepción, y la variable que almacena la excepción atrapada deberá llevar el nombre <em>ex</em> o <em>e</em>, debe usarse la misma en cada bloque try-catch.</p>
+</div>
+<div class="paragraph">
+<p>Las llaves deberán estar abajo de la declaración del <strong>try</strong> y <strong>catch</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Se evitará el uso de atrapar <em>Exception</em> genérica y se recomienda el uso de excepciones específicas.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">try
+{
+    int[] numbers = {1, 2, 3};
+    Console.WriteLine(numbers[5]);
+}
+catch (IndexOutOfRangeException ex)
+{
+    logger.error("NumberArray.PrintNumber" + ex);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nota: Este fragmento siempre lanzará excepción, solo es un ejemplo.</p>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">try {
+    int[] numbers = {1, 2, 3};
+    Console.WriteLine(numbers[5]);
+} catch (SQLException ex) {
+    Console.WriteLine(ex.Message);
+} catch (Exception e) {
+    Console.WriteLine(e.Message);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>¡Si estás atrapando "Exception ex" significa que no sabes realmente qué puede fallar en tu código!</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_registro_y_depuración_bitácora">9. Registro y depuración (bitácora)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Se debe usar <strong>log4Net</strong> para darle seguimiento a los sucesos de la aplicación (cuando inicia el servidor, se crea un juego, etc.), advertencias, errores, errores fatales y excepciones, se deberá mostrar el log en consola y en un archivo .log. Es importante respetar las jerarquías de las bitácoras (info, warning, error, fatal).</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private static readonly ILog logger = LogManager.GetLogger(typeof(CoolVideogame));
+
+private static void Main(String[] args)
+{
+    logger.info("The server is online");
+
+    try
+    {
+        CoolVideogame.Setup().ConnectToDatabase();
+    }
+    catch (TimeoutException ex)
+    {
+        logger.info(ex);
+    }
+    catch (SQLException ex)
+    {
+        logger.error(ex);
+    }
+    catch (FileNotFoundException ex)
+    {
+        logger.fatal(ex);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">private static readonly ILog logger = LogManager.GetLogger(typeof(CoolVideogame));
+
+private static void Main(String[] args)
+{
+    try
+    {
+        CoolVideogame.Setup().ConnectToDatabase();
+    }
+    catch (SQLException e)
+    {
+        logger.error("Error reading something", e);
+    }
+    catch (TimeoutException ex)
+    {
+        logger.fatal(ex);
+    }
+    catch (Exception e)
+    {
+        logger.info(e);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_identificación_de_tipos_de_error">9.1. Identificación de tipos de error</h3>
+<div class="sect3">
+<h4 id="_fatales">9.1.1. Fatales</h4>
+<div class="paragraph">
+<p>Se consideran fatales las excepciones de las que la aplicación no podrá recuperarse y deberá cerrarse, por ejemplo:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OutOfMemoryException</p>
+</li>
+<li>
+<p>StackOverflowException</p>
+</li>
+<li>
+<p>FileNotFoundException (de archivos críticos de la aplicación)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_errores">9.1.2. Errores</h4>
+<div class="paragraph">
+<p>Se considerar errores las excepciones de las cuales sí se puede recuperar la aplicación, por ejemplo:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>IOException</p>
+</li>
+<li>
+<p>NullReferenceException</p>
+</li>
+<li>
+<p>EntityException</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_advertencias">9.1.3. Advertencias</h4>
+<div class="paragraph">
+<p>Se consideran advertencias las excepciones que sean momentáneas, es decir, que por alguna razón extraordinaria sucedieron y si se vuelve a ejecutar el proceso no deberían volver a pasar. También entran en esta categoría las que no afecten el rendimiento y/o funcionamiento de la aplicación. Ejemplos:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TimeoutException</p>
+</li>
+<li>
+<p>ResourceNotFoundException</p>
+</li>
+<li>
+<p>FileNotFoundException (En el caso de archivos que no afectan el funcionamiento del sistema, como fotos de perfil)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_info">9.1.4. Info</h4>
+<div class="paragraph">
+<p>Se considera info a momentos claves en la aplicación que es útil saber cuando suceden, por ejemplo: cuando se inicia la aplicación, se conecta la base de datos, etc.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_comentarios">10. Comentarios</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El uso de comentarios solo será permitido cuando la implementación que se dio es fuera de lo normal o requiere una explicación más avanzada y para anotar banderas de desarrollo.</p>
+</div>
+<div class="sect2">
+<h3 id="_comentarios_de_línea_única">10.1. Comentarios de línea única</h3>
+<div class="paragraph">
+<p>Los comentarios de línea única deben estar rodeados de una línea en blanco, se usarán para expresar:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>TO-DO</strong>: Funcionalidad que debe codificarse</p>
+</li>
+<li>
+<p><strong>FIX</strong>: Se debe arreglar alguna parte de ese código o funcionalidad</p>
+</li>
+<li>
+<p><strong>TEST</strong>: Se necesita probar esa funcionalidad</p>
+</li>
+<li>
+<p><strong>REFACTOR</strong>: Se debe refactorizar esa funcionalidad</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>El mensaje debe estar entre dobles diagonales, un espacio y tres asteriscos:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">// *** TO-DO *** //</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">// *** FIX *** //
+
+public void FibonacciSequence()
+{
+}
+
+// *** TO-DO *** //
+
+public void EulerSequence()
+{
+}
+
+// *** REFACTOR *** //
+
+public async Task GetAllStudents()
+{
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Donde <em>GetAllStudents()</em> es un método considerado grande (una buena referencia es que tenga más de 30 líneas), viola el principio de responsabilidad única o tiene una complejidad ciclomática de más de 10, por poner algunos ejemplos.</p>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">// This method does this x
+public void SuperCalculator()
+{
+}
+
+public void foo(List&lt;T&gt; l)
+{
+    // iterate over list
+    foreach (var something in l)
+    {
+        // process somoething
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comentarios_de_bloque">10.2. Comentarios de bloque</h3>
+<div class="paragraph">
+<p>Los comentarios de bloque se pueden ocupar (no son recomendados) únicamente para explicar una implementación extraña o poco común en algún método ya probado, por ejemplo:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Implementaciones que no sean entendibles en una primera lectura.</p>
+</li>
+<li>
+<p>Soluciones que no siguen un patrón ya existente para ese problema.&#8201;&#8212;&#8201;Se debe explicar por qué no se usó la solución ya existente y probada.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>En general, los comentarios jamás deben explicar qué hace el código, sino el por qué se escribió así (en caso de que requiera explicación).</p>
+</div>
+<div class="paragraph">
+<p>Para comentar en bloque se usarán los comentarios multi línea (/*, */), se abrirá el comentario y se comenzará a escribir el comentario en la línea siguiente y se cerrará el comentario una línea después de que termine el mensaje.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">/*
+ShuffleCards is built this way because...
+*/
+
+public void ShuffleCards(List&lt;Card&gt; cards)
+{
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">/* This method doesn't work well
+*/
+
+/*
+ This method is for...
+*/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En el segundo ejemplo del Incorrecto es incorrecto porque la funcionalidad de un método debe poderse deducir por su nombre, por lo que un comentario no debe explicar el qué hace.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comentarios_de_una_línea_en_xaml">10.3. Comentarios de una línea en XAML</h3>
+<div class="paragraph">
+<p>Los comentarios de una línea en XAML se permitirán para explicar la sección o el contenido que se está describiendo, son más como divisores para entener el orden y ubicar más rápido lo que se quiera editar.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">&lt;Grid&gt;
+&lt;!-- Column 1 --&gt;
+
+&lt;Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.DefaultTitle}"
+       Grid.Column="1" /&gt;
+
+&lt;!--Column 2 --&gt;
+&lt;Button x:Name="SubmitPageBtn" Content="{x:Static p:Resources.Submit}"
+       Grid.Column="2" /&gt;
+
+&lt;/Grid&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">&lt;Grid&gt;
+&lt;!-- This is the page title, that will dinamically change ... --&gt;
+
+&lt;Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.DefaultTitle}"
+       Grid.Column="1" /&gt;
+
+&lt;!-- This column will be doing the submit button which will work ... --&gt;
+&lt;Button x:Name="SubmitPageBtn" Content="{x:Static p:Resources.Submit}"
+       Grid.Column="2" /&gt;
+
+&lt;/Grid&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comentarios_de_api_pública">10.4. Comentarios de API pública</h3>
+<div class="paragraph">
+<p>Conocidos como <em>Comentarios de Documentación</em>, se escribe con tres diagonales (///), es recomendable que incluya un summary mediante una etiqueta XML (&lt;sumary&gt;&lt;/summary&gt;) donde se escribe un resumen del método y las etiquetas que correspondan, las más comunes son:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>&lt;param name="&#8230;&#8203;"&gt; Explica cada parámetro.</p>
+</li>
+<li>
+<p>&lt;returns&gt; Describe qué devuelve la función.</p>
+</li>
+<li>
+<p>&lt;remarks&gt; Agrega notas adicionales (a mayor detalle).</p>
+</li>
+<li>
+<p>&lt;example&gt; Muestra un ejemplo de uso.</p>
+</li>
+<li>
+<p>&lt;exception&gt; Describe la excepcion que la API puede tirar y bajo qué circunstancias.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_ejemplo">10.4.1. Ejemplo</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">/// &lt;summary&gt;
+/// Represents a basic calculator
+/// &lt;/summary&gt;
+public class Calculator
+{
+    /// &lt;summary&gt;
+    /// Subtraction of two numbers
+    /// &lt;/summary&gt;
+    /// &lt;param name=”firstNumber”&gt; The number we are subtracting of&lt;/param&gt;
+    /// &lt;param name=”secondNumber”&gt; The number we are subtracting to firstNumber &lt;/param&gt;
+    /// &lt;returns&gt; The remainder of firstNumber - secondNumber &lt;/returns&gt;
+    /// &lt;example&gt;
+    /// Example of use:
+    /// &lt;code&gt;
+    /// var calculator = new Calculator();
+    /// int result = calculator.Substraction(10, 3);
+    /// &lt;/code&gt;
+    /// &lt;/example&gt;
+
+    public int Subtraction(int firstNumber, int secondNumber)
+    {
+        return firstNumber - secondNumber;
+    }</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_seguridad">11. Seguridad</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Desarrollar un sistema seguro es de gran importancia, especialmente si será un sistema con conexión en red, por lo que mencionamos aquí las principales pautas a seguir para poder mantener la información íntegra y privada.</p>
+</div>
+<div class="paragraph">
+<p>_ Validación de entradas.
+- Las contraseñas de los usuarios deberán estar hasheadas.
+- Las credenciales del sistema para ingresar a bases de datos o algún otro sistema deberán guardarse en otro archivo de configuración al que se accederá desde el código.
+<strong> Una opción es usar variables de entorno.
+- <strong>Jamás debe haber credenciales en el código</strong>.
+- El código deberá estar libre de smells y no deberá ser susceptible a inyecciones, esto se puede revisar con alguna herramienta de revisión de código como SonarQube.
+- Las contraseñas deberán tener una longitud mínima de 8 caracteres y al menos un caracter de los siguientes:
+</strong> Mayúsculas
+<strong> Minúsculas
+</strong> Número
+** Caracter especial (@-_/)
+- Los usuarios deben tener privilegios personalizados y limitados.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pruebas">12. Pruebas</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Las pruebas deberán abarcar algunos de los siguientes casos si es que aplican:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Caso ideal</p>
+</li>
+<li>
+<p>Entradas límite</p>
+</li>
+<li>
+<p>Entradas inválidas</p>
+</li>
+<li>
+<p>Comportamiento con datos duplicados</p>
+</li>
+<li>
+<p>Efectos colaterales</p>
+</li>
+<li>
+<p>Excepciones</p>
+</li>
+<li>
+<p>Comprobación de retorno</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Solo deberán contar con una aserción por prueba.</p>
+</div>
+<div class="sect2">
+<h3 id="_nombrado_de_pruebas">12.1. Nombrado de pruebas</h3>
+<div class="paragraph">
+<p>El nombre de una prueba consta de tres partes, la primera es el prefijo Test, seguido por el método, flujo o comportamiento que se probará y la última parte será el camino que se está calificando (exitoso, entradas mínimas, entradas vacías, retorno, excepción etc.).</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void TestLoginSuccess()
+public void TestDatabaseConnectionWrongPassword()
+public void TestPlayersSyncInvalidToken()
+public void TestPlayerUpdateNullException()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">public void RegisterTaskTest()
+public void CalculateSalaryWrong()
+public void TestConnectToDatabaseShouldReturnTrue()</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_control_de_versiones">13. Control de versiones</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El control de versiones en la producción de proyectos actual es básica y de suma importancia puesto que permite que el equipo mantenga un historial organizado de los cambios realizados al videojuego, trabaje de forma paralela y revise las modificaciones antes de incorporarlas a las ramas principales. Es obligatorio seguir las siguientes reglas.</p>
+</div>
+<div class="sect2">
+<h3 id="_sistema_de_control_de_versiones">13.1. Sistema de control de versiones</h3>
+<div class="paragraph">
+<p>Se usará Git como sistema de control de versiones y todos los cambios relevantes del código fuente deben registrarse mediante <em>commits</em> para que exista un historial que permita identificar cómo ha evolucionado el proyecto.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_repositorio">13.2. Repositorio</h3>
+<div class="paragraph">
+<p>Debe haber un repositorio por cada proyecto de .NET que tenga el producto y debe ser compartido por todos los integrantes del equipo.</p>
+</div>
+<div class="paragraph">
+<p>Git permite trabajar con repositorios compartidos y ramas remotas, mientras que GitHub proporciona mecanismos para colaborar sobre el repositorio mediante ramas y Pull Requests (Chacon &amp; Straub, 2014).</p>
+</div>
+<div class="paragraph">
+<p>Cada repositorio debe contener el código y los archivos necesarios para desarrollar y construir el videojuego, evitando incorporar archivos innecesarios o generados automáticamente.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Repositorio
+├── Assets/
+├── Scripts/
+├── Scenes/
+├── Tests/
+├── README.md
+└── .gitignore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Repositorio
+├── Assets/
+├── Scripts/
+├── build-final.zip
+├── screenshots/
+├── ProyectoViejo/
+├── backup/
+└── cosas/</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_7">13.2.1. Razonamiento</h4>
+<div class="paragraph">
+<p>El ejemplo incorreto mezcla archivos del proyecto con respaldos, versiones antiguas y archivos que no forman parte del desarrollo.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_estructura_de_ramas">13.3. Estructura de ramas</h3>
+<div class="paragraph">
+<p>Las ramas se utilizarán para aislar el desarrollo de funcionalidades o correcciones y evitar que el trabajo afecte directamente a la rama principal.</p>
+</div>
+<div class="paragraph">
+<p>Se establece la siguiente estructura mínima para cada rama:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">main
+|
+|- feature/*
+|- fix/*
+|- exp/*
+|- hotfix/*</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Donde:
+- main: Versión estable del proyecto
+- feature/<strong>: Desarrollo de nuevas funcionalidades
+- fix/</strong>: Corrección de errores
+- exp/<strong>: Para cuando se desee probar soluciones fuera de lo común o experimentar
+- hotfix/</strong>: Correcciones urgentes sobre una versión estable</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">feature/player-movement
+feature/inventory-system
+fix/player-collision
+hotfix/save-game-error
+exp/out-of-box-player-hitbox-algorithm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">gabosaurio
+test
+new-things
+user-branch</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_8">13.3.1. Razonamiento</h4>
+<div class="paragraph">
+<p>Los nombres incorrectos no comunican el propósito de la rama y dificultan que los demás integrantes entiendan qué trabajo contiene.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_commits">13.4. Commits</h3>
+<div class="paragraph">
+<p>Cada commit debe indicar con uno de los siguientes prefijos:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>feat: Para indicar una nueva funcionalidad</p>
+</li>
+<li>
+<p>fix: Para indicar que se arregló algo</p>
+</li>
+<li>
+<p>refactor: Para indicar que se refactorizó alguna parte del proyecto</p>
+</li>
+<li>
+<p>conflicts: Para indicar que se resolvieron conflictos con alguna rama</p>
+</li>
+<li>
+<p>config: Para archivos de configuración</p>
+</li>
+<li>
+<p>docs: Para indicar que se actualizó la documentación</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Esto se debe acompañar de un mensaje breve y descriptivo. El mensaje deberá permitir comprender qué se modificó sin tener que inspeccionar inmediatamente el código.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">git commit -m "feat: basic player movement implemented"
+git commit -m "fix: images bug that the profile page showed when opened"
+git commit -m "refactor: to the profile image downloads algorithm"
+git commit -m "conflicts: solving conflicts with main"
+git commit -m "config: gitignore updated"
+git commit -m "docs: readme updated"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">git commit -m "changes"
+git commit -m "feat"
+git commit -m "basic player turn implemented"
+git commit -m "lajdf"</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_9">13.4.1. Razonamiento</h4>
+<div class="paragraph">
+<p>Los commits no pueden solo tener una palabra ni únicamente el tipo de cambio que se hizo. Tampoco puede solo tener el mensaje porque no indica el tipo de cambio. Finalmente, el mensaje del commmit no pueden solo ser caracteres aleatorios.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pull_requests">13.5. Pull Requests</h3>
+<div class="paragraph">
+<p>Los cambios destinados a incorporarse a la rama principal deben hacerse mediante un <em>Pull Request</em>, en lugar de modificarla directamente.
+Un <em>Pull Request</em> permite proponer cambios desde una rama, revisarlos e integrarlos posteriormente, este mecanismo ayuda a detectar problemas antes de que lleguen a la rama principal y ayuda a evitar conflictos.</p>
+</div>
+<div class="paragraph">
+<p><strong>Correcto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">feature/inventory-system
+          │
+          ▼
+     Pull Request
+          │
+       Revisión
+          │
+          ▼
+         main</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Incorrecto</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">git switch main
+git add .
+git commit -m "Agregar inventario"
+git push</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_razonamiento_10">13.5.1. Razonamiento</h4>
+<div class="paragraph">
+<p>Este ejemplo es incorrecto porque se está desarrollando directamente en la rama principal (main), por lo que se viola el flujo de desarrollo definido en este estándar.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resolución_de_conflictos">13.6. Resolución de conflictos</h3>
+<div class="paragraph">
+<p>Cuando existan cambios incompatibles que generen conflictos entre ramos se deberán resolverse antes de realizar el <em>merge</em>. El desarrollador responsable debe revisar manualmente las diferencias, conservarla implementación correcta y verificar posteriormente que el proyecto continúe funcionando.</p>
+</div>
+<div class="paragraph">
+<p>Una vez que los conflictos se resuelven deben realizarse las pruebas correspondientes para corroborar que el funcionamiento el que se esperaba, es correcto y no se vio afectado.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_declaración_de_ia">14. Declaración de IA</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Se declara el uso de IA para verificar la gramática del estándar, generación de ejemplos, apoyo en la estructuración del documento y comprensión de algunos temas.</p>
+</div>
+<div class="sect2">
+<h3 id="_prompts">14.1. Prompts</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Hola, toma este archivo como referencia, no lo tomes como referencia únicamente como estructura. Tengo que realizar mi estándar de desarrollo para mi proyecto que será un videojuego, el lenguaje de programación que se usará va a ser C#. Genera la estructura del archivo de referencia y númera las secciones. También dame la cadena de pensamiento auditable que hiciste por favor.</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">No tomes como referencia de consulta el archivo que te pasé.
+Las referencias de consulta deben ser el estándar oficial de C# o reportes oficiales de Microsoft o Estándares de código validados y de empresas verificables o documentación oficial del lenguaje.
+Genera una descripción corta de la sección 3.7 que sirva para que todos los integrantes del equipo entiendan el objetivo de la regla, el estándar es para un proyecto escolar.
+Incluye un ejemplo que sea correcto de acuerdo a las convenciones del estándar y a la sección y que incluya un ejemplo que viole el estándar.
+El texto de la sección debe estar sustentado en una fuente verificable e incluye la cita en APA versión 7 en el texto y también genera la referencia en APA 7 para la sección de referencias del estándar.
+Genera la cadena de razonamiento auditable para verificar el contenido.</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">No tomes como referencia de consulta el archivo que te pasé.
+Las referencias de consulta deben ser el estándar oficial de C# o reportes oficiales de Microsoft o Estándares de código validados y de empresas verificables o documentación oficial del lenguaje.
+Genera una descripción corta de las secciones 3.1 a la 3.15 que sirva para que todos los integrantes del equipo entiendan el objetivo de la regla, el estándar es para un proyecto escolar.
+Incluye un ejemplo que sea correcto de acuerdo a las convenciones del estándar y a la sección y que incluya un ejemplo que viole el estándar.
+El texto de la sección debe estar sustentado en una fuente verificable e incluye la cita en APA versión 7 en el texto y también genera la referencia en APA 7 para la sección de referencias del estándar.
+Genera la cadena de razonamiento auditable para verificar el contenido.</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Me puedes dar una pequeña definición de las funciones lambda, cuando es buena práctica utilizarlas, cuando no se deben utilizar y como se utilizan. Todo esto en un contexto de desarrollo para .NET
+También incluye ejemplos correctos e incorrectos en inglés para cada caso por favor.
+
+Al final genera tu cadena de razonamiento</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">Me puedes dar una pequeña definición de LINQ, cuando es buena práctica utilizarlo, cuando no se debe utilizar, como se utiliza, para qué sirve y qué vulnerabilidades mitiga.
+Todo esto en un contexto de desarrollo para .NET También incluye ejemplos correctos e incorrectos en inglés para cada caso por favor.
+Al final genera tu cadena de razonamiento</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bibliografía">15. Bibliografía</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>BillWagner. (n.d.-a). Identifier names - rules and conventions - C#. Microsoft Learn.
+<a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names" class="bare">https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names</a></p>
+</div>
+<div class="paragraph">
+<p>BillWagner. (n.d.-b). .NET Coding Conventions - C#. Microsoft Learn.
+<a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions" class="bare">https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions</a></p>
+</div>
+<div class="paragraph">
+<p>Chidera, I. (2023, January 13). C# Coding Best Practices – Coding Conventions with Examples.
+freeCodeCamp.org.
+<a href="https://www.freecodecamp.org/news/coding-best-practices-in-c-sharp/" class="bare">https://www.freecodecamp.org/news/coding-best-practices-in-c-sharp/</a></p>
+</div>
+<div class="paragraph">
+<p>De Tinchicus, V. T. L. E. (2020, October 27). C# / Getter and setter. El Blog De Tinchicus.
+<a href="https://tinchicus.com/2020/10/27/c-getter-and-setter/" class="bare">https://tinchicus.com/2020/10/27/c-getter-and-setter/</a></p>
+</div>
+<div class="paragraph">
+<p>BillWagner. (n.d.). Documentation comments - C# language specification. Microsoft Learn.
+<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments" class="bare">https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments</a></p>
+</div>
+<div class="paragraph">
+<p>KrzysztofCwalina. (n.d.). Names of Namespaces - Framework design Guidelines. Microsoft Learn.
+<a href="https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-namespaces" class="bare">https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-namespaces</a></p>
+</div>
+<div class="paragraph">
+<p>BillWagner. (n.d.-b). Instrucciones de control de excepciones: throw y try, catch, finally - C#
+reference. Microsoft Learn.
+<a href="https://learn.microsoft.com/es-es/dotnet/csharp/language-reference/statements/exception-handling-statements" class="bare">https://learn.microsoft.com/es-es/dotnet/csharp/language-reference/statements/exception-handling-statements</a></p>
+</div>
+<div class="paragraph">
+<p>Apache log4net. (n.d.-b).
+<a href="https://logging.apache.org/log4net/manual/introduction.html" class="bare">https://logging.apache.org/log4net/manual/introduction.html</a></p>
+</div>
+<hr>
+<div class="paragraph">
+<p>Microsoft. (2026). Identifier names - rules and conventions - C#. Microsoft Learn. Microsoft Learn — Identifier names.
+<a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names" class="bare">https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names</a></p>
+</div>
+<div class="paragraph">
+<p>Microsoft. (2023, October 3). Capitalization conventions. Microsoft Learn. Microsoft Learn — Capitalization conventions.
+<a href="https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions" class="bare">https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions</a></p>
+</div>
+<div class="paragraph">
+<p>Microsoft. (2026). Names of classes, structs, and interfaces. Microsoft Learn. Microsoft Learn — Names of classes, structs, and interfaces.
+<a href="https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-classes-structs-and-interfaces" class="bare">https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-classes-structs-and-interfaces</a></p>
+</div>
+<div class="paragraph">
+<p>Microsoft. (2026). Names of type members. Microsoft Learn. Microsoft Learn — Names of type members.
+<a href="https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-type-members" class="bare">https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-type-members</a></p>
+</div>
+<div class="paragraph">
+<p>Chacon, S., &amp; Straub, B. (2014). Pro Git (2nd ed.). Apress. <a href="https://git-scm.com/book/en/v2/" class="bare">https://git-scm.com/book/en/v2/</a></p>
+</div>
+<div class="paragraph">
+<p>Git. (2026). Git user manual. <a href="https://git-scm.com/docs/user-manual" class="bare">https://git-scm.com/docs/user-manual</a></p>
+</div>
+<div class="paragraph">
+<p>Git. (2026). git-commit documentation. <a href="https://git-scm.com/docs/git-commit" class="bare">https://git-scm.com/docs/git-commit</a></p>
+</div>
+<div class="paragraph">
+<p>GitHub. (2026). About protected branches. GitHub Docs. <a href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches" class="bare">https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches</a></p>
+</div>
+<div class="paragraph">
+<p>GitHub. (2026). About pull request reviews. GitHub Docs. <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews" class="bare">https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews</a></p>
+</div>
+<div class="paragraph">
+<p>GitHub. (2026). About pull requests. GitHub Docs. <a href="https://docs.github.com/en/pull-requests/get-started/about-pull-requests" class="bare">https://docs.github.com/en/pull-requests/get-started/about-pull-requests</a></p>
+</div>
+<div class="paragraph">
+<p>PhoenixNAP. (n.d.). Git branch naming convention. <a href="https://phoenixnap.com/kb/git-branch-name-convention" class="bare">https://phoenixnap.com/kb/git-branch-name-convention</a></p>
+</div>
+<div class="paragraph">
+<p>Conventional Commits. (n.d.). Conventional Commits 1.0.0. <a href="https://www.conventionalcommits.org/en/v1.0.0/" class="bare">https://www.conventionalcommits.org/en/v1.0.0/</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2026-08-28 14:47:34 -0600
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
+<script>
+if (!hljs.initHighlighting.called) {
+  hljs.initHighlighting.called = true
+  ;[].slice.call(document.querySelectorAll('pre.highlight > code[data-lang]')).forEach(function (el) { hljs.highlightBlock(el) })
+}
+</script>
+</body>
+</html>

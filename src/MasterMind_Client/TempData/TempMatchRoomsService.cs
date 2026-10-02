@@ -125,5 +125,99 @@ namespace MasterMind_Client.TempData
 
             return new List<MatchRoomDto>();
         }
+
+        public static MatchRoomDto GetMatchRoomByName(string roomName)
+        {
+            try
+            {
+                EnsureCatalogsLoaded();
+                var room = Context.MatchRoom.FirstOrDefault(mr => mr.match_room_name == roomName);
+                if (room != null)
+                {
+                    return new MatchRoomDto
+                    {
+                        MatchRoomId = room.match_room_id,
+                        RoomName = room.match_room_name,
+                        Gamemode = gamemodeCatalogReverse[room.gamemode_id],
+                        Difficulty = difficultyCatalogReverse[room.difficulty_id],
+                        Privacy = privacyCatalogReverse[room.room_privacy_id]
+                    };
+                }
+
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+
+            return null;
+        }
+
+        public static MatchRoomDto GetMatchRoomById(int matchRoomId)
+        {
+            try
+            {
+                EnsureCatalogsLoaded();
+                var room = Context.MatchRoom.FirstOrDefault(mr => mr.match_room_id == matchRoomId);
+                if (room != null)
+                {
+                    return new MatchRoomDto
+                    {
+                        MatchRoomId = room.match_room_id,
+                        RoomName = room.match_room_name,
+                        Gamemode = gamemodeCatalogReverse[room.gamemode_id],
+                        Difficulty = difficultyCatalogReverse[room.difficulty_id],
+                        Privacy = privacyCatalogReverse[room.room_privacy_id],
+                        PlayerOneId = room.player_one_id,
+                        PlayerTwoId = room.player_two_id ?? 0
+                    };
+                }
+
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+
+            return null;
+        }
+
+        public static MatchRoomJoinResultEnum JoinMatchRoom(int matchRoomId, int playerId)
+        {
+            try
+            {
+                var room = Context.MatchRoom.FirstOrDefault(mr => mr.match_room_id == matchRoomId);
+                if (room == null)
+                {
+                    return MatchRoomJoinResultEnum.Error;
+                }
+
+                if (room.player_one_id == playerId)
+                {
+                    return MatchRoomJoinResultEnum.OwnRoom;
+                }
+
+                if (room.player_two_id == playerId)
+                {
+                    return MatchRoomJoinResultEnum.AlreadyJoined;
+                }
+
+                if (room.player_two_id != null)
+                {
+                    return MatchRoomJoinResultEnum.RoomFull;
+                }
+
+                room.player_two_id = playerId;
+                Context.SaveChanges();
+
+                return MatchRoomJoinResultEnum.Success;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+
+            return MatchRoomJoinResultEnum.Error;
+        }
     }
 }
