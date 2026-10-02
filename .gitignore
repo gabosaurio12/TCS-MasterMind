@@ -5,11 +5,18 @@
 Thumbs.db
 Desktop.ini
 
+# AI Agents
+
+AGENTS.md
+MEMORY.md
+.opencode/
+
 # Docs
 
 docs/build
 docs/ascii/act1/
 docs/ascii/imgs/act1/
+coding_standard.md
 
 # Visual Studio
 
