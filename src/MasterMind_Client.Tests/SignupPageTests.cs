@@ -15,10 +15,16 @@ namespace MasterMind_Client.UITests
         [OneTimeSetUp]
         public void LaunchApp()
         {
-            app = Application.Launch(@"D:\mazin\Documents\Codigos\TCS-MasterMind\src\MasterMind_Client\bin\Debug\MasterMind_Client.exe");
+            var exePath = @"D:\mazin\Documents\Codigos\TCS-MasterMind\src\MasterMind_Client\bin\Debug\MasterMind_Client.exe";
+            var psi = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = exePath,
+                WorkingDirectory = Path.GetDirectoryName(exePath)
+            };
+            app = Application.Launch(psi);
             automation = new UIA3Automation();
 
-            var mainWindow = app.GetMainWindow(automation);
+            var mainWindow = app.GetMainWindow(automation, TimeSpan.FromSeconds(15));
             Assert.That(mainWindow, Is.Not.Null, "Can't get the main window of the project.");
 
             window = mainWindow;
@@ -302,11 +308,35 @@ namespace MasterMind_Client.UITests
         public void TestRegisterPasswordWithNoLowerCasesShowsErrorModal()
         {
             var usernameBox = window.FindFirstDescendant(cf => cf.ByAutomationId("UsernameTxt")).AsTextBox();
-            usernameBox?.Text = "TestUser";
+            usernameBox.Text = "TestUser";
             var emailBox = window.FindFirstDescendant(cf => cf.ByAutomationId("EmailTxt")).AsTextBox();
-            emailBox?.Text = "test@email.com";
+            emailBox.Text = "test@email.com";
             var passwordBox = window.FindFirstDescendant(cf => cf.ByAutomationId("PasswordTxt")).AsTextBox();
-            passwordBox?.Text = "TESTUSER123";
+            passwordBox.Text = "TESTUSER123";
+
+            var registerBtn = window?.FindFirstDescendant(cf => cf.ByAutomationId("RegisterBtn")).AsButton();
+            registerBtn?.Invoke();
+
+            Window errorModal = Retry.WhileNull(() =>
+            {
+                var allWindows = app.GetAllTopLevelWindows(automation);
+                return allWindows.FirstOrDefault(w => w.Title.Contains("Error"));
+            }, timeout: TimeSpan.FromSeconds(20)).Result!;
+
+            Assert.That(errorModal, Is.Not.Null, "The ErrorNotificationModal didn't appear.");
+
+            errorModal.Close();
+        }
+
+        [Test]
+        public void TestRegisterUsernameWithSpacesShowsErrorModal()
+        {
+            var usernameBox = window.FindFirstDescendant(cf => cf.ByAutomationId("UsernameTxt")).AsTextBox();
+            usernameBox.Text = "Test User";
+            var emailBox = window.FindFirstDescendant(cf => cf.ByAutomationId("EmailTxt")).AsTextBox();
+            emailBox.Text = "test@email.com";
+            var passwordBox = window.FindFirstDescendant(cf => cf.ByAutomationId("PasswordTxt")).AsTextBox();
+            passwordBox.Text = "TestUser123";
 
             var registerBtn = window?.FindFirstDescendant(cf => cf.ByAutomationId("RegisterBtn")).AsButton();
             registerBtn?.Invoke();
