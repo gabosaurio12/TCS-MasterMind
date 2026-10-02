@@ -1,9 +1,13 @@
 ﻿using MasterMind_Client.Pages.PagesUserControls;
+using MasterMind_Client.Modals;
 using MasterMind_Client.TempData;
+using MasterMind_Client.TempData.DTO;
+using MasterMind_Client.TempData.Enum;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Web.WebSockets;
 
 namespace MasterMind_Client.Pages
 {
@@ -70,7 +74,35 @@ namespace MasterMind_Client.Pages
 
         private void JoinBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (selectedRoomControl == null)
+            {
+                return;
+            }
 
+            var room = (MatchRoomDto)selectedRoomControl.DataContext;
+            var result = TempMatchRoomsService.JoinMatchRoom(room.MatchRoomId, CurrentPlayer.Instance.Id);
+            if (result == MatchRoomJoinResultEnum.Success || result == MatchRoomJoinResultEnum.AlreadyJoined)
+            {
+                var uri = new Uri($"Pages/RoomPage.xaml?roomId={room.MatchRoomId}", UriKind.Relative);
+                NavigationService.Navigate(uri);
+            }
+            else
+            {
+                new ErrorNotificationModal(GetJoinErrorMessage(result)).Show();
+            }
+        }
+
+        private string GetJoinErrorMessage(MatchRoomJoinResultEnum result)
+        {
+            switch (result)
+            {
+                case MatchRoomJoinResultEnum.RoomFull:
+                    return Properties.Resources.ErrorNotification_RoomFull;
+                case MatchRoomJoinResultEnum.OwnRoom:
+                    return Properties.Resources.ErrorNotification_OwnRoom;
+                default:
+                    return Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom;
+            }
         }
     }
 }

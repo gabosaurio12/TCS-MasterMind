@@ -373,6 +373,7 @@
     <Compile Include="TempData\DTO\MatchRoomDto.cs" />
     <Compile Include="TempData\DTO\PlayerReportDto.cs" />
     <Compile Include="TempData\Enum\MatchRoomCreationResultEnum.cs" />
+    <Compile Include="TempData\Enum\MatchRoomJoinResultEnum.cs" />
     <Compile Include="TempData\Enum\ReportReasonEnum.cs" />
     <Compile Include="TempData\Enum\RequestStatusEnum.cs" />
     <Compile Include="TempData\FriendshipService.cs" />
@@ -571,6 +572,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\RoomsPages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

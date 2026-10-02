@@ -193,7 +193,10 @@
     <value>The email address must be in a valid format. Check that it has only one '@', and that it has a valid extension like .com</value>
   </data>
   <data name="ErrorNotification_InvalidPassword" xml:space="preserve">
-    <value>The password must be at least 8 characters, one uppercase, one lowercase and one number</value>
+    <value>The password must have at least 8 characters, one uppercase, one lowercase and one number</value>
+  </data>
+  <data name="ErrorNotification_NoSpaces" xml:space="preserve">
+    <value>Username cannot contain whitespace</value>
   </data>
   <data name="ErrorNotification_UsernameTaken" xml:space="preserve">
     <value>The username entered is taken, please try a different one</value>
@@ -377,5 +380,17 @@
   </data>
   <data name="ErrorNotification_ErrorCreatingMatchRoom" xml:space="preserve">
     <value>There was an error while creating the room, try again later</value>
+  </data>
+  <data name="ErrorNotification_ErrorJoiningMatchRoom" xml:space="preserve">
+    <value>There was an error while joining the room, try again later</value>
+  </data>
+  <data name="ErrorNotification_OwnRoom" xml:space="preserve">
+    <value>You can't join your own room</value>
+  </data>
+  <data name="ErrorNotification_RoomFull" xml:space="preserve">
+    <value>The room is full, you can't join</value>
+  </data>
+  <data name="RoomPage_EmptySlot" xml:space="preserve">
+    <value>Empty</value>
   </data>
 </root>

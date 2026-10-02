@@ -32,7 +32,7 @@ namespace MasterMind_Client.Pages
         {
             return new Player
             {
-                username = UsernameTxt.Text,
+                username = UsernameTxt.Text.Trim(),
                 password = PasswordTxt.Password,
                 email = EmailTxt.Text
             };
@@ -65,6 +65,12 @@ namespace MasterMind_Client.Pages
         {
             if (!CheckForEmptyFields())
             {
+                return false;
+            }
+
+            if (Regex.IsMatch(UsernameTxt.Text, @"\s"))
+            {
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_NoSpaces).Show();
                 return false;
             }
 

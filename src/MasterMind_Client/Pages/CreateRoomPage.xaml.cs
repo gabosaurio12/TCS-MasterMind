@@ -2,6 +2,7 @@
 using MasterMind_Client.TempData;
 using MasterMind_Client.TempData.DTO;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -65,6 +66,19 @@ namespace MasterMind_Client.Pages
 
         private void CreateBtn_Click(object sender, RoutedEventArgs e)
         {
+            string roomName = RoomNameTxt.Text.Trim();
+            if (string.IsNullOrWhiteSpace(roomName))
+            {
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
+                return;
+            }
+
+            if (Regex.IsMatch(roomName, @"\s"))
+            {
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_NoSpaces).Show();
+                return;
+            }
+
             var matchRoom = GetMatchRoomData();
             var result = TempMatchRoomsService.CreateMatchRoom(matchRoom);
             if (result == TempData.Enum.MatchRoomCreationResultEnum.Success)

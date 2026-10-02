@@ -1,9 +1,11 @@
 ﻿using MasterMind_Client.Data;
+using MasterMind_Client.Modals;
 using MasterMind_Client.TempData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,6 +43,18 @@ namespace MasterMind_Client.Pages
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(PlayerUsernameTxt.Text) || string.IsNullOrWhiteSpace(PlayerEmailTxt.Text))
+            {
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
+                return;
+            }
+
+            if (Regex.IsMatch(PlayerUsernameTxt.Text, @"\s"))
+            {
+                new ErrorNotificationModal(Properties.Resources.ErrorNotification_NoSpaces).Show();
+                return;
+            }
+
             var player = new Player
             {
                 player_id = CurrentPlayer.Instance.Id,

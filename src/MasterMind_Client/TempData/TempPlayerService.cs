@@ -73,7 +73,25 @@ namespace MasterMind_Client.TempData
             {
                 logger.Error(ex);
             }
-            
+
+            return null;
+        }
+
+        public static Player GetPlayerById(int playerId)
+        {
+            try
+            {
+                var player = Context.Player.FirstOrDefault(p => p.player_id == playerId);
+                if (player != null)
+                {
+                    return player;
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+
             return null;
         }
 
