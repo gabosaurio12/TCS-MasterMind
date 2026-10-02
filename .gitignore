@@ -5,6 +5,13 @@
 Thumbs.db
 Desktop.ini
 
+## IA
+
+.opencode/
+AGENTS.md
+MEMORY.md
+coding_standard.md
+
 # Docs
 
 docs/build
