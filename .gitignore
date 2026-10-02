@@ -5,20 +5,11 @@
 Thumbs.db
 Desktop.ini
 
-<<<<<<< HEAD
-## IA
-
-.opencode/
-AGENTS.md
-MEMORY.md
-coding_standard.md
-=======
 # AI Agents
 
 AGENTS.md
 MEMORY.md
 .opencode/
->>>>>>> dc30dfef23dff5d37c4b3b805efe70e036acf1b3
 
 # Docs
 
