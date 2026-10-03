@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="MasterMind_Client.Pages.MatchPages.UserControls.BoardUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MasterMind_Client.Pages.MatchPages.UserControls"
+             mc:Ignorable="d" 
+             xmlns:p="clr-namespace:MasterMind_Client.Properties"
+             xmlns:controls="clr-namespace:MasterMind_Client.Pages.MatchPages.UserControls"
+             Height="745" Width="645" >
+
+    <Border x:Name="BoardBorder"
+            CornerRadius="10" BorderBrush="#141414" BorderThickness="5"
+            Background="#313539">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel x:Name="TopBoardStack" Orientation="Horizontal" Grid.Row="0">
+                <Label x:Name="BoardLabel" FontFamily="{StaticResource Aladin}" FontSize="48"
+                       Foreground="White" Content="Decipher Machine" Margin="40,0,0,0"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                <Button x:Name="TryBtn" Content="Try" Style="{StaticResource TryButton}"
+                        Width="85" Height="85" FontSize="48" Margin="140,0,0,0"
+                        FontFamily="{StaticResource Aladin}"/>
+                
+                
+            </StackPanel>
+
+            <StackPanel x:Name="CodeTriesStack" Orientation="Vertical" Grid.Row="1"
+                        HorizontalAlignment="Center" Width="535" Margin="0,35,0,35">
+                <controls:CodeTryUserControl x:Name="CodeTry1" Margin="0,5,0,5" />
+
+                <controls:CodeTryUserControl x:Name="CodeTry2" Margin="0,5,0,5" />
+
+                <controls:CodeTryUserControl x:Name="CodeTry3" Margin="0,5,0,5" />
+
+                <controls:CodeTryUserControl x:Name="CodeTry4" Margin="0,5,0,5" />
+
+                <controls:CodeTryUserControl x:Name="CodeTry5" Margin="0,5,0,5" />
+
+                <controls:CodeTryUserControl x:Name="CodeTry6" Margin="0,5,0,5" />
+
+            </StackPanel>
+        </Grid>
+
+    </Border>
+        
+</UserControl>

@@ -18,7 +18,7 @@ namespace MasterMind_Client.Pages
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("Pages/RoomsPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("Pages/RoomsPages/RoomsPage.xaml", UriKind.Relative));
         }
 
         private void ProfileBtn_Click(object sender, RoutedEventArgs e)
