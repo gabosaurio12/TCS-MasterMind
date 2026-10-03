@@ -349,8 +349,17 @@
     <Compile Include="Modals\VerificationCodeModal.xaml.cs">
       <DependentUpon>VerificationCodeModal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\CreateRoomPage.xaml.cs">
-      <DependentUpon>CreateRoomPage.xaml</DependentUpon>
+    <Compile Include="Pages\MatchPages\TriesMatchPage.xaml.cs">
+      <DependentUpon>TriesMatchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MatchPages\UserControls\BoardUserControl.xaml.cs">
+      <DependentUpon>BoardUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MatchPages\UserControls\CodeTryUserControl.xaml.cs">
+      <DependentUpon>CodeTryUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MatchPages\UserControls\PinsUserControl.xaml.cs">
+      <DependentUpon>PinsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PagesUserControls\MatchRoomUserControl.xaml.cs">
       <DependentUpon>MatchRoomUserControl.xaml</DependentUpon>
@@ -361,10 +370,13 @@
     <Compile Include="Pages\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RoomPage.xaml.cs">
+    <Compile Include="Pages\RoomsPages\CreateRoomPage.xaml.cs">
+      <DependentUpon>CreateRoomPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RoomsPages\RoomPage.xaml.cs">
       <DependentUpon>RoomPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RoomsPage.xaml.cs">
+    <Compile Include="Pages\RoomsPages\RoomsPage.xaml.cs">
       <DependentUpon>RoomsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UpdateProfilePage.xaml.cs">
@@ -428,15 +440,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\CreateRoomPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MatchPages\TriesMatchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MatchPages\UserControls\BoardUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MatchPages\UserControls\CodeTryUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MatchPages\UserControls\PinsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -452,11 +476,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RoomPage.xaml">
+    <Page Include="Pages\RoomsPages\CreateRoomPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RoomsPage.xaml">
+    <Page Include="Pages\RoomsPages\RoomPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RoomsPages\RoomsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -573,9 +601,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\RoomsPages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
