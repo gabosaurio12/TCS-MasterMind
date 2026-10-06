@@ -132,5 +132,83 @@ namespace MasterMind_Client.TempData
                 logger.Error(ex);
             }
         }
+
+        public static PlayerRecordsDto GetPlayerRecords(string username)
+        {
+            try
+            {
+                EnsureCatalogsLoaded();
+                var player = GetPlayerByUsername(username);
+                if (player != null)
+                {
+                    var triesRecords = Context.PlayerTriesRecords
+                        .Where(tr => tr.player_id == player.player_id)
+                        .OrderBy(gr => gr.rank)
+                        .Select(gr => gr.rank)
+                        .ToArray();
+                    var timeTrialRecords = Context.PlayerTimeTrialRecords
+                        .Where(gr => gr.player_id == player.player_id)
+                        .OrderBy(gr => gr.rank)
+                        .Select(gr => gr.rank)
+                        .ToArray();
+
+                    return new PlayerRecordsDto
+                    {
+                        PlayerUsername = player.username,
+                        PlayerTriesRecords = triesRecords,
+                        PlayerTimeTrialRecords = timeTrialRecords
+                    };
+                }
+
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+
+            return null;
+        }
+
+        public static void AddTriesRecord(string username, int tries)
+        {
+            try
+            {
+                EnsureCatalogsLoaded();
+                var player = GetPlayerByUsername(username);
+                var records = Context.PlayerTriesRecords.Where(r => r.player_id == player.player_id)
+                    .ToList()
+                    .OrderBy(r => r.rank);
+
+                if (records != null)
+                {
+                    int rank = 0;
+                    foreach (var record in records)
+                    {
+                        if (record.tries_record > tries)
+                        {
+                            Context.PlayerTriesRecords.Remove(record);
+                            Context.SaveChanges();
+                            rank = record.rank;
+                            break;
+                        }
+                    }
+
+                    var newRecord = new PlayerTriesRecords
+                    {
+                        player_id = player.player_id,
+                        tries_record = tries,
+                        rank = rank
+                    };
+
+                    Context.PlayerTriesRecords.Add(newRecord);
+                    Context.SaveChanges();
+                }
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
     }
 }

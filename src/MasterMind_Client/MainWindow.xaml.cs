@@ -41,7 +41,7 @@ namespace MasterMind_Client
                 var originalContent = page.Content;
                 page.Content = null;
 
-                var viewbox = new Viewbox { Stretch = Stretch.Uniform };
+                var viewbox = new Viewbox { Stretch = Stretch.Fill };
                 var container = new Grid { Width = 1920, Height = 1080 };
 
                 container.Children.Add((UIElement)originalContent);

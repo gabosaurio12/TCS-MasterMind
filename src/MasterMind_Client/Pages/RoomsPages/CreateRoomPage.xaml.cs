@@ -62,33 +62,42 @@ namespace MasterMind_Client.Pages.RoomsPages
             return matchRoom;
         }
 
-        private void CreateBtn_Click(object sender, RoutedEventArgs e)
+        private bool ValidateInput()
         {
             string roomName = RoomNameTxt.Text.Trim();
+            bool isValid = true;
+
             if (string.IsNullOrWhiteSpace(roomName))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
-                return;
+                isValid = false;
             }
 
             if (Regex.IsMatch(roomName, @"\s"))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_NoSpaces).Show();
-                return;
+                isValid = false;
             }
 
-            var matchRoom = GetMatchRoomData();
-            var result = TempMatchRoomsService.CreateMatchRoom(matchRoom);
-            if (result == TempData.Enum.MatchRoomCreationResultEnum.Success)
-            {
-                new SuccessNotificationModal(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully).Show();
-                NavigationService.Navigate(new Uri("Pages/RoomsPages/RoomsPage.xaml", UriKind.Relative));
-            }
-            else
-            {
-                new ErrorNotificationModal(Properties.Resources.ErrorNotification_ErrorCreatingMatchRoom).Show();
-            }
+            return isValid;
+        }
 
+        private void CreateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (ValidateInput())
+            {
+                var matchRoom = GetMatchRoomData();
+                var result = TempMatchRoomsService.CreateMatchRoom(matchRoom);
+                if (result == TempData.Enum.MatchRoomCreationResultEnum.Success)
+                {
+                    new SuccessNotificationModal(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully).Show();
+                    NavigationService.Navigate(new Uri("Pages/RoomsPages/RoomsPage.xaml", UriKind.Relative));
+                }
+                else
+                {
+                    new ErrorNotificationModal(Properties.Resources.ErrorNotification_ErrorCreatingMatchRoom).Show();
+                }
+            }
         }
     }
 }

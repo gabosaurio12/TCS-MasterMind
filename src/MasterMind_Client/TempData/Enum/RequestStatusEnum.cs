@@ -6,7 +6,7 @@ namespace MasterMind_Client.TempData.Enum
     {
         Success,
         Accepted,
-        RequestIsPendant,
+        Pending,
         Error
     }
 }

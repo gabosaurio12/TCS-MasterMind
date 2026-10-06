@@ -85,7 +85,7 @@ namespace MasterMind_Client.Modals
                 case RequestStatusEnum.Success:
                     new SuccessNotificationModal(Properties.Resources.SuccessNotification_FriendRequestSent).Show();
                     break;
-                case RequestStatusEnum.RequestIsPendant:
+                case RequestStatusEnum.Pending:
                     new ErrorNotificationModal(Properties.Resources.ErrorNotification_FriendRequestPending).Show();
                     break;
                 case RequestStatusEnum.Error:

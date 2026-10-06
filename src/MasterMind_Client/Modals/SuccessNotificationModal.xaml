@@ -5,29 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MasterMind_Client.Modals"
         mc:Ignorable="d"
+        WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
         Title="{x:Static p:Resources.SuccessNotification_Title}" Height="470" Width="660"
-        Background="#224045" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+        Background="Transparent" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
 
-    <Viewbox Stretch="Uniform">
-        <StackPanel>
+    <Border CornerRadius="25"
+            Background="#224045"
+            BorderBrush="Black"
+            BorderThickness="5">
 
-            <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.SuccessNotification_Title}"
-                   Margin="20" VerticalAlignment="Center"
-                   Width="345" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                   FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="64" />
+        <Viewbox Stretch="Uniform">
+            <StackPanel>
 
-            <TextBlock x:Name="NotificationMessageTxt" Text="{x:Static p:Resources.NotificationModal_DefaultMessage}"
-                       Width="525" TextAlignment="Center" Margin="20" VerticalAlignment="Center"
-                       FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="32"
-                       TextWrapping="Wrap"/>
+                <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.SuccessNotification_Title}"
+                       Margin="20" VerticalAlignment="Center"
+                       Width="345" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                       FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="64" />
 
-            <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
-                    Width="150" Height="52" Style="{StaticResource ModalButton}"
-                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                    FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                    Click="ContinueBtn_Click"/>
-        </StackPanel>
-    </Viewbox>
-    
+                <TextBlock x:Name="NotificationMessageTxt" Text="{x:Static p:Resources.NotificationModal_DefaultMessage}"
+                           Width="525" TextAlignment="Center" Margin="20" VerticalAlignment="Center"
+                           FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="32"
+                           TextWrapping="Wrap"/>
+
+                <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
+                        Width="150" Height="52" Style="{StaticResource ModalButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
+                        Click="ContinueBtn_Click"/>
+            </StackPanel>
+        </Viewbox>
+
+    </Border>
+
 </Window>

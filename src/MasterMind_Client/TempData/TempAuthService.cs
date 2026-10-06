@@ -13,7 +13,6 @@ namespace MasterMind_Client.TempData
         private readonly static ILog logger = LogManager.GetLogger(typeof(TempAuthService));
 
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);
-        const string Digits = "0123456789";
 
 
         public static bool AuthPlayer(Player player)
@@ -87,7 +86,10 @@ namespace MasterMind_Client.TempData
                 var player = TempPlayerService.GetPlayerByUsername(username);
                 if (player != null)
                 {
-                    var authCode = Context.VerificationCode.FirstOrDefault(vc => vc.verification_code == code && vc.player_id == player.player_id);
+                    var authCode = Context.VerificationCode.FirstOrDefault(
+                        verificationCode => verificationCode.verification_code == code 
+                        && verificationCode.player_id == player.player_id);
+
                     if (authCode != null)
                     {
                         Context.VerificationCode.Remove(authCode);
@@ -122,10 +124,11 @@ namespace MasterMind_Client.TempData
                 rng.GetBytes(bytes);
             }
 
+            string digits = "0123456789";
             var charCode = new char[length];
             for (int i = 0; i < length; i++)
             {
-                charCode[i] = Digits[bytes[i] % Digits.Length];
+                charCode[i] = digits[bytes[i] % digits.Length];
             }
 
             return new string(charCode);
@@ -133,8 +136,6 @@ namespace MasterMind_Client.TempData
 
         private static bool CreateVerificationCode(int playerId)
         {
-
-
             string code = GenerateVerificationCode();
 
             try

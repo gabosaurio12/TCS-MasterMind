@@ -5,61 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MasterMind_Client.Modals"
         mc:Ignorable="d"
+        WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
         Title="{x:Static p:Resources.VerificationCodeModal_Title}" Height="470" Width="660"
-        Background="#313539" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+        Background="Transparent" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
 
-    <Viewbox Stretch="Uniform">
-        <StackPanel>
+    <Border CornerRadius="25"
+            Background="#313539"
+            BorderBrush="Black"
+            BorderThickness="5">
 
-            <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.VerificationCodeModal_Title}"
-               Margin="20" VerticalAlignment="Center"
-               HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-               FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="64" />
+        <Viewbox Stretch="Uniform">
+            <StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBox x:Name="CodeI0Txt" FontFamily="{StaticResource Aladin}"
-                         FontSize="70" Width="92" Height="144" Margin="5"
-                         TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                         HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.VerificationCodeModal_Title}"
+                       Margin="20" VerticalAlignment="Center"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                       FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="64" />
 
-                <TextBox x:Name="CodeI1Txt" FontFamily="{StaticResource Aladin}"
-                         FontSize="70" Width="92" Height="144" Margin="5"
-                         TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                         HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox x:Name="CodeI0Txt" FontFamily="{StaticResource Aladin}"
+                             FontSize="70" Width="92" Height="144" Margin="5"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
 
-                <TextBox x:Name="CodeI2Txt" FontFamily="{StaticResource Aladin}"
-                         FontSize="70" Width="92" Height="144" Margin="5"
-                         TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                         HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                    <TextBox x:Name="CodeI1Txt" FontFamily="{StaticResource Aladin}"
+                             FontSize="70" Width="92" Height="144" Margin="5"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
 
-                <TextBox x:Name="CodeI3Txt" FontFamily="{StaticResource Aladin}"
-                         FontSize="70" Width="92" Height="144" Margin="5"
-                         TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                         HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                    <TextBox x:Name="CodeI2Txt" FontFamily="{StaticResource Aladin}"
+                             FontSize="70" Width="92" Height="144" Margin="5"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
 
-                <TextBox x:Name="CodeI4Txt" FontFamily="{StaticResource Aladin}"
-                         FontSize="70" Width="92" Height="144" Margin="5"
-                         TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                         HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                    <TextBox x:Name="CodeI3Txt" FontFamily="{StaticResource Aladin}"
+                             FontSize="70" Width="92" Height="144" Margin="5"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+
+                    <TextBox x:Name="CodeI4Txt" FontFamily="{StaticResource Aladin}"
+                             FontSize="70" Width="92" Height="144" Margin="5"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50,0,0">
+
+                    <Button x:Name="CancelBtn" Content="{x:Static p:Resources.UI_Cancel}"
+                            Width="150" Height="52" Style="{StaticResource ModalRedButton}"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                            FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
+                            Click="CancelBtn_Click"/>
+
+                    <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
+                            Width="150" Height="52" Style="{StaticResource ModalButton}"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                            FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
+                            Click="ContinueBtn_Click"/>
+                </StackPanel>
+
+
             </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50,0,0">
+        </Viewbox>
 
-                <Button x:Name="CancelBtn" Content="{x:Static p:Resources.UI_Cancel}"
-                        Width="150" Height="52" Style="{StaticResource ModalRedButton}"
-                        VerticalAlignment="Center" HorizontalAlignment="Center"
-                        FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                        Click="CancelBtn_Click"/>
+    </Border>
 
-                <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
-                        Width="150" Height="52" Style="{StaticResource ModalButton}"
-                        VerticalAlignment="Center" HorizontalAlignment="Center"
-                        FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                        Click="ContinueBtn_Click"/>
-            </StackPanel>
-
-            
-        </StackPanel>
-    </Viewbox>
+    
 </Window>

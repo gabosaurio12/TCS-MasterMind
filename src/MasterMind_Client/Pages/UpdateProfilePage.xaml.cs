@@ -2,20 +2,10 @@
 using MasterMind_Client.Modals;
 using MasterMind_Client.TempData;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MasterMind_Client.Pages
 {
@@ -41,20 +31,25 @@ namespace MasterMind_Client.Pages
             NavigationService.Navigate(new Uri("Pages/ProfilePage.xaml", UriKind.Relative));
         }
 
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        private bool ValidateInput()
         {
+            bool isValid = true;
             if (string.IsNullOrWhiteSpace(PlayerUsernameTxt.Text) || string.IsNullOrWhiteSpace(PlayerEmailTxt.Text))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
-                return;
+                isValid = false;
             }
 
             if (Regex.IsMatch(PlayerUsernameTxt.Text, @"\s"))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_NoSpaces).Show();
-                return;
+                isValid = false;
             }
+            return isValid;
+        }
 
+        private void UpdatePlayer()
+        {
             var player = new Player
             {
                 player_id = CurrentPlayer.Instance.Id,
@@ -64,6 +59,14 @@ namespace MasterMind_Client.Pages
 
             TempPlayerService.UpdatePlayer(player);
             NavigationService.Navigate(new Uri("Pages/ProfilePage.xaml", UriKind.Relative));
+        }
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (ValidateInput())
+            {
+                UpdatePlayer();
+            }
         }
     }
 }

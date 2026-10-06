@@ -17,18 +17,16 @@ namespace MasterMind_Client.Pages.RoomsPages
         public RoomPage()
         {
             InitializeComponent();
-            this.Loaded += RoomPage_Loaded;
+            Loaded += RoomPage_Loaded;
         }
 
         private void RoomPage_Loaded(object sender, RoutedEventArgs e)
         {
             var uri = NavigationService?.CurrentSource;
-            if (uri == null)
+            if (uri != null)
             {
-                return;
+                InitializeFromUri(uri);
             }
-
-            InitializeFromUri(uri);
         }
 
         private void InitializeFromUri(Uri uri)
@@ -37,19 +35,21 @@ namespace MasterMind_Client.Pages.RoomsPages
             if (roomId == 0)
             {
                 NavigationService.Navigate(new Uri("Pages/RoomsPages/RoomsPage.xaml", UriKind.Relative));
-                return;
             }
-
-            var room = TempMatchRoomsService.GetMatchRoomById(roomId);
-            if (room == null)
+            else
             {
-                new Modals.ErrorNotificationModal(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom).Show();
-                NavigationService.Navigate(new Uri("Pages/RoomsPages/RoomsPage.xaml", UriKind.Relative));
-                return;
+                var room = TempMatchRoomsService.GetMatchRoomById(roomId);
+                if (room == null)
+                {
+                    new Modals.ErrorNotificationModal(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom).Show();
+                    NavigationService.Navigate(new Uri("Pages/RoomsPages/RoomsPage.xaml", UriKind.Relative));
+                }
+                else
+                {
+                    RoomTitleLbl.Content = room.RoomName;
+                    SetPlayers(room);
+                }
             }
-
-            RoomTitleLbl.Content = room.RoomName;
-            SetPlayers(room);
         }
 
         private int GetRoomIdFromQuery(Uri uri)
@@ -71,7 +71,15 @@ namespace MasterMind_Client.Pages.RoomsPages
         {
             string original = uri.OriginalString;
             int queryIndex = original.IndexOf('?');
-            return queryIndex >= 0 ? original.Substring(queryIndex) : string.Empty;
+
+            string queryString = string.Empty;
+
+            if (queryIndex >= 0)
+            {
+                queryString = original.Substring(queryIndex);
+            }
+
+            return queryString;
         }
 
         private void SetPlayers(MatchRoomDto room)
@@ -93,11 +101,12 @@ namespace MasterMind_Client.Pages.RoomsPages
             if (opponentId == 0)
             {
                 playerControl.UsernameTxt.Text = Properties.Resources.RoomPage_EmptySlot;
-                return;
             }
-
-            var opponent = TempPlayerService.GetPlayerById(opponentId);
-            playerControl.UsernameTxt.Text = opponent?.username ?? Properties.Resources.RoomPage_EmptySlot;
+            else
+            {
+                var opponent = TempPlayerService.GetPlayerById(opponentId);
+                playerControl.UsernameTxt.Text = opponent?.username ?? Properties.Resources.RoomPage_EmptySlot;
+            }
         }
 
         private void ReadyBtn_Click(object sender, RoutedEventArgs e)

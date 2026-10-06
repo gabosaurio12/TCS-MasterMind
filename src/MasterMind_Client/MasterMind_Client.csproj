@@ -383,6 +383,7 @@
       <DependentUpon>UpdateProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="TempData\DTO\MatchRoomDto.cs" />
+    <Compile Include="TempData\DTO\PlayerRecordsDto.cs" />
     <Compile Include="TempData\DTO\PlayerReportDto.cs" />
     <Compile Include="TempData\Enum\MatchRoomCreationResultEnum.cs" />
     <Compile Include="TempData\Enum\MatchRoomJoinResultEnum.cs" />

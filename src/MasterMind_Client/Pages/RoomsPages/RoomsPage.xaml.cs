@@ -26,15 +26,15 @@ namespace MasterMind_Client.Pages.RoomsPages
         private void SetRooms()
         {
             var rooms = TempMatchRoomsService.GetMatchRooms();
-            foreach (var i in rooms)
+            foreach (var room in rooms)
             {
                 var roomControl = new MatchRoomUserControl
                 {
-                    DataContext = i
+                    DataContext = room
                 };
 
-                roomControl.RoomNameTxt.Text = i.RoomName;
-                if (i.Privacy == "Private")
+                roomControl.RoomNameTxt.Text = room.RoomName;
+                if (room.Privacy == "Private")
                 {
                     roomControl.SetAsPrivate();
                 }
@@ -73,35 +73,39 @@ namespace MasterMind_Client.Pages.RoomsPages
 
         private void JoinBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedRoomControl == null)
+            if (selectedRoomControl != null)
             {
-                return;
-            }
-
-            var room = (MatchRoomDto)selectedRoomControl.DataContext;
-            var result = TempMatchRoomsService.JoinMatchRoom(room.MatchRoomId, CurrentPlayer.Instance.Id);
-            if (result == MatchRoomJoinResultEnum.Success || result == MatchRoomJoinResultEnum.AlreadyJoined)
-            {
-                var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.MatchRoomId}", UriKind.Relative);
-                NavigationService.Navigate(uri);
-            }
-            else
-            {
-                new ErrorNotificationModal(GetJoinErrorMessage(result)).Show();
-            }
+                var room = (MatchRoomDto)selectedRoomControl.DataContext;
+                var result = TempMatchRoomsService.JoinMatchRoom(room.MatchRoomId, CurrentPlayer.Instance.Id);
+                if (result == MatchRoomJoinResultEnum.Success || result == MatchRoomJoinResultEnum.AlreadyJoined)
+                {
+                    var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.MatchRoomId}", UriKind.Relative);
+                    NavigationService.Navigate(uri);
+                }
+                else
+                {
+                    new ErrorNotificationModal(GetJoinErrorMessage(result)).Show();
+                }
+            }           
         }
 
         private string GetJoinErrorMessage(MatchRoomJoinResultEnum result)
         {
+            string errorMessage = string.Empty;
             switch (result)
             {
                 case MatchRoomJoinResultEnum.RoomFull:
-                    return Properties.Resources.ErrorNotification_RoomFull;
+                    errorMessage = Properties.Resources.ErrorNotification_RoomFull;
+                    break;
                 case MatchRoomJoinResultEnum.OwnRoom:
-                    return Properties.Resources.ErrorNotification_OwnRoom;
+                    errorMessage = Properties.Resources.ErrorNotification_OwnRoom;
+                    break;
                 default:
-                    return Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom;
+                    errorMessage = Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom;
+                    break;
             }
+
+            return errorMessage;
         }
     }
 }

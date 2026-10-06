@@ -30,17 +30,18 @@ namespace MasterMind_Client.Pages
 
         private bool ValidateFormsData(Player player)
         {
+            bool isValid = true;
             if (string.IsNullOrWhiteSpace(player.username) || string.IsNullOrWhiteSpace(player.password))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
-                return false;
+                isValid = false;
             }
             if (!TempAuthService.AuthPlayer(player))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WrongCredentials).Show();
-                return false;
+                isValid = false;
             }
-            return true;
+            return isValid;
         }
 
         private void ModalVerificationSucceded(object sender, Player verifiedPlayer)

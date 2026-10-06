@@ -33,7 +33,7 @@ namespace MasterMind_Client.TempData
                 using (var context = new MasterMindEntities(true))
                 {
                     pendingStatusId = context.RequestStatusCatalog
-                        .FirstOrDefault(rq => rq.status == RequestStatusEnum.RequestIsPendant.ToString()).request_status_id;
+                        .FirstOrDefault(rq => rq.status == RequestStatusEnum.Pending.ToString()).request_status_id;
 
                     acceptedStatusId = context.RequestStatusCatalog
                         .FirstOrDefault(rq => rq.status == RequestStatusEnum.Accepted.ToString()).request_status_id;
@@ -48,9 +48,9 @@ namespace MasterMind_Client.TempData
                 EnsureCatalogsLoaded();
 
                 var request = Context.Friendship.FirstOrDefault(
-                    r => r.requester_id == requesterId &&
-                    r.addressee_id == addresseeId &&
-                    r.status_id == pendingStatusId);
+                    req => req.requester_id == requesterId &&
+                    req.addressee_id == addresseeId &&
+                    req.status_id == pendingStatusId);
 
                 if (request == null)
                 {
@@ -69,7 +69,7 @@ namespace MasterMind_Client.TempData
                 else
                 {
                     if (request.status_id == pendingStatusId)
-                        return RequestStatusEnum.RequestIsPendant;
+                        return RequestStatusEnum.Pending;
                 }
             }
             catch (EntityException ex)
@@ -87,8 +87,8 @@ namespace MasterMind_Client.TempData
                 EnsureCatalogsLoaded();
 
                 var request = Context.Friendship.FirstOrDefault(
-                r => r.friendship_id == requestId &&
-                r.status_id == pendingStatusId);
+                req => req.friendship_id == requestId &&
+                req.status_id == pendingStatusId);
 
                 if (request != null)
                 {
@@ -112,8 +112,8 @@ namespace MasterMind_Client.TempData
                 EnsureCatalogsLoaded();
 
                 var request = Context.Friendship.FirstOrDefault(
-                r => r.friendship_id == requestId &&
-                r.status_id == pendingStatusId);
+                req => req.friendship_id == requestId &&
+                req.status_id == pendingStatusId);
 
                 if (request != null)
                 {
@@ -136,21 +136,16 @@ namespace MasterMind_Client.TempData
             {
                 EnsureCatalogsLoaded();
 
-                var friendships = Context.Friendship.Where(f => f.addressee_id == playerId &&
-                f.status_id == pendingStatusId).ToList();
+                var friendships = Context.Friendship.Where(friendship => friendship.addressee_id == playerId
+                    && friendship.status_id == pendingStatusId).ToList();
 
-                List<int> friendsIds = new List<int>();
-
-                foreach (var i in friendships)
-                {
-                    friendsIds.Add(i.addressee_id != playerId ? i.addressee_id : i.requester_id);
-                }
+                List<int> friendsIds = GetFriendsIds(friendships, playerId);
 
                 List<Player> friends = new List<Player>();
 
-                foreach (var i in friendsIds)
+                foreach (var friendId in friendsIds)
                 {
-                    var friend = Context.Player.FirstOrDefault(p => p.player_id == i);
+                    var friend = Context.Player.FirstOrDefault(player => player.player_id == friendId);
                     if (friend != null)
                     {
                         friends.Add(friend);
@@ -168,29 +163,46 @@ namespace MasterMind_Client.TempData
             
         }
 
+        private static List<int> GetFriendsIds(List<Friendship> friendships, int playerId)
+        {
+            List<int> friendsIds = new List<int>();
+
+            foreach (var friendship in friendships)
+            {
+                int friendId;
+                if (friendship.addressee_id != playerId)
+                {
+                    friendId = friendship.addressee_id;
+                }
+                else
+                {
+                    friendId = friendship.requester_id;
+                }
+
+                friendsIds.Add(friendId);
+            }
+
+            return friendsIds;
+        }
+
         public static List<Player> GetFrienships(int playerId)
         {
             try
             {
                 EnsureCatalogsLoaded();
 
-                var friendships = Context.Friendship.Where(f => (
-                f.requester_id == playerId ||
-                f.addressee_id == playerId) &&
-                f.status_id == acceptedStatusId).ToList();
+                var friendships = Context.Friendship.Where(friendship => (
+                    friendship.requester_id == playerId ||
+                    friendship.addressee_id == playerId) &&
+                    friendship.status_id == acceptedStatusId).ToList();
 
-                List<int> friendsIds = new List<int>();
-
-                foreach (var i in friendships)
-                {
-                    friendsIds.Add(i.addressee_id != playerId ? i.addressee_id : i.requester_id);
-                }
+                List<int> friendsIds = GetFriendsIds(friendships, playerId);
 
                 List<Player> friends = new List<Player>();
 
-                foreach (var i in friendsIds)
+                foreach (var friendId in friendsIds)
                 {
-                    var friend = Context.Player.FirstOrDefault(p => p.player_id == i);
+                    var friend = TempPlayerService.GetPlayerById(friendId);
                     if (friend != null)
                     {
                         friends.Add(friend);
@@ -214,9 +226,9 @@ namespace MasterMind_Client.TempData
                 EnsureCatalogsLoaded();
 
                 var request = Context.Friendship.FirstOrDefault(
-                r => r.requester_id == requesterId &&
-                r.addressee_id == addresseeId &&
-                r.status_id == pendingStatusId);
+                    req => req.requester_id == requesterId &&
+                    req.addressee_id == addresseeId &&
+                    req.status_id == pendingStatusId);
 
                 if (request != null)
                 {
@@ -239,9 +251,9 @@ namespace MasterMind_Client.TempData
                 EnsureCatalogsLoaded();
 
                 var request = Context.Friendship.FirstOrDefault(
-                                r => r.requester_id == requesterId &&
-                                r.addressee_id == addresseeId &&
-                                r.status_id == acceptedStatusId);
+                                req => req.requester_id == requesterId &&
+                                req.addressee_id == addresseeId &&
+                                req.status_id == acceptedStatusId);
 
                 if (request != null)
                 {

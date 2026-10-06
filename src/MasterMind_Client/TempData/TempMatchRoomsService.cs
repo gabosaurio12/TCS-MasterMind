@@ -61,7 +61,9 @@ namespace MasterMind_Client.TempData
             {
                 EnsureCatalogsLoaded();
 
-                var searchRoom = Context.MatchRoom.FirstOrDefault(mr => mr.match_room_name == matchRoomDto.RoomName);
+                var searchRoom = Context.MatchRoom.FirstOrDefault(
+                    room => room.match_room_name == matchRoomDto.RoomName);
+
                 if (searchRoom == null)
                 {
                     int gamemodeId = gamemodeCatalog[matchRoomDto.Gamemode];
@@ -99,19 +101,19 @@ namespace MasterMind_Client.TempData
             {
                 EnsureCatalogsLoaded();
 
-                var rooms = Context.MatchRoom.Select(mr => mr).ToList();
+                var rooms = Context.MatchRoom.Select(room => room).ToList();
                 if (rooms.Count > 0)
                 {
                     var availableRooms = new List<MatchRoomDto>();
-                    foreach (var i in rooms)
+                    foreach (var room in rooms)
                     {
                         availableRooms.Add(new MatchRoomDto
                         {
-                            MatchRoomId = i.match_room_id,
-                            RoomName = i.match_room_name,
-                            Gamemode = gamemodeCatalogReverse[i.gamemode_id],
-                            Difficulty = difficultyCatalogReverse[i.difficulty_id],
-                            Privacy = privacyCatalogReverse[i.room_privacy_id]
+                            MatchRoomId = room.match_room_id,
+                            RoomName = room.match_room_name,
+                            Gamemode = gamemodeCatalogReverse[room.gamemode_id],
+                            Difficulty = difficultyCatalogReverse[room.difficulty_id],
+                            Privacy = privacyCatalogReverse[room.room_privacy_id]
                         });
                     }
 
@@ -131,7 +133,7 @@ namespace MasterMind_Client.TempData
             try
             {
                 EnsureCatalogsLoaded();
-                var room = Context.MatchRoom.FirstOrDefault(mr => mr.match_room_name == roomName);
+                var room = Context.MatchRoom.FirstOrDefault(matchRoom => matchRoom.match_room_name == roomName);
                 if (room != null)
                 {
                     return new MatchRoomDto
@@ -158,7 +160,7 @@ namespace MasterMind_Client.TempData
             try
             {
                 EnsureCatalogsLoaded();
-                var room = Context.MatchRoom.FirstOrDefault(mr => mr.match_room_id == matchRoomId);
+                var room = Context.MatchRoom.FirstOrDefault(matchRoom => matchRoom.match_room_id == matchRoomId);
                 if (room != null)
                 {
                     return new MatchRoomDto
@@ -186,7 +188,8 @@ namespace MasterMind_Client.TempData
         {
             try
             {
-                var room = Context.MatchRoom.FirstOrDefault(mr => mr.match_room_id == matchRoomId);
+                var room = Context.MatchRoom.FirstOrDefault(matchRoom => matchRoom.match_room_id == matchRoomId);
+
                 if (room == null)
                 {
                     return MatchRoomJoinResultEnum.Error;

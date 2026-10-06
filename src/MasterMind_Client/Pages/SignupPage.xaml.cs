@@ -18,7 +18,8 @@ namespace MasterMind_Client.Pages
     /// </summary>
     public partial class SignupPage : Page
     {
-        private readonly Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+        private readonly Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$",
+            RegexOptions.None, TimeSpan.FromMilliseconds(100));
         private readonly Regex emailRegex = new Regex(@"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
             RegexOptions.None, TimeSpan.FromMilliseconds(100));
         private string pendingPlayerUsername;
@@ -40,38 +41,40 @@ namespace MasterMind_Client.Pages
 
         private bool CheckForEmptyFields()
         {
+            bool isValid = true;
             if (string.IsNullOrWhiteSpace(UsernameTxt.Text))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
                 UsernameTxt.Foreground = Brushes.Red;
-                return false;
+                isValid = false;
             }
             if (string.IsNullOrWhiteSpace(EmailTxt.Text))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
                 EmailTxt.Foreground = Brushes.Red;
-                return false;
+                isValid = false;
             }
             if (string.IsNullOrWhiteSpace(PasswordTxt.Password))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_WhiteInput).Show();
                 PasswordLbl.Foreground = Brushes.Red;
-                return false;
+                isValid = false;
             }
-            return true;
+            return isValid;
         }
 
         private bool ValidateFormsData()
         {
+            bool isValid = true;
             if (!CheckForEmptyFields())
             {
-                return false;
+                isValid = false;
             }
 
             if (Regex.IsMatch(UsernameTxt.Text, @"\s"))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_NoSpaces).Show();
-                return false;
+                isValid = false;
             }
 
             var email = EmailTxt.Text;
@@ -79,21 +82,21 @@ namespace MasterMind_Client.Pages
             if (!emailRegex.IsMatch(email))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_InvalidEmail).Show();
-                return false;
+                isValid = false;
             }
             if (substringEmail.Length > 2)
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_InvalidEmail).Show();
-                return false;
+                isValid = false;
             }
 
             if (!passwordRegex.IsMatch(PasswordTxt.Password))
             {
                 new ErrorNotificationModal(Properties.Resources.ErrorNotification_InvalidPassword).Show();
-                return false;
+                isValid = false;
             }
 
-            return true;
+            return isValid;
         }
 
         private void ModalVerificationSucceded(object sender, Player verifiedPlayer)

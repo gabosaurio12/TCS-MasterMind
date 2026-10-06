@@ -21,6 +21,7 @@ namespace MasterMind_Client.Pages
         {
             PlayerUsernameLbl.Content = CurrentPlayer.Instance.Username;
             PlayerEmailLbl.Content = CurrentPlayer.Instance.Email;
+
         }
 
         private void ReportUsernameTxt_GotFocus(object sender, RoutedEventArgs e)
