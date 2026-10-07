@@ -18,7 +18,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" x:Name="RoomTitleLbl" Content="{x:Static p:Resources.RoomPage_Room}"
+        <Label Grid.Row="0" x:Name="RoomTitleLbl" Content="{Binding RoomTitle}"
            FontFamily="{StaticResource Aladin}" FontSize="112" Foreground="White"
            HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
@@ -72,9 +72,11 @@
                        Content="{x:Static p:Resources.RoomPage_Deciphers}" HorizontalAlignment="Center"/>
 
                 <controls:RoomPlayerUserControl x:Name="PlayerOneUserControl"
-                                                Grid.Row="1" Height="160" Width="470" />
+                                                Grid.Row="1" Height="160" Width="470"
+                                                DataContext="{Binding PlayerOne}" />
                 <controls:RoomPlayerUserControl x:Name="PlayerTwoUserControl"
-                                                Grid.Row="2" Height="160" Width="470" />
+                                                Grid.Row="2" Height="160" Width="470"
+                                                DataContext="{Binding PlayerTwo}" />
             </Grid>
         </Grid>
 
@@ -98,23 +100,45 @@
                 Foreground="White" FontSize="64"
                 FontFamily="{StaticResource Aladin}"
                 Style="{StaticResource RoundedRedButton}"
-                Click="EscapeBtn_Click" />
+                Command="{Binding EscapeCommand}" />
 
             <Button x:Name="ReadyBtn" Grid.Column="1"
                 Content="{x:Static p:Resources.RoomPage_Ready}"
                 Width="280" Height="100"
                 Foreground="White" FontSize="64"
                 FontFamily="{StaticResource Aladin}"
-                Style="{StaticResource RoundedGreenButton}"
-                Click="ReadyBtn_Click" />
+                Command="{Binding ReadyCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource RoundedGreenButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsReady}" Value="True">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
             <Button x:Name="UnreadyBtn" Grid.Column="1"
                 Content="{x:Static p:Resources.RoomPage_Unready}"
-                Width="280" Height="100" Visibility="Hidden" IsEnabled="False"
+                Width="280" Height="100"
                 Foreground="White" FontSize="64"
                 FontFamily="{StaticResource Aladin}"
-                Style="{StaticResource RoundedButton}"
-                Click="UnreadyBtn_Click" />
+                Command="{Binding UnreadyCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource RoundedButton}">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsReady}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </Grid>
 
 

@@ -1,16 +1,26 @@
 ﻿<UserControl x:Class="MasterMind_Client.Pages.PagesUserControls.MatchRoomUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
+             xmlns:assets="clr-namespace:MasterMind_Client.Assets"
              xmlns:p="clr-namespace:MasterMind_Client.Properties"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              Height="94" Width="1300">
     <Border x:Name="RoomBorder"
-            Background="#585858"
             CornerRadius="10"
             Cursor="Hand">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="{x:Static assets:UtilsUI.RoomDefaultBackground}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="True">
+                        <Setter Property="Background" Value="{x:Static assets:UtilsUI.RoomSelectedBackground}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="104" />
@@ -18,11 +28,11 @@
             </Grid.ColumnDefinitions>
 
             <Ellipse x:Name="PrivacyFlag" Grid.Column="0" Width="64" Height="64"
-             Fill="#2A59D9" />
+             Fill="{Binding PrivacyBrush}" />
 
             <Viewbox Grid.Column="1" StretchDirection="DownOnly" MaxHeight="55" HorizontalAlignment="Left">
                 <TextBlock x:Name="RoomNameTxt" FontFamily="{StaticResource Aladin}" FontSize="64"
-                   Foreground="White" Text="{x:Static p:Resources.NotificationModal_DefaultMessage}"
+                   Foreground="White" Text="{Binding RoomName}"
                    Margin="20,0,20,0"/>
             </Viewbox>
 

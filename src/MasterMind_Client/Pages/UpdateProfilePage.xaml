@@ -40,26 +40,28 @@
                    HorizontalAlignment="Center"/>
             <TextBox x:Name="PlayerUsernameTxt" Style="{StaticResource RoundedTextBox}"
                      Width="550" Height="65" FontSize="48" 
-                     FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center" />
+                     FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
+                     Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
                    FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
                    HorizontalAlignment="Center"/>
             <TextBox x:Name="PlayerEmailTxt" Style="{StaticResource RoundedTextBox}"
                      Width="550" Height="65" FontSize="48" 
-                     FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center" />
+                     FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
+                     Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
             <Button x:Name="SaveBtn" Width="345" Height="85" FontSize="64"
                     Content="{x:Static p:Resources.UpdateProfilePage_Save}" Margin="10"
                     FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedButton}"
-                    Click="SaveBtn_Click"/>
+                    Command="{Binding SaveCommand}"/>
 
             <Button x:Name="CancelBtn" Width="345" Height="85" FontSize="64"
                     Content="{x:Static p:Resources.UI_Cancel}" Margin="10"
                     FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedRedButton}"
-                    Click="CancelBtn_Click" />
+                    Command="{Binding CancelCommand}" />
         </StackPanel>
 
         <!-- Column 2 -->

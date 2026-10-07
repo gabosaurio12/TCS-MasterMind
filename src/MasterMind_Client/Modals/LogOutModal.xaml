@@ -30,13 +30,13 @@
                 <Button x:Name="QuitBtn" Style="{StaticResource ModalRedButton}"
                         Content="{x:Static p:Resources.UI_Quit}" Width="250" Height="88"
                         FontFamily="{StaticResource Aladin}" FontSize="48"
-                        Margin="0,0,30,0" Click="QuitBtn_Click"/>
+                        Margin="0,0,30,0" Command="{Binding QuitCommand}"/>
 
                 <Button x:Name="LogOutBtn" Style="{StaticResource ModalButton}"
                         Content="{x:Static p:Resources.LogOutModal_LogOut}"
                         Width="250" Height="88" Margin="30,0,0,0"
                         FontFamily="{StaticResource Aladin}" FontSize="48"
-                        Click="LogOutBtn_Click"/>
+                        Command="{Binding LogOutCommand}"/>
             </StackPanel>
         </Grid>
 

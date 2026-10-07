@@ -48,7 +48,8 @@
             <TextBox x:Name="UsernameTxt"
                HorizontalAlignment="Center"
                Width="535" Height="52" FontSize="38"
-               FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedTextBox}"  />
+               FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedTextBox}"
+               Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
 
             <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
                HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -59,20 +60,22 @@
                HorizontalAlignment="Center" VerticalAlignment="Center" 
                Width="535" Height="52" FontSize="38"
                Background="White" Style="{StaticResource RoundedPasswordBox}" 
-               Foreground="Black" FontFamily="{StaticResource Aladin}" />
+               Foreground="Black" FontFamily="{StaticResource Aladin}"
+               PasswordChanged="PasswordTxt_PasswordChanged" />
 
             <CheckBox x:Name="RememberLoginCheck" FontSize="32"
                       Content="{x:Static p:Resources.LoginPage_RememberLogin}"
                       FontFamily="{StaticResource Aladin}"
                       Foreground="White" HorizontalAlignment="Center" 
-                      VerticalAlignment="Center" Style="{StaticResource LargeCheckBox}" />
+                      VerticalAlignment="Center" Style="{StaticResource LargeCheckBox}"
+                      IsChecked="{Binding RememberLogin, Mode=TwoWay}" />
 
             <Button x:Name="LoginBtn" Content="{x:Static p:Resources.LoginPage_Login}"
                 HorizontalAlignment="Center" VerticalAlignment="Center" 
                 Width="230" Height="80" 
                 Background="#67D92A" Foreground="White" Style="{StaticResource RoundedButton}"
                 FontSize="48" FontFamily="{StaticResource Aladin}"
-                Click="LoginBtn_Click" />
+                Command="{Binding LoginCommand}" />
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
                 <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.LoginPage_AccountQuestion}"
@@ -95,7 +98,7 @@
               
                 Foreground="White" Style="{StaticResource RoundedButton}"
                 FontSize="60" FontFamily="{StaticResource Aladin}" Margin="792,666,55,43"
-                Click="LanguageBtn_Click"/>
+                Command="{Binding LanguageCommand}"/>
 
     </Grid>
 </Page>

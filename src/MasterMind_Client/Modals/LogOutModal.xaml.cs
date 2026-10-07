@@ -11,19 +11,5 @@ namespace MasterMind_Client.Modals
         {
             InitializeComponent();
         }
-
-        private void QuitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void LogOutBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.RememberLogin = false;
-            Properties.Settings.Default.SavedUsername = "";
-            Properties.Settings.Default.Save();
-
-            Application.Current.Shutdown();
-        }
     }
 }

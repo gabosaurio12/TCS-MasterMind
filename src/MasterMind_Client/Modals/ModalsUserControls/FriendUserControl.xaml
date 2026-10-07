@@ -14,11 +14,11 @@
             <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
 
-        <Ellipse x:Name="OnlineVisibility" Grid.Column="0" Width="50" Height="50" Fill="#929292" />
+        <Ellipse x:Name="OnlineVisibility" Grid.Column="0" Width="50" Height="50" Fill="{Binding OnlineBrush}" />
 
         <Viewbox Grid.Column="1" StretchDirection="DownOnly" MaxHeight="55" HorizontalAlignment="Left">
             <TextBlock x:Name="UsernameTxt" FontFamily="{StaticResource Aladin}" FontSize="50"
-                       Foreground="White"/>
+                       Foreground="White" Text="{Binding Username}" />
         </Viewbox>
 
         <StackPanel Grid.Column="2" Orientation="Horizontal" >

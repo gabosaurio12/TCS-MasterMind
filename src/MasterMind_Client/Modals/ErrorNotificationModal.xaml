@@ -23,7 +23,7 @@
                         Width="345" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
                         FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="64" />
 
-                <TextBlock x:Name="NotificationMessageTxt" Text="{x:Static p:Resources.NotificationModal_DefaultMessage}"
+                <TextBlock x:Name="NotificationMessageTxt" Text="{Binding Message}"
                            Width="525" TextAlignment="Center" Margin="20" VerticalAlignment="Center"
                            FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="32"
                            TextWrapping="Wrap"/>
@@ -32,7 +32,7 @@
                         Width="150" Height="52" Style="{StaticResource ModalButton}"
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                        Click="ContinueBtn_Click"/>
+                        Command="{Binding ContinueCommand}"/>
             </StackPanel>
         </Viewbox>
 

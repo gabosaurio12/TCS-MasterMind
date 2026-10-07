@@ -8,7 +8,7 @@
         WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
         Title="{x:Static p:Resources.VerificationCodeModal_Title}" Height="470" Width="660"
-        Background="Transparent" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+        Background="Transparent" WindowStartupLocation="CenterScreen" >
 
     <Border CornerRadius="25"
             Background="#313539"
@@ -27,27 +27,32 @@
                     <TextBox x:Name="CodeI0Txt" FontFamily="{StaticResource Aladin}"
                              FontSize="70" Width="92" Height="144" Margin="5"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding CodeDigit0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI1Txt" FontFamily="{StaticResource Aladin}"
                              FontSize="70" Width="92" Height="144" Margin="5"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding CodeDigit1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI2Txt" FontFamily="{StaticResource Aladin}"
                              FontSize="70" Width="92" Height="144" Margin="5"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding CodeDigit2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI3Txt" FontFamily="{StaticResource Aladin}"
                              FontSize="70" Width="92" Height="144" Margin="5"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding CodeDigit3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI4Txt" FontFamily="{StaticResource Aladin}"
                              FontSize="70" Width="92" Height="144" Margin="5"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}" />
+                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
+                             Text="{Binding CodeDigit4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50,0,0">
@@ -56,13 +61,13 @@
                             Width="150" Height="52" Style="{StaticResource ModalRedButton}"
                             VerticalAlignment="Center" HorizontalAlignment="Center"
                             FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                            Click="CancelBtn_Click"/>
+                            Command="{Binding CancelCommand}"/>
 
                     <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
                             Width="150" Height="52" Style="{StaticResource ModalButton}"
                             VerticalAlignment="Center" HorizontalAlignment="Center"
                             FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                            Click="ContinueBtn_Click"/>
+                            Command="{Binding ContinueCommand}"/>
                 </StackPanel>
 
 

@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MasterMind_Client.Pages.RoomsPages"
-      mc:Ignorable="d" 
+      xmlns:controls="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
+      mc:Ignorable="d"
       xmlns:p="clr-namespace:MasterMind_Client.Properties"
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="{x:Static p:Resources.RoomsPage_Title}"
@@ -21,9 +22,14 @@
                FontFamily="{StaticResource Aladin}" FontSize="112" Foreground="White"
                HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel x:Name="RoomsStack" Orientation="Vertical" Background="#313539" />
-        </ScrollViewer>
+        <ListBox Grid.Row="1" x:Name="RoomsStack" ItemsSource="{Binding Rooms}" SelectedItem="{Binding SelectedRoom, Mode=TwoWay}"
+                 Background="#313539" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <controls:MatchRoomUserControl Margin="20" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
 
         <!-- Buttons -->
@@ -37,7 +43,7 @@
                     Foreground="White" FontSize="64"
                     FontFamily="{StaticResource Aladin}"
                     Style="{StaticResource RoundedRedButton}"
-                    Click="BackBtn_Click" />
+                    Command="{Binding BackCommand}" />
 
             <Button x:Name="JoinBtn" Grid.Row="2"
                     Content="{x:Static p:Resources.RoomsPage_Join}"
@@ -45,7 +51,7 @@
                     Foreground="White" FontSize="64"
                     FontFamily="{StaticResource Aladin}"
                     Style="{StaticResource RoundedButton}"
-                    Click="JoinBtn_Click" />
+                    Command="{Binding JoinCommand}" />
 
             <Button x:Name="CodeBtn" Grid.Row="2"
                     Content="{x:Static p:Resources.RoomsPage_Code}"
@@ -53,7 +59,7 @@
                     Foreground="White" FontSize="64"
                     FontFamily="{StaticResource Aladin}"
                     Style="{StaticResource RoundedButton}"
-                    Click="CodeBtn_Click" />
+                    Command="{Binding CodeCommand}" />
 
             <Button x:Name="CreateBtn" Grid.Row="2"
                     Content="{x:Static p:Resources.UI_Create}"
@@ -61,7 +67,7 @@
                     Foreground="White" FontSize="64"
                     FontFamily="{StaticResource Aladin}"
                     Style="{StaticResource RoundedGreenButton}"
-                    Click="CreateBtn_Click" />
+                    Command="{Binding CreateCommand}" />
         </StackPanel>
 
 

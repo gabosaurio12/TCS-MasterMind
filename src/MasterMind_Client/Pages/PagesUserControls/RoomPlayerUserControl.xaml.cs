@@ -1,5 +1,4 @@
-﻿using MasterMind_Client.Assets;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace MasterMind_Client.Pages.PagesUserControls
 {
@@ -11,22 +10,6 @@ namespace MasterMind_Client.Pages.PagesUserControls
         public RoomPlayerUserControl()
         {
             InitializeComponent();
-        }
-
-        public RoomPlayerUserControl(string username)
-        {
-            InitializeComponent();
-            UsernameTxt.Text = username;
-        }
-
-        public void SetAsReady()
-        {
-            Grid.Background = UtilsUI.OnlineGreen;
-        }
-
-        public void SetAsNotReady()
-        {
-            Grid.Background = UtilsUI.NotReadyYellow;
         }
     }
 }

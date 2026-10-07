@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MasterMind_Client.ViewModels.Services;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MasterMind_Client
 {
@@ -22,7 +14,6 @@ namespace MasterMind_Client
     {
         public MainWindow()
         {
-            
             InitializeComponent();
 
             this.WindowStyle = WindowStyle.None;
@@ -32,10 +23,20 @@ namespace MasterMind_Client
         private void NavigationWindow_Loaded(object sender, RoutedEventArgs e)
         {
             this.Navigated += MainWindow_Navigated;
+
+            if (AppServices.NavigationService is NavigationServiceAdapter adapter)
+            {
+                adapter.SetNavigationService(this.NavigationService);
+            }
         }
 
         private void MainWindow_Navigated(object sender, NavigationEventArgs e)
         {
+            if (AppServices.NavigationService is NavigationServiceAdapter adapter)
+            {
+                adapter.SetNavigationService(this.NavigationService);
+            }
+
             if (e.Content is Page page && !(page.Content is Viewbox))
             {
                 var originalContent = page.Content;

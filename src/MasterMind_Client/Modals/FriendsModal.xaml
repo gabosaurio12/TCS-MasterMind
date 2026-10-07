@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MasterMind_Client.Modals"
+        xmlns:controls="clr-namespace:MasterMind_Client.Modals.ModalsUserControls"
         mc:Ignorable="d"
         WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
@@ -27,23 +28,26 @@
                Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="72"
                HorizontalAlignment="Center"/>
 
-                <StackPanel x:Name="FriendsStack" Grid.Row="1" Orientation="Vertical">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-
-                    </ScrollViewer>
-
-                </StackPanel>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="FriendsStack" ItemsSource="{Binding Friends}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <controls:FriendUserControl Margin="0,0,0,10" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
 
                 <StackPanel x:Name="ButtonsStack" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center">
                     <Button x:Name="FriendRequestsBtn" Content="{x:Static p:Resources.FriendRequestsModal_Title}"
                     FontFamily="{StaticResource Aladin}" Style="{StaticResource ModalButton}"
                     Width="300" Height="45" FontSize="32" Margin="10"
-                    Click="FriendRequestsBtn_Click"/>
+                    Command="{Binding FriendRequestsCommand}"/>
 
                     <Button x:Name="CloseBtn" Content="{x:Static p:Resources.UI_Close}"
                     FontFamily="{StaticResource Aladin}" Style="{StaticResource ModalButton}"
                     Width="120" Height="45" FontSize="32" Margin="10"
-                    Click="CloseBtn_Click"/>
+                    Command="{Binding CloseCommand}"/>
                 </StackPanel>
 
             </Grid>

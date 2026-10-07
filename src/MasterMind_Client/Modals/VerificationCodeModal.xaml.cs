@@ -1,7 +1,4 @@
-﻿using MasterMind_Client.Data;
-using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -12,55 +9,15 @@ namespace MasterMind_Client.Modals
     /// </summary>
     public partial class VerificationCodeModal : Window
     {
-        private readonly string username;
-        public event EventHandler<Player> VerificationSucceded;
-
         public VerificationCodeModal()
         {
             InitializeComponent();
-        }
-
-        public VerificationCodeModal(string username)
-        {
-            InitializeComponent();
-            this.username = username;
         }
 
         private void MoveFocusToNext(TextBox currentTxt)
         {
             var request = new TraversalRequest(FocusNavigationDirection.Next);
             currentTxt.MoveFocus(request);
-        }
-
-        private string GetCodeFromBoxes()
-        {
-            return string.Concat(
-                CodeI0Txt.Text,
-                CodeI1Txt.Text,
-                CodeI2Txt.Text,
-                CodeI3Txt.Text,
-                CodeI4Txt.Text
-            );
-        }
-
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Windows.OfType<VerificationCodeModal>().FirstOrDefault()?.Close();
-        }
-
-        private void ContinueBtn_Click(object sender, RoutedEventArgs e)
-        {
-            string code = GetCodeFromBoxes();
-            var result = TempData.TempAuthService.AuthVerificationCode(username, code);
-            if (result.Item1)
-            {
-                VerificationSucceded?.Invoke(this, result.Item2);
-                Application.Current.Windows.OfType<VerificationCodeModal>().FirstOrDefault()?.Close();
-            }
-            else
-            {
-                new ErrorNotificationModal(Properties.Resources.ErrorNotification_WrongCode).Show();
-            }
         }
 
         private void CodeTxt_TextChanged(object sender, TextChangedEventArgs e)

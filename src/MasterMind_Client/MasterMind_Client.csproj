@@ -405,6 +405,32 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Assets\UtilsUI.cs" />
+    <Compile Include="AppServices.cs" />
+    <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
+    <Compile Include="ViewModels\Base\RelayCommand.cs" />
+    <Compile Include="ViewModels\Base\ViewModelBase.cs" />
+    <Compile Include="ViewModels\Modals\ErrorNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Modals\FriendRequestsViewModel.cs" />
+    <Compile Include="ViewModels\Modals\FriendsViewModel.cs" />
+    <Compile Include="ViewModels\Modals\LogOutViewModel.cs" />
+    <Compile Include="ViewModels\Modals\SuccessNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Modals\VerificationCodeViewModel.cs" />
+    <Compile Include="ViewModels\Pages\LoginPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\ProfilePageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\RoomsPages\CreateRoomPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\RoomsPages\RoomPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\RoomsPages\RoomsPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\SignupPageViewModel.cs" />
+    <Compile Include="ViewModels\Pages\UpdateProfilePageViewModel.cs" />
+    <Compile Include="ViewModels\Services\DialogService.cs" />
+    <Compile Include="ViewModels\Services\IDialogService.cs" />
+    <Compile Include="ViewModels\Services\INavigationService.cs" />
+    <Compile Include="ViewModels\Services\NavigationServiceAdapter.cs" />
+    <Compile Include="ViewModels\UserControls\FriendRequestViewModel.cs" />
+    <Compile Include="ViewModels\UserControls\FriendViewModel.cs" />
+    <Compile Include="ViewModels\UserControls\MatchRoomViewModel.cs" />
+    <Compile Include="ViewModels\UserControls\PlayerSlotViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
