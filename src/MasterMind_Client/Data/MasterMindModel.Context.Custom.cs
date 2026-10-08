@@ -17,7 +17,7 @@ namespace MasterMind_Client.Data
 
             var sqlBuilder = new SqlConnectionStringBuilder
             {
-                DataSource = @"(localdb)\MSSQLLocalDB",
+                DataSource = Environment.GetEnvironmentVariable("DB_SOURCE"),
                 InitialCatalog = Environment.GetEnvironmentVariable("DB_NAME"),
                 UserID = Environment.GetEnvironmentVariable("DB_USER"),
                 Password = Environment.GetEnvironmentVariable("DB_PASSWORD"),

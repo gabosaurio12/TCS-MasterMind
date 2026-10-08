@@ -393,4 +393,7 @@
   <data name="RoomPage_EmptySlot" xml:space="preserve">
     <value>Vacío</value>
   </data>
+  <data name="ErrorNotification_UsernameNotFound" xml:space="preserve">
+    <value>El nombre de usuario buscado no existe</value>
+  </data>
 </root>

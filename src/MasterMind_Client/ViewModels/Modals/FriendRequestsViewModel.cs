@@ -4,7 +4,6 @@ using MasterMind_Client.TempData.Enum;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
-using System;
 using System.Collections.ObjectModel;
 
 namespace MasterMind_Client.ViewModels.Modals
@@ -64,20 +63,27 @@ namespace MasterMind_Client.ViewModels.Modals
         private void SendFriendRequest()
         {
             var username = AddresseeUsername.Trim();
-            int addresseeId = TempPlayerService.GetPlayerByUsername(username).player_id;
-            var result = FriendshipService.SendFrienshipRequest(CurrentPlayer.Instance.Id, addresseeId);
-
-            switch (result)
+            var addressee = TempPlayerService.GetPlayerByUsername(username);
+            if (addressee != null)
             {
-                case RequestStatusEnum.Success:
-                    dialogService.ShowSuccess(Properties.Resources.SuccessNotification_FriendRequestSent);
-                    break;
-                case RequestStatusEnum.Pending:
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_FriendRequestPending);
-                    break;
-                case RequestStatusEnum.Error:
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorSendingFriendRequest);
-                    break;
+                var result = FriendshipService.SendFrienshipRequest(CurrentPlayer.Instance.Id, addressee.player_id);
+
+                switch (result)
+                {
+                    case RequestStatusEnum.Success:
+                        dialogService.ShowSuccess(Properties.Resources.SuccessNotification_FriendRequestSent);
+                        break;
+                    case RequestStatusEnum.Pending:
+                        dialogService.ShowError(Properties.Resources.ErrorNotification_FriendRequestPending);
+                        break;
+                    case RequestStatusEnum.Error:
+                        dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorSendingFriendRequest);
+                        break;
+                }
+            }
+            else
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameNotFound);
             }
         }
 

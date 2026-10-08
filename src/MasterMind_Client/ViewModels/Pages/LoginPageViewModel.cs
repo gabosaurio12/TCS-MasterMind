@@ -11,8 +11,8 @@ namespace MasterMind_Client.ViewModels.Pages
     {
         public LoginPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
-            _navigationService = navigationService;
-            _dialogService = dialogService;
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
             LoginCommand = new RelayCommand(_ => Login());
             SignupCommand = new RelayCommand(_ => NavigateTo("Pages/SignupPage.xaml"));
             LanguageCommand = new RelayCommand(_ => ChangeLanguage());
@@ -30,8 +30,8 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public RelayCommand LanguageCommand { get; }
 
-        private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
 
         private void Login()
         {
@@ -46,7 +46,7 @@ namespace MasterMind_Client.ViewModels.Pages
                 return;
             }
 
-            _dialogService.ShowVerificationCode(player.username, OnVerificationSucceded);
+            dialogService.ShowVerificationCode(player.username, OnVerificationSucceded);
         }
 
         private bool ValidateFormsData(Player player)
@@ -54,13 +54,13 @@ namespace MasterMind_Client.ViewModels.Pages
             var isValid = true;
             if (string.IsNullOrWhiteSpace(player.username) || string.IsNullOrWhiteSpace(player.password))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
                 isValid = false;
             }
 
             if (!TempAuthService.AuthPlayer(player))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCredentials);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCredentials);
                 isValid = false;
             }
 
@@ -83,18 +83,18 @@ namespace MasterMind_Client.ViewModels.Pages
             }
 
             Properties.Settings.Default.Save();
-            _navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+            navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
         }
 
         private void NavigateTo(string uri)
         {
-            _navigationService.Navigate(new Uri(uri, UriKind.Relative));
+            navigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
 
         private void ChangeLanguage()
         {
             UtilsUI.ToggleLanguage();
-            _navigationService.Refresh();
+            navigationService.Refresh();
         }
     }
 }

@@ -1,3 +1,4 @@
+using MasterMind_Client.TempData;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -8,22 +9,23 @@ namespace MasterMind_Client.ViewModels.Pages
     {
         public ProfilePageViewModel(INavigationService navigationService)
         {
-            _navigationService = navigationService;
+            this.navigationService = navigationService;
             UpdateCommand = new RelayCommand(_ => NavigateTo("Pages/UpdateProfilePage.xaml"));
             BackCommand = new RelayCommand(_ => NavigateTo("Pages/MainPage.xaml"));
             ReportCommand = new RelayCommand(_ => { });
             ChangePasswordCommand = new RelayCommand(_ => { });
             Username = CurrentPlayer.Instance.Username;
             Email = CurrentPlayer.Instance.Email;
+            SetRecords();
         }
 
         public string Username { get; }
 
         public string Email { get; }
 
-        public string BestTime { get; } = "15";
+        public string BestTime { get; }
 
-        public string LeastTries { get; } = "3";
+        public string LeastTries { get; }
 
         public RelayCommand UpdateCommand { get; }
 
@@ -33,11 +35,19 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public RelayCommand ChangePasswordCommand { get; }
 
-        private readonly INavigationService _navigationService;
+        private readonly INavigationService navigationService;
+
+        private void SetRecords()
+        {
+            var records = TempPlayerService.GetPlayerRecords(Username);
+            foreach (var tries in records.PlayerTimeTrialRecords)
+            {
+            }
+        }
 
         private void NavigateTo(string uri)
         {
-            _navigationService.Navigate(new Uri(uri, UriKind.Relative));
+            navigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
     }
 }

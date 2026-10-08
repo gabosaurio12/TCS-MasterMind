@@ -122,7 +122,7 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_ErrorCreatingMatchRoom", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Hubo un error al unirte a la sala, intenta de nuevo más tarde.
         /// </summary>
@@ -131,7 +131,7 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_ErrorJoiningMatchRoom", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Hubo un error al enviar la solicitud de amistad. Intenta de nuevo más tarde.
         /// </summary>
@@ -176,7 +176,7 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_InvalidPassword", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a El nombre de usuario no puede contener espacios en blanco.
         /// </summary>
@@ -185,7 +185,7 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_NoSpaces", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a No puedes unirte a tu propia sala.
         /// </summary>
@@ -194,7 +194,7 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_OwnRoom", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a La sala está llena, no puedes unirte.
         /// </summary>
@@ -203,13 +203,22 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_RoomFull", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Error.
         /// </summary>
         public static string ErrorNotification_Title {
             get {
                 return ResourceManager.GetString("ErrorNotification_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El nombre de usuario buscado no existe.
+        /// </summary>
+        public static string ErrorNotification_UsernameNotFound {
+            get {
+                return ResourceManager.GetString("ErrorNotification_UsernameNotFound", resourceCulture);
             }
         }
         
@@ -599,7 +608,7 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("RoomPage_Deciphers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Vacío.
         /// </summary>
@@ -608,7 +617,7 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("RoomPage_EmptySlot", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Busca una cadena traducida similar a Listo.
         /// </summary>

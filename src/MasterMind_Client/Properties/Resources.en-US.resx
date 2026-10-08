@@ -277,13 +277,13 @@
     <value>Records</value>
   </data>
   <data name="ProfilePage_BestTime" xml:space="preserve">
-    <value>Best Time: </value>
+    <value>Best Times (sec)</value>
   </data>
   <data name="ProfilePage_Seconds" xml:space="preserve">
     <value> sec.</value>
   </data>
   <data name="ProfilePage_LeastTries" xml:space="preserve">
-    <value>Least Tries: </value>
+    <value>Best Tries</value>
   </data>
   <data name="ProfilePage_ReportPlayer" xml:space="preserve">
     <value>Report a player</value>
@@ -392,5 +392,8 @@
   </data>
   <data name="RoomPage_EmptySlot" xml:space="preserve">
     <value>Empty</value>
+  </data>
+  <data name="ErrorNotification_UsernameNotFound" xml:space="preserve">
+    <value>The username you search doesn't exists</value>
   </data>
 </root>
