@@ -46,37 +46,71 @@
                    FontSize="64"/>      
 
             <TextBox x:Name="UsernameTxt"
-                   HorizontalAlignment="Center" Style="{StaticResource RoundedTextBox}"
+                   HorizontalAlignment="Center"
                    Width="535" Height="52" FontSize="38"
-                   FontFamily="{StaticResource Aladin}" />
+                   FontFamily="{StaticResource Aladin}"
+                   Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource RoundedTextBox}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsUsernameEmpty}" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
 
             <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" 
                    Foreground="White" FontFamily="{StaticResource Aladin}"
                    FontSize="64"/>
 
-            <TextBox x:Name="EmailTxt" Style="{StaticResource RoundedTextBox}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+            <TextBox x:Name="EmailTxt"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
                    Width="535" Height="52" FontSize="38"
-                   FontFamily="{StaticResource Aladin}" />
+                   FontFamily="{StaticResource Aladin}"
+                   Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource RoundedTextBox}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEmailEmpty}" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
 
             <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Foreground="White" FontFamily="{StaticResource Aladin}"
-                   FontSize="64"/>
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontFamily="{StaticResource Aladin}"
+                   FontSize="64">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsPasswordEmpty}" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
             <PasswordBox x:Name="PasswordTxt" Style="{StaticResource RoundedPasswordBox}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
                    Width="535" Height="52" FontSize="38"
                    Background="White"
-                   Foreground="Black" FontFamily="{StaticResource Aladin}" />
+                   Foreground="Black" FontFamily="{StaticResource Aladin}"
+                   PasswordChanged="PasswordTxt_PasswordChanged" />
 
             <Button x:Name="RegisterBtn" Content="{x:Static p:Resources.SignupPage_Register}"
                     HorizontalAlignment="Center" VerticalAlignment="Center" 
                     Width="230" Height="80" 
                     Background="#67D92A" Foreground="White" Style="{StaticResource RoundedButton}"
                     FontSize="48" FontFamily="{StaticResource Aladin}"
-                    Click="RegisterBtn_Click" />
+                    Command="{Binding RegisterCommand}" />
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.SignupPage_AccountQuestion}"
@@ -98,7 +132,7 @@
                 Width="113" Height="85" Content="🌐"
                 Foreground="White" Style="{StaticResource RoundedButton}"
                 FontSize="60" FontFamily="{StaticResource Aladin}" Margin="792,666,55,43"
-                Click="LanguageBtn_Click"/>
+                Command="{Binding LanguageCommand}"/>
 
     </Grid>
 </Page>

@@ -44,25 +44,25 @@
                     Width="345" Height="85" FontSize="64" 
                     Foreground="White" FontFamily="{StaticResource Aladin}"
                     Content="{x:Static p:Resources.MainPage_Play}"
-                    Click="PlayBtn_Click"/>
+                    Command="{Binding PlayCommand}"/>
 
             <Button x:Name="ProfileBtn" Style="{StaticResource RoundedButton}"
                     Width="345" Height="85" FontSize="64" 
                     Foreground="White" FontFamily="{StaticResource Aladin}"
                     Content="{x:Static p:Resources.MainPage_Profile}"
-                    Click="ProfileBtn_Click" />
+                    Command="{Binding ProfileCommand}" />
 
             <Button x:Name="FriendsBtn" Style="{StaticResource RoundedButton}"
                     Width="345" Height="85" FontSize="64" 
                     Foreground="White" FontFamily="{StaticResource Aladin}"
                     Content="{x:Static p:Resources.MainPage_Friends}"
-                    Click="FriendsBtn_Click" />
+                    Command="{Binding FriendsCommand}" />
 
             <Button x:Name="ExitBtn" Style="{StaticResource RoundedRedButton}"
                     Width="345" Height="85" FontSize="64" 
                     Foreground="White" FontFamily="{StaticResource Aladin}"
                     Content="{x:Static p:Resources.UI_Quit}"
-                    Click="ExitBtn_Click" />
+                    Command="{Binding ExitCommand}" />
 
         </UniformGrid>
 
@@ -70,7 +70,7 @@
             Width="113" Height="85" Content="🌐"
             Foreground="White" Style="{StaticResource RoundedButton}"
             FontSize="60" FontFamily="{StaticResource Aladin}" Margin="792,666,55,43"
-            Click="LanguageBtn_Click" />
+            Command="{Binding LanguageCommand}" />
 
     </Grid>
 </Page>

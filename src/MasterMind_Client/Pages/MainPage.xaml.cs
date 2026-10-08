@@ -1,7 +1,4 @@
-﻿using MasterMind_Client.Assets;
-using MasterMind_Client.Modals;
-using System;
-using System.Windows;
+﻿using MasterMind_Client.ViewModels.Pages;
 using System.Windows.Controls;
 
 namespace MasterMind_Client.Pages
@@ -14,31 +11,7 @@ namespace MasterMind_Client.Pages
         public MainPage()
         {
             InitializeComponent();
-        }
-
-        private void PlayBtn_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("Pages/RoomsPages/RoomsPage.xaml", UriKind.Relative));
-        }
-
-        private void ProfileBtn_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("Pages/ProfilePage.xaml", UriKind.Relative));
-        }
-
-        private void FriendsBtn_Click(object sender, RoutedEventArgs e)
-        {
-            new FriendsModal().Show();
-        }
-
-        private void ExitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            new LogOutModal().Show();
-        }
-
-        private void LanguageBtn_Click(object sender, RoutedEventArgs e)
-        {
-            UtilsUI.ChangeLanguage(NavigationService);
+            DataContext = new MainPageViewModel(AppServices.NavigationService, AppServices.DialogService);
         }
     }
 }

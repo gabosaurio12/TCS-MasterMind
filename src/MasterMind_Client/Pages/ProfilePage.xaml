@@ -39,20 +39,22 @@
                    FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
                    HorizontalAlignment="Center"/>
             <Label x:Name="PlayerUsernameLbl" FontSize="48" Foreground="White"
-                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center" />
+                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
+                   Content="{Binding Username}" />
 
             <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
                    FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
                    HorizontalAlignment="Center"/>
             <Label x:Name="PlayerEmailLbl" FontSize="48" Foreground="White"
-                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center" />
+                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
+                   Content="{Binding Email}" />
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
             <Button x:Name="UpdateBtn" Width="345" Height="85" FontSize="64"
                     Content="{x:Static p:Resources.ProfilePage_Update}" Margin="5"
                     FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedButton}"
-                    Click="UpdateBtn_Click"/>
+                    Command="{Binding UpdateCommand}"/>
 
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
                        FontFamily="{StaticResource Aladin}" FontSize="36" Margin="5" >
@@ -76,7 +78,7 @@
                 <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
                        Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
 
-                <Label x:Name="PlayerBestTimeLbl" Content="15"
+                <Label x:Name="PlayerBestTimeLbl" Content="{Binding BestTime}"
                        Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
 
                 <Label x:Name="SecondsLbl" Content="{x:Static p:Resources.ProfilePage_Seconds}"
@@ -87,7 +89,7 @@
                 <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
                        Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
 
-                <Label x:Name="PlayerLeastTriesLbl" Content="3"
+                <Label x:Name="PlayerLeastTriesLbl" Content="{Binding LeastTries}"
                        Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
             </StackPanel>
 
@@ -104,14 +106,14 @@
                 <Button x:Name="ReportBtn" Width="45" Height="45"
                         Style="{StaticResource ModalRedButton}" FontFamily="{StaticResource Aladin}"
                         FontSize="40" Content="!"
-                        Click="ReportBtn_Click" />
+                        Command="{Binding ReportCommand}" />
             </StackPanel>
         </StackPanel>
 
         <Button x:Name="BackBtn" Grid.Row="2" Grid.Column="1" Width="345" Height="85" FontSize="64"
                 Content="{x:Static p:Resources.UI_Back}" Margin="5"
                 FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedRedButton}"
-                Click="BackBtn_Click"/>
+                Command="{Binding BackCommand}"/>
 
     </Grid>
 </Page>

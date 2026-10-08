@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Globalization;
+using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace MasterMind_Client.Assets
@@ -17,28 +18,34 @@ namespace MasterMind_Client.Assets
         public static readonly SolidColorBrush UnpressedYellow = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9C22A"));
         public static readonly SolidColorBrush UnpressedOrange = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D97C2A"));
         public static readonly SolidColorBrush PrivateRed = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D92A2D"));
+        public static readonly SolidColorBrush PublicBlue = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2A59D9"));
         public static readonly SolidColorBrush RoomDefaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#585858"));
         public static readonly SolidColorBrush RoomSelectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#58A354"));
+        public static readonly SolidColorBrush PlayerSlotDefaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#313539"));
 
-        public static void ChangeLanguage(NavigationService navigation)
+        public static void ToggleLanguage()
         {
             string usLanguage = "en-US";
             string mxLanguage = "es-MX";
             var currentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
 
+            CultureInfo newCulture;
             if (currentCulture == mxLanguage)
             {
-                var newCulture = new System.Globalization.CultureInfo(usLanguage);
-                System.Threading.Thread.CurrentThread.CurrentUICulture = newCulture;
-                System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = newCulture;
+                newCulture = new CultureInfo(usLanguage);
             }
             else
             {
-                var newCulture = new System.Globalization.CultureInfo(mxLanguage);
-                System.Threading.Thread.CurrentThread.CurrentUICulture = newCulture;
-                System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = newCulture;
+                newCulture = new CultureInfo(mxLanguage);
             }
 
+            System.Threading.Thread.CurrentThread.CurrentUICulture = newCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = newCulture;
+        }
+
+        public static void ChangeLanguage(NavigationService navigation)
+        {
+            ToggleLanguage();
             navigation.Refresh();
         }
     }

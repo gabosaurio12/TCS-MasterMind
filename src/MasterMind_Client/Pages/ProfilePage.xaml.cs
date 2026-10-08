@@ -1,8 +1,7 @@
-﻿using System;
+﻿using MasterMind_Client.ViewModels.Pages;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Navigation;
 
 namespace MasterMind_Client.Pages
 {
@@ -14,14 +13,7 @@ namespace MasterMind_Client.Pages
         public ProfilePage()
         {
             InitializeComponent();
-            SetPlayerInfo();
-        }
-
-        private void SetPlayerInfo()
-        {
-            PlayerUsernameLbl.Content = CurrentPlayer.Instance.Username;
-            PlayerEmailLbl.Content = CurrentPlayer.Instance.Email;
-
+            DataContext = new ProfilePageViewModel(AppServices.NavigationService);
         }
 
         private void ReportUsernameTxt_GotFocus(object sender, RoutedEventArgs e)
@@ -44,24 +36,9 @@ namespace MasterMind_Client.Pages
             }
         }
 
-        private void ReportBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void UpdateBtn_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("Pages/UpdateProfilePage.xaml", UriKind.Relative));
-        }
-
         private void ChangePasswordLink_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void BackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+            ((ProfilePageViewModel)DataContext).ChangePasswordCommand.Execute(null);
         }
     }
 }

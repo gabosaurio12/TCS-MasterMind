@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MasterMind_Client.Modals"
+        xmlns:controls="clr-namespace:MasterMind_Client.Modals.ModalsUserControls"
         mc:Ignorable="d"
         WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
@@ -28,9 +29,13 @@
                        HorizontalAlignment="Center"/>
 
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                    <StackPanel x:Name="FriendRequestsStack" Orientation="Vertical">
-
-                    </StackPanel>
+                    <ItemsControl x:Name="FriendRequestsStack" ItemsSource="{Binding Requests}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <controls:FriendRequestUserControl Margin="0,0,0,10" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </ScrollViewer>
 
 
@@ -41,7 +46,7 @@
 
                             <TextBox x:Name="AddreseeUsernameTxt" Height="60" Width="496"
                                      Style="{StaticResource RoundedTextBox}" FontSize="42"
-                                     Text="{x:Static p:Resources.FriendRequestsModal_AddFriendText}"
+                                     Text="{Binding AddresseeUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      FontFamily="{StaticResource Aladin}" Foreground="Gray"
                                      GotFocus="AddreseeUsernameTxt_GotFocus" LostFocus="AddreseeUsernameTxt_LostFocus" />
                         </Viewbox>
@@ -49,14 +54,14 @@
                         <Button x:Name="SendFriendRequestBtn" Width="45" Height="45"
                                 Style="{StaticResource ModalGreenButton}" FontFamily="{StaticResource Aladin}"
                                 FontSize="40" Content="+"
-                                Click="SendFriendRequestBtn_Click"/>
+                                Command="{Binding SendCommand}"/>
                     </StackPanel>
 
 
                     <Button x:Name="CloseBtn" Content="{x:Static p:Resources.UI_Close}"
                             FontFamily="{StaticResource Aladin}" Style="{StaticResource ModalButton}"
                             Width="120" Height="45" FontSize="32" Margin="10"
-                            Click="CloseBtn_Click" />
+                            Command="{Binding CloseCommand}" />
                 </StackPanel>
 
             </Grid>
@@ -65,5 +70,5 @@
         </Viewbox>
 
     </Border>
-    
+
 </Window>

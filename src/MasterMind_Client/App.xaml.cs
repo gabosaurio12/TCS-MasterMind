@@ -1,4 +1,5 @@
 ﻿using log4net.Config;
+using MasterMind_Client.ViewModels.Services;
 using System.Globalization;
 using System.Windows;
 
@@ -20,10 +21,13 @@ namespace MasterMind_Client
 
             XmlConfigurator.Configure();
 
+            AppServices.NavigationService = new NavigationServiceAdapter();
+            AppServices.DialogService = new DialogService();
+
             var mainWindow = new MainWindow();
 
             if (MasterMind_Client.Properties.Settings.Default.RememberLogin &&
-                !string.IsNullOrEmpty(MasterMind_Client.Properties.Settings.Default.SavedUsername))
+                 !string.IsNullOrEmpty(MasterMind_Client.Properties.Settings.Default.SavedUsername))
             {
                 var savedPlayer = TempData.TempPlayerService.GetPlayerByUsername(
                     MasterMind_Client.Properties.Settings.Default.SavedUsername);
