@@ -12,8 +12,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
     {
         public CreateRoomPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
-            _navigationService = navigationService;
-            _dialogService = dialogService;
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
             CreateCommand = new RelayCommand(_ => Create());
             CancelCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
         }
@@ -40,8 +40,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public RelayCommand CancelCommand { get; }
 
-        private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
 
         private void Create()
         {
@@ -61,12 +61,12 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             var result = TempMatchRoomsService.CreateMatchRoom(matchRoom);
             if (result == MatchRoomCreationResultEnum.Success)
             {
-                _dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
+                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
                 NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
             }
             else
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorCreatingMatchRoom);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorCreatingMatchRoom);
             }
         }
 
@@ -77,13 +77,13 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
             if (string.IsNullOrWhiteSpace(roomName))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
                 isValid = false;
             }
 
             if (roomName != null && Regex.IsMatch(roomName, @"\s"))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
                 isValid = false;
             }
 
@@ -112,7 +112,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private void NavigateTo(string uri)
         {
-            _navigationService.Navigate(new Uri(uri, UriKind.Relative));
+            navigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
     }
 }

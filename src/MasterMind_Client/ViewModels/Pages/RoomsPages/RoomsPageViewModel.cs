@@ -12,8 +12,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
     {
         public RoomsPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
-            _navigationService = navigationService;
-            _dialogService = dialogService;
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
             Rooms = new ObservableCollection<MatchRoomViewModel>();
             JoinCommand = new RelayCommand(_ => Join());
             CodeCommand = new RelayCommand(_ => { });
@@ -40,8 +40,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private MatchRoomViewModel _selectedRoom;
 
-        private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
 
         private void LoadRooms()
         {
@@ -64,11 +64,11 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             if (result == MatchRoomJoinResultEnum.Success || result == MatchRoomJoinResultEnum.AlreadyJoined)
             {
                 var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.MatchRoomId}", UriKind.Relative);
-                _navigationService.Navigate(uri);
+                navigationService.Navigate(uri);
             }
             else
             {
-                _dialogService.ShowError(GetJoinErrorMessage(result));
+                dialogService.ShowError(GetJoinErrorMessage(result));
             }
         }
 
@@ -87,7 +87,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private void NavigateTo(string uri)
         {
-            _navigationService.Navigate(new Uri(uri, UriKind.Relative));
+            navigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
     }
 }

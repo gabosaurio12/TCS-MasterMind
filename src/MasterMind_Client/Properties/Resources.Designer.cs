@@ -196,6 +196,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Hubo un error inesperado al eliminar... Reportar al jugador. Lo sentimos..
+        /// </summary>
+        public static string ErrorNotification_PlayerReportedError {
+            get {
+                return ResourceManager.GetString("ErrorNotification_PlayerReportedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a La sala está llena, no puedes unirte.
         /// </summary>
         public static string ErrorNotification_RoomFull {
@@ -529,7 +538,7 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Mejor Tiempo: .
+        ///   Busca una cadena traducida similar a Mejores Tiempos (seg):.
         /// </summary>
         public static string ProfilePage_BestTime {
             get {
@@ -759,6 +768,15 @@ namespace MasterMind_Client.Properties {
         public static string SuccessNotification_MatchRoomCreatedSuccessfully {
             get {
                 return ResourceManager.GetString("SuccessNotification_MatchRoomCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ¡El jugador fue eliminado... Reportado con éxito!.
+        /// </summary>
+        public static string SuccessNotification_PlayerReported {
+            get {
+                return ResourceManager.GetString("SuccessNotification_PlayerReported", resourceCulture);
             }
         }
         

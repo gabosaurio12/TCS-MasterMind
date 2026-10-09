@@ -12,8 +12,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
     {
         public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
         {
-            _navigationService = navigationService;
-            _dialogService = dialogService;
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
             EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
@@ -55,8 +55,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private PlayerSlotViewModel _playerTwo;
         private bool _isReady;
 
-        private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
 
         private void InitializeFromUri(Uri uri)
         {
@@ -70,7 +70,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             var room = TempMatchRoomsService.GetMatchRoomById(roomId);
             if (room == null)
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
                 NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
                 return;
             }
@@ -159,7 +159,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private void NavigateTo(string uri)
         {
-            _navigationService.Navigate(new Uri(uri, UriKind.Relative));
+            navigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
     }
 }

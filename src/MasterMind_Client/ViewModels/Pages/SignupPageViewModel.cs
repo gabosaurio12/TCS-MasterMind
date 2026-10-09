@@ -23,8 +23,8 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public SignupPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
-            _navigationService = navigationService;
-            _dialogService = dialogService;
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
             RegisterCommand = new RelayCommand(_ => Register());
             LoginLinkCommand = new RelayCommand(_ => NavigateTo("Pages/LoginPage.xaml"));
             LanguageCommand = new RelayCommand(_ => ChangeLanguage());
@@ -64,8 +64,8 @@ namespace MasterMind_Client.ViewModels.Pages
         private bool _isEmailEmpty;
         private bool _isPasswordEmpty;
 
-        private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
 
         private void Register()
         {
@@ -85,22 +85,22 @@ namespace MasterMind_Client.ViewModels.Pages
             switch (result)
             {
                 case PlayerRegistrationResultEnum.Success:
-                    _dialogService.ShowSuccess(
+                    dialogService.ShowSuccess(
                         Properties.Resources.SuccessNotification_Register,
                         () => ShowVerificationCode(player.username));
                     break;
                 case PlayerRegistrationResultEnum.UsernameTaken:
-                    _dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
                     break;
                 case PlayerRegistrationResultEnum.EmailTaken:
-                    _dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
                     break;
             }
         }
 
         private void ShowVerificationCode(string username)
         {
-            _dialogService.ShowVerificationCode(username, OnVerificationSucceded);
+            dialogService.ShowVerificationCode(username, OnVerificationSucceded);
         }
 
         private void OnVerificationSucceded(Player verifiedPlayer)
@@ -111,7 +111,7 @@ namespace MasterMind_Client.ViewModels.Pages
             Properties.Settings.Default.SavedUsername = "";
 
             Properties.Settings.Default.Save();
-            _navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+            navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
         }
 
         private bool ValidateFormsData()
@@ -124,7 +124,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
             if (Regex.IsMatch(Username, @"\s"))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
                 isValid = false;
             }
 
@@ -132,19 +132,19 @@ namespace MasterMind_Client.ViewModels.Pages
             var substringEmail = email.Split('@');
             if (!EmailRegex.IsMatch(email))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidEmail);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidEmail);
                 isValid = false;
             }
 
             if (substringEmail.Length > 2)
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidEmail);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidEmail);
                 isValid = false;
             }
 
             if (!PasswordRegex.IsMatch(Password))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidPassword);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidPassword);
                 isValid = false;
             }
 
@@ -156,21 +156,21 @@ namespace MasterMind_Client.ViewModels.Pages
             var isValid = true;
             if (string.IsNullOrWhiteSpace(Username))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
                 IsUsernameEmpty = true;
                 isValid = false;
             }
 
             if (string.IsNullOrWhiteSpace(Email))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
                 IsEmailEmpty = true;
                 isValid = false;
             }
 
             if (string.IsNullOrWhiteSpace(Password))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
                 IsPasswordEmpty = true;
                 isValid = false;
             }
@@ -180,13 +180,13 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private void NavigateTo(string uri)
         {
-            _navigationService.Navigate(new Uri(uri, UriKind.Relative));
+            navigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
 
         private void ChangeLanguage()
         {
             UtilsUI.ToggleLanguage();
-            _navigationService.Refresh();
+            navigationService.Refresh();
         }
     }
 }

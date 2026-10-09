@@ -11,8 +11,8 @@ namespace MasterMind_Client.ViewModels.Pages
     {
         public UpdateProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
-            _navigationService = navigationService;
-            _dialogService = dialogService;
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
             SaveCommand = new RelayCommand(_ => Save());
             CancelCommand = new RelayCommand(_ => NavigateTo("Pages/ProfilePage.xaml"));
             Username = CurrentPlayer.Instance.Username;
@@ -27,8 +27,8 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public RelayCommand CancelCommand { get; }
 
-        private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
 
         private void Save()
         {
@@ -53,13 +53,13 @@ namespace MasterMind_Client.ViewModels.Pages
             var isValid = true;
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Email))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
                 isValid = false;
             }
 
             if (Regex.IsMatch(Username, @"\s"))
             {
-                _dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
                 isValid = false;
             }
 
@@ -68,7 +68,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private void NavigateTo(string uri)
         {
-            _navigationService.Navigate(new Uri(uri, UriKind.Relative));
+            navigationService.Navigate(new Uri(uri, UriKind.Relative));
         }
     }
 }
