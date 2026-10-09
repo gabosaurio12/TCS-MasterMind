@@ -95,7 +95,7 @@ namespace MasterMind_Client.TempData
             return null;
         }
 
-        public static void ReportPlayer(PlayerReportDto report)
+        public static bool ReportPlayer(PlayerReportDto report)
         {
             try
             {
@@ -124,6 +124,8 @@ namespace MasterMind_Client.TempData
                         });
 
                         Context.SaveChanges();
+
+                        return true;
                     }
                 }
             }
@@ -131,6 +133,8 @@ namespace MasterMind_Client.TempData
             {
                 logger.Error(ex);
             }
+
+            return false;
         }
 
         public static PlayerRecordsDto GetPlayerRecords(string username)

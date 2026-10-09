@@ -9,18 +9,18 @@ namespace MasterMind_Client.ViewModels.UserControls
         public PlayerSlotViewModel(string username)
         {
             Username = username;
-            _backgroundBrush = UtilsUI.PlayerSlotDefaultBackground;
+            backgroundBrush = UtilsUI.PlayerSlotDefaultBackground;
         }
 
         public string Username { get; }
 
         public Brush BackgroundBrush
         {
-            get => _backgroundBrush;
-            private set => SetProperty(ref _backgroundBrush, value);
+            get => backgroundBrush;
+            private set => SetProperty(ref backgroundBrush, value);
         }
 
-        private Brush _backgroundBrush;
+        private Brush backgroundBrush;
 
         public void SetReady()
         {

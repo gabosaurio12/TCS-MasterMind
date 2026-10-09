@@ -13,7 +13,7 @@ namespace MasterMind_Client.Pages
         public ProfilePage()
         {
             InitializeComponent();
-            DataContext = new ProfilePageViewModel(AppServices.NavigationService);
+            DataContext = new ProfilePageViewModel(AppServices.NavigationService, AppServices.DialogService);
         }
 
         private void ReportUsernameTxt_GotFocus(object sender, RoutedEventArgs e)

@@ -277,7 +277,7 @@
     <value>Records</value>
   </data>
   <data name="ProfilePage_BestTime" xml:space="preserve">
-    <value>Best Times (sec)</value>
+    <value>Best Times (sec):</value>
   </data>
   <data name="ProfilePage_Seconds" xml:space="preserve">
     <value> sec.</value>
@@ -395,5 +395,11 @@
   </data>
   <data name="ErrorNotification_UsernameNotFound" xml:space="preserve">
     <value>The username you search doesn't exists</value>
+  </data>
+  <data name="SuccessNotification_PlayerReported" xml:space="preserve">
+    <value>The player has been eliminated... Reported successfully!</value>
+  </data>
+  <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
+    <value>There was an unexpected error while eliminating... Reporting the player. We are sorry.</value>
   </data>
 </root>

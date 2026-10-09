@@ -76,52 +76,48 @@
 
             <StackPanel Orientation="Horizontal" 
                         HorizontalAlignment="Center" VerticalAlignment="Center">
+
                 <StackPanel x:Name="BestTimesStack" Orientation="Vertical" Margin="10">
                     <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
                            Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="52"
                            HorizontalAlignment="Center"/>
 
-                    <Label Foreground="White" FontFamily="{StaticResource Aladin}"
-                           FontSize="48"
-                           HorizontalAlignment="Center" />
-
-                    <Label Foreground="White"
-                           FontFamily="{StaticResource Aladin}" FontSize="48"
-                           HorizontalAlignment="Center"/>
-
-                    <Label Foreground="White"
-                           FontFamily="{StaticResource Aladin}" FontSize="48"
-                           HorizontalAlignment="Center"/>
-
+                    <ItemsControl ItemsSource="{Binding BestTimes}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding}" Foreground="White"
+                                       FontFamily="{StaticResource Aladin}" FontSize="48"
+                                       HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
 
                 <StackPanel Orientation="Vertical" Margin="10">
                     <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
-                            Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="52"
+                           Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="52"
                            HorizontalAlignment="Center"/>
 
-                    <Label Foreground="White" 
-                           FontFamily="{StaticResource Aladin}" FontSize="48"
-                           HorizontalAlignment="Center"/>
-
-                    <Label Foreground="White"
-                           FontFamily="{StaticResource Aladin}" FontSize="48"
-                           HorizontalAlignment="Center"/>
-
-                    <Label Foreground="White"
-                           FontFamily="{StaticResource Aladin}" FontSize="48"
-                           HorizontalAlignment="Center"/>
-
+                    <ItemsControl ItemsSource="{Binding LeastTries}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding}" Foreground="White"
+                                       FontFamily="{StaticResource Aladin}" FontSize="48"
+                                       HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
+                
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,20,0,0"
+            <StackPanel Orientation="Horizontal" Margin="0,40,0,0"
                         HorizontalAlignment="Center">
                 <Viewbox StretchDirection="DownOnly" MaxHeight="55">
 
                     <TextBox x:Name="ReportUsernameTxt" Height="60" Width="496"
                              Style="{StaticResource RoundedTextBox}" FontSize="42"
-                             Text="{x:Static p:Resources.ProfilePage_ReportPlayer}"
+                             Text="{Binding ReportedPlayer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              FontFamily="{StaticResource Aladin}" Foreground="Gray"
                              GotFocus="ReportUsernameTxt_GotFocus" LostFocus="ReportUsernameTxt_LostFocus" />
                 </Viewbox>
