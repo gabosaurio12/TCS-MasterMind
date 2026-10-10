@@ -15,124 +15,121 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="286" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        
-        <!-- Backgrounds -->
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Fill="#141414" />
-        <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Fill="#585858" />
-        
-        <!-- Images -->
-        <Image Grid.Column="0" Grid.Row="0" Source="/Images/MasterMindLogo.png"
-               Width="625" Height="205"/>
-        <Image Grid.Column="0" Grid.Row="1" Source="/Images/DecodingMachine.png"
-               Width="533" Height="615"/>   
+        <!-- Fondos -->
+        <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelImage}" Stretch="Fill" />
+        <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelImage}" Stretch="Fill" />
 
-        <!-- Column 2 -->
-        
-        <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.SignupPage_Title}"
-               Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
-               VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource Aladin}"
-               FontSize="128"/>
-        
-        <UniformGrid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
-                     VerticalAlignment="Center" Rows="8" Columns="1" Margin="0,0,0,20">
-            
-            <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Foreground="White" FontFamily="{StaticResource Aladin}"
-                   FontSize="64"/>      
+        <!-- Panel izquierdo: logo y maquina -->
+        <Grid Grid.Column="0" Margin="40,40,40,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <TextBox x:Name="UsernameTxt"
-                   HorizontalAlignment="Center"
-                   Width="535" Height="52" FontSize="38"
-                   FontFamily="{StaticResource Aladin}"
-                   Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <TextBox.Style>
-                    <Style TargetType="TextBox" BasedOn="{StaticResource RoundedTextBox}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsUsernameEmpty}" Value="True">
-                                <Setter Property="Foreground" Value="Red"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+            <Rectangle Grid.Row="0" Width="660" Height="248" HorizontalAlignment="Center"
+                       Fill="{StaticResource LogoBrush}" />
 
-            <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Foreground="White" FontFamily="{StaticResource Aladin}"
-                   FontSize="64"/>
+            <Rectangle Grid.Row="1" Width="640" Height="674" HorizontalAlignment="Center"
+                       VerticalAlignment="Top" Margin="0,30,0,0"
+                       Fill="{StaticResource MachineBrush}" />
+        </Grid>
 
-            <TextBox x:Name="EmailTxt"
-                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Width="535" Height="52" FontSize="38"
-                   FontFamily="{StaticResource Aladin}"
-                   Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <TextBox.Style>
-                    <Style TargetType="TextBox" BasedOn="{StaticResource RoundedTextBox}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsEmailEmpty}" Value="True">
-                                <Setter Property="Foreground" Value="Red"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+        <!-- Panel derecho: formulario -->
+        <Grid Grid.Column="1" Margin="90,0,90,30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                   FontFamily="{StaticResource Aladin}"
-                   FontSize="64">
-                <Label.Style>
-                    <Style TargetType="Label">
-                        <Setter Property="Foreground" Value="White"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPasswordEmpty}" Value="True">
-                                <Setter Property="Foreground" Value="Red"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Label.Style>
-            </Label>
+            <!-- El Viewbox deja que el titulo en ingles se encoga solo: el tamano
+                 del prototipo (espanol) es el techo y ambos idiomas caben. -->
+            <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="130">
+                <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.SignupPage_Title}"
+                       Style="{StaticResource MetalTitleLbl}"
+                       FontFamily="{StaticResource Aladin}" FontSize="104" />
+            </Viewbox>
 
-            <PasswordBox x:Name="PasswordTxt" Style="{StaticResource RoundedPasswordBox}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Width="535" Height="52" FontSize="38"
-                   Background="White"
-                   Foreground="Black" FontFamily="{StaticResource Aladin}"
-                   PasswordChanged="PasswordTxt_PasswordChanged" />
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Button x:Name="RegisterBtn" Content="{x:Static p:Resources.SignupPage_Register}"
-                    HorizontalAlignment="Center" VerticalAlignment="Center" 
-                    Width="230" Height="80" 
-                    Background="#67D92A" Foreground="White" Style="{StaticResource RoundedButton}"
-                    FontSize="48" FontFamily="{StaticResource Aladin}"
-                    Command="{Binding RegisterCommand}" />
+                <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
+                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Aladin}" />
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.SignupPage_AccountQuestion}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" 
-                       Foreground="White" FontFamily="{StaticResource Aladin}"
-                       FontSize="36"/>
+                <TextBox x:Name="UsernameTxt" FontFamily="{StaticResource Aladin}"
+                         Width="600" Height="80" FontSize="44" Margin="0,6,0,26"
+                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsUsernameEmpty}" Value="True">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
-                           FontFamily="{StaticResource Aladin}" FontSize="36" >
-                    <Hyperlink x:Name="LoginLink" Click="LoginLink_Click" Foreground="#81A3FF" >
-                        <Run Text="{x:Static p:Resources.SignupPage_LoginLink}" />
-                    </Hyperlink>
-                </TextBlock>
+                <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
+                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Aladin}" />
+
+                <TextBox x:Name="EmailTxt" FontFamily="{StaticResource Aladin}"
+                         Width="600" Height="80" FontSize="44" Margin="0,6,0,26"
+                         Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsEmailEmpty}" Value="True">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+
+                <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
+                       FontFamily="{StaticResource Aladin}" FontSize="56">
+                    <Label.Style>
+                        <Style TargetType="Label" BasedOn="{StaticResource MetalFieldLbl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsPasswordEmpty}" Value="True">
+                                    <Setter Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+
+                <PasswordBox x:Name="PasswordTxt" Style="{StaticResource MetalPasswordBox}"
+                             FontFamily="{StaticResource Aladin}"
+                             Width="600" Height="80" FontSize="44" Margin="0,6,0,30"
+                             PasswordChanged="PasswordTxt_PasswordChanged" />
+
+                <Button x:Name="RegisterBtn" Style="{StaticResource MetalButtonGreen}"
+                        FontFamily="{StaticResource Aladin}" FontSize="50"
+                        Width="280" Height="100"
+                        Content="{x:Static p:Resources.SignupPage_Register}"
+                        Command="{Binding RegisterCommand}" />
+
+                <StackPanel HorizontalAlignment="Center" Margin="0,32,0,0">
+                    <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.SignupPage_AccountQuestion}"
+                           FontFamily="{StaticResource Aladin}" FontSize="38"
+                           Foreground="{StaticResource CreamBrush}"
+                           HorizontalAlignment="Center" />
+
+                    <TextBlock FontFamily="{StaticResource Aladin}" FontSize="40" HorizontalAlignment="Center">
+                        <Hyperlink x:Name="LoginLink" Click="LoginLink_Click" Foreground="{StaticResource LinkBrush}">
+                            <Run Text="{x:Static p:Resources.SignupPage_LoginLink}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
+        </Grid>
 
-        </UniformGrid>
-
-        <Button x:Name="LanguageBtn" Grid.Column="1" Grid.Row="1"
+        <Button x:Name="LanguageBtn" Grid.Column="1"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,0,50,30"
                 Width="113" Height="85" Content="🌐"
-                Foreground="White" Style="{StaticResource RoundedButton}"
-                FontSize="60" FontFamily="{StaticResource Aladin}" Margin="792,666,55,43"
-                Command="{Binding LanguageCommand}"/>
-
+                Style="{StaticResource MetalButtonBlue}"
+                FontFamily="{StaticResource Aladin}" FontSize="56"
+                Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>

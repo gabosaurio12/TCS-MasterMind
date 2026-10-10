@@ -20,9 +20,20 @@
 
     <!-- ============================ Ilustraciones ============================ -->
 
-    <BitmapImage x:Key="LogoImage" Source="/Assets/Elements/MasterMind_Title.png" />
-    <BitmapImage x:Key="MachineImage" Source="/Assets/Elements/DecipheringMachin_WithBackground.png" />
+    <!-- Los tres assets llegan exportados sobre fondo blanco y con mucho margen.
+         Se recortan con Viewbox en pixxeles del origen para que no se vea el blanco.
+         Si cambian los assets, hay que reajustar estos cuatro numeros. -->
+    <BitmapImage x:Key="LogoSource" Source="/Assets/Elements/MasterMind_Title.png" />
+    <BitmapImage x:Key="MachineSource" Source="/Assets/Elements/DecipheringMachin_WithBackground.png" />
     <BitmapImage x:Key="AvatarImage" Source="/Assets/DefaultAvatar.png" />
+
+    <!-- Proporcion aproximada 2.7:1 -->
+    <ImageBrush x:Key="LogoBrush" ImageSource="{StaticResource LogoSource}"
+                Stretch="Fill" ViewboxUnits="Absolute" Viewbox="130,545,2130,780" />
+
+    <!-- Proporcion aproximada 0.95:1 -->
+    <ImageBrush x:Key="MachineBrush" ImageSource="{StaticResource MachineSource}"
+                Stretch="Fill" ViewboxUnits="Absolute" Viewbox="410,50,1615,1700" />
 
     <!-- ============================ Colores ============================ -->
 

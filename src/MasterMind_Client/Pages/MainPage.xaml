@@ -15,62 +15,74 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="286" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <!-- Fondos -->
+        <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelImage}" Stretch="Fill" />
+        <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelImage}" Stretch="Fill" />
 
-        <!-- Backgrounds -->
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Fill="#141414" />
-        <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Fill="#585858" />
+        <!-- Panel izquierdo: logo y maquina -->
+        <Grid Grid.Column="0" Margin="40,40,40,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <!-- Images -->
-        <Image Grid.Column="0" Grid.Row="0" Source="/Images/MasterMindLogo.png"
-       Width="625" Height="205"/>
-        <Image Grid.Column="0" Grid.Row="1" Source="/Images/DecodingMachine.png"
-       Width="533" Height="615"/>
+            <Rectangle Grid.Row="0" Width="660" Height="248" HorizontalAlignment="Center"
+                       Fill="{StaticResource LogoBrush}" />
 
-        <!-- Column 2 -->
+            <Rectangle Grid.Row="1" Width="640" Height="674" HorizontalAlignment="Center"
+                       VerticalAlignment="Top" Margin="0,30,0,0"
+                       Fill="{StaticResource MachineBrush}" />
+        </Grid>
 
-        <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.MainPage_Title}"
-       Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
-       VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource Aladin}"
-       FontSize="128"/>
+        <!-- Panel derecho: titulo y menu -->
+        <Grid Grid.Column="1" Margin="90,0,90,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="240" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <UniformGrid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
-             VerticalAlignment="Center" Rows="4" Columns="1" Margin="0,0,0,0">
+            <!-- El Viewbox deja que el titulo en ingles se encoga solo: el tamano
+                 del prototipo (espanol) es el techo y ambos idiomas caben. -->
+            <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="150">
+                <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.MainPage_Title}"
+                       Style="{StaticResource MetalTitleLbl}"
+                       FontFamily="{StaticResource Aladin}" FontSize="104" />
+            </Viewbox>
 
-            <Button x:Name="PlayBtn" Style="{StaticResource RoundedGreenButton}" Margin="20"
-                    Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="{StaticResource Aladin}"
-                    Content="{x:Static p:Resources.MainPage_Play}"
-                    Command="{Binding PlayCommand}"/>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Button x:Name="ProfileBtn" Style="{StaticResource RoundedButton}"
-                    Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="{StaticResource Aladin}"
-                    Content="{x:Static p:Resources.MainPage_Profile}"
-                    Command="{Binding ProfileCommand}" />
+                <Button x:Name="PlayBtn" Style="{StaticResource MetalButtonGreen}"
+                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        Width="360" Height="110" Margin="0,0,0,34"
+                        Content="{x:Static p:Resources.MainPage_Play}"
+                        Command="{Binding PlayCommand}" />
 
-            <Button x:Name="FriendsBtn" Style="{StaticResource RoundedButton}"
-                    Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="{StaticResource Aladin}"
-                    Content="{x:Static p:Resources.MainPage_Friends}"
-                    Command="{Binding FriendsCommand}" />
+                <Button x:Name="ProfileBtn" Style="{StaticResource MetalButtonBlue}"
+                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        Width="360" Height="110" Margin="0,0,0,34"
+                        Content="{x:Static p:Resources.MainPage_Profile}"
+                        Command="{Binding ProfileCommand}" />
 
-            <Button x:Name="ExitBtn" Style="{StaticResource RoundedRedButton}"
-                    Width="345" Height="85" FontSize="64" 
-                    Foreground="White" FontFamily="{StaticResource Aladin}"
-                    Content="{x:Static p:Resources.UI_Quit}"
-                    Command="{Binding ExitCommand}" />
+                <Button x:Name="FriendsBtn" Style="{StaticResource MetalButtonBlue}"
+                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        Width="360" Height="110" Margin="0,0,0,34"
+                        Content="{x:Static p:Resources.MainPage_Friends}"
+                        Command="{Binding FriendsCommand}" />
 
-        </UniformGrid>
+                <Button x:Name="ExitBtn" Style="{StaticResource MetalButtonRed}"
+                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        Width="360" Height="110"
+                        Content="{x:Static p:Resources.UI_Quit}"
+                        Command="{Binding ExitCommand}" />
+            </StackPanel>
+        </Grid>
 
-        <Button x:Name="LanguageBtn" Grid.Column="1" Grid.Row="1"
-            Width="113" Height="85" Content="🌐"
-            Foreground="White" Style="{StaticResource RoundedButton}"
-            FontSize="60" FontFamily="{StaticResource Aladin}" Margin="792,666,55,43"
-            Command="{Binding LanguageCommand}" />
-
+        <Button x:Name="LanguageBtn" Grid.Column="1"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,0,50,40"
+                Width="113" Height="85" Content="🌐"
+                Style="{StaticResource MetalButtonBlue}"
+                FontFamily="{StaticResource Aladin}" FontSize="56"
+                Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>
