@@ -1,0 +1,54 @@
+<!--
+    Paleta y recursos de imagen del tema "metal clasificado".
+    Solo contiene recursos (colores y sprites); los estilos viven en Assets/Styles.xaml.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ============================ Sprites (9-slice) ============================ -->
+
+    <BitmapImage x:Key="BtnBlueImage" Source="/Assets/Elements/Blue_Button.png" />
+    <BitmapImage x:Key="BtnGreenImage" Source="/Assets/Elements/Green_Button.png" />
+    <BitmapImage x:Key="BtnRedImage" Source="/Assets/Elements/Red_Button.png" />
+    <BitmapImage x:Key="BtnGreyImage" Source="/Assets/Elements/Grey_Button.png" />
+    <BitmapImage x:Key="FieldImage" Source="/Assets/Elements/TextBox.png" />
+
+    <!-- ============================ Fondos ============================ -->
+
+    <BitmapImage x:Key="BgLeftPanelImage" Source="/Assets/Backgrounds/LeftPanel_Dark.png" />
+    <BitmapImage x:Key="BgRightPanelImage" Source="/Assets/Backgrounds/RightPanel_Light.png" />
+
+    <!-- ============================ Ilustraciones ============================ -->
+
+    <BitmapImage x:Key="LogoImage" Source="/Assets/Elements/MasterMind_Title.png" />
+    <BitmapImage x:Key="MachineImage" Source="/Assets/Elements/DecipheringMachin_WithBackground.png" />
+    <BitmapImage x:Key="AvatarImage" Source="/Assets/DefaultAvatar.png" />
+
+    <!-- ============================ Colores ============================ -->
+
+    <!-- Tinta sobre pergamino (dentro de los campos). -->
+    <SolidColorBrush x:Key="PaperBrush" Color="#E8D5A8" />
+    <SolidColorBrush x:Key="InkBrush" Color="#3B2F1E" />
+    <SolidColorBrush x:Key="InkMutedBrush" Color="#6E5F49" />
+
+    <!-- Tinta sobre metal o panel de oliva (titulos y etiquetas). -->
+    <SolidColorBrush x:Key="CreamBrush" Color="#F2E3BE" />
+    <SolidColorBrush x:Key="CreamMutedBrush" Color="#CBB98C" />
+
+    <!-- Paneles. -->
+    <SolidColorBrush x:Key="PanelOliveBrush" Color="#2B3127" />
+    <SolidColorBrush x:Key="PanelOliveDarkBrush" Color="#232820" />
+    <SolidColorBrush x:Key="FrameMetalBrush" Color="#6E6E60" />
+
+    <!-- Semanticos de juego (tambien usados por UtilsUI desde codigo). -->
+    <SolidColorBrush x:Key="InfoBlueBrush" Color="#3E6C93" />
+    <SolidColorBrush x:Key="GoGreenBrush" Color="#5B7B3A" />
+    <SolidColorBrush x:Key="AlertRedBrush" Color="#C0392B" />
+    <SolidColorBrush x:Key="NeutralGreyBrush" Color="#6E6A63" />
+
+    <!-- Enlaces. -->
+    <SolidColorBrush x:Key="LinkBrush" Color="#7C9BE8" />
+
+    <!-- Cursor de escritura dentro de los campos. -->
+    <SolidColorBrush x:Key="CaretInkBrush" Color="#3B2F1E" />
+</ResourceDictionary>

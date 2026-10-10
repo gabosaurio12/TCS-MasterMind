@@ -396,6 +396,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Assets\Palette.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\NineSlice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="Controls\NineSlice.xaml.cs">
+      <DependentUpon>NineSlice.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -404,7 +416,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Assets\UtilsUI.cs" />
+    <Compile Include="Helpers\UtilsUI.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
@@ -578,6 +590,16 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Assets\Fonts\Aladin-Regular.ttf" />
+    <Resource Include="Assets\DefaultAvatar.png" />
+    <Resource Include="Assets\Backgrounds\LeftPanel_Dark.png" />
+    <Resource Include="Assets\Backgrounds\RightPanel_Light.png" />
+    <Resource Include="Assets\Elements\Blue_Button.png" />
+    <Resource Include="Assets\Elements\Green_Button.png" />
+    <Resource Include="Assets\Elements\Grey_Button.png" />
+    <Resource Include="Assets\Elements\Red_Button.png" />
+    <Resource Include="Assets\Elements\TextBox.png" />
+    <Resource Include="Assets\Elements\MasterMind_Title.png" />
+    <Resource Include="Assets\Elements\DecipheringMachin_WithBackground.png" />
     <None Include=".env">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

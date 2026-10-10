@@ -1,4 +1,4 @@
-using MasterMind_Client.Assets;
+using MasterMind_Client.Helpers;
 using MasterMind_Client.ViewModels.Base;
 using System.Windows.Media;
 
