@@ -204,9 +204,11 @@ namespace MasterMind_Client.Controls
         }
 
         /// <summary>
-        /// Recorta el sprite con Viewbox en fracciones del origen y lo estira a la celda.
-        /// El Viewbox va en fracciones, y no en píxeles, para que el grosor de Slice no
-        /// dependa de la resolución con la que se exportó el asset.
+        /// Recorta el sprite con el Viewbox y lo estira a la celda.
+        /// BrushMappingMode solo admite Absolute y RelativeToBoundingBox; para un
+        /// ImageBrush, RelativeToBoundingBox es la fracción del sprite de origen, que
+        /// es justo lo que hace falta. Con fracciones (y no en píxeles) el grosor de
+        /// Slice no depende de la resolución con la que se exportó el asset.
         /// </summary>
         private Brush BuildRegionBrush(Rect region)
         {
@@ -215,7 +217,7 @@ namespace MasterMind_Client.Controls
                 ImageSource = Source,
                 Stretch = Stretch.Fill,
                 TileMode = TileMode.Tile,
-                ViewboxUnits = BrushMappingMode.RelativeToSource,
+                ViewboxUnits = BrushMappingMode.RelativeToBoundingBox,
                 Viewbox = new Rect(
                     region.X / this.spriteWidth,
                     region.Y / this.spriteHeight,
