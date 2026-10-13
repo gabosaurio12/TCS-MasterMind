@@ -11,10 +11,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="10"
-                    Cursor="Hand">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10"
+                            Cursor="Hand">
                         <ContentPresenter HorizontalAlignment="Center"
                                   VerticalAlignment="Center"/>
                     </Border>
@@ -742,14 +742,15 @@
                         </Border>
                         <ContentPresenter Margin="16,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <!-- ============================ Texto ============================ -->

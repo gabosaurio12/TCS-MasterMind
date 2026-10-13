@@ -7,25 +7,25 @@
 
     <!-- ============================ Sprites (9-slice) ============================ -->
 
-    <BitmapImage x:Key="BtnBlueImage" Source="/Assets/Elements/Blue_Button.png" />
-    <BitmapImage x:Key="BtnGreenImage" Source="/Assets/Elements/Green_Button.png" />
-    <BitmapImage x:Key="BtnRedImage" Source="/Assets/Elements/Red_Button.png" />
-    <BitmapImage x:Key="BtnGreyImage" Source="/Assets/Elements/Grey_Button.png" />
-    <BitmapImage x:Key="FieldImage" Source="/Assets/Elements/TextBox.png" />
+    <BitmapImage x:Key="BtnBlueImage" UriSource="/Assets/Elements/Blue_Button.png" />
+    <BitmapImage x:Key="BtnGreenImage" UriSource="/Assets/Elements/Green_Button.png" />
+    <BitmapImage x:Key="BtnRedImage" UriSource="/Assets/Elements/Red_Button.png" />
+    <BitmapImage x:Key="BtnGreyImage" UriSource="/Assets/Elements/Grey_Button.png" />
+    <BitmapImage x:Key="FieldImage" UriSource="/Assets/Elements/TextBox.png" />
 
     <!-- ============================ Fondos ============================ -->
 
-    <BitmapImage x:Key="BgLeftPanelImage" Source="/Assets/Backgrounds/LeftPanel_Dark.png" />
-    <BitmapImage x:Key="BgRightPanelImage" Source="/Assets/Backgrounds/RightPanel_Light.png" />
+    <BitmapImage x:Key="BgLeftPanelImage" UriSource="/Assets/Backgrounds/LeftPanel_Dark.png" />
+    <BitmapImage x:Key="BgRightPanelImage" UriSource="/Assets/Backgrounds/RightPanel_Light.png" />
 
     <!-- ============================ Ilustraciones ============================ -->
 
     <!-- Los tres assets llegan exportados sobre fondo blanco y con mucho margen.
          Se recortan con Viewbox en pixxeles del origen para que no se vea el blanco.
          Si cambian los assets, hay que reajustar estos cuatro numeros. -->
-    <BitmapImage x:Key="LogoSource" Source="/Assets/Elements/MasterMind_Title.png" />
-    <BitmapImage x:Key="MachineSource" Source="/Assets/Elements/DecipheringMachin_WithBackground.png" />
-    <BitmapImage x:Key="AvatarImage" Source="/Assets/DefaultAvatar.png" />
+    <BitmapImage x:Key="LogoSource" UriSource="/Assets/Elements/MasterMind_Title.png" />
+    <BitmapImage x:Key="MachineSource" UriSource="/Assets/Elements/DecipheringMachin_WithBackground.png" />
+    <BitmapImage x:Key="AvatarImage" UriSource="/Assets/DefaultAvatar.png" />
 
     <!-- Proporcion aproximada 2.7:1 -->
     <ImageBrush x:Key="LogoBrush" ImageSource="{StaticResource LogoSource}"
