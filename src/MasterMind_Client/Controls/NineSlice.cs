@@ -112,6 +112,7 @@ namespace MasterMind_Client.Controls
 
             Content = this.layout;
             ClipToBounds = true;
+            SizeChanged += HandleSizeChanged;
         }
 
         /// <summary>
@@ -142,11 +143,11 @@ namespace MasterMind_Client.Controls
 
         /// <summary>
         /// The cells are sized in the control's own units, so the frame has to be laid out
-        /// again whenever the control is resized.
+        /// again whenever the control is resized. ActualWidth and ActualHeight are already
+        /// up to date when SizeChanged is raised.
         /// </summary>
-        protected override void OnSizeChanged(SizeChangedInfo info)
+        private void HandleSizeChanged(object sender, SizeChangedEventArgs args)
         {
-            base.OnSizeChanged(info);
             UpdateRegions();
         }
 
