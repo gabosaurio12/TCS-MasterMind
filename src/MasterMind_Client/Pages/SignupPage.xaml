@@ -16,8 +16,8 @@
         </Grid.ColumnDefinitions>
 
         <!-- Fondos -->
-        <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelImage}" Stretch="Fill" />
-        <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelImage}" Stretch="Fill" />
+        <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelBrush}" />
+        <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelBrush}" />
 
         <!-- Panel izquierdo: logo y maquina -->
         <Grid Grid.Column="0" Margin="40,40,40,40">

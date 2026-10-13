@@ -15,14 +15,16 @@
 
     <!-- ============================ Fondos ============================ -->
 
-    <BitmapImage x:Key="BgLeftPanelImage" UriSource="/Assets/Backgrounds/LeftPanel_Dark.png" />
-    <BitmapImage x:Key="BgRightPanelImage" UriSource="/Assets/Backgrounds/RightPanel_Light.png" />
+    <!-- Fondos: van como ImageBrush porque las páginas los pintan con Rectangle.Fill,
+         y Fill es de tipo Brush. Un BitmapImage (ImageSource) ahí revienta en runtime. -->
+    <ImageBrush x:Key="BgLeftPanelBrush" ImageSource="/Assets/Backgrounds/LeftPanel_Dark.png" />
+    <ImageBrush x:Key="BgRightPanelBrush" ImageSource="/Assets/Backgrounds/RightPanel_Light.png" />
 
     <!-- ============================ Ilustraciones ============================ -->
 
-    <!-- Los tres assets llegan exportados sobre fondo blanco y con mucho margen.
-         Se recortan con Viewbox en pixxeles del origen para que no se vea el blanco.
-         Si cambian los assets, hay que reajustar estos cuatro numeros. -->
+    <!-- Los assets llegan exportados sobre fondo blanco y con mucho margen.
+         Se recortan con Viewbox en pixeles del origen para que no se vea el blanco.
+         Si cambian los assets, hay que reajustar estos numeros. -->
     <BitmapImage x:Key="LogoSource" UriSource="/Assets/Elements/MasterMind_Title.png" />
     <BitmapImage x:Key="MachineSource" UriSource="/Assets/Elements/DecipheringMachin_WithBackground.png" />
     <BitmapImage x:Key="AvatarImage" UriSource="/Assets/DefaultAvatar.png" />
