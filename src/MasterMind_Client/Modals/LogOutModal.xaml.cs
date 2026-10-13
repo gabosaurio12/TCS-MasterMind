@@ -3,7 +3,7 @@
 namespace MasterMind_Client.Modals
 {
     /// <summary>
-    /// Lógica de interacción para LogOutModal.xaml
+    /// Interaction logic for LogOutModal.xaml.
     /// </summary>
     public partial class LogOutModal : Window
     {

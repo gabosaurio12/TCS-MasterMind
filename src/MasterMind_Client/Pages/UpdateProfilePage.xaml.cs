@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace MasterMind_Client.Pages
 {
     /// <summary>
-    /// Lógica de interacción para UpdateProfilePage.xaml
+    /// Interaction logic for UpdateProfilePage.xaml.
     /// </summary>
     public partial class UpdateProfilePage : Page
     {

@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace MasterMind_Client.Pages
 {
     /// <summary>
-    /// Lógica de interacción para ProfilePage.xaml
+    /// Interaction logic for ProfilePage.xaml.
     /// </summary>
     public partial class ProfilePage : Page
     {

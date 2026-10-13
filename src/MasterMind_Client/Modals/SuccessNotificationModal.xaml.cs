@@ -3,7 +3,7 @@
 namespace MasterMind_Client.Modals
 {
     /// <summary>
-    /// Lógica de interacción para SuccessNotificationModal.xaml
+    /// Interaction logic for SuccessNotificationModal.xaml.
     /// </summary>
     public partial class SuccessNotificationModal : Window
     {

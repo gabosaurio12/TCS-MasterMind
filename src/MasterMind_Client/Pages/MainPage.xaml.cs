@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace MasterMind_Client.Pages
 {
     /// <summary>
-    /// Lógica de interacción para MainPage.xaml
+    /// Interaction logic for MainPage.xaml.
     /// </summary>
     public partial class MainPage : Page
     {

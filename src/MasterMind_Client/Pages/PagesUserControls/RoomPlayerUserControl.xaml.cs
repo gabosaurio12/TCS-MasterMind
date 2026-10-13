@@ -3,7 +3,7 @@
 namespace MasterMind_Client.Pages.PagesUserControls
 {
     /// <summary>
-    /// Lógica de interacción para RoomPlayerUserControl.xaml
+    /// Interaction logic for RoomPlayerUserControl.xaml.
     /// </summary>
     public partial class RoomPlayerUserControl : UserControl
     {

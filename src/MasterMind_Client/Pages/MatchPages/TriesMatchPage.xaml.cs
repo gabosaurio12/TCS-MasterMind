@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace MasterMind_Client.Pages.MatchPages
 {
     /// <summary>
-    /// Lógica de interacción para TriesMatchPage.xaml
+    /// Interaction logic for TriesMatchPage.xaml.
     /// </summary>
     public partial class TriesMatchPage : Page
     {

@@ -3,7 +3,7 @@
 namespace MasterMind_Client.Modals
 {
     /// <summary>
-    /// Lógica de interacción para FriendsModal.xaml
+    /// Interaction logic for FriendsModal.xaml.
     /// </summary>
     public partial class FriendsModal : Window
     {

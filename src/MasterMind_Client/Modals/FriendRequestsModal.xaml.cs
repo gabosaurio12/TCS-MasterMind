@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace MasterMind_Client.Modals
 {
     /// <summary>
-    /// Lógica de interacción para FriendRequestsModal.xaml
+    /// Interaction logic for FriendRequestsModal.xaml.
     /// </summary>
     public partial class FriendRequestsModal : Window
     {

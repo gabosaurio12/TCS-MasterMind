@@ -5,7 +5,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- Palette antes que Styles: los estilos referencian los sprites y pinceles. -->
                 <ResourceDictionary Source="/Assets/Palette.xaml" />
                 <ResourceDictionary Source="/Assets/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>

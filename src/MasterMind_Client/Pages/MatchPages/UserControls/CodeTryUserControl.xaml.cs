@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace MasterMind_Client.Pages.MatchPages.UserControls
 {
     /// <summary>
-    /// Lógica de interacción para CodeTryUserControl.xaml
+    /// Interaction logic for CodeTryUserControl.xaml.
     /// </summary>
     public partial class CodeTryUserControl : UserControl
     {

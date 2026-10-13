@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace MasterMind_Client.Pages.MatchPages.UserControls
 {
     /// <summary>
-    /// Lógica de interacción para BoardUserControl.xaml
+    /// Interaction logic for BoardUserControl.xaml.
     /// </summary>
     public partial class BoardUserControl : UserControl
     {

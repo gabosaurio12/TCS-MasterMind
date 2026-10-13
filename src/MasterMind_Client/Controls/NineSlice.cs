@@ -7,17 +7,16 @@ using System.Windows.Shapes;
 namespace MasterMind_Client.Controls
 {
     /// <summary>
-    /// Dibuja un sprite 9-slice (marco metálico + relleno).
-    /// WPF .NET Framework no tiene 9-slice nativo y los assets del proyecto se usan
-    /// en tamaños muy distintos, por eso existe este control.
-    /// Cada región es un recorte del sprite estirado a su celda, así el marco nunca
-    /// se deforma por mucho que el control cambie de tamaño.
-    /// El contenido va encima: este control solo dibuja el marco.
+    /// Draws a 9-slice sprite (metal frame plus fill).
+    /// WPF .NET Framework has no built-in 9-slice support and the project assets are
+    /// used at very different sizes, hence this control. Every region is a crop of the
+    /// sprite stretched to its cell, so the frame never distorts no matter how much the
+    /// control is resized. Content is drawn on top: this control only paints the frame.
     ///
-    /// Se declara en código y no en XAML a propósito: un tipo definido por XAML al que
-    /// apunta un ResourceDictionary del mismo proyecto depende del orden de
-    /// MarkupCompilePass1/2 y falla con "el nombre X no existe en el espacio de
-    /// nombres". Como tipo CLR se resuelve siempre.
+    /// Declared in code rather than XAML on purpose: a XAML-defined type referenced by a
+    /// ResourceDictionary in the same project depends on MarkupCompilePass1/2 ordering and
+    /// fails with "the name X does not exist in the namespace". As a CLR type it always
+    /// resolves.
     /// </summary>
     public class NineSlice : UserControl
     {
@@ -54,8 +53,8 @@ namespace MasterMind_Client.Controls
                 new PropertyMetadata(new Thickness(24), OnSliceGeometryChanged));
 
         /// <summary>
-        /// Sprite a dibujar. Se expone también como propiedad adjunta para que las
-        /// plantillas de Button puedan elegir el color con un único Setter de estilo.
+        /// Sprite to draw. Also exposed as an attached property so the Button templates
+        /// can pick the color with a single style Setter.
         /// </summary>
         public static readonly DependencyProperty SliceImageProperty =
             DependencyProperty.RegisterAttached(
@@ -74,14 +73,14 @@ namespace MasterMind_Client.Controls
             element.SetValue(SliceImageProperty, value);
         }
 
-        /// <summary>Sprite que se dibuja de fondo.</summary>
+        /// <summary>Sprite painted in the background.</summary>
         public ImageSource Source
         {
             get { return (ImageSource)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
-        /// <summary>Grosor de cada borde, medido en píxeles ya escalados a pantalla.</summary>
+        /// <summary>Thickness of each border, measured in screen pixels.</summary>
         public Thickness Slice
         {
             get { return (Thickness)GetValue(SliceProperty); }
@@ -106,8 +105,8 @@ namespace MasterMind_Client.Controls
         }
 
         /// <summary>
-        /// Las filas y columnas Auto las dimensionan las celdas de esquina y borde,
-        /// que llevan su grosor a pelo; la del centro se queda con lo que sobra.
+        /// The Auto rows and columns are sized by the corner and edge cells, which carry
+        /// their thickness as explicit size; the center cell takes whatever is left.
         /// </summary>
         private void ConfigureRowsAndColumns()
         {
@@ -148,8 +147,8 @@ namespace MasterMind_Client.Controls
         }
 
         /// <summary>
-        /// Un slice mayor que la mitad del sprite dejaría una región central de tamaño
-        /// negativo, así que se recorta contra el propio sprite.
+        /// A slice larger than half the sprite would leave a negative sized center region,
+        /// so it is clamped against the sprite itself.
         /// </summary>
         private void ReadSlice()
         {
@@ -204,11 +203,11 @@ namespace MasterMind_Client.Controls
         }
 
         /// <summary>
-        /// Recorta el sprite con el Viewbox y lo estira a la celda.
-        /// BrushMappingMode solo admite Absolute y RelativeToBoundingBox; para un
-        /// ImageBrush, RelativeToBoundingBox es la fracción del sprite de origen, que
-        /// es justo lo que hace falta. Con fracciones (y no en píxeles) el grosor de
-        /// Slice no depende de la resolución con la que se exportó el asset.
+        /// Crops the sprite with the Viewbox and stretches it to the cell.
+        /// BrushMappingMode only offers Absolute and RelativeToBoundingBox; for an
+        /// ImageBrush, RelativeToBoundingBox is the fraction of the source sprite, which is
+        /// exactly what is needed. Using fractions rather than pixels keeps the Slice
+        /// thickness independent of the resolution the asset was exported at.
         /// </summary>
         private Brush BuildRegionBrush(Rect region)
         {

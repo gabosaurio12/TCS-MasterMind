@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace MasterMind_Client.Pages.RoomsPages
 {
     /// <summary>
-    /// Lógica de interacción para CreateRoomPage.xaml
+    /// Interaction logic for CreateRoomPage.xaml.
     /// </summary>
     public partial class CreateRoomPage : Page
     {

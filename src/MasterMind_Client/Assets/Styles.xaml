@@ -630,13 +630,10 @@
     </Style>
 
 <!-- =========================================================================
-         TEMA "METAL CLASIFICADO"
-         Sistema nuevo basado en los sprites 9-slice de Assets/Elements.
-         Los estilos legacy de arriba siguen vivos: las paginas que todavia no
-         se han migrado los siguen usando.
-         ========================================================================= -->
+     METAL CLASSIFIED THEME
+     ========================================================================= -->
 
-    <!-- ============================ Botones ============================ -->
+    <!-- ============================ Buttons ============================ -->
 
     <Style x:Key="MetalButton" TargetType="Button">
         <Setter Property="Foreground" Value="{StaticResource CreamBrush}" />
@@ -683,7 +680,7 @@
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnGreyImage}" />
     </Style>
 
-    <!-- ============================ Campos de texto ============================ -->
+    <!-- ============================ Text fields ============================ -->
 
     <Style x:Key="MetalTextBox" TargetType="TextBox">
         <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
@@ -723,7 +720,7 @@
         </Setter>
     </Style>
 
-    <!-- ============================ Casilla ============================ -->
+    <!-- ============================ Checkbox ============================ -->
 
     <Style x:Key="MetalCheckBox" TargetType="CheckBox">
         <Setter Property="Foreground" Value="{StaticResource CreamBrush}" />
@@ -753,7 +750,7 @@
         </Setter>
     </Style>
 
-    <!-- ============================ Texto ============================ -->
+    <!-- ============================ Text ============================ -->
 
     <Style x:Key="MetalTitleLbl" TargetType="Label">
         <Setter Property="Foreground" Value="{StaticResource CreamBrush}" />
@@ -768,9 +765,8 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <!-- ============================ Paneles ============================ -->
+    <!-- ============================ Panels ============================ -->
 
-    <!-- Aproximacion con Border: falta el asset del panel con marco metalico. -->
     <Style x:Key="MetalPanel" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource PanelOliveBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource FrameMetalBrush}" />
