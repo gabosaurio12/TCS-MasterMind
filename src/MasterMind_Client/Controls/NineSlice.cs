@@ -10,8 +10,10 @@ namespace MasterMind_Client.Controls
     /// Draws a 9-slice sprite (metal frame plus fill).
     /// WPF .NET Framework has no built-in 9-slice support and the project assets are
     /// used at very different sizes, hence this control. Every region is a crop of the
-    /// sprite stretched to its cell, so the frame never distorts no matter how much the
-    /// control is resized. Content is drawn on top: this control only paints the frame.
+    /// sprite stretched to its cell, and the frame is sliced by a fraction of the sprite
+    /// rather than a pixel size, so the frame scales with the control and its seams always
+    /// land on the real edge of the frame. Content is drawn on top: this control only paints
+    /// the frame.
     ///
     /// Declared in code rather than XAML on purpose: a XAML-defined type referenced by a
     /// ResourceDictionary in the same project depends on MarkupCompilePass1/2 ordering and
@@ -31,8 +33,12 @@ namespace MasterMind_Client.Controls
         private readonly Rectangle bottomRect = new Rectangle();
         private readonly Rectangle bottomRightRect = new Rectangle();
 
-        private double spriteWidth;
-        private double spriteHeight;
+        private const double MaxRatio = 0.5;
+
+        private double leftRatio;
+        private double rightRatio;
+        private double topRatio;
+        private double bottomRatio;
         private double left;
         private double right;
         private double top;
@@ -45,12 +51,12 @@ namespace MasterMind_Client.Controls
                 typeof(NineSlice),
                 new PropertyMetadata(null, OnSliceGeometryChanged));
 
-        public static readonly DependencyProperty SliceProperty =
+        public static readonly DependencyProperty SliceRatioProperty =
             DependencyProperty.Register(
-                nameof(Slice),
+                nameof(SliceRatio),
                 typeof(Thickness),
                 typeof(NineSlice),
-                new PropertyMetadata(new Thickness(24), OnSliceGeometryChanged));
+                new PropertyMetadata(new Thickness(0.08, 0.126, 0.08, 0.126), OnSliceGeometryChanged));
 
         /// <summary>
         /// Sprite to draw. Also exposed as an attached property so the Button templates
@@ -80,11 +86,15 @@ namespace MasterMind_Client.Controls
             set { SetValue(SourceProperty, value); }
         }
 
-        /// <summary>Thickness of each border, measured in screen pixels.</summary>
-        public Thickness Slice
+        /// <summary>
+        /// Share of the sprite taken by the frame on each edge, from 0 to 1. It is a fraction
+        /// rather than a pixel size so the frame scales with the control and the seams always
+        /// land on the real edge of the frame.
+        /// </summary>
+        public Thickness SliceRatio
         {
-            get { return (Thickness)GetValue(SliceProperty); }
-            set { SetValue(SliceProperty, value); }
+            get { return (Thickness)GetValue(SliceRatioProperty); }
+            set { SetValue(SliceRatioProperty, value); }
         }
 
         public NineSlice()
@@ -130,13 +140,21 @@ namespace MasterMind_Client.Controls
             ((NineSlice)sender).UpdateRegions();
         }
 
+        /// <summary>
+        /// The cells are sized in the control's own units, so the frame has to be laid out
+        /// again whenever the control is resized.
+        /// </summary>
+        protected override void OnSizeChanged(SizeChangedInfo info)
+        {
+            base.OnSizeChanged(info);
+            UpdateRegions();
+        }
+
         private void UpdateRegions()
         {
             ClearRegions();
 
-            this.spriteWidth = Source == null ? 0 : Source.Width;
-            this.spriteHeight = Source == null ? 0 : Source.Height;
-            if (this.spriteWidth <= 0 || this.spriteHeight <= 0)
+            if (Source == null || ActualWidth <= 0 || ActualHeight <= 0)
             {
                 return;
             }
@@ -147,17 +165,20 @@ namespace MasterMind_Client.Controls
         }
 
         /// <summary>
-        /// A slice larger than half the sprite would leave a negative sized center region,
-        /// so it is clamped against the sprite itself.
+        /// A ratio above a half would leave a negative sized center region, so every side is
+        /// clamped against a half of the sprite.
         /// </summary>
         private void ReadSlice()
         {
-            var maxWidth = this.spriteWidth / 2;
-            var maxHeight = this.spriteHeight / 2;
-            this.left = Math.Min(Slice.Left, maxWidth);
-            this.right = Math.Min(Slice.Right, maxWidth);
-            this.top = Math.Min(Slice.Top, maxHeight);
-            this.bottom = Math.Min(Slice.Bottom, maxHeight);
+            this.leftRatio = Math.Min(SliceRatio.Left, MaxRatio);
+            this.rightRatio = Math.Min(SliceRatio.Right, MaxRatio);
+            this.topRatio = Math.Min(SliceRatio.Top, MaxRatio);
+            this.bottomRatio = Math.Min(SliceRatio.Bottom, MaxRatio);
+
+            this.left = this.leftRatio * ActualWidth;
+            this.right = this.rightRatio * ActualWidth;
+            this.top = this.topRatio * ActualHeight;
+            this.bottom = this.bottomRatio * ActualHeight;
         }
 
         private void ApplyRegionSizes()
@@ -176,22 +197,32 @@ namespace MasterMind_Client.Controls
             this.rightRect.Width = this.right;
         }
 
+        /// <summary>
+        /// Every cell crops the same source band and is drawn with the same fraction of the
+        /// sprite, so the side cells and the center cell share one scale. Scaling the band by
+        /// a fixed pixel size instead would split the frame between two different scales and
+        /// leave the side plates visibly sticking out.
+        /// </summary>
         private void ApplyRegionFills()
         {
-            var middleWidth = this.spriteWidth - this.left - this.right;
-            var middleHeight = this.spriteHeight - this.top - this.bottom;
-            var endWidth = this.spriteWidth - this.right;
-            var endHeight = this.spriteHeight - this.bottom;
+            var middleWidthRatio = 1 - this.leftRatio - this.rightRatio;
+            var middleHeightRatio = 1 - this.topRatio - this.bottomRatio;
+            var endWidthRatio = 1 - this.rightRatio;
+            var endHeightRatio = 1 - this.bottomRatio;
 
-            this.topLeftRect.Fill = BuildRegionBrush(new Rect(0, 0, this.left, this.top));
-            this.topRect.Fill = BuildRegionBrush(new Rect(this.left, 0, middleWidth, this.top));
-            this.topRightRect.Fill = BuildRegionBrush(new Rect(endWidth, 0, this.right, this.top));
-            this.leftRect.Fill = BuildRegionBrush(new Rect(0, this.top, this.left, middleHeight));
-            this.fillRect.Fill = BuildRegionBrush(new Rect(this.left, this.top, middleWidth, middleHeight));
-            this.rightRect.Fill = BuildRegionBrush(new Rect(endWidth, this.top, this.right, middleHeight));
-            this.bottomLeftRect.Fill = BuildRegionBrush(new Rect(0, endHeight, this.left, this.bottom));
-            this.bottomRect.Fill = BuildRegionBrush(new Rect(this.left, endHeight, middleWidth, this.bottom));
-            this.bottomRightRect.Fill = BuildRegionBrush(new Rect(endWidth, endHeight, this.right, this.bottom));
+            this.topLeftRect.Fill = BuildRegionBrush(new Rect(0, 0, this.leftRatio, this.topRatio));
+            this.topRect.Fill = BuildRegionBrush(new Rect(this.leftRatio, 0, middleWidthRatio, this.topRatio));
+            this.topRightRect.Fill = BuildRegionBrush(new Rect(endWidthRatio, 0, this.rightRatio, this.topRatio));
+            this.leftRect.Fill = BuildRegionBrush(new Rect(0, this.topRatio, this.leftRatio, middleHeightRatio));
+            this.fillRect.Fill = BuildRegionBrush(
+                new Rect(this.leftRatio, this.topRatio, middleWidthRatio, middleHeightRatio));
+            this.rightRect.Fill = BuildRegionBrush(
+                new Rect(endWidthRatio, this.topRatio, this.rightRatio, middleHeightRatio));
+            this.bottomLeftRect.Fill = BuildRegionBrush(new Rect(0, endHeightRatio, this.leftRatio, this.bottomRatio));
+            this.bottomRect.Fill = BuildRegionBrush(
+                new Rect(this.leftRatio, endHeightRatio, middleWidthRatio, this.bottomRatio));
+            this.bottomRightRect.Fill = BuildRegionBrush(
+                new Rect(endWidthRatio, endHeightRatio, this.rightRatio, this.bottomRatio));
         }
 
         private void ClearRegions()
@@ -203,11 +234,9 @@ namespace MasterMind_Client.Controls
         }
 
         /// <summary>
-        /// Crops the sprite with the Viewbox and stretches it to the cell.
-        /// BrushMappingMode only offers Absolute and RelativeToBoundingBox; for an
-        /// ImageBrush, RelativeToBoundingBox is the fraction of the source sprite, which is
-        /// exactly what is needed. Using fractions rather than pixels keeps the Slice
-        /// thickness independent of the resolution the asset was exported at.
+        /// Crops the sprite with the Viewbox and stretches the crop to the cell. The Viewbox
+        /// is already a fraction of the sprite, so the frame keeps its proportions whatever
+        /// resolution the asset was exported at.
         /// </summary>
         private Brush BuildRegionBrush(Rect region)
         {
@@ -217,11 +246,7 @@ namespace MasterMind_Client.Controls
                 Stretch = Stretch.Fill,
                 TileMode = TileMode.Tile,
                 ViewboxUnits = BrushMappingMode.RelativeToBoundingBox,
-                Viewbox = new Rect(
-                    region.X / this.spriteWidth,
-                    region.Y / this.spriteHeight,
-                    region.Width / this.spriteWidth,
-                    region.Height / this.spriteHeight),
+                Viewbox = region,
                 ViewportUnits = BrushMappingMode.RelativeToBoundingBox,
                 Viewport = new Rect(0, 0, 1, 1)
             };

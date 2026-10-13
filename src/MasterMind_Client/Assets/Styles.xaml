@@ -644,7 +644,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Background="Transparent">
-                        <controls:NineSlice Source="{TemplateBinding controls:NineSlice.SliceImage}" Slice="30,12,30,12" />
+                        <controls:NineSlice Source="{TemplateBinding controls:NineSlice.SliceImage}" SliceRatio="0.08,0.126,0.08,0.126" />
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                           Margin="{TemplateBinding Padding}" />
                     </Grid>
@@ -692,7 +692,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Grid Background="Transparent">
-                        <controls:NineSlice Source="{StaticResource FieldImage}" Slice="16,13,16,13" />
+                        <controls:NineSlice Source="{StaticResource FieldImage}" SliceRatio="0.0475,0.123,0.0475,0.123" />
                         <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
@@ -711,7 +711,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="PasswordBox">
                     <Grid Background="Transparent">
-                        <controls:NineSlice Source="{StaticResource FieldImage}" Slice="16,13,16,13" />
+                        <controls:NineSlice Source="{StaticResource FieldImage}" SliceRatio="0.0475,0.123,0.0475,0.123" />
                         <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
