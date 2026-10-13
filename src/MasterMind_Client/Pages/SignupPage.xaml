@@ -15,11 +15,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Fondos -->
+        <!-- Backgrounds -->
         <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelBrush}" />
         <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelBrush}" />
 
-        <!-- Panel izquierdo: logo y maquina -->
+        <!-- Left panel: logo and machine -->
         <Grid Grid.Column="0" Margin="40,40,40,40">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -34,15 +34,13 @@
                        Fill="{StaticResource MachineBrush}" />
         </Grid>
 
-        <!-- Panel derecho: formulario -->
+        <!-- Right panel: form -->
         <Grid Grid.Column="1" Margin="90,0,90,30">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- El Viewbox deja que el titulo en ingles se encoga solo: el tamano
-                 del prototipo (espanol) es el techo y ambos idiomas caben. -->
             <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="130">
                 <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.SignupPage_Title}"
                        Style="{StaticResource MetalTitleLbl}"
@@ -55,7 +53,7 @@
                        Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Aladin}" />
 
                 <TextBox x:Name="UsernameTxt" FontFamily="{StaticResource Aladin}"
-                         Width="600" Height="80" FontSize="44" Margin="0,6,0,26"
+                         Width="600" Height="100" FontSize="44" Margin="0,6,0,26"
                          Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
@@ -72,7 +70,7 @@
                        Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Aladin}" />
 
                 <TextBox x:Name="EmailTxt" FontFamily="{StaticResource Aladin}"
-                         Width="600" Height="80" FontSize="44" Margin="0,6,0,26"
+                         Width="600" Height="100" FontSize="44" Margin="0,6,0,26"
                          Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
@@ -100,16 +98,16 @@
 
                 <PasswordBox x:Name="PasswordTxt" Style="{StaticResource MetalPasswordBox}"
                              FontFamily="{StaticResource Aladin}"
-                             Width="600" Height="80" FontSize="44" Margin="0,6,0,30"
+                             Width="600" Height="100" FontSize="44" Margin="0,6,0,30"
                              PasswordChanged="PasswordTxt_PasswordChanged" />
 
                 <Button x:Name="RegisterBtn" Style="{StaticResource MetalButtonGreen}"
-                        FontFamily="{StaticResource Aladin}" FontSize="50"
-                        Width="280" Height="100"
+                        FontFamily="{StaticResource Aladin}" FontSize="48"
+                        Width="280" Height="124"
                         Content="{x:Static p:Resources.SignupPage_Register}"
                         Command="{Binding RegisterCommand}" />
 
-                <StackPanel HorizontalAlignment="Center" Margin="0,32,0,0">
+                <StackPanel HorizontalAlignment="Center" Margin="0,0,0,0">
                     <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.SignupPage_AccountQuestion}"
                            FontFamily="{StaticResource Aladin}" FontSize="38"
                            Foreground="{StaticResource CreamBrush}"
@@ -126,10 +124,10 @@
 
         <Button x:Name="LanguageBtn" Grid.Column="1"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Margin="0,0,50,30"
-                Width="113" Height="85" Content="🌐"
+                Margin="0,0,50,40"
+                Width="153" Height="125" Content="🌐"
                 Style="{StaticResource MetalButtonBlue}"
-                FontFamily="{StaticResource Aladin}" FontSize="56"
+                FontFamily="{StaticResource Aladin}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>

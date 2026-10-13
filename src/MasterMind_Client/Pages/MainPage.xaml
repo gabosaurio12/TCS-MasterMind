@@ -15,11 +15,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Fondos -->
+        <!-- Backgrounds -->
         <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelBrush}" />
         <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelBrush}" />
 
-        <!-- Panel izquierdo: logo y maquina -->
+        <!-- Left panel: logo and machine -->
         <Grid Grid.Column="0" Margin="40,40,40,40">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -30,19 +30,17 @@
                        Fill="{StaticResource LogoBrush}" />
 
             <Rectangle Grid.Row="1" Width="640" Height="674" HorizontalAlignment="Center"
-                       VerticalAlignment="Top" Margin="0,30,0,0"
+                       VerticalAlignment="Center" Margin="0,0,0,0"
                        Fill="{StaticResource MachineBrush}" />
         </Grid>
 
-        <!-- Panel derecho: titulo y menu -->
+        <!-- Right panel: title and menu -->
         <Grid Grid.Column="1" Margin="90,0,90,40">
             <Grid.RowDefinitions>
                 <RowDefinition Height="240" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- El Viewbox deja que el titulo en ingles se encoga solo: el tamano
-                 del prototipo (espanol) es el techo y ambos idiomas caben. -->
             <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="150">
                 <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.MainPage_Title}"
                        Style="{StaticResource MetalTitleLbl}"
@@ -80,9 +78,9 @@
         <Button x:Name="LanguageBtn" Grid.Column="1"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Margin="0,0,50,40"
-                Width="113" Height="85" Content="🌐"
+                Width="153" Height="125" Content="🌐"
                 Style="{StaticResource MetalButtonBlue}"
-                FontFamily="{StaticResource Aladin}" FontSize="56"
+                FontFamily="{StaticResource Aladin}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>

@@ -15,11 +15,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Fondos -->
+        <!-- Backgrounds -->
         <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelBrush}" />
         <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelBrush}" />
 
-        <!-- Panel izquierdo: logo y maquina -->
+        <!-- Left panel: logo and machine -->
         <Grid Grid.Column="0" Margin="40,40,40,40">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -34,15 +34,13 @@
                        Fill="{StaticResource MachineBrush}" />
         </Grid>
 
-        <!-- Panel derecho: formulario -->
+        <!-- Right panel: form -->
         <Grid Grid.Column="1" Margin="90,0,90,40">
             <Grid.RowDefinitions>
                 <RowDefinition Height="230" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- El Viewbox deja que el titulo en ingles se encoga solo: el tamano
-                 del prototipo (espanol) es el techo y ambos idiomas caben. -->
             <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="150">
                 <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.LoginPage_Title}"
                        Style="{StaticResource MetalTitleLbl}"
@@ -70,12 +68,12 @@
                 <CheckBox x:Name="RememberLoginCheck" Style="{StaticResource MetalCheckBox}"
                           Content="{x:Static p:Resources.LoginPage_RememberLogin}"
                           FontFamily="{StaticResource Aladin}" FontSize="40"
-                          Margin="0,40,0,0"
+                          Margin="0,40,0,0" HorizontalAlignment="Center"
                           IsChecked="{Binding RememberLogin, Mode=TwoWay}" />
 
                 <Button x:Name="LoginBtn" Style="{StaticResource MetalButtonGreen}"
-                        FontFamily="{StaticResource Aladin}" FontSize="52"
-                        Width="280" Height="104" Margin="0,40,0,0"
+                        FontFamily="{StaticResource Aladin}" FontSize="48"
+                        Width="280" Height="124" Margin="0,40,0,0"
                         Content="{x:Static p:Resources.LoginPage_Login}"
                         Command="{Binding LoginCommand}" />
 
@@ -97,9 +95,9 @@
         <Button x:Name="LanguageBtn" Grid.Column="1"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Margin="0,0,50,40"
-                Width="113" Height="85" Content="🌐"
+                Width="153" Height="125" Content="🌐"
                 Style="{StaticResource MetalButtonBlue}"
-                FontFamily="{StaticResource Aladin}" FontSize="56"
+                FontFamily="{StaticResource Aladin}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>

@@ -592,7 +592,6 @@
     <Resource Include="Assets\Elements\Red_Button.png" />
     <Resource Include="Assets\Elements\TextBox.png" />
     <Resource Include="Assets\Elements\MasterMind_Title.png" />
-    <Resource Include="Assets\Elements\DecipheringMachin_WithBackground.png" />
     <None Include=".env">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -629,6 +628,7 @@
     <Resource Include="Images\Avatars\Link.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Elements\DecipheringMachine.png" />
     <Content Include="Data\MasterMindModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
