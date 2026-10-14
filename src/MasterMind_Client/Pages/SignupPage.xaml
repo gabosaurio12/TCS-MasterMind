@@ -44,15 +44,16 @@
             <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="130">
                 <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.SignupPage_Title}"
                        Style="{StaticResource MetalTitleLbl}"
-                       FontFamily="{StaticResource Aladin}" FontSize="104" />
+                       FontFamily="{StaticResource Elite}" FontSize="104" />
             </Viewbox>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
-                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Aladin}" />
+                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Elite}"
+                       FontSize="52"/>
 
-                <TextBox x:Name="UsernameTxt" FontFamily="{StaticResource Aladin}"
+                <TextBox x:Name="UsernameTxt" FontFamily="{StaticResource Elite}"
                          Width="600" Height="100" FontSize="44" Margin="0,6,0,26"
                          Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
@@ -67,9 +68,10 @@
                 </TextBox>
 
                 <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
-                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Aladin}" />
+                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Elite}"
+                       FontSize="52"/>
 
-                <TextBox x:Name="EmailTxt" FontFamily="{StaticResource Aladin}"
+                <TextBox x:Name="EmailTxt" FontFamily="{StaticResource Elite}"
                          Width="600" Height="100" FontSize="44" Margin="0,6,0,26"
                          Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
@@ -84,7 +86,7 @@
                 </TextBox>
 
                 <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
-                       FontFamily="{StaticResource Aladin}" FontSize="56">
+                       FontFamily="{StaticResource Elite}" FontSize="52">
                     <Label.Style>
                         <Style TargetType="Label" BasedOn="{StaticResource MetalFieldLbl}">
                             <Style.Triggers>
@@ -97,23 +99,23 @@
                 </Label>
 
                 <PasswordBox x:Name="PasswordTxt" Style="{StaticResource MetalPasswordBox}"
-                             FontFamily="{StaticResource Aladin}"
+                             FontFamily="{StaticResource Elite}"
                              Width="600" Height="100" FontSize="44" Margin="0,6,0,30"
                              PasswordChanged="PasswordTxt_PasswordChanged" />
 
                 <Button x:Name="RegisterBtn" Style="{StaticResource MetalButtonGreen}"
-                        FontFamily="{StaticResource Aladin}" FontSize="48"
+                        FontFamily="{StaticResource Elite}" FontSize="38"
                         Width="280" Height="124"
                         Content="{x:Static p:Resources.SignupPage_Register}"
                         Command="{Binding RegisterCommand}" />
 
                 <StackPanel HorizontalAlignment="Center" Margin="0,0,0,0">
                     <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.SignupPage_AccountQuestion}"
-                           FontFamily="{StaticResource Aladin}" FontSize="38"
+                           FontFamily="{StaticResource Elite}" FontSize="32"
                            Foreground="{StaticResource CreamBrush}"
                            HorizontalAlignment="Center" />
 
-                    <TextBlock FontFamily="{StaticResource Aladin}" FontSize="40" HorizontalAlignment="Center">
+                    <TextBlock FontFamily="{StaticResource Elite}" FontSize="32" HorizontalAlignment="Center">
                         <Hyperlink x:Name="LoginLink" Click="LoginLink_Click" Foreground="{StaticResource LinkBrush}">
                             <Run Text="{x:Static p:Resources.SignupPage_LoginLink}" />
                         </Hyperlink>
@@ -127,7 +129,7 @@
                 Margin="0,0,50,40"
                 Width="153" Height="125" Content="🌐"
                 Style="{StaticResource MetalButtonBlue}"
-                FontFamily="{StaticResource Aladin}" FontSize="32"
+                FontFamily="{StaticResource Elite}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>

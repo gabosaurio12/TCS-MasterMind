@@ -10,6 +10,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <FontFamily x:Key="Aladin">pack://application:,,,/Assets/Fonts/Aladin-Regular.ttf#Aladin</FontFamily>
+            <FontFamily x:Key="Elite">pack://application:,,,/Assets/Fonts/SpecialElite-regular.ttf#Special Elite</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

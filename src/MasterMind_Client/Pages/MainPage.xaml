@@ -44,31 +44,31 @@
             <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="150">
                 <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.MainPage_Title}"
                        Style="{StaticResource MetalTitleLbl}"
-                       FontFamily="{StaticResource Aladin}" FontSize="104" />
+                       FontFamily="{StaticResource Elite}" FontSize="104" />
             </Viewbox>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <Button x:Name="PlayBtn" Style="{StaticResource MetalButtonGreen}"
-                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        FontFamily="{StaticResource Elite}" FontSize="52"
                         Width="360" Height="110" Margin="0,0,0,34"
                         Content="{x:Static p:Resources.MainPage_Play}"
                         Command="{Binding PlayCommand}" />
 
                 <Button x:Name="ProfileBtn" Style="{StaticResource MetalButtonBlue}"
-                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        FontFamily="{StaticResource Elite}" FontSize="52"
                         Width="360" Height="110" Margin="0,0,0,34"
                         Content="{x:Static p:Resources.MainPage_Profile}"
                         Command="{Binding ProfileCommand}" />
 
                 <Button x:Name="FriendsBtn" Style="{StaticResource MetalButtonBlue}"
-                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        FontFamily="{StaticResource Elite}" FontSize="52"
                         Width="360" Height="110" Margin="0,0,0,34"
                         Content="{x:Static p:Resources.MainPage_Friends}"
                         Command="{Binding FriendsCommand}" />
 
                 <Button x:Name="ExitBtn" Style="{StaticResource MetalButtonRed}"
-                        FontFamily="{StaticResource Aladin}" FontSize="56"
+                        FontFamily="{StaticResource Elite}" FontSize="52"
                         Width="360" Height="110"
                         Content="{x:Static p:Resources.UI_Quit}"
                         Command="{Binding ExitCommand}" />
@@ -80,7 +80,7 @@
                 Margin="0,0,50,40"
                 Width="153" Height="125" Content="🌐"
                 Style="{StaticResource MetalButtonBlue}"
-                FontFamily="{StaticResource Aladin}" FontSize="32"
+                FontFamily="{StaticResource Elite}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>

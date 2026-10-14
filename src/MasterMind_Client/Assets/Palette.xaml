@@ -12,7 +12,14 @@
     <!-- ============================ Backgrounds ============================ -->
 
     <ImageBrush x:Key="BgLeftPanelBrush" ImageSource="/Assets/Backgrounds/LeftPanel_Dark.png" />
+    <ImageBrush x:Key="BgLeftPanelGreenBrush" ImageSource="/Assets/Backgrounds/LeftPanel_Green.png" />
     <ImageBrush x:Key="BgRightPanelBrush" ImageSource="/Assets/Backgrounds/RightPanel_Light.png" />
+
+    <!-- Modal panels, full frame included -->
+    <ImageBrush x:Key="ModalErrorBgBrush"
+                ImageSource="/Assets/Backgrounds/ErrorNotificationModal_Background.png" />
+    <ImageBrush x:Key="ModalSuccessBgBrush"
+                ImageSource="/Assets/Backgrounds/SuccessNotificationModal_Background.png" />
 
     <!-- ============================ Illustrations ============================ -->
 
@@ -28,29 +35,29 @@
 
     <!-- ============================ Colors ============================ -->
 
-    <!-- Ink on parchment (inside the fields). -->
+    <!-- Ink on parchment (inside the fields) -->
     <SolidColorBrush x:Key="PaperBrush" Color="#E8D5A8" />
     <SolidColorBrush x:Key="InkBrush" Color="#3B2F1E" />
     <SolidColorBrush x:Key="InkMutedBrush" Color="#6E5F49" />
 
-    <!-- Ink on metal or olive panel (titles and labels). -->
+    <!-- Ink on metal or olive panel (titles and labels) -->
     <SolidColorBrush x:Key="CreamBrush" Color="#F2E3BE" />
     <SolidColorBrush x:Key="CreamMutedBrush" Color="#CBB98C" />
 
-    <!-- Panels. -->
+    <!-- Panels -->
     <SolidColorBrush x:Key="PanelOliveBrush" Color="#2B3127" />
     <SolidColorBrush x:Key="PanelOliveDarkBrush" Color="#232820" />
     <SolidColorBrush x:Key="FrameMetalBrush" Color="#6E6E60" />
 
-    <!-- Game semantics (also used by UtilsUI from code). -->
+    <!-- Game semantics (also used by UtilsUI from code) -->
     <SolidColorBrush x:Key="InfoBlueBrush" Color="#3E6C93" />
     <SolidColorBrush x:Key="GoGreenBrush" Color="#5B7B3A" />
     <SolidColorBrush x:Key="AlertRedBrush" Color="#C0392B" />
     <SolidColorBrush x:Key="NeutralGreyBrush" Color="#6E6A63" />
 
-    <!-- Links. -->
+    <!-- Links -->
     <SolidColorBrush x:Key="LinkBrush" Color="#7C9BE8" />
 
-    <!-- Text cursor inside the fields. -->
+    <!-- Text cursor inside the fields -->
     <SolidColorBrush x:Key="CaretInkBrush" Color="#3B2F1E" />
 </ResourceDictionary>

@@ -585,7 +585,10 @@
     <Resource Include="Assets\Fonts\Aladin-Regular.ttf" />
     <Resource Include="Assets\DefaultAvatar.png" />
     <Resource Include="Assets\Backgrounds\LeftPanel_Dark.png" />
+    <Resource Include="Assets\Backgrounds\LeftPanel_Green.png" />
     <Resource Include="Assets\Backgrounds\RightPanel_Light.png" />
+    <Resource Include="Assets\Backgrounds\ErrorNotificationModal_Background.png" />
+    <Resource Include="Assets\Backgrounds\SuccessNotificationModal_Background.png" />
     <Resource Include="Assets\Elements\Blue_Button.png" />
     <Resource Include="Assets\Elements\Green_Button.png" />
     <Resource Include="Assets\Elements\Grey_Button.png" />
@@ -599,6 +602,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MasterMindModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Resource Include="Assets\Fonts\SpecialElite-Regular.ttf" />
     <None Include="Data\MasterMindModel.edmx.diagram">
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
     </None>
