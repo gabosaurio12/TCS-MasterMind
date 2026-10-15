@@ -11,7 +11,6 @@
         Background="{StaticResource ModalSuccessBgBrush}"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
-    <!-- Margin keeps the content inside the metal frame of the panel -->
     <Grid Margin="40,46,40,42">
         <Viewbox Stretch="Uniform">
             <StackPanel>
@@ -19,7 +18,7 @@
                 <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.SuccessNotification_Title}"
                        HorizontalAlignment="Center" HorizontalContentAlignment="Center"
                        FontFamily="{StaticResource Elite}" Foreground="{StaticResource CreamBrush}"
-                       FontSize="56" />
+                       FontSize="48" />
 
                 <TextBlock x:Name="NotificationMessageTxt" Text="{Binding Message}"
                            Width="500" Margin="0,60,0,60"
@@ -30,7 +29,7 @@
                 <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
                         Style="{StaticResource MetalButtonBlue}"
                         Width="230" Height="85" HorizontalAlignment="Center"
-                        FontFamily="{StaticResource Elite}" FontSize="40"
+                        FontFamily="{StaticResource Elite}" FontSize="32"
                         Command="{Binding ContinueCommand}" />
             </StackPanel>
         </Viewbox>

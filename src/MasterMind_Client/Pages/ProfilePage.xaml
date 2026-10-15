@@ -136,7 +136,7 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal"
                         HorizontalAlignment="Center" Margin="0,0,0,44">
 
-                <Viewbox Stretch="DownOnly" MaxHeight="71">
+                <Viewbox Stretch="UniformToFill" MaxHeight="71">
                     <TextBox x:Name="ReportUsernameTxt" Style="{StaticResource MetalTextBox}"
                              FontFamily="{StaticResource Elite}" FontSize="40"
                              Width="459" Height="71" Padding="20,0"
