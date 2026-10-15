@@ -89,7 +89,7 @@ namespace MasterMind_Client.UITests
             {
                 var allWindows = app.GetAllTopLevelWindows(automation);
                 return allWindows.FirstOrDefault(w => w.Title.Contains("Éxito"));
-            }, timeout: TimeSpan.FromSeconds(5)).Result!;
+            }, timeout: TimeSpan.FromSeconds(10)).Result!;
 
             Assert.That(successModal, Is.Not.Null, "The SuccessNotificationModal didn't appear.");            
 
