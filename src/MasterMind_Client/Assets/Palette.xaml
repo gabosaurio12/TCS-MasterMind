@@ -7,6 +7,9 @@
     <BitmapImage x:Key="BtnGreenImage" UriSource="/Assets/Elements/Green_Button.png" />
     <BitmapImage x:Key="BtnRedImage" UriSource="/Assets/Elements/Red_Button.png" />
     <BitmapImage x:Key="BtnGreyImage" UriSource="/Assets/Elements/Grey_Button.png" />
+    <BitmapImage x:Key="BtnBluePlusImage" UriSource="/Assets/Elements/Blue_Plus_Button.png" />
+    <BitmapImage x:Key="BtnRedMinusImage" UriSource="/Assets/Elements/Red_Minus_Button.png" />
+    <BitmapImage x:Key="BtnRedReportImage" UriSource="/Assets/Elements/Red_Report_Button.png" />
     <BitmapImage x:Key="FieldImage" UriSource="/Assets/Elements/TextBox.png" />
 
     <!-- ============================ Backgrounds ============================ -->
@@ -20,6 +23,8 @@
                 ImageSource="/Assets/Backgrounds/ErrorNotificationModal_Background.png" />
     <ImageBrush x:Key="ModalSuccessBgBrush"
                 ImageSource="/Assets/Backgrounds/SuccessNotificationModal_Background.png" />
+    <ImageBrush x:Key="ModalFriendsBgBrush"
+                ImageSource="/Assets/Backgrounds/Friends_Background.png" />
 
     <!-- ============================ Illustrations ============================ -->
 

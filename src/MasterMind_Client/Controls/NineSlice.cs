@@ -51,12 +51,27 @@ namespace MasterMind_Client.Controls
                 typeof(NineSlice),
                 new PropertyMetadata(null, OnSliceGeometryChanged));
 
+        /// <summary>
+        /// Slice taken by the frame on each edge, attached so the Button templates can
+        /// TemplateBind it and every sprite variant can pick its own cut with a single
+        /// style Setter, the same way <see cref="SliceImageProperty"/> picks the sprite.
+        /// </summary>
         public static readonly DependencyProperty SliceRatioProperty =
-            DependencyProperty.Register(
-                nameof(SliceRatio),
+            DependencyProperty.RegisterAttached(
+                "SliceRatio",
                 typeof(Thickness),
                 typeof(NineSlice),
                 new PropertyMetadata(new Thickness(0.08, 0.126, 0.08, 0.126), OnSliceGeometryChanged));
+
+        public static Thickness GetSliceRatio(DependencyObject element)
+        {
+            return (Thickness)element.GetValue(SliceRatioProperty);
+        }
+
+        public static void SetSliceRatio(DependencyObject element, Thickness value)
+        {
+            element.SetValue(SliceRatioProperty, value);
+        }
 
         /// <summary>
         /// Sprite to draw. Also exposed as an attached property so the Button templates
@@ -93,8 +108,8 @@ namespace MasterMind_Client.Controls
         /// </summary>
         public Thickness SliceRatio
         {
-            get { return (Thickness)GetValue(SliceRatioProperty); }
-            set { SetValue(SliceRatioProperty, value); }
+            get { return GetSliceRatio(this); }
+            set { SetSliceRatio(this, value); }
         }
 
         public NineSlice()
@@ -138,7 +153,10 @@ namespace MasterMind_Client.Controls
 
         private static void OnSliceGeometryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            ((NineSlice)sender).UpdateRegions();
+            if (sender is NineSlice nineSlice)
+            {
+                nineSlice.UpdateRegions();
+            }
         }
 
         /// <summary>

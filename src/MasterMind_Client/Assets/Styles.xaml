@@ -60,35 +60,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ModalGreenButton" TargetType="Button">
-        <Setter Property="Background" Value="#67D92A"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}"
-            CornerRadius="10"
-            Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                          VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#5ACF1E"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#48A718"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="RoundedButton" TargetType="Button">
         <Setter Property="Background" Value="#4C6EF5"/>
         <Setter Property="Foreground" Value="White"/>
@@ -207,93 +178,6 @@
                               Margin="{TemplateBinding Padding}"
                               VerticalAlignment="Center"/>
                     </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="UserControlMiniBlueButton" TargetType="Button">
-        <Setter Property="Background" Value="#4C6EF5"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                 BorderBrush="{TemplateBinding BorderBrush}"
-                 BorderThickness="{TemplateBinding BorderThickness}"
-                 CornerRadius="15"
-                 Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#3B5BDB"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#2F4CC7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="UserControlMiniGreenButton" TargetType="Button">
-        <Setter Property="Background" Value="#67D92A"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="15"
-                Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#5ACF1E"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#48A718"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="UserControlMiniRedButton" TargetType="Button">
-        <Setter Property="Background" Value="#D92A2D"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="15"
-                        Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#C72629"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#A51F22"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -640,11 +524,13 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="24,0" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.08,0.126,0.08,0.126" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Background="Transparent">
-                        <controls:NineSlice Source="{TemplateBinding controls:NineSlice.SliceImage}" SliceRatio="0.08,0.126,0.08,0.126" />
+                        <controls:NineSlice Source="{TemplateBinding controls:NineSlice.SliceImage}"
+                                            SliceRatio="{TemplateBinding controls:NineSlice.SliceRatio}" />
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                           Margin="{TemplateBinding Padding}" />
                     </Grid>
@@ -678,6 +564,23 @@
 
     <Style x:Key="MetalButtonGrey" TargetType="Button" BasedOn="{StaticResource MetalButton}">
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnGreyImage}" />
+    </Style>
+
+    <!-- ============================ Icon buttons ============================ -->
+
+    <Style x:Key="MetalButtonPlus" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnBluePlusImage}" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.08,0.1,0.08,0.1" />
+    </Style>
+
+    <Style x:Key="MetalButtonMinus" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnRedMinusImage}" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.08,0.1,0.08,0.1" />
+    </Style>
+
+    <Style x:Key="MetalButtonReport" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnRedReportImage}" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.06,0.06,0.06,0.06" />
     </Style>
 
     <!-- ============================ Text fields ============================ -->

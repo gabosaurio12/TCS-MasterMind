@@ -9,52 +9,51 @@
         WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
         Title="{x:Static p:Resources.FriendsModal_Title}" Height="857" Width="628"
-        Background="Transparent" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Background="{StaticResource ModalFriendsBgBrush}"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
 
-    <Border CornerRadius="25"
-            Background="#313539"
-            BorderBrush="Black"
-            BorderThickness="5">
-
+    <!-- Margin keeps the content inside the metal frame of the panel -->
+    <Grid Margin="34,44,34,40">
         <Viewbox Stretch="Uniform">
-            <Grid Height="840" Width="500">
+            <Grid Width="560" Height="773">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="100" />
-                    <RowDefinition Height="550" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Label x:Name="ModalTitleLbl" Grid.Row="0" Content="{x:Static p:Resources.FriendsModal_Title}"
-               Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="72"
-               HorizontalAlignment="Center"/>
+                       Style="{StaticResource MetalTitleLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="72" />
 
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Grid.Row="1" Margin="0,30,0,0" VerticalScrollBarVisibility="Auto">
                     <ItemsControl x:Name="FriendsStack" ItemsSource="{Binding Friends}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <controls:FriendUserControl Margin="0,0,0,10" />
+                                <controls:FriendUserControl Margin="0,0,0,20" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
 
-                <StackPanel x:Name="ButtonsStack" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center">
-                    <Button x:Name="FriendRequestsBtn" Content="{x:Static p:Resources.FriendRequestsModal_Title}"
-                    FontFamily="{StaticResource Aladin}" Style="{StaticResource ModalButton}"
-                    Width="300" Height="45" FontSize="32" Margin="10"
-                    Command="{Binding FriendRequestsCommand}"/>
+                <StackPanel x:Name="ButtonsStack" Grid.Row="2" Margin="0,30,0,0"
+                            Orientation="Vertical" HorizontalAlignment="Center">
 
-                    <Button x:Name="CloseBtn" Content="{x:Static p:Resources.UI_Close}"
-                    FontFamily="{StaticResource Aladin}" Style="{StaticResource ModalButton}"
-                    Width="120" Height="45" FontSize="32" Margin="10"
-                    Command="{Binding CloseCommand}"/>
+                    <Button x:Name="FriendRequestsBtn" Style="{StaticResource MetalButtonBlue}"
+                            Width="440" Height="88"
+                            FontFamily="{StaticResource Elite}" FontSize="28"
+                            Content="{x:Static p:Resources.FriendRequestsModal_Title}"
+                            Command="{Binding FriendRequestsCommand}" />
+
+                    <Button x:Name="CloseBtn" Style="{StaticResource MetalButtonBlue}"
+                            Width="230" Height="88" Margin="0,26,0,0"
+                            FontFamily="{StaticResource Elite}" FontSize="42"
+                            Content="{x:Static p:Resources.UI_Close}"
+                            Command="{Binding CloseCommand}" />
                 </StackPanel>
 
             </Grid>
-
-
         </Viewbox>
-
-    </Border>
-
+    </Grid>
 </Window>

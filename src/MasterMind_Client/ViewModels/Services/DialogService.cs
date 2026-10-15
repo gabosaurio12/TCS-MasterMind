@@ -2,6 +2,7 @@ using MasterMind_Client.Data;
 using MasterMind_Client.Modals;
 using MasterMind_Client.ViewModels.Modals;
 using System;
+using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Services
 {
@@ -50,7 +51,7 @@ namespace MasterMind_Client.ViewModels.Services
             var viewModel = new FriendsViewModel(this);
             modal.DataContext = viewModel;
             viewModel.CloseRequested += (sender, e) => modal.Close();
-            modal.Show();
+            Present(modal);
         }
 
         public void ShowFriendRequests()
@@ -59,7 +60,7 @@ namespace MasterMind_Client.ViewModels.Services
             var viewModel = new FriendRequestsViewModel(this);
             modal.DataContext = viewModel;
             viewModel.CloseRequested += (sender, e) => modal.Close();
-            modal.Show();
+            Present(modal);
         }
 
         public void ShowLogOut()
@@ -67,6 +68,12 @@ namespace MasterMind_Client.ViewModels.Services
             var modal = new LogOutModal();
             var viewModel = new LogOutViewModel();
             modal.DataContext = viewModel;
+            modal.Show();
+        }
+
+        private static void Present(Window modal)
+        {
+            modal.Owner = Application.Current.MainWindow;
             modal.Show();
         }
     }
