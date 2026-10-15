@@ -59,13 +59,13 @@
             <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <Button x:Name="UpdateBtn" Style="{StaticResource MetalButtonBlue}"
-                        FontFamily="{StaticResource Elite}" FontSize="56"
+                        FontFamily="{StaticResource Elite}" FontSize="46"
                         Width="356" Height="115"
                         Content="{x:Static p:Resources.ProfilePage_Update}"
                         Command="{Binding UpdateCommand}" />
 
                 <TextBlock HorizontalAlignment="Center" Margin="0,22,0,0"
-                           FontFamily="{StaticResource Elite}" FontSize="36">
+                           FontFamily="{StaticResource Elite}" FontSize="32">
                     <Hyperlink x:Name="ChangePasswordLink" Foreground="{StaticResource LinkBrush}"
                                Click="ChangePasswordLink_Click">
                         <Run Text="{x:Static p:Resources.ProfilePage_ChangePassword}" />
@@ -92,11 +92,11 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <StackPanel x:Name="BestTimesStack" Margin="0,0,70,0">
+                <StackPanel x:Name="BestTimesStack" Margin="0,0,100,0">
 
                     <Viewbox Stretch="Fill" StretchDirection="DownOnly" MaxHeight="56">
                         <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
-                               FontFamily="{StaticResource Elite}" FontSize="48"
+                               FontFamily="{StaticResource Elite}" FontSize="38"
                                Foreground="{StaticResource CreamBrush}"
                                HorizontalAlignment="Center" />
                     </Viewbox>
@@ -104,7 +104,7 @@
                     <ItemsControl ItemsSource="{Binding BestTimes}" Margin="0,26,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding}" FontFamily="{StaticResource Elite}" FontSize="46"
+                                <Label Content="{Binding}" FontFamily="{StaticResource Elite}" FontSize="36"
                                        Foreground="{StaticResource CreamMutedBrush}"
                                        HorizontalAlignment="Center" />
                             </DataTemplate>
@@ -112,11 +112,11 @@
                     </ItemsControl>
                 </StackPanel>
 
-                <StackPanel>
+                <StackPanel x:Name="BestTriesStack">
 
                     <Viewbox Stretch="Fill" StretchDirection="DownOnly" MaxHeight="56">
                         <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
-                               FontFamily="{StaticResource Elite}" FontSize="48"
+                               FontFamily="{StaticResource Elite}" FontSize="38"
                                Foreground="{StaticResource CreamBrush}"
                                HorizontalAlignment="Center" />
                     </Viewbox>
@@ -124,7 +124,7 @@
                     <ItemsControl ItemsSource="{Binding LeastTries}" Margin="0,26,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding}" FontFamily="{StaticResource Elite}" FontSize="46"
+                                <Label Content="{Binding}" FontFamily="{StaticResource Elite}" FontSize="36"
                                        Foreground="{StaticResource CreamMutedBrush}"
                                        HorizontalAlignment="Center" />
                             </DataTemplate>
@@ -146,15 +146,14 @@
                              LostFocus="ReportUsernameTxt_LostFocus" />
                 </Viewbox>
 
-                <Button x:Name="ReportBtn" Style="{StaticResource MetalButtonRed}"
-                        Width="45" Height="71" Padding="4,0" Margin="16,0,0,0"
-                        FontFamily="{StaticResource Elite}" FontSize="36" Content="!"
+                <Button x:Name="ReportBtn" Style="{StaticResource MetalButtonReport}"
+                        Width="71" Height="71" Padding="0" Margin="16,0,0,0"
                         Command="{Binding ReportCommand}" />
             </StackPanel>
 
             <Button x:Name="BackBtn" Grid.Row="3" Style="{StaticResource MetalButtonRed}"
                     HorizontalAlignment="Center"
-                    FontFamily="{StaticResource Elite}" FontSize="60"
+                    FontFamily="{StaticResource Elite}" FontSize="46"
                     Width="374" Height="124"
                     Content="{x:Static p:Resources.UI_Back}"
                     Command="{Binding BackCommand}" />

@@ -102,9 +102,8 @@
                              IsEnabled="False" />
                 </Viewbox>
 
-                <Button x:Name="ReportBtn" Width="45" Height="45"
-                        Style="{StaticResource ModalRedButton}" FontFamily="{StaticResource Aladin}"
-                        Background="#CC7E80" FontSize="40" Content="!"
+                <Button x:Name="ReportBtn" Style="{StaticResource MetalButtonReport}"
+                        Width="45" Height="45" Padding="0"
                         IsEnabled="False" />
             </StackPanel>
         </StackPanel>
