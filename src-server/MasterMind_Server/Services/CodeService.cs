@@ -14,7 +14,7 @@ namespace MasterMind_Server.Services
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(CodeService));
 
-        public (bool, Player) AuthVerificationCode(string username, string code)
+        public bool AuthVerificationCode(string username, string code)
         {
             var authResult = VerificationCodeRepository.AuthVerificationCode(username, code);
 
@@ -27,16 +27,7 @@ namespace MasterMind_Server.Services
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
 
-            var playerEntity = PlayerRepository.GetPlayerByUsername(username);
-            var player = new Player
-            {
-                PlayerId = playerEntity.player_id,
-                Username = playerEntity.username,
-                Email = playerEntity.email,
-                Password = playerEntity.password
-            };
-
-            return (authResult.Item1, player);
+            return authResult.Item1;
         }
 
         public void SendVerificationCode(int playerId)

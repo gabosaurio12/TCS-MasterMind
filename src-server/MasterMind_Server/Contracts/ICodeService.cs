@@ -13,6 +13,6 @@ namespace MasterMind_Server.Contracts
 
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
-        (bool, Player) AuthVerificationCode(string username, string code);
+        bool AuthVerificationCode(string username, string code);
     }
 }
