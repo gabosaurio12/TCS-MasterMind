@@ -55,7 +55,7 @@ namespace MasterMind_Client.ViewModels.Pages
                 isValid = false;
             }
 
-            var service = new PlayerService.PlayerServiceClient();
+            var service = new PlayerServiceClient();
             if (!service.LoginPlayer(player.Username, player.Password))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCredentials);
@@ -65,7 +65,7 @@ namespace MasterMind_Client.ViewModels.Pages
             return isValid;
         }
 
-        private void OnVerificationSucceded(CodeService.Player verifiedPlayer)
+        private void OnVerificationSucceded(Player verifiedPlayer)
         {
             var player = new PlayerServiceClient().GetPlayerById(verifiedPlayer.PlayerId);
             CurrentPlayer.Instance.SetCurrentPlayer(player);

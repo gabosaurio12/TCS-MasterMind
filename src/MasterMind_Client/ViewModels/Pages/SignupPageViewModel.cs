@@ -1,12 +1,9 @@
 using MasterMind_Client.Helpers;
-using MasterMind_Client.TempData;
-using MasterMind_Client.TempData.Enum;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
 using System.Text.RegularExpressions;
-using MasterMind_Client.PlayerService;
-using System.Web.UI.WebControls;
 
 namespace MasterMind_Client.ViewModels.Pages
 {
@@ -105,7 +102,7 @@ namespace MasterMind_Client.ViewModels.Pages
             dialogService.ShowVerificationCode(username, OnVerificationSucceded);
         }
 
-        private void OnVerificationSucceded(CodeService.Player verifiedPlayer)
+        private void OnVerificationSucceded(Player verifiedPlayer)
         {
             var player = new PlayerServiceClient().GetPlayerById(verifiedPlayer.PlayerId);
             CurrentPlayer.Instance.SetCurrentPlayer(player);

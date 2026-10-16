@@ -628,15 +628,6 @@
     <None Include="Connected Services\CodeService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\CodeService\item3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\CodeService\item4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\CodeService\MasterMind_Client.CodeService.Player.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\PlayerService\item.xsd">
       <SubType>Designer</SubType>
     </None>

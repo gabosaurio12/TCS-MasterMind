@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8082/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
   <xs:element name="SendVerificationCode">
     <xs:complexType>
       <xs:sequence>
@@ -24,7 +23,7 @@
   <xs:element name="AuthVerificationCodeResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="AuthVerificationCodeResult" type="q1:ValueTupleOfbooleanPlayerT_SjvPPU8" />
+        <xs:element minOccurs="0" name="AuthVerificationCodeResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

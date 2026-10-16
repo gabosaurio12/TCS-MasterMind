@@ -1,4 +1,5 @@
 using MasterMind_Client.CodeService;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -35,9 +36,14 @@ namespace MasterMind_Client.ViewModels.Modals
             string code = string.Concat(CodeDigit0, CodeDigit1, CodeDigit2, CodeDigit3, CodeDigit4);
             var service = new CodeServiceClient();
             var result = service.AuthVerificationCode(username, code);
-            if (result.Item1)
+            if (result)
             {
-                VerificationSucceded?.Invoke(this, result.Item2);
+                var playerService = new PlayerServiceClient();
+                var player = playerService.GetPlayerByUsername(username);
+                if (player != null)
+                {
+                    VerificationSucceded?.Invoke(this, player);
+                }
                 RequestClose();
             }
             else

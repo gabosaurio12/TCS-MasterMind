@@ -1,4 +1,4 @@
-using MasterMind_Client.CodeService;
+using MasterMind_Client.PlayerService;
 using System;
 
 namespace MasterMind_Client.ViewModels.Services

@@ -10,23 +10,6 @@ namespace MasterMind_Client.ViewModels.Pages
 {
     public class ProfilePageViewModel : ViewModelBase
     {
-        public ProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
-        {
-            this.navigationService = navigationService;
-            this.dialogService = dialogService;
-            UpdateCommand = new RelayCommand(_ => NavigateTo("Pages/UpdateProfilePage.xaml"));
-            BackCommand = new RelayCommand(_ => NavigateTo("Pages/MainPage.xaml"));
-            ReportCommand = new RelayCommand(_ => ReportPlayer());
-            ChangePasswordCommand = new RelayCommand(_ => { });
-            Username = CurrentPlayer.Instance.Username;
-            Email = CurrentPlayer.Instance.Email;
-
-            BestTimes = new ObservableCollection<string>();
-            LeastTries = new ObservableCollection<string>();
-            ReportedPlayer = Properties.Resources.ProfilePage_ReportPlayer;
-
-            SetRecords();
-        }
 
         public string Username { get; }
 
@@ -47,6 +30,24 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
+
+        public ProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
+        {
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
+            UpdateCommand = new RelayCommand(_ => NavigateTo("Pages/UpdateProfilePage.xaml"));
+            BackCommand = new RelayCommand(_ => NavigateTo("Pages/MainPage.xaml"));
+            ReportCommand = new RelayCommand(_ => ReportPlayer());
+            ChangePasswordCommand = new RelayCommand(_ => { });
+            Username = CurrentPlayer.Instance.Username;
+            Email = CurrentPlayer.Instance.Email;
+
+            BestTimes = new ObservableCollection<string>();
+            LeastTries = new ObservableCollection<string>();
+            ReportedPlayer = Properties.Resources.ProfilePage_ReportPlayer;
+
+            SetRecords();
+        }
 
         private void SetRecords()
         {

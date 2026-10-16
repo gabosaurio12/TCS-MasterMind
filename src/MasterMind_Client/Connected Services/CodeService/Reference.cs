@@ -58,51 +58,6 @@ namespace MasterMind_Client.CodeService {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Player", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts")]
-    [System.SerializableAttribute()]
-    public partial class Player : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PlayerIdField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int PlayerId {
-            get {
-                return this.PlayerIdField;
-            }
-            set {
-                if ((this.PlayerIdField.Equals(value) != true)) {
-                    this.PlayerIdField = value;
-                    this.RaisePropertyChanged("PlayerId");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="CodeService.ICodeService")]
     public interface ICodeService {
@@ -116,10 +71,10 @@ namespace MasterMind_Client.CodeService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICodeService/AuthVerificationCode", ReplyAction="http://tempuri.org/ICodeService/AuthVerificationCodeResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.CodeService.ErrorMessage), Action="http://tempuri.org/ICodeService/AuthVerificationCodeErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
-        System.ValueTuple<bool, MasterMind_Client.CodeService.Player> AuthVerificationCode(string username, string code);
+        bool AuthVerificationCode(string username, string code);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICodeService/AuthVerificationCode", ReplyAction="http://tempuri.org/ICodeService/AuthVerificationCodeResponse")]
-        System.Threading.Tasks.Task<System.ValueTuple<bool, MasterMind_Client.CodeService.Player>> AuthVerificationCodeAsync(string username, string code);
+        System.Threading.Tasks.Task<bool> AuthVerificationCodeAsync(string username, string code);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -157,11 +112,11 @@ namespace MasterMind_Client.CodeService {
             return base.Channel.SendVerificationCodeAsync(playerId);
         }
         
-        public System.ValueTuple<bool, MasterMind_Client.CodeService.Player> AuthVerificationCode(string username, string code) {
+        public bool AuthVerificationCode(string username, string code) {
             return base.Channel.AuthVerificationCode(username, code);
         }
         
-        public System.Threading.Tasks.Task<System.ValueTuple<bool, MasterMind_Client.CodeService.Player>> AuthVerificationCodeAsync(string username, string code) {
+        public System.Threading.Tasks.Task<bool> AuthVerificationCodeAsync(string username, string code) {
             return base.Channel.AuthVerificationCodeAsync(username, code);
         }
     }
