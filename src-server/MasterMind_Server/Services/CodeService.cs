@@ -58,7 +58,7 @@ namespace MasterMind_Server.Services
         {
             Env.Load();
             MailAddress to = new MailAddress(email);
-            MailAddress from = new MailAddress(Environment.GetEnvironmentVariable("EMAIL_USER"));
+            MailAddress from = new MailAddress(Environment.GetEnvironmentVariable("SMTP_SENDER"));
 
             MailMessage emailMessage = new MailMessage(from, to)
             {
@@ -72,8 +72,8 @@ namespace MasterMind_Server.Services
                 Port = 587,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(
-                    Environment.GetEnvironmentVariable("EMAIL_USER"),
-                    Environment.GetEnvironmentVariable("EMAIL_PASSWORD")),
+                    Environment.GetEnvironmentVariable("SMTP_LOGIN"),
+                    Environment.GetEnvironmentVariable("SMTP_KEY")),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true
             };

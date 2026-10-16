@@ -84,5 +84,29 @@ namespace MasterMind_Server.Services
 
             return player;
         }
+
+        public Player GetPlayerById(int playerId)
+        {
+            var playerEntity = PlayerRepository.GetPlayerById(playerId);
+
+            var player = new Player
+            {
+                PlayerId = 0
+            };
+
+            if (playerEntity != null)
+            {
+                player = new Player
+                {
+                    PlayerId = playerEntity.player_id,
+                    Username = playerEntity.username,
+                    Email = playerEntity.email,
+                    Password = playerEntity.password
+                };
+                return player;
+            }
+
+            return player;
+        }
     }
 }

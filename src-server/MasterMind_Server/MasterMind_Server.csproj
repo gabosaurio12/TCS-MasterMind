@@ -327,7 +327,9 @@
     <Compile Include="Services\PlayerService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".env" />
+    <None Include=".env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
     <Compile Include="Data\MasterMindModel.Context.Custom.cs" />
     <EntityDeploy Include="Data\MasterMindModel.edmx">

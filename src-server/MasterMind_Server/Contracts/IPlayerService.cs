@@ -17,6 +17,11 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         Player GetPlayerByUsername(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        Player GetPlayerById(int playerId);
+
     }
 
     [DataContract]
@@ -24,11 +29,17 @@ namespace MasterMind_Server.Contracts
     {
         [DataMember]
         public int PlayerId { get; set; }
+        [DataMember]
         public string Email { get; set; }
+        [DataMember]
         public int NumberOfReports { get; set; }
+        [DataMember]
         public string Username { get; set; }
+        [DataMember]
         public string Password { get; set; }
+        [DataMember]
         public string AvatarPath { get; set; }
+        [DataMember]
         public bool IsOnline { get; set; }
     }
 
