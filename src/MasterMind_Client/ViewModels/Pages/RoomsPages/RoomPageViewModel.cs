@@ -10,32 +10,23 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
     public class RoomPageViewModel : ViewModelBase
     {
-        public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
-        {
-            this.navigationService = navigationService;
-            this.dialogService = dialogService;
-            ReadyCommand = new RelayCommand(_ => SetReady());
-            UnreadyCommand = new RelayCommand(_ => SetUnready());
-            EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
-            InitializeFromUri(uri);
-        }
 
         public string RoomTitle
         {
-            get => _roomTitle;
-            private set => SetProperty(ref _roomTitle, value);
+            get => roomTitle;
+            private set => SetProperty(ref roomTitle, value);
         }
 
         public PlayerSlotViewModel PlayerOne
         {
-            get => _playerOne;
-            private set => SetProperty(ref _playerOne, value);
+            get => playerOne;
+            private set => SetProperty(ref playerOne, value);
         }
 
         public PlayerSlotViewModel PlayerTwo
         {
-            get => _playerTwo;
-            private set => SetProperty(ref _playerTwo, value);
+            get => playerTwo;
+            private set => SetProperty(ref playerTwo, value);
         }
 
         public bool IsReady
@@ -50,13 +41,24 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public RelayCommand EscapeCommand { get; }
 
-        private string _roomTitle;
-        private PlayerSlotViewModel _playerOne;
-        private PlayerSlotViewModel _playerTwo;
+        private string roomTitle;
+        private PlayerSlotViewModel playerOne;
+        private PlayerSlotViewModel playerTwo;
         private bool _isReady;
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
+
+        public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
+        {
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
+            ReadyCommand = new RelayCommand(_ => SetReady());
+            UnreadyCommand = new RelayCommand(_ => SetUnready());
+            EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
+            InitializeFromUri(uri);
+        }
+
 
         private void InitializeFromUri(Uri uri)
         {

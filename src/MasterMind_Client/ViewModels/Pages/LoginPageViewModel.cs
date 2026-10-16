@@ -1,6 +1,5 @@
 using MasterMind_Client.Helpers;
-using MasterMind_Client.Data;
-using MasterMind_Client.TempData;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -37,28 +36,27 @@ namespace MasterMind_Client.ViewModels.Pages
         {
             var player = new Player
             {
-                username = Username,
-                password = Password
+                Username = Username,
+                Password = Password
             };
 
-            if (!ValidateFormsData(player))
+            if (ValidateFormsData(player))
             {
-                return;
+                dialogService.ShowVerificationCode(player.Username, OnVerificationSucceded);
             }
-
-            dialogService.ShowVerificationCode(player.username, OnVerificationSucceded);
         }
 
         private bool ValidateFormsData(Player player)
         {
             var isValid = true;
-            if (string.IsNullOrWhiteSpace(player.username) || string.IsNullOrWhiteSpace(player.password))
+            if (string.IsNullOrWhiteSpace(player.Username) || string.IsNullOrWhiteSpace(player.Password))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
                 isValid = false;
             }
 
-            if (!TempAuthService.AuthPlayer(player))
+            var service = new PlayerServiceClient();
+            if (!service.LoginPlayer(player.Username, player.Password))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCredentials);
                 isValid = false;
@@ -69,12 +67,13 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private void OnVerificationSucceded(Player verifiedPlayer)
         {
-            CurrentPlayer.Instance.SetCurrentPlayer(verifiedPlayer);
+            var player = new PlayerServiceClient().GetPlayerById(verifiedPlayer.PlayerId);
+            CurrentPlayer.Instance.SetCurrentPlayer(player);
 
             if (RememberLogin)
             {
                 Properties.Settings.Default.RememberLogin = true;
-                Properties.Settings.Default.SavedUsername = verifiedPlayer.username;
+                Properties.Settings.Default.SavedUsername = player.Username;
             }
             else
             {

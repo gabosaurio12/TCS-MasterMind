@@ -1,0 +1,41 @@
+﻿using DotNetEnv;
+using System;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.SqlClient;
+
+namespace MasterMind_Server.Data
+{
+    public partial class MasterMindEntities
+	{
+		public MasterMindEntities(bool useCustomConnection)
+			: base(BuildConnectionString())
+		{
+		}
+
+		private static string BuildConnectionString()
+		{
+			Env.Load();
+
+			var sqlBuilder = new SqlConnectionStringBuilder
+			{
+				DataSource = Environment.GetEnvironmentVariable("DB_SOURCE"),
+				InitialCatalog = Environment.GetEnvironmentVariable("DB_NAME"),
+				UserID = Environment.GetEnvironmentVariable("DB_USER"),
+				Password = Environment.GetEnvironmentVariable("DB_PASSWORD"),
+				PersistSecurityInfo = true,
+				TrustServerCertificate = true,
+				Encrypt = false,
+				MultipleActiveResultSets = true
+			};
+
+			var entityBuilder = new EntityConnectionStringBuilder
+			{
+				Provider = "System.Data.SqlClient",
+				ProviderConnectionString = sqlBuilder.ConnectionString,
+				Metadata = "res://*/Data.MasterMindModel.csdl|res://*/Data.MasterMindModel.ssdl|res://*/Data.MasterMindModel.msl"
+			};
+
+			return entityBuilder.ConnectionString;
+		}
+	}
+}

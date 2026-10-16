@@ -205,6 +205,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
       <Private>True</Private>
@@ -236,6 +237,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\CodeService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\PlayerService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="CurrentPlayer.cs" />
     <Compile Include="Data\ClueColorsCatalog.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
@@ -607,6 +618,35 @@
       <LastGenOutput>MasterMindModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Resource Include="Assets\Fonts\SpecialElite-Regular.ttf" />
+    <None Include="Connected Services\CodeService\CodeService.wsdl" />
+    <None Include="Connected Services\CodeService\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CodeService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CodeService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\MasterMind_Client.PlayerService.Player.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PlayerService\PlayerService.wsdl" />
     <None Include="Data\MasterMindModel.edmx.diagram">
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
     </None>
@@ -637,6 +677,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Elements\DecipheringMachine.png" />
+    <None Include="Connected Services\PlayerService\item.disco" />
+    <None Include="Connected Services\PlayerService\configuration91.svcinfo" />
+    <None Include="Connected Services\PlayerService\configuration.svcinfo" />
+    <None Include="Connected Services\PlayerService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\CodeService\item.disco" />
+    <None Include="Connected Services\CodeService\configuration91.svcinfo" />
+    <None Include="Connected Services\CodeService\configuration.svcinfo" />
+    <None Include="Connected Services\CodeService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Data\MasterMindModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
@@ -651,7 +705,13 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\CodeService\" />
+    <WCFMetadataStorage Include="Connected Services\PlayerService\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
