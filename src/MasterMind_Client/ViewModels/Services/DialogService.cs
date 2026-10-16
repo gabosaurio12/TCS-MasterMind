@@ -1,5 +1,5 @@
-using MasterMind_Client.Data;
 using MasterMind_Client.Modals;
+using MasterMind_Client.CodeService;
 using MasterMind_Client.ViewModels.Modals;
 using System;
 using System.Windows;

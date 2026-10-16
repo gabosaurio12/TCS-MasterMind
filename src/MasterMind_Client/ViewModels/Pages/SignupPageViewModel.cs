@@ -1,11 +1,12 @@
 using MasterMind_Client.Helpers;
-using MasterMind_Client.Data;
 using MasterMind_Client.TempData;
 using MasterMind_Client.TempData.Enum;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
 using System.Text.RegularExpressions;
+using MasterMind_Client.PlayerService;
+using System.Web.UI.WebControls;
 
 namespace MasterMind_Client.ViewModels.Pages
 {
@@ -76,23 +77,24 @@ namespace MasterMind_Client.ViewModels.Pages
 
             var player = new Player
             {
-                username = Username.Trim(),
-                password = Password,
-                email = Email
+                Username = Username.Trim(),
+                Password = Password,
+                Email = Email
             };
 
-            var result = TempAuthService.RegisterPlayer(player);
-            switch (result)
+            var service = new PlayerServiceClient();
+            var result = service.RegisterPlayer(player);
+            switch (result.Item2)
             {
-                case PlayerRegistrationResultEnum.Success:
+                case "Success":
                     dialogService.ShowSuccess(
                         Properties.Resources.SuccessNotification_Register,
-                        () => ShowVerificationCode(player.username));
+                        () => ShowVerificationCode(player.Username));
                     break;
-                case PlayerRegistrationResultEnum.UsernameTaken:
+                case "UsernameTaken":
                     dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
                     break;
-                case PlayerRegistrationResultEnum.EmailTaken:
+                case "EmailTaken":
                     dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
                     break;
             }
@@ -103,9 +105,10 @@ namespace MasterMind_Client.ViewModels.Pages
             dialogService.ShowVerificationCode(username, OnVerificationSucceded);
         }
 
-        private void OnVerificationSucceded(Player verifiedPlayer)
+        private void OnVerificationSucceded(CodeService.Player verifiedPlayer)
         {
-            CurrentPlayer.Instance.SetCurrentPlayer(verifiedPlayer);
+            var player = new PlayerServiceClient().GetPlayerById(verifiedPlayer.PlayerId);
+            CurrentPlayer.Instance.SetCurrentPlayer(player);
 
             Properties.Settings.Default.RememberLogin = false;
             Properties.Settings.Default.SavedUsername = "";

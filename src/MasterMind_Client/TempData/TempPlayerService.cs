@@ -48,7 +48,7 @@ namespace MasterMind_Client.TempData
 
                     Context.SaveChanges();
 
-                    CurrentPlayer.Instance.SetCurrentPlayer(player);
+                    //CurrentPlayer.Instance.SetCurrentPlayer(player);
                 }
 
             }

@@ -1,4 +1,5 @@
 ﻿using log4net.Config;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Services;
 using System.Globalization;
 using System.Windows;
@@ -29,7 +30,8 @@ namespace MasterMind_Client
             if (MasterMind_Client.Properties.Settings.Default.RememberLogin &&
                  !string.IsNullOrEmpty(MasterMind_Client.Properties.Settings.Default.SavedUsername))
             {
-                var savedPlayer = TempData.TempPlayerService.GetPlayerByUsername(
+                // to-do: add try-catch
+                var savedPlayer = new PlayerServiceClient().GetPlayerByUsername(
                     MasterMind_Client.Properties.Settings.Default.SavedUsername);
 
                 if (savedPlayer != null)

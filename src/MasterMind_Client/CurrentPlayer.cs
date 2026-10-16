@@ -1,4 +1,4 @@
-﻿using MasterMind_Client.Data;
+﻿using MasterMind_Client.PlayerService;
 using System.Windows.Media;
 
 namespace MasterMind_Client
@@ -29,9 +29,9 @@ namespace MasterMind_Client
 
         public void SetCurrentPlayer(Player player)
         {
-            Id = player.player_id;
-            Username = player.username;
-            Email = player.email;
+            Id = player.PlayerId;
+            Username = player.Username;
+            Email = player.Email;
         }
     }
 }

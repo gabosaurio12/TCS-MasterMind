@@ -1,4 +1,4 @@
-using MasterMind_Client.Data;
+using MasterMind_Client.CodeService;
 using System;
 
 namespace MasterMind_Client.ViewModels.Services
