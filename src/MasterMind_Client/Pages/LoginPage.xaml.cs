@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace MasterMind_Client.Pages
 {
     /// <summary>
-    /// Lógica de interacción para LoginPage.xaml
+    /// Interaction logic for LoginPage.xaml.
     /// </summary>
     public partial class LoginPage : Page
     {

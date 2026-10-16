@@ -15,90 +15,89 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="286" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
         <!-- Backgrounds -->
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Fill="#141414" />
-        <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Fill="#585858" />
+        <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelBrush}" />
+        <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelBrush}" />
 
-        <!-- Images -->
-        <Image Grid.Column="0" Grid.Row="0" Source="/Images/MasterMindLogo.png"
-           Width="625" Height="205"/>
-        <Image Grid.Column="0" Grid.Row="1" Source="/Images/DecodingMachine.png"
-           Width="533" Height="615"/>
+        <!-- Left panel: logo and machine -->
+        <Grid Grid.Column="0" Margin="40,40,40,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <!-- Column 2 -->
+            <Rectangle Grid.Row="0" Width="660" Height="248" HorizontalAlignment="Center"
+                       Fill="{StaticResource LogoBrush}" />
 
-        <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.LoginPage_Title}"
-           Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
-           VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource Aladin}"
-           FontSize="128"/>
+            <Rectangle Grid.Row="1" Width="640" Height="674" HorizontalAlignment="Center"
+                       VerticalAlignment="Top" Margin="0,30,0,0"
+                       Fill="{StaticResource MachineBrush}" />
+        </Grid>
 
-        <UniformGrid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
-                 VerticalAlignment="Center" Rows="6" Columns="1" Margin="0,0,0,80">
+        <!-- Right panel: form -->
+        <Grid Grid.Column="1" Margin="90,0,90,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="230" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
-               HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Foreground="White" FontFamily="{StaticResource Aladin}"
-               FontSize="64"/>
+            <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="150">
+                <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.LoginPage_Title}"
+                       Style="{StaticResource MetalTitleLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="104" />
+            </Viewbox>
 
-            <TextBox x:Name="UsernameTxt"
-               HorizontalAlignment="Center"
-               Width="535" Height="52" FontSize="38"
-               FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedTextBox}"
-               Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
-               HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Foreground="White" FontFamily="{StaticResource Aladin}"
-               FontSize="64"/>
+                <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
+                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Elite}" />
 
-            <PasswordBox x:Name="PasswordTxt"
-               HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Width="535" Height="52" FontSize="38"
-               Background="White" Style="{StaticResource RoundedPasswordBox}" 
-               Foreground="Black" FontFamily="{StaticResource Aladin}"
-               PasswordChanged="PasswordTxt_PasswordChanged" />
+                <TextBox x:Name="UsernameTxt" Style="{StaticResource MetalTextBox}"
+                         FontFamily="{StaticResource Elite}"
+                         Width="600" Height="84" FontSize="44" Margin="0,10,0,30"
+                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <CheckBox x:Name="RememberLoginCheck" FontSize="32"
-                      Content="{x:Static p:Resources.LoginPage_RememberLogin}"
-                      FontFamily="{StaticResource Aladin}"
-                      Foreground="White" HorizontalAlignment="Center" 
-                      VerticalAlignment="Center" Style="{StaticResource LargeCheckBox}"
-                      IsChecked="{Binding RememberLogin, Mode=TwoWay}" />
+                <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
+                       Style="{StaticResource MetalFieldLbl}" FontFamily="{StaticResource Elite}" />
 
-            <Button x:Name="LoginBtn" Content="{x:Static p:Resources.LoginPage_Login}"
-                HorizontalAlignment="Center" VerticalAlignment="Center" 
-                Width="230" Height="80" 
-                Background="#67D92A" Foreground="White" Style="{StaticResource RoundedButton}"
-                FontSize="48" FontFamily="{StaticResource Aladin}"
-                Command="{Binding LoginCommand}" />
+                <PasswordBox x:Name="PasswordTxt" Style="{StaticResource MetalPasswordBox}"
+                             FontFamily="{StaticResource Elite}"
+                             Width="600" Height="84" FontSize="44" Margin="0,10,0,0"
+                             PasswordChanged="PasswordTxt_PasswordChanged" />
 
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
-                <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.LoginPage_AccountQuestion}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" 
-                   Foreground="White" FontFamily="{StaticResource Aladin}"
-                   FontSize="36"/>
+                <CheckBox x:Name="RememberLoginCheck" Style="{StaticResource MetalCheckBox}"
+                          Content="{x:Static p:Resources.LoginPage_RememberLogin}"
+                          FontFamily="{StaticResource Elite}" FontSize="38"
+                          Margin="0,40,0,0" HorizontalAlignment="Center"
+                          IsChecked="{Binding RememberLogin, Mode=TwoWay}" />
 
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
-                       FontFamily="{StaticResource Aladin}" FontSize="36" >
-                    <Hyperlink x:Name="SignupLink" Click="SignupLink_Click" Foreground="#81A3FF" >
-                        <Run Text="{x:Static p:Resources.LoginPage_SignupLink}" />
-                    </Hyperlink>
-                </TextBlock>
+                <Button x:Name="LoginBtn" Style="{StaticResource MetalButtonGreen}"
+                        FontFamily="{StaticResource Elite}" FontSize="48"
+                        Width="280" Height="124" Margin="0,40,0,0"
+                        Content="{x:Static p:Resources.LoginPage_Login}"
+                        Command="{Binding LoginCommand}" />
+
+                <StackPanel HorizontalAlignment="Center" Margin="0,36,0,0">
+                    <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.LoginPage_AccountQuestion}"
+                           FontFamily="{StaticResource Elite}" FontSize="38"
+                           Foreground="{StaticResource CreamBrush}"
+                           HorizontalAlignment="Center" />
+
+                    <TextBlock FontFamily="{StaticResource Elite}" FontSize="40" HorizontalAlignment="Center">
+                        <Hyperlink x:Name="SignupLink" Click="SignupLink_Click" Foreground="{StaticResource LinkBrush}">
+                            <Run Text="{x:Static p:Resources.LoginPage_SignupLink}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
+        </Grid>
 
-        </UniformGrid>
-
-        <Button x:Name="LanguageBtn" Grid.Column="1" Grid.Row="1"
-                Width="113" Height="85" Content="🌐"
-              
-                Foreground="White" Style="{StaticResource RoundedButton}"
-                FontSize="60" FontFamily="{StaticResource Aladin}" Margin="792,666,55,43"
-                Command="{Binding LanguageCommand}"/>
-
+        <Button x:Name="LanguageBtn" Grid.Column="1"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="0,0,50,40"
+                Width="153" Height="125" Content="🌐"
+                Style="{StaticResource MetalButtonBlue}"
+                FontFamily="{StaticResource Elite}" FontSize="32"
+                Command="{Binding LanguageCommand}" />
     </Grid>
 </Page>

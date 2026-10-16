@@ -7,34 +7,32 @@
         mc:Ignorable="d"
         WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
-        Title="{x:Static p:Resources.ErrorNotification_Title}" Height="470" Width="660"
-        Background="Transparent" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+        Title="{x:Static p:Resources.ErrorNotification_Title}" Height="493" Width="660"
+        Background="{StaticResource ModalErrorBgBrush}"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
-    <Border CornerRadius="25"
-            Background="#452222"
-            BorderBrush="Black"
-            BorderThickness="5">
-
+    <!-- Margin keeps the content inside the metal frame of the panel -->
+    <Grid Margin="40,46,40,42">
         <Viewbox Stretch="Uniform">
             <StackPanel>
 
                 <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.ErrorNotification_Title}"
-                        Margin="20" VerticalAlignment="Center"
-                        Width="345" HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                        FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="64" />
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                       FontFamily="{StaticResource Elite}" Foreground="{StaticResource CreamBrush}"
+                       FontSize="48" />
 
                 <TextBlock x:Name="NotificationMessageTxt" Text="{Binding Message}"
-                           Width="525" TextAlignment="Center" Margin="20" VerticalAlignment="Center"
-                           FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="32"
-                           TextWrapping="Wrap"/>
+                           Width="500" Margin="0,60,0,60"
+                           HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                           FontFamily="{StaticResource Elite}" Foreground="{StaticResource CreamBrush}"
+                           FontSize="44" />
 
                 <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
-                        Width="150" Height="52" Style="{StaticResource ModalButton}"
-                        VerticalAlignment="Center" HorizontalAlignment="Center"
-                        FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                        Command="{Binding ContinueCommand}"/>
+                        Style="{StaticResource MetalButtonRed}"
+                        Width="230" Height="85" HorizontalAlignment="Center"
+                        FontFamily="{StaticResource Elite}" FontSize="32"
+                        Command="{Binding ContinueCommand}" />
             </StackPanel>
         </Viewbox>
-
-    </Border>
+    </Grid>
 </Window>

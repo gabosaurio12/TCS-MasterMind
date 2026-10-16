@@ -1,10 +1,10 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace MasterMind_Client.Modals
 {
     /// <summary>
-    /// Lógica de interacción para FriendRequestsModal.xaml
+    /// Interaction logic for FriendRequestsModal.xaml.
     /// </summary>
     public partial class FriendRequestsModal : Window
     {
@@ -18,7 +18,7 @@ namespace MasterMind_Client.Modals
             var input = AddreseeUsernameTxt.Text;
             if (input.Equals(Properties.Resources.FriendRequestsModal_AddFriendText.Trim()))
             {
-                AddreseeUsernameTxt.Foreground = System.Windows.Media.Brushes.Black;
+                AddreseeUsernameTxt.Foreground = (Brush)Application.Current.Resources["InkBrush"];
                 AddreseeUsernameTxt.Text = "";
             }
         }
@@ -28,7 +28,7 @@ namespace MasterMind_Client.Modals
             var input = AddreseeUsernameTxt.Text;
             if (input.Equals(""))
             {
-                AddreseeUsernameTxt.Foreground = System.Windows.Media.Brushes.Gray;
+                AddreseeUsernameTxt.Foreground = (Brush)Application.Current.Resources["InkMutedBrush"];
                 AddreseeUsernameTxt.Text = Properties.Resources.FriendRequestsModal_AddFriendText.Trim();
             }
         }

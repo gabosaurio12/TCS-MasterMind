@@ -3,7 +3,7 @@
 namespace MasterMind_Client.Modals.ModalsUserControls
 {
     /// <summary>
-    /// Lógica de interacción para FriendUserControl.xaml
+    /// Interaction logic for FriendUserControl.xaml.
     /// </summary>
     public partial class FriendUserControl : UserControl
     {

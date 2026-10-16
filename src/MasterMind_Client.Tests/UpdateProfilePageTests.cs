@@ -59,12 +59,12 @@ namespace MasterMind_Client.UITests
         private void Login()
         {
             var usernameBox = window.FindFirstDescendant(cf => cf.ByAutomationId("UsernameTxt")).AsTextBox();
-            usernameBox.Text = TestUsername;
+            usernameBox?.Text = TestUsername;
             var passwordBox = window.FindFirstDescendant(cf => cf.ByAutomationId("PasswordTxt")).AsTextBox();
-            passwordBox.Text = TestPassword;
+            passwordBox?.Text = TestPassword;
 
             var loginBtn = window.FindFirstDescendant(cf => cf.ByAutomationId("LoginBtn")).AsButton();
-            loginBtn.Invoke();
+            loginBtn?.Invoke();
 
             var verificationModal = FindVerificationModal();
             Assert.That(verificationModal, Is.Not.Null, "The VerificationCodeModal didn't appear.");
@@ -75,11 +75,11 @@ namespace MasterMind_Client.UITests
             for (int i = 0; i < VerificationCodeLength; i++)
             {
                 var codeBox = verificationModal.FindFirstDescendant(cf => cf.ByAutomationId($"CodeI{i}Txt")).AsTextBox();
-                codeBox.Text = code[i].ToString();
+                codeBox?.Text = code[i].ToString();
             }
 
             var continueBtn = verificationModal.FindFirstDescendant(cf => cf.ByAutomationId("ContinueBtn")).AsButton();
-            continueBtn.Invoke();
+            continueBtn?.Invoke();
 
             var playBtn = Retry.WhileNull(() =>
                 window.FindFirstDescendant(cf => cf.ByAutomationId("PlayBtn")),

@@ -396,6 +396,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Assets\Palette.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="Controls\NineSlice.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -404,7 +409,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Assets\UtilsUI.cs" />
+    <Compile Include="Helpers\UtilsUI.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
@@ -578,6 +583,22 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Assets\Fonts\Aladin-Regular.ttf" />
+    <Resource Include="Assets\DefaultAvatar.png" />
+    <Resource Include="Assets\Backgrounds\LeftPanel_Dark.png" />
+    <Resource Include="Assets\Backgrounds\LeftPanel_Green.png" />
+    <Resource Include="Assets\Backgrounds\RightPanel_Light.png" />
+    <Resource Include="Assets\Backgrounds\ErrorNotificationModal_Background.png" />
+    <Resource Include="Assets\Backgrounds\SuccessNotificationModal_Background.png" />
+    <Resource Include="Assets\Backgrounds\Friends_Background.png" />
+    <Resource Include="Assets\Elements\Blue_Button.png" />
+    <Resource Include="Assets\Elements\Green_Button.png" />
+    <Resource Include="Assets\Elements\Grey_Button.png" />
+    <Resource Include="Assets\Elements\Red_Button.png" />
+    <Resource Include="Assets\Elements\TextBox.png" />
+    <Resource Include="Assets\Elements\Blue_Plus_Button.png" />
+    <Resource Include="Assets\Elements\Red_Minus_Button.png" />
+    <Resource Include="Assets\Elements\Red_Report_Button.png" />
+    <Resource Include="Assets\Elements\MasterMind_Title.png" />
     <None Include=".env">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -585,6 +606,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MasterMindModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Resource Include="Assets\Fonts\SpecialElite-Regular.ttf" />
     <None Include="Data\MasterMindModel.edmx.diagram">
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
     </None>
@@ -614,6 +636,7 @@
     <Resource Include="Images\Avatars\Link.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Elements\DecipheringMachine.png" />
     <Content Include="Data\MasterMindModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MasterMindModel.edmx</DependentUpon>

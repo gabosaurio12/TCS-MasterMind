@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
-             xmlns:assets="clr-namespace:MasterMind_Client.Assets"
+             xmlns:helpers="clr-namespace:MasterMind_Client.Helpers"
              xmlns:p="clr-namespace:MasterMind_Client.Properties"
              mc:Ignorable="d"
              Height="94" Width="1300">
@@ -13,10 +13,10 @@
             Cursor="Hand">
         <Border.Style>
             <Style TargetType="Border">
-                <Setter Property="Background" Value="{x:Static assets:UtilsUI.RoomDefaultBackground}" />
+                <Setter Property="Background" Value="{x:Static helpers:UtilsUI.RoomDefaultBackground}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="True">
-                        <Setter Property="Background" Value="{x:Static assets:UtilsUI.RoomSelectedBackground}" />
+                        <Setter Property="Background" Value="{x:Static helpers:UtilsUI.RoomSelectedBackground}" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

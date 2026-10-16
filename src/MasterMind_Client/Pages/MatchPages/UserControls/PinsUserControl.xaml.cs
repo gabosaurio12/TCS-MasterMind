@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace MasterMind_Client.Pages.MatchPages.UserControls
 {
     /// <summary>
-    /// Lógica de interacción para PinsUserControl.xaml
+    /// Interaction logic for PinsUserControl.xaml.
     /// </summary>
     public partial class PinsUserControl : UserControl
     {

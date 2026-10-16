@@ -8,7 +8,7 @@ using System.Windows.Navigation;
 namespace MasterMind_Client
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : NavigationWindow
     {

@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace MasterMind_Client.Pages
 {
     /// <summary>
-    /// Lógica de interacción para ProfilePage.xaml
+    /// Interaction logic for ProfilePage.xaml.
     /// </summary>
     public partial class ProfilePage : Page
     {
@@ -21,7 +21,7 @@ namespace MasterMind_Client.Pages
             var input = ReportUsernameTxt.Text;
             if (input.Equals(Properties.Resources.ProfilePage_ReportPlayer.Trim()))
             {
-                ReportUsernameTxt.Foreground = Brushes.Black;
+                ReportUsernameTxt.Foreground = (Brush)Application.Current.Resources["InkBrush"];
                 ReportUsernameTxt.Text = "";
             }
         }
@@ -31,7 +31,7 @@ namespace MasterMind_Client.Pages
             var input = ReportUsernameTxt.Text;
             if (input.Equals(""))
             {
-                ReportUsernameTxt.Foreground = Brushes.Gray;
+                ReportUsernameTxt.Foreground = (Brush)Application.Current.Resources["InkMutedBrush"];
                 ReportUsernameTxt.Text = Properties.Resources.ProfilePage_ReportPlayer.Trim();
             }
         }

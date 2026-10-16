@@ -3,7 +3,7 @@
 namespace MasterMind_Client.Pages.PagesUserControls
 {
     /// <summary>
-    /// Lógica de interacción para MatchRoomUserControl.xaml
+    /// Interaction logic for MatchRoomUserControl.xaml.
     /// </summary>
     public partial class MatchRoomUserControl : UserControl
     {

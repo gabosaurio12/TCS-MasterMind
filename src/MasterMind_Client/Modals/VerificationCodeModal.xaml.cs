@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace MasterMind_Client.Modals
 {
     /// <summary>
-    /// Lógica de interacción para VerificationCodeModal.xaml
+    /// Interaction logic for VerificationCodeModal.xaml.
     /// </summary>
     public partial class VerificationCodeModal : Window
     {

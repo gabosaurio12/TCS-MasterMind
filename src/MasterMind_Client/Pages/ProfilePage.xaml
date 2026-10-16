@@ -15,124 +15,148 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="250" />
-        </Grid.RowDefinitions>
-
         <!-- Backgrounds -->
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Fill="#141414" Margin="0,0,5,0" />
-        <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Fill="#585858" />
+        <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelGreenBrush}" />
+        <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelBrush}" />
 
-        <!-- Column 0 -->
+        <!-- Left panel: avatar, player data and update button -->
+        <Grid Grid.Column="0" Margin="40,50,40,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <Ellipse x:Name="Avatar" Grid.Row="0" Grid.Column="0"
-                 Height="250" Width="250" >
-            <Ellipse.Fill>
-                <ImageBrush x:Name="AvatarImg" ImageSource="/Images/Avatars/Link con fondo.png" Stretch="UniformToFill" />
-            </Ellipse.Fill>
-        </Ellipse>
+            <Ellipse x:Name="Avatar" Grid.Row="0" Width="292" Height="292"
+                     HorizontalAlignment="Center" Margin="0,10,0,20"
+                     Stroke="{StaticResource FrameMetalBrush}" StrokeThickness="12">
+                <Ellipse.Fill>
+                    <ImageBrush x:Name="AvatarImg" ImageSource="{StaticResource AvatarImage}" Stretch="UniformToFill" />
+                </Ellipse.Fill>
+            </Ellipse>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
-            <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
-                   FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
-                   HorizontalAlignment="Center"/>
-            <Label x:Name="PlayerUsernameLbl" FontSize="48" Foreground="White"
-                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
-                   Content="{Binding Username}" />
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
-                   FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
-                   HorizontalAlignment="Center"/>
-            <Label x:Name="PlayerEmailLbl" FontSize="48" Foreground="White"
-                   FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
-                   Content="{Binding Email}" />
-        </StackPanel>
+                <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
+                       Style="{StaticResource MetalFieldLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="68" />
 
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
-            <Button x:Name="UpdateBtn" Width="345" Height="85" FontSize="64"
-                    Content="{x:Static p:Resources.ProfilePage_Update}" Margin="5"
-                    FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedButton}"
-                    Command="{Binding UpdateCommand}"/>
+                <Label x:Name="PlayerUsernameLbl" Content="{Binding Username}"
+                       FontFamily="{StaticResource Elite}" FontSize="52"
+                       Foreground="{StaticResource CreamMutedBrush}"
+                       HorizontalAlignment="Center" Margin="0,10,0,0" />
 
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"
-                       FontFamily="{StaticResource Aladin}" FontSize="36" Margin="5" >
-                <Hyperlink x:Name="ChangePasswordLink" Foreground="#81A3FF"
-                           Click="ChangePasswordLink_Click">
-                    <Run Text="{x:Static p:Resources.ProfilePage_ChangePassword}" />
-                </Hyperlink>
-            </TextBlock>
-        </StackPanel>
+                <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
+                       Style="{StaticResource MetalFieldLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="68" Margin="0,34,0,0" />
 
-        <!-- Column 1 -->
+                <Label x:Name="PlayerEmailLbl" Content="{Binding Email}"
+                       FontFamily="{StaticResource Elite}" FontSize="52"
+                       Foreground="{StaticResource CreamMutedBrush}"
+                       HorizontalAlignment="Center" Margin="0,10,0,0" />
+            </StackPanel>
 
-        <Label x:Name="RecordsLbl" Content="{x:Static p:Resources.ProfilePage_Records}"
-               Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
-               VerticalAlignment="Center" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
-               FontSize="152"/>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                <Button x:Name="UpdateBtn" Style="{StaticResource MetalButtonBlue}"
+                        FontFamily="{StaticResource Elite}" FontSize="46"
+                        Width="356" Height="115"
+                        Content="{x:Static p:Resources.ProfilePage_Update}"
+                        Command="{Binding UpdateCommand}" />
 
-            <StackPanel Orientation="Horizontal" 
+                <TextBlock HorizontalAlignment="Center" Margin="0,22,0,0"
+                           FontFamily="{StaticResource Elite}" FontSize="32">
+                    <Hyperlink x:Name="ChangePasswordLink" Foreground="{StaticResource LinkBrush}"
+                               Click="ChangePasswordLink_Click">
+                        <Run Text="{x:Static p:Resources.ProfilePage_ChangePassword}" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+
+        <!-- Right panel: records, report field and back button -->
+        <Grid Grid.Column="1" Margin="60,50,60,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="150">
+                <Label x:Name="RecordsLbl" Content="{x:Static p:Resources.ProfilePage_Records}"
+                       Style="{StaticResource MetalTitleLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="140" />
+            </Viewbox>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <StackPanel x:Name="BestTimesStack" Orientation="Vertical" Margin="10">
-                    <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
-                           Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="52"
-                           HorizontalAlignment="Center"/>
+                <StackPanel x:Name="BestTimesStack" Margin="0,0,100,0">
 
-                    <ItemsControl ItemsSource="{Binding BestTimes}">
+                    <Viewbox Stretch="Fill" StretchDirection="DownOnly" MaxHeight="56">
+                        <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
+                               FontFamily="{StaticResource Elite}" FontSize="38"
+                               Foreground="{StaticResource CreamBrush}"
+                               HorizontalAlignment="Center" />
+                    </Viewbox>
+
+                    <ItemsControl ItemsSource="{Binding BestTimes}" Margin="0,26,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding}" Foreground="White"
-                                       FontFamily="{StaticResource Aladin}" FontSize="48"
-                                       HorizontalAlignment="Center"/>
+                                <Label Content="{Binding}" FontFamily="{StaticResource Elite}" FontSize="36"
+                                       Foreground="{StaticResource CreamMutedBrush}"
+                                       HorizontalAlignment="Center" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
 
-                <StackPanel Orientation="Vertical" Margin="10">
-                    <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
-                           Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="52"
-                           HorizontalAlignment="Center"/>
+                <StackPanel x:Name="BestTriesStack">
 
-                    <ItemsControl ItemsSource="{Binding LeastTries}">
+                    <Viewbox Stretch="Fill" StretchDirection="DownOnly" MaxHeight="56">
+                        <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
+                               FontFamily="{StaticResource Elite}" FontSize="38"
+                               Foreground="{StaticResource CreamBrush}"
+                               HorizontalAlignment="Center" />
+                    </Viewbox>
+
+                    <ItemsControl ItemsSource="{Binding LeastTries}" Margin="0,26,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding}" Foreground="White"
-                                       FontFamily="{StaticResource Aladin}" FontSize="48"
-                                       HorizontalAlignment="Center"/>
+                                <Label Content="{Binding}" FontFamily="{StaticResource Elite}" FontSize="36"
+                                       Foreground="{StaticResource CreamMutedBrush}"
+                                       HorizontalAlignment="Center" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
-                
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,40,0,0"
-                        HorizontalAlignment="Center">
-                <Viewbox StretchDirection="DownOnly" MaxHeight="55">
+            <StackPanel Grid.Row="2" Orientation="Horizontal"
+                        HorizontalAlignment="Center" Margin="0,0,0,44">
 
-                    <TextBox x:Name="ReportUsernameTxt" Height="60" Width="496"
-                             Style="{StaticResource RoundedTextBox}" FontSize="42"
+                <Viewbox Stretch="UniformToFill" MaxHeight="71">
+                    <TextBox x:Name="ReportUsernameTxt" Style="{StaticResource MetalTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="40"
+                             Width="459" Height="71" Padding="20,0"
+                             Foreground="{StaticResource InkMutedBrush}"
                              Text="{Binding ReportedPlayer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             FontFamily="{StaticResource Aladin}" Foreground="Gray"
-                             GotFocus="ReportUsernameTxt_GotFocus" LostFocus="ReportUsernameTxt_LostFocus" />
+                             GotFocus="ReportUsernameTxt_GotFocus"
+                             LostFocus="ReportUsernameTxt_LostFocus" />
                 </Viewbox>
 
-                <Button x:Name="ReportBtn" Width="45" Height="45"
-                        Style="{StaticResource ModalRedButton}" FontFamily="{StaticResource Aladin}"
-                        FontSize="40" Content="!"
+                <Button x:Name="ReportBtn" Style="{StaticResource MetalButtonReport}"
+                        Width="71" Height="71" Padding="0" Margin="16,0,0,0"
                         Command="{Binding ReportCommand}" />
             </StackPanel>
-        </StackPanel>
 
-        <Button x:Name="BackBtn" Grid.Row="2" Grid.Column="1" Width="345" Height="85" FontSize="64"
-                Content="{x:Static p:Resources.UI_Back}" Margin="5"
-                FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedRedButton}"
-                Command="{Binding BackCommand}"/>
-
+            <Button x:Name="BackBtn" Grid.Row="3" Style="{StaticResource MetalButtonRed}"
+                    HorizontalAlignment="Center"
+                    FontFamily="{StaticResource Elite}" FontSize="46"
+                    Width="374" Height="124"
+                    Content="{x:Static p:Resources.UI_Back}"
+                    Command="{Binding BackCommand}" />
+        </Grid>
     </Grid>
 </Page>

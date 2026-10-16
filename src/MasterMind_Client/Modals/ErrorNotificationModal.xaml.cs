@@ -3,7 +3,7 @@
 namespace MasterMind_Client.Modals
 {
     /// <summary>
-    /// Lógica de interacción para ErrorNotificationModal.xaml
+    /// Interaction logic for ErrorNotificationModal.xaml.
     /// </summary>
     public partial class ErrorNotificationModal : Window
     {

@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Navigation;
 
-namespace MasterMind_Client.Assets
+namespace MasterMind_Client.Helpers
 {
     public static class UtilsUI
     {
