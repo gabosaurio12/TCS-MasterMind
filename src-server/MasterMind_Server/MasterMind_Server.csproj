@@ -330,6 +330,7 @@
     <None Include=".env">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include=".env.example" />
     <None Include="App.config" />
     <Compile Include="Data\MasterMindModel.Context.Custom.cs" />
     <EntityDeploy Include="Data\MasterMindModel.edmx">

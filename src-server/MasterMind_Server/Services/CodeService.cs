@@ -60,7 +60,7 @@ namespace MasterMind_Server.Services
             SmtpClient smtp = new SmtpClient()
             {
                 Host = Environment.GetEnvironmentVariable("SMTP_SERVER"),
-                Port = 587,
+                Port = int.Parse(Environment.GetEnvironmentVariable("SMTP_PORT")),
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(
                     Environment.GetEnvironmentVariable("SMTP_LOGIN"),
