@@ -1,6 +1,5 @@
-using MasterMind_Client.Data;
-using MasterMind_Client.TempData;
-using MasterMind_Client.TempData.Enum;
+using MasterMind_Client.FriendsService;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
@@ -10,6 +9,15 @@ namespace MasterMind_Client.ViewModels.Modals
 {
     public class FriendRequestsViewModel : ModalViewModelBase
     {
+
+        public ObservableCollection<FriendRequestViewModel> Requests { get; }
+        public string AddresseeUsername { get; set; } = Properties.Resources.FriendRequestsModal_AddFriendText;
+        public RelayCommand SendCommand { get; }
+        public RelayCommand CloseCommand { get; }
+        private readonly IDialogService dialogService;
+        private readonly FriendsServiceClient friendService = new FriendsServiceClient();
+
+
         public FriendRequestsViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
@@ -19,30 +27,19 @@ namespace MasterMind_Client.ViewModels.Modals
             LoadRequests();
         }
 
-        public ObservableCollection<FriendRequestViewModel> Requests { get; }
-
-        public string AddresseeUsername { get; set; } = Properties.Resources.FriendRequestsModal_AddFriendText;
-
-        public RelayCommand SendCommand { get; }
-
-        public RelayCommand CloseCommand { get; }
-
-        private readonly IDialogService dialogService;
-
         private void LoadRequests()
         {
-            var requests = FriendshipService.GetFriendRequests(CurrentPlayer.Instance.Id);
+            var requests = friendService.GetFriendRequests(CurrentPlayer.Instance.Id);
             foreach (var request in requests)
             {
                 AddRequest(request);
             }
         }
 
-        private void AddRequest(Player requester)
+        private void AddRequest(FriendsService.Player requester)
         {
-            var requestControl = new FriendRequestViewModel(
-                requester.username,
-                FriendshipService.GetFriendRequest(requester.player_id, CurrentPlayer.Instance.Id));
+            var friendRequest = friendService.GetFriendRequest(requester.PlayerId, CurrentPlayer.Instance.Id);
+            var requestControl = new FriendRequestViewModel(requester.Username, friendRequest);
             requestControl.Accepted += OnRequestAccepted;
             requestControl.Rejected += OnRequestRejected;
             Requests.Add(requestControl);
@@ -50,33 +47,37 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private void OnRequestAccepted(object sender, Friendship request)
         {
-            FriendshipService.AcceptFriendRequest(request.friendship_id);
+            friendService.AcceptFriendRequest(request.FriendshipId);
             Requests.Remove((FriendRequestViewModel)sender);
         }
 
         private void OnRequestRejected(object sender, Friendship request)
         {
-            FriendshipService.RejectFriendRequest(request.friendship_id);
+            friendService.RejectFriendRequest(request.FriendshipId);
             Requests.Remove((FriendRequestViewModel)sender);
         }
 
         private void SendFriendRequest()
         {
+            var playerService = new PlayerServiceClient();
             var username = AddresseeUsername.Trim();
-            var addressee = TempPlayerService.GetPlayerByUsername(username);
+            var addressee = playerService.GetPlayerByUsername(username);
             if (addressee != null)
             {
-                var result = FriendshipService.SendFrienshipRequest(CurrentPlayer.Instance.Id, addressee.player_id);
+
+                // to-do: pending functionality
+
+                var result = friendService.SendFriendRequest(CurrentPlayer.Instance.Id, addressee.PlayerId);
 
                 switch (result)
                 {
-                    case RequestStatusEnum.Success:
+                    case "Success":
                         dialogService.ShowSuccess(Properties.Resources.SuccessNotification_FriendRequestSent);
                         break;
-                    case RequestStatusEnum.Pending:
+                    case "Pending":
                         dialogService.ShowError(Properties.Resources.ErrorNotification_FriendRequestPending);
                         break;
-                    case RequestStatusEnum.Error:
+                    case "Error":
                         dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorSendingFriendRequest);
                         break;
                 }
