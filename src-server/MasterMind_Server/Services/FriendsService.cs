@@ -13,6 +13,7 @@ namespace MasterMind_Server.Services
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(FriendsService));
         private readonly ErrorMessage clientMessage = new ErrorMessage();
+        private readonly FriendsRepository friendsRepository = new FriendsRepository();
 
         public string AcceptFriendRequest(int requestId)
         {
@@ -23,7 +24,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var friendRequest = FriendsRepository.GetFriendRequest(addresseeId, requesterId);
+                var friendRequest = friendsRepository.GetFriendRequest(addresseeId, requesterId);
                 return friendRequest;
             }
             catch (EntityException)
@@ -37,7 +38,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var friendships = FriendsRepository.GetFriendRequests(playerId);
+                var friendships = friendsRepository.GetFriendRequests(playerId);
                 return friendships;
             }
             catch (EntityException)
@@ -51,7 +52,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var friendRequest = FriendsRepository.GetFriendship(addresseeId, requesterId);
+                var friendRequest = friendsRepository.GetFriendship(addresseeId, requesterId);
                 return friendRequest;
             }
             catch (EntityException)
@@ -65,7 +66,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var friendships = FriendsRepository.GetFriendships(playerId);
+                var friendships = friendsRepository.GetFriendships(playerId);
                 return friendships;
             }
             catch (EntityException)

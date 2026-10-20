@@ -1,19 +1,20 @@
 ﻿using log4net;
 using MasterMind_Server.Data;
 using MasterMind_Server.Repositories.Enums;
+using MasterMind_Server.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace MasterMind_Server.Repositories
 {
-    internal class FriendsRepository
+    internal class FriendsRepository : IFriendsRepository
     {
-        private readonly static ILog logger = LogManager.GetLogger(typeof(PlayerRepository));
-        private readonly static MasterMindEntities Context = new MasterMindEntities(true);
+        private readonly ILog logger = LogManager.GetLogger(typeof(PlayerRepository));
+        private readonly MasterMindEntities Context = new MasterMindEntities(true);
+        private readonly PlayerRepository playerRepository = new PlayerRepository();
 
-        public static List<Contracts.Player> GetFriendships(int playerId)
+        public List<Contracts.Player> GetFriendships(int playerId)
         {
             try
             {
@@ -32,7 +33,7 @@ namespace MasterMind_Server.Repositories
 
                 foreach (var friendId in friendsIds)
                 {
-                    var friend = PlayerRepository.GetPlayerById(friendId);
+                    var friend = playerRepository.GetPlayerById(friendId);
                     if (friend != null)
                     {
 
@@ -49,7 +50,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        private static Contracts.Player PlayerEntityToPlayerContract(Player player)
+        private Contracts.Player PlayerEntityToPlayerContract(Player player)
         {
             return new Contracts.Player
             {
@@ -61,7 +62,7 @@ namespace MasterMind_Server.Repositories
         }
 
 
-        public static List<Contracts.Player> GetFriendRequests(int playerId)
+        public List<Contracts.Player> GetFriendRequests(int playerId)
         {
             try
             {
@@ -84,7 +85,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        private static List<int> GetFriendsIds(List<Friendship> friendships, int playerId)
+        private List<int> GetFriendsIds(List<Friendship> friendships, int playerId)
         {
             List<int> friendsIds = new List<int>();
 
@@ -106,13 +107,13 @@ namespace MasterMind_Server.Repositories
             return friendsIds;
         }
 
-        private static List<Contracts.Player> GetFriendshipsFromIds(List<int> friendsIds)
+        private List<Contracts.Player> GetFriendshipsFromIds(List<int> friendsIds)
         {
             List<Contracts.Player> friends = new List<Contracts.Player>();
 
             foreach (var friendId in friendsIds)
             {
-                var friendEntity = PlayerRepository.GetPlayerById(friendId);
+                var friendEntity = playerRepository.GetPlayerById(friendId);
                 if (friendEntity != null)
                 {
                     var friend = new Contracts.Player
@@ -130,7 +131,7 @@ namespace MasterMind_Server.Repositories
             return friends;
         }
 
-        public static Contracts.Friendship GetFriendship(int addresseeId, int requesterId)
+        public Contracts.Friendship GetFriendship(int addresseeId, int requesterId)
         {
             try
             {
@@ -153,8 +154,8 @@ namespace MasterMind_Server.Repositories
                     request = new Contracts.Friendship
                     {
                         FriendshipId = requestEntity.friendship_id,
-                        AddresseeUsername = PlayerRepository.GetPlayerById(requestEntity.addressee_id).username,
-                        RequesterUsername = PlayerRepository.GetPlayerById(requestEntity.requester_id).username,
+                        AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                        RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
                         Status = FriendshipStatusEnum.Accepted.ToString()
                     };
                 }
@@ -168,7 +169,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        public static Contracts.Friendship GetFriendRequest(int addresseeId, int requesterId)
+        public Contracts.Friendship GetFriendRequest(int addresseeId, int requesterId)
         {
             try
             {
@@ -191,8 +192,8 @@ namespace MasterMind_Server.Repositories
                     request = new Contracts.Friendship
                     {
                         FriendshipId = requestEntity.friendship_id,
-                        AddresseeUsername = PlayerRepository.GetPlayerById(requestEntity.addressee_id).username,
-                        RequesterUsername = PlayerRepository.GetPlayerById(requestEntity.requester_id).username,
+                        AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                        RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
                         Status = FriendshipStatusEnum.Accepted.ToString()
                     };
                 }

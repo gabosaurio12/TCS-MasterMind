@@ -2,17 +2,18 @@
 using MasterMind_Server.Data;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
+using MasterMind_Server.Repositories.Interfaces;
 using System.Data.Entity.Core;
 using System.Linq;
 
 namespace MasterMind_Server.Repositories
 {
-    internal class PlayerRepository
+    internal class PlayerRepository : IPlayerRepository
     {
-        private readonly static ILog logger = LogManager.GetLogger(typeof(PlayerRepository));
-        private readonly static MasterMindEntities Context = new MasterMindEntities(true);
+        private readonly ILog logger = LogManager.GetLogger(typeof(PlayerRepository));
+        private readonly MasterMindEntities Context = new MasterMindEntities(true);
 
-        public static string CreatePlayer(Player player)
+        public string CreatePlayer(Player player)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        private static string ValidateData(Player player)
+        private string ValidateData(Player player)
         {
             if (Context.Player.Any(p => p.username == player.username))
             {
@@ -51,7 +52,7 @@ namespace MasterMind_Server.Repositories
             return RepositoriesEnum.ValidInfo.ToString();
         }
 
-        public static Player GetPlayerByUsername(string username)
+        public Player GetPlayerByUsername(string username)
         {
             try
             {
@@ -66,7 +67,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        public static Player GetPlayerById(int playerId)
+        public Player GetPlayerById(int playerId)
         {
             try
             {
@@ -81,7 +82,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        public static PlayerRecordsDto GetPlayerRecords(string username)
+        public PlayerRecordsDto GetPlayerRecords(string username)
         {
             try
             {
@@ -116,7 +117,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        public static string UpdatePlayer(Player player)
+        public string UpdatePlayer(Player player)
         {
             string validationResult = ValidateData(player);
             if (validationResult.Equals(RepositoriesEnum.ValidInfo))
@@ -147,7 +148,7 @@ namespace MasterMind_Server.Repositories
             return validationResult;
         }
 
-        public static string UpdatePassword(string username, string password)
+        public string UpdatePassword(string username, string password)
         {
             try
             {
@@ -168,9 +169,9 @@ namespace MasterMind_Server.Repositories
                 logger.Error(ex);
                 throw ex;
             }
-        }        
+        }
 
-        public static string ReportPlayer(ReportDto report)
+        public string ReportPlayer(ReportDto report)
         {
             try
             {
@@ -206,7 +207,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        private static PlayerReport MakePlayerReport(ReportDto report, int[] playerIds)
+        private PlayerReport MakePlayerReport(ReportDto report, int[] playerIds)
         {
             int inappropriateLanguageId;
             int cheatingId;
