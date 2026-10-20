@@ -1,5 +1,6 @@
 ﻿using log4net;
 using MasterMind_Server.Data;
+using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using System.Data.Entity.Core;
 using System.Linq;
@@ -11,32 +12,43 @@ namespace MasterMind_Server.Repositories
         private readonly static ILog logger = LogManager.GetLogger(typeof(PlayerRepository));
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);
 
-        public static (bool, string) CreatePlayer(Player player)
+        public static string CreatePlayer(Player player)
         {
             try
             {
-                if (Context.Player.Any(p => p.username == player.username))
+                var validationResult = ValidateData(player);
+
+                if (validationResult.Equals(RepositoriesEnum.ValidInfo))
                 {
-                    return (false, RepositoriesEnum.UsernameTaken.ToString());
+                    player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
+
+                    Context.Player.Add(player);
+                    Context.SaveChanges();
+
+                    validationResult = RepositoriesEnum.Success.ToString();
                 }
-                if (Context.Player.Any(p => p.email == player.email))
-                {
-                    return (false, RepositoriesEnum.EmailTaken.ToString());
-                }
 
-                player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
-
-                Context.Player.Add(player);
-                Context.SaveChanges();
-
-                return (true, RepositoriesEnum.Success.ToString());
+                return validationResult;
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        private static string ValidateData(Player player)
+        {
+            if (Context.Player.Any(p => p.username == player.username))
+            {
+                return RepositoriesEnum.UsernameTaken.ToString();
+            }
+            if (Context.Player.Any(p => p.email == player.email))
+            {
+                return RepositoriesEnum.EmailTaken.ToString();
             }
 
-            return (false, RepositoriesEnum.Error.ToString());
+            return RepositoriesEnum.ValidInfo.ToString();
         }
 
         public static Player GetPlayerByUsername(string username)
@@ -44,17 +56,14 @@ namespace MasterMind_Server.Repositories
             try
             {
                 var player = Context.Player.FirstOrDefault(p => p.username == username);
-                if (player != null)
-                {
-                    return player;
-                }
+
+                return player;
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
+                throw ex;
             }
-
-            return null;
         }
 
         public static Player GetPlayerById(int playerId)
@@ -62,17 +71,178 @@ namespace MasterMind_Server.Repositories
             try
             {
                 var player = Context.Player.FirstOrDefault(p => p.player_id == playerId);
-                if (player != null)
-                {
-                    return player;
-                }
+
+                return player;
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public static PlayerRecordsDto GetPlayerRecords(string username)
+        {
+            try
+            {
+                var player = GetPlayerByUsername(username);
+                if (player != null)
+                {
+                    var triesRecords = Context.PlayerTriesRecords
+                        .Where(tr => tr.player_id == player.player_id)
+                        .OrderBy(gr => gr.rank)
+                        .Select(gr => gr.rank)
+                        .ToArray();
+                    var timeTrialRecords = Context.PlayerTimeTrialRecords
+                        .Where(gr => gr.player_id == player.player_id)
+                        .OrderBy(gr => gr.rank)
+                        .Select(gr => gr.rank)
+                        .ToArray();
+
+                    return new PlayerRecordsDto
+                    {
+                        PlayerUsername = player.username,
+                        PlayerTriesRecords = triesRecords,
+                        PlayerTimeTrialRecords = timeTrialRecords
+                    };
+                }
+
+                return null;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public static string UpdatePlayer(Player player)
+        {
+            string validationResult = ValidateData(player);
+            if (validationResult.Equals(RepositoriesEnum.ValidInfo))
+            {
+                var formerPlayer = GetPlayerById(player.player_id);
+                if (formerPlayer != null)
+                {
+                    formerPlayer.username = player.username;
+                    formerPlayer.email = player.email;
+
+                    try
+                    {
+                        Context.SaveChanges();
+                        return RepositoriesEnum.Success.ToString();
+                    }
+                    catch (EntityException ex)
+                    {
+                        logger.Error(ex);
+                        throw ex;
+                    }
+                }
+                else
+                {
+                    validationResult = RepositoriesEnum.PlayerNotFound.ToString();
+                }
             }
 
-            return null;
+            return validationResult;
+        }
+
+        public static string UpdatePassword(string username, string password)
+        {
+            try
+            {
+                var player = GetPlayerByUsername(username);
+                if (player != null)
+                {
+                    player.password = BCrypt.Net.BCrypt.HashPassword(password);
+
+                    Context.SaveChanges();
+
+                    return RepositoriesEnum.Success.ToString();
+                }
+
+                return RepositoriesEnum.PlayerNotFound.ToString();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+        }        
+
+        public static string ReportPlayer(ReportDto report)
+        {
+            try
+            {
+                string result = "";
+
+                var reportedPlayer = GetPlayerByUsername(report.ReportedPlayerUsername);
+                if (reportedPlayer != null)
+                {
+                    var reportedByPlayer = GetPlayerByUsername(report.ReportedByPlayerUsername);
+                    if (reportedByPlayer != null)
+                    {
+                        int[] playerIds = { reportedPlayer.player_id, reportedByPlayer.player_id };
+                        var reportEntity = MakePlayerReport(report, playerIds);
+
+                        Context.PlayerReport.Add(reportEntity);
+
+                        Context.SaveChanges();
+
+                        result = RepositoriesEnum.Success.ToString();
+                    }
+
+                    result = RepositoriesEnum.PlayerNotFound.ToString();
+                }
+
+                result = RepositoriesEnum.PlayerNotFound.ToString();
+
+                return result;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        private static PlayerReport MakePlayerReport(ReportDto report, int[] playerIds)
+        {
+            int inappropriateLanguageId;
+            int cheatingId;
+            try
+            {
+                inappropriateLanguageId = Context.ReportReasonCatalog.FirstOrDefault(
+                    r => r.reason == ReportReasonEnum.InappropriateLanguage
+                    .ToString()).report_reason_id;
+
+                cheatingId = Context.ReportReasonCatalog.FirstOrDefault(
+                    r => r.reason == ReportReasonEnum.Cheating
+                    .ToString()).report_reason_id;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+
+            int reasonId;
+
+            if (report.Reason == ReportReasonEnum.InappropriateLanguage.ToString())
+            {
+                reasonId = inappropriateLanguageId;
+            }
+            else
+            {
+                reasonId = cheatingId;
+            }
+
+            return new PlayerReport
+            {
+                reported_player_id = playerIds[0],
+                reported_by_player_id = playerIds[1],
+                reason_id = reasonId
+            };
         }
     }
 }
