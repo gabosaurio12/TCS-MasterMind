@@ -19,7 +19,7 @@ namespace MasterMind_Server.Repositories
             {
                 var validationResult = ValidateData(player);
 
-                if (validationResult.Equals(RepositoriesEnum.ValidInfo))
+                if (validationResult.Equals(RepositoriesEnum.ValidInfo.ToString()))
                 {
                     player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
 

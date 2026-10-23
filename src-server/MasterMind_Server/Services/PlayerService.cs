@@ -13,7 +13,8 @@ namespace MasterMind_Server.Services
     internal class PlayerService : IPlayerService
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(PlayerService));
-        private ErrorMessage clientMessage = new ErrorMessage();
+        private readonly ErrorMessage clientMessage = new ErrorMessage();
+        private readonly PlayerRepository playerRepository = new PlayerRepository();
 
         public string RegisterPlayer(Player player)
         {
@@ -26,7 +27,7 @@ namespace MasterMind_Server.Services
 
             try
             {
-                var result = PlayerRepository.CreatePlayer(playerEntity);
+                var result = playerRepository.CreatePlayer(playerEntity);
 
                 if (result.Equals(RepositoriesEnum.Success.ToString()))
                 {
@@ -48,7 +49,7 @@ namespace MasterMind_Server.Services
         {
             var playerService = new PlayerService();
             var player = playerService.GetPlayerByUsername(username);
-            if (player != null)
+            if (player.PlayerId != 0)
             {
                 try
                 {
@@ -74,7 +75,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var playerEntity = PlayerRepository.GetPlayerByUsername(username);
+                var playerEntity = playerRepository.GetPlayerByUsername(username);
 
                 var player = new Player
                 {
@@ -107,7 +108,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var playerEntity = PlayerRepository.GetPlayerById(playerId);
+                var playerEntity = playerRepository.GetPlayerById(playerId);
 
                 var player = new Player
                 {
@@ -146,7 +147,7 @@ namespace MasterMind_Server.Services
 
             try
             {
-                var result = PlayerRepository.UpdatePlayer(playerEntity);
+                var result = playerRepository.UpdatePlayer(playerEntity);
                 
                 return result;
             }
@@ -161,7 +162,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var playerRecordsDto = PlayerRepository.GetPlayerRecords(username);
+                var playerRecordsDto = playerRepository.GetPlayerRecords(username);
 
                 var playerRecords = new PlayerRecords
                 {
@@ -188,7 +189,7 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var result = PlayerRepository.UpdatePassword(username, password);
+                var result = playerRepository.UpdatePassword(username, password);
 
                 return result;
             }
@@ -210,7 +211,7 @@ namespace MasterMind_Server.Services
 
             try
             {
-                PlayerRepository.ReportPlayer(reportDto);
+                playerRepository.ReportPlayer(reportDto);
             }
             catch (EntityException)
             {

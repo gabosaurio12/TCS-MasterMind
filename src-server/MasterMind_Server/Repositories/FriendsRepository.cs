@@ -25,7 +25,8 @@ namespace MasterMind_Server.Repositories
                 var friendships = Context.Friendship.Where(friendship => (
                     friendship.requester_id == playerId ||
                     friendship.addressee_id == playerId) &&
-                    friendship.status_id == acceptedStatusId).ToList();
+                    friendship.status_id == acceptedStatusId)
+                    .ToList();
 
                 List<int> friendsIds = GetFriendsIds(friendships, playerId);
 
@@ -67,7 +68,8 @@ namespace MasterMind_Server.Repositories
             try
             {
                 int pendingStatusId = Context.RequestStatusCatalog
-                        .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString()).request_status_id;
+                        .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString())
+                        .request_status_id;
 
                 var friendships = Context.Friendship.Where(friendship => friendship.addressee_id == playerId
                     && friendship.status_id == pendingStatusId).ToList();
@@ -194,11 +196,151 @@ namespace MasterMind_Server.Repositories
                         FriendshipId = requestEntity.friendship_id,
                         AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
                         RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                        Status = FriendshipStatusEnum.Accepted.ToString()
+                        Status = FriendshipStatusEnum.Pending.ToString()
                     };
                 }
 
                 return request;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public string SendFriendRequest(int addresseeId, int requesterId)
+        {
+            try
+            {
+                if (addresseeId == requesterId)
+                {
+                    return RepositoriesEnum.Error.ToString();
+                }
+
+                int pendingStatusId = Context.RequestStatusCatalog
+                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString()).request_status_id;
+                int acceptedStatusId = Context.RequestStatusCatalog
+                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted.ToString()).request_status_id;
+
+                var existingRequest = Context.Friendship.FirstOrDefault(req =>
+                    (req.requester_id == requesterId && req.addressee_id == addresseeId) ||
+                    (req.requester_id == addresseeId && req.addressee_id == requesterId));
+
+                if (existingRequest != null)
+                {
+                    if (existingRequest.status_id == pendingStatusId)
+                    {
+                        return RepositoriesEnum.Pending.ToString();
+                    }
+
+                    if (existingRequest.status_id == acceptedStatusId)
+                    {
+                        return RepositoriesEnum.Error.ToString();
+                    }
+
+                    return RepositoriesEnum.Error.ToString();
+                }
+
+                Context.Friendship.Add(new Friendship
+                {
+                    requester_id = requesterId,
+                    addressee_id = addresseeId,
+                    status_id = pendingStatusId
+                });
+
+                Context.SaveChanges();
+                return RepositoriesEnum.Success.ToString();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public string AcceptFriendRequest(int requestId)
+        {
+            try
+            {
+                int pendingStatusId = Context.RequestStatusCatalog
+                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString()).request_status_id;
+                int acceptedStatusId = Context.RequestStatusCatalog
+                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted.ToString()).request_status_id;
+
+                var requestEntity = Context.Friendship.FirstOrDefault(req =>
+                    req.friendship_id == requestId && req.status_id == pendingStatusId);
+
+                if (requestEntity != null)
+                {
+                    requestEntity.status_id = acceptedStatusId;
+                    Context.SaveChanges();
+                    return RepositoriesEnum.Success.ToString();
+                }
+
+                return RepositoriesEnum.Error.ToString();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public string RejectFriendRequest(int requestId)
+        {
+            try
+            {
+                int pendingStatusId = Context.RequestStatusCatalog
+                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString()).request_status_id;
+
+                var requestEntity = Context.Friendship.FirstOrDefault(req =>
+                    req.friendship_id == requestId && req.status_id == pendingStatusId);
+
+                if (requestEntity != null)
+                {
+                    Context.Friendship.Remove(requestEntity);
+                    Context.SaveChanges();
+                    return RepositoriesEnum.Success.ToString();
+                }
+
+                return RepositoriesEnum.Error.ToString();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw ex;
+            }
+        }
+
+        public string RemoveFriendship(string addresseeUsername, string requesterUsername)
+        {
+            try
+            {
+                var addressee = playerRepository.GetPlayerByUsername(addresseeUsername);
+                var requester = playerRepository.GetPlayerByUsername(requesterUsername);
+
+                if (addressee == null || requester == null)
+                {
+                    return RepositoriesEnum.PlayerNotFound.ToString();
+                }
+
+                int acceptedStatusId = Context.RequestStatusCatalog
+                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted.ToString()).request_status_id;
+
+                var friendshipEntity = Context.Friendship.FirstOrDefault(friendship =>
+                    ((friendship.requester_id == requester.player_id && friendship.addressee_id == addressee.player_id) ||
+                    (friendship.requester_id == addressee.player_id && friendship.addressee_id == requester.player_id)) &&
+                    friendship.status_id == acceptedStatusId);
+
+                if (friendshipEntity != null)
+                {
+                    Context.Friendship.Remove(friendshipEntity);
+                    Context.SaveChanges();
+                    return RepositoriesEnum.Success.ToString();
+                }
+
+                return RepositoriesEnum.Error.ToString();
             }
             catch (EntityException ex)
             {

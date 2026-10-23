@@ -12,5 +12,12 @@ namespace MasterMind_Server.Repositories.Interfaces
 
         Contracts.Friendship GetFriendRequest(int addresseeId, int requesterId);
 
+        string SendFriendRequest(int addresseeId, int requesterId);
+
+        string AcceptFriendRequest(int requestId);
+
+        string RejectFriendRequest(int requestId);
+
+        string RemoveFriendship(string addresseeUsername, string requesterUsername);
     }
 }

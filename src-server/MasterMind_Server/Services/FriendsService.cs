@@ -1,8 +1,6 @@
-﻿using log4net;
-using MasterMind_Server.Contracts;
+﻿using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.ServiceModel;
@@ -11,13 +9,21 @@ namespace MasterMind_Server.Services
 {
     internal class FriendsService : IFriendsService
     {
-        private readonly static ILog logger = LogManager.GetLogger(typeof(FriendsService));
         private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly FriendsRepository friendsRepository = new FriendsRepository();
 
         public string AcceptFriendRequest(int requestId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = friendsRepository.AcceptFriendRequest(requestId);
+                return result;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
         }
 
         public Friendship GetFriendRequest(int addresseeId, int requesterId)
@@ -78,17 +84,44 @@ namespace MasterMind_Server.Services
 
         public string RejectFriendRequest(int requestId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = friendsRepository.RejectFriendRequest(requestId);
+                return result;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
         }
 
         public string RemoveFriendship(string addresseeUsername, string requesterUsername)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = friendsRepository.RemoveFriendship(addresseeUsername, requesterUsername);
+                return result;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
         }
 
-        public string SendFriendRequest(int addresseId, int requesterId)
+        public string SendFriendRequest(int addresseeId, int requesterId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = friendsRepository.SendFriendRequest(addresseeId, requesterId);
+                return result;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
         }
     }
 }

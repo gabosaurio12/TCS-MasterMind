@@ -9,6 +9,7 @@
         Error,
         WrongCode,
         PlayerNotFound,
-        DatabaseError
+        DatabaseError,
+        Pending
     }
 }

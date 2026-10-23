@@ -1,7 +1,6 @@
 ﻿using MasterMind_Server.Exceptions;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace MasterMind_Server.Contracts
 {

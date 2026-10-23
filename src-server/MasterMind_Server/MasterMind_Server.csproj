@@ -327,6 +327,8 @@
     <Compile Include="Repositories\Enums\ReportReasonEnum.cs" />
     <Compile Include="Repositories\Enums\RepositoriesEnum.cs" />
     <Compile Include="Repositories\FriendsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IFriendsRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IPlayerRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
     <Compile Include="Services\CodeService.cs" />
