@@ -54,7 +54,7 @@
 
                 <TextBox x:Name="UsernameTxt" Style="{StaticResource MetalTextBox}"
                          FontFamily="{StaticResource Elite}"
-                         Width="600" Height="84" FontSize="44" Margin="0,10,0,30"
+                         Width="600" Height="80" FontSize="40" Margin="0,10,0,30"
                          Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label x:Name="PasswordLbl" Content="{x:Static p:Resources.Player_Password}"
@@ -62,7 +62,7 @@
 
                 <PasswordBox x:Name="PasswordTxt" Style="{StaticResource MetalPasswordBox}"
                              FontFamily="{StaticResource Elite}"
-                             Width="600" Height="84" FontSize="44" Margin="0,10,0,0"
+                             Width="600" Height="80" FontSize="40" Margin="0,10,0,0"
                              PasswordChanged="PasswordTxt_PasswordChanged" />
 
                 <CheckBox x:Name="RememberLoginCheck" Style="{StaticResource MetalCheckBox}"
@@ -72,8 +72,8 @@
                           IsChecked="{Binding RememberLogin, Mode=TwoWay}" />
 
                 <Button x:Name="LoginBtn" Style="{StaticResource MetalButtonGreen}"
-                        FontFamily="{StaticResource Elite}" FontSize="48"
-                        Width="280" Height="124" Margin="0,40,0,0"
+                        FontFamily="{StaticResource Elite}" FontSize="38"
+                        Width="200" Height="100" Margin="0,40,0,0"
                         Content="{x:Static p:Resources.LoginPage_Login}"
                         Command="{Binding LoginCommand}" />
 
@@ -95,7 +95,7 @@
         <Button x:Name="LanguageBtn" Grid.Column="1"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Margin="0,0,50,40"
-                Width="153" Height="125" Content="🌐"
+                Width="100" Height="80" Content="🌐"
                 Style="{StaticResource MetalButtonBlue}"
                 FontFamily="{StaticResource Elite}" FontSize="32"
                 Command="{Binding LanguageCommand}" />

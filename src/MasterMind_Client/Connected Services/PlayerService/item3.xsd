@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
-  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
   <xs:element name="RegisterPlayer">
     <xs:complexType>
       <xs:sequence>
@@ -12,7 +11,7 @@
   <xs:element name="RegisterPlayerResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="RegisterPlayerResult" type="q2:ValueTupleOfbooleanstring" />
+        <xs:element minOccurs="0" name="RegisterPlayerResult" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -41,7 +40,7 @@
   <xs:element name="GetPlayerByUsernameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="GetPlayerByUsernameResult" nillable="true" type="q3:Player" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="GetPlayerByUsernameResult" nillable="true" type="q2:Player" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -55,8 +54,63 @@
   <xs:element name="GetPlayerByIdResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="GetPlayerByIdResult" nillable="true" type="q4:Player" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="GetPlayerByIdResult" nillable="true" type="q3:Player" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdatePlayer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="player" nillable="true" type="q4:Player" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdatePlayerResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdatePlayerResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPlayerRecords">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPlayerRecordsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="GetPlayerRecordsResult" nillable="true" type="q5:PlayerRecords" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangePassword">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangePasswordResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ChangePasswordResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReportPlayer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="report" nillable="true" type="q6:Report" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReportPlayerResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

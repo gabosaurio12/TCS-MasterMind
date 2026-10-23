@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace MasterMind_Client.Modals
 {
@@ -10,6 +11,19 @@ namespace MasterMind_Client.Modals
         public FriendsModal()
         {
             InitializeComponent();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            if (Owner != null)
+            {
+                Owner.Activate();
+            }
+            else if (Application.Current.MainWindow != null)
+            {
+                Application.Current.MainWindow.Activate();
+            }
         }
     }
 }

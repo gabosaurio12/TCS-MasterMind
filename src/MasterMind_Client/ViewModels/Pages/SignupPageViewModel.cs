@@ -81,7 +81,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
             var service = new PlayerServiceClient();
             var result = service.RegisterPlayer(player);
-            switch (result.Item2)
+            switch (result)
             {
                 case "Success":
                     dialogService.ShowSuccess(

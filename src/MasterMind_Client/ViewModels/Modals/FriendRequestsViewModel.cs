@@ -38,7 +38,7 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private void AddRequest(FriendsService.Player requester)
         {
-            var friendRequest = friendService.GetFriendRequest(requester.PlayerId, CurrentPlayer.Instance.Id);
+            var friendRequest = friendService.GetFriendRequest(CurrentPlayer.Instance.Id, requester.PlayerId);
             var requestControl = new FriendRequestViewModel(requester.Username, friendRequest);
             requestControl.Accepted += OnRequestAccepted;
             requestControl.Rejected += OnRequestRejected;
@@ -65,9 +65,7 @@ namespace MasterMind_Client.ViewModels.Modals
             if (addressee != null)
             {
 
-                // to-do: pending functionality
-
-                var result = friendService.SendFriendRequest(CurrentPlayer.Instance.Id, addressee.PlayerId);
+                var result = friendService.SendFriendRequest(addressee.PlayerId, CurrentPlayer.Instance.Id);
 
                 switch (result)
                 {

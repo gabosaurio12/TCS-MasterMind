@@ -34,8 +34,8 @@
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
-      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
-      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IPlayerService_RegisterPlayer_InputMessage">
@@ -71,6 +71,42 @@
   <wsdl:message name="IPlayerService_GetPlayerById_ErrorMessageFault_FaultMessage">
     <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q3:ErrorMessage" />
   </wsdl:message>
+  <wsdl:message name="IPlayerService_UpdatePlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePlayer" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_UpdatePlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdatePlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_UpdatePlayer_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q4:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_GetPlayerRecords_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerRecords" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_GetPlayerRecords_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerRecordsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_GetPlayerRecords_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q5:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_ChangePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_ChangePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_ChangePassword_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q6:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_ReportPlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReportPlayer" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_ReportPlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReportPlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerService_ReportPlayer_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q7:ErrorMessage" />
+  </wsdl:message>
   <wsdl:portType name="IPlayerService">
     <wsdl:operation name="RegisterPlayer">
       <wsdl:input wsaw:Action="http://tempuri.org/IPlayerService/RegisterPlayer" message="tns:IPlayerService_RegisterPlayer_InputMessage" />
@@ -90,6 +126,26 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IPlayerService/GetPlayerById" message="tns:IPlayerService_GetPlayerById_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPlayerService/GetPlayerByIdResponse" message="tns:IPlayerService_GetPlayerById_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerService/GetPlayerByIdErrorMessageFault" name="ErrorMessageFault" message="tns:IPlayerService_GetPlayerById_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerService/UpdatePlayer" message="tns:IPlayerService_UpdatePlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerService/UpdatePlayerResponse" message="tns:IPlayerService_UpdatePlayer_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerService/UpdatePlayerErrorMessageFault" name="ErrorMessageFault" message="tns:IPlayerService_UpdatePlayer_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayerRecords">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerService/GetPlayerRecords" message="tns:IPlayerService_GetPlayerRecords_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerService/GetPlayerRecordsResponse" message="tns:IPlayerService_GetPlayerRecords_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerService/GetPlayerRecordsErrorMessageFault" name="ErrorMessageFault" message="tns:IPlayerService_GetPlayerRecords_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerService/ChangePassword" message="tns:IPlayerService_ChangePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerService/ChangePasswordResponse" message="tns:IPlayerService_ChangePassword_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerService/ChangePasswordErrorMessageFault" name="ErrorMessageFault" message="tns:IPlayerService_ChangePassword_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReportPlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerService/ReportPlayer" message="tns:IPlayerService_ReportPlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerService/ReportPlayerResponse" message="tns:IPlayerService_ReportPlayer_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerService/ReportPlayerErrorMessageFault" name="ErrorMessageFault" message="tns:IPlayerService_ReportPlayer_ErrorMessageFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IPlayerService" type="tns:IPlayerService">
@@ -130,6 +186,54 @@
     </wsdl:operation>
     <wsdl:operation name="GetPlayerById">
       <soap12:operation soapAction="http://tempuri.org/IPlayerService/GetPlayerById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdatePlayer">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerService/UpdatePlayer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayerRecords">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerService/GetPlayerRecords" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerService/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ReportPlayer">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerService/ReportPlayer" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

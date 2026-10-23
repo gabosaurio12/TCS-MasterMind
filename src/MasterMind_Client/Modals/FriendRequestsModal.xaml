@@ -46,15 +46,15 @@
 
                         <Viewbox StretchDirection="DownOnly" MaxHeight="80">
                             <TextBox x:Name="AddreseeUsernameTxt" Style="{StaticResource MetalTextBox}"
-                                     Width="400" Height="70" Padding="24,0"
-                                     FontFamily="{StaticResource Elite}" FontSize="40"
+                                     Width="400" Height="54" Padding="24,0"
+                                     FontFamily="{StaticResource Elite}" FontSize="32"
                                      Foreground="{StaticResource InkMutedBrush}"
                                      Text="{Binding AddresseeUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      GotFocus="AddreseeUsernameTxt_GotFocus" LostFocus="AddreseeUsernameTxt_LostFocus" />
                         </Viewbox>
 
                         <Button x:Name="SendFriendRequestBtn" Style="{StaticResource MetalButtonPlus}"
-                                Width="70" Height="70" Padding="0" Margin="16,0,0,0"
+                                Width="60" Height="60" Padding="0" Margin="16,0,0,0"
                                 Command="{Binding SendCommand}" />
                     </StackPanel>
 

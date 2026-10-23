@@ -670,6 +670,9 @@
     <None Include="Connected Services\PlayerService\MasterMind_Client.PlayerService.Player.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\PlayerService\MasterMind_Client.PlayerService.PlayerRecords.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PlayerService\PlayerService.wsdl" />
     <None Include="Data\MasterMindModel.edmx.diagram">
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
