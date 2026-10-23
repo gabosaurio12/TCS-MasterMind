@@ -26,7 +26,7 @@
                 <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="100">
                     <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.FriendRequestsModal_Title}"
                            Style="{StaticResource MetalTitleLbl}"
-                           FontFamily="{StaticResource Elite}" FontSize="56" />
+                           FontFamily="{StaticResource Elite}" FontSize="36" />
                 </Viewbox>
 
                 <ScrollViewer Grid.Row="1" Margin="0,30,0,0" VerticalScrollBarVisibility="Auto">
@@ -46,21 +46,21 @@
 
                         <Viewbox StretchDirection="DownOnly" MaxHeight="80">
                             <TextBox x:Name="AddreseeUsernameTxt" Style="{StaticResource MetalTextBox}"
-                                     Width="420" Height="80" Padding="24,0"
-                                     FontFamily="{StaticResource Elite}" FontSize="40"
+                                     Width="400" Height="54" Padding="24,0"
+                                     FontFamily="{StaticResource Elite}" FontSize="32"
                                      Foreground="{StaticResource InkMutedBrush}"
                                      Text="{Binding AddresseeUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      GotFocus="AddreseeUsernameTxt_GotFocus" LostFocus="AddreseeUsernameTxt_LostFocus" />
                         </Viewbox>
 
                         <Button x:Name="SendFriendRequestBtn" Style="{StaticResource MetalButtonPlus}"
-                                Width="88" Height="88" Padding="0" Margin="16,0,0,0"
+                                Width="60" Height="60" Padding="0" Margin="16,0,0,0"
                                 Command="{Binding SendCommand}" />
                     </StackPanel>
 
                     <Button x:Name="CloseBtn" Style="{StaticResource MetalButtonBlue}"
                             Width="230" Height="88" Margin="0,26,0,0"
-                            FontFamily="{StaticResource Elite}" FontSize="42"
+                            FontFamily="{StaticResource Elite}" FontSize="40"
                             Content="{x:Static p:Resources.UI_Close}"
                             Command="{Binding CloseCommand}" />
                 </StackPanel>

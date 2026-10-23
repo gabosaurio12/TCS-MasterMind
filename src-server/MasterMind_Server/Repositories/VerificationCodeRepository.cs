@@ -1,18 +1,14 @@
 ﻿using log4net;
 using MasterMind_Server.Data;
-using MasterMind_Server.Exceptions;
-using MasterMind_Server.Repositories.Enums;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Security.Cryptography;
-using System.ServiceModel;
 
 namespace MasterMind_Server.Repositories
 {
     internal class VerificationCodeRepository
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(VerificationCodeRepository));
-
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);
 
         private static string GenerateVerificationCode()
@@ -69,11 +65,11 @@ namespace MasterMind_Server.Repositories
             return (false, "");
         }
 
-        public static (bool, string) AuthVerificationCode(string username, string code)
+        public static bool AuthVerificationCode(string username, string code)
         {
             try
             {
-                var player = PlayerRepository.GetPlayerByUsername(username);
+                var player = new PlayerRepository().GetPlayerByUsername(username);
                 if (player != null)
                 {
                     var authCode = Context.VerificationCode.FirstOrDefault(
@@ -84,16 +80,16 @@ namespace MasterMind_Server.Repositories
                     {
                         Context.VerificationCode.Remove(authCode);
                         Context.SaveChanges();
-                        return (true, RepositoriesEnum.Success.ToString());
+                        return true;
                     }
-                    return (false, RepositoriesEnum.WrongCode.ToString());
                 }
+                return false;
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
+                throw ex;
             }
-            return (false, RepositoriesEnum.DatabaseError.ToString());
         }
     }
 }

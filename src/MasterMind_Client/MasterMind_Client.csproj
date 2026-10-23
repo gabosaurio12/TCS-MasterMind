@@ -242,6 +242,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\FriendsService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\PlayerService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -628,6 +633,25 @@
     <None Include="Connected Services\CodeService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\FriendsService\FriendsService.wsdl" />
+    <None Include="Connected Services\FriendsService\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendsService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendsService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendsService\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendsService\MasterMind_Client.FriendsService.Friendship.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\FriendsService\MasterMind_Client.FriendsService.Player.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PlayerService\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -644,6 +668,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\PlayerService\MasterMind_Client.PlayerService.Player.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PlayerService\MasterMind_Client.PlayerService.PlayerRecords.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\PlayerService\PlayerService.wsdl" />
@@ -691,6 +718,13 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Connected Services\FriendsService\item.disco" />
+    <None Include="Connected Services\FriendsService\configuration91.svcinfo" />
+    <None Include="Connected Services\FriendsService\configuration.svcinfo" />
+    <None Include="Connected Services\FriendsService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Data\MasterMindModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
@@ -710,6 +744,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\CodeService\" />
+    <WCFMetadataStorage Include="Connected Services\FriendsService\" />
     <WCFMetadataStorage Include="Connected Services\PlayerService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

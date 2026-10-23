@@ -8,7 +8,7 @@ namespace MasterMind_Server.Contracts
     interface IPlayerService
     {
         [OperationContract]
-        (bool, string) RegisterPlayer(Player player);
+        string RegisterPlayer(Player player);
 
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
@@ -22,6 +22,21 @@ namespace MasterMind_Server.Contracts
         [FaultContract(typeof(ErrorMessage))]
         Player GetPlayerById(int playerId);
 
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        string UpdatePlayer(Player player);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        PlayerRecords GetPlayerRecords(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        string ChangePassword(string username, string password);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        void ReportPlayer(Report report);
     }
 
     [DataContract]
@@ -43,5 +58,25 @@ namespace MasterMind_Server.Contracts
         public bool IsOnline { get; set; }
     }
 
+    [DataContract]
+    public class PlayerRecords
+    {
+        [DataMember]
+        public string PlayerUsername { get; set; }
+        [DataMember]
+        public int[] TriesRecords { get; set; }
+        [DataMember]
+        public int[] TimeTrialRecords { get; set; }
+    }
 
+    [DataContract]
+    public class Report
+    {
+        [DataMember]
+        public string Reason { get; set; }
+        [DataMember]
+        public string ReportedPlayerUsername { get; set; }
+        [DataMember]
+        public string ReportedByPlayerUsername { get; set; }
+    }
 }

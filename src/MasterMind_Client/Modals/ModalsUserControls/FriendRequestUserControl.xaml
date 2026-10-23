@@ -17,7 +17,7 @@
         <Grid Grid.Column="0" Width="100" Height="100"
               HorizontalAlignment="Center" VerticalAlignment="Center">
 
-            <Ellipse Width="80" Height="80">
+            <Ellipse Width="75" Height="75">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{StaticResource AvatarImage}" Stretch="UniformToFill" />
                 </Ellipse.Fill>
@@ -31,7 +31,7 @@
 
         <Viewbox Grid.Column="1" StretchDirection="DownOnly" MaxHeight="70"
                  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,8,0">
-            <TextBlock x:Name="UsernameTxt" FontFamily="{StaticResource Elite}" FontSize="60"
+            <TextBlock x:Name="UsernameTxt" FontFamily="{StaticResource Elite}" FontSize="46"
                        Foreground="{StaticResource CreamBrush}" Text="{Binding Username}" />
         </Viewbox>
 

@@ -199,15 +199,169 @@ namespace MasterMind_Client.PlayerService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerRecords", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts")]
+    [System.SerializableAttribute()]
+    public partial class PlayerRecords : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PlayerUsernameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int[] TimeTrialRecordsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int[] TriesRecordsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PlayerUsername {
+            get {
+                return this.PlayerUsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PlayerUsernameField, value) != true)) {
+                    this.PlayerUsernameField = value;
+                    this.RaisePropertyChanged("PlayerUsername");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int[] TimeTrialRecords {
+            get {
+                return this.TimeTrialRecordsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TimeTrialRecordsField, value) != true)) {
+                    this.TimeTrialRecordsField = value;
+                    this.RaisePropertyChanged("TimeTrialRecords");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int[] TriesRecords {
+            get {
+                return this.TriesRecordsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TriesRecordsField, value) != true)) {
+                    this.TriesRecordsField = value;
+                    this.RaisePropertyChanged("TriesRecords");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Report", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts")]
+    [System.SerializableAttribute()]
+    public partial class Report : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ReasonField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ReportedByPlayerUsernameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ReportedPlayerUsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Reason {
+            get {
+                return this.ReasonField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReasonField, value) != true)) {
+                    this.ReasonField = value;
+                    this.RaisePropertyChanged("Reason");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ReportedByPlayerUsername {
+            get {
+                return this.ReportedByPlayerUsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReportedByPlayerUsernameField, value) != true)) {
+                    this.ReportedByPlayerUsernameField = value;
+                    this.RaisePropertyChanged("ReportedByPlayerUsername");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ReportedPlayerUsername {
+            get {
+                return this.ReportedPlayerUsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ReportedPlayerUsernameField, value) != true)) {
+                    this.ReportedPlayerUsernameField = value;
+                    this.RaisePropertyChanged("ReportedPlayerUsername");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="PlayerService.IPlayerService")]
     public interface IPlayerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/RegisterPlayer", ReplyAction="http://tempuri.org/IPlayerService/RegisterPlayerResponse")]
-        System.ValueTuple<bool, string> RegisterPlayer(MasterMind_Client.PlayerService.Player player);
+        string RegisterPlayer(MasterMind_Client.PlayerService.Player player);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/RegisterPlayer", ReplyAction="http://tempuri.org/IPlayerService/RegisterPlayerResponse")]
-        System.Threading.Tasks.Task<System.ValueTuple<bool, string>> RegisterPlayerAsync(MasterMind_Client.PlayerService.Player player);
+        System.Threading.Tasks.Task<string> RegisterPlayerAsync(MasterMind_Client.PlayerService.Player player);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/LoginPlayer", ReplyAction="http://tempuri.org/IPlayerService/LoginPlayerResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/LoginPlayerErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
@@ -229,6 +383,34 @@ namespace MasterMind_Client.PlayerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/GetPlayerById", ReplyAction="http://tempuri.org/IPlayerService/GetPlayerByIdResponse")]
         System.Threading.Tasks.Task<MasterMind_Client.PlayerService.Player> GetPlayerByIdAsync(int playerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/UpdatePlayer", ReplyAction="http://tempuri.org/IPlayerService/UpdatePlayerResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/UpdatePlayerErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        string UpdatePlayer(MasterMind_Client.PlayerService.Player player);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/UpdatePlayer", ReplyAction="http://tempuri.org/IPlayerService/UpdatePlayerResponse")]
+        System.Threading.Tasks.Task<string> UpdatePlayerAsync(MasterMind_Client.PlayerService.Player player);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/GetPlayerRecords", ReplyAction="http://tempuri.org/IPlayerService/GetPlayerRecordsResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/GetPlayerRecordsErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        MasterMind_Client.PlayerService.PlayerRecords GetPlayerRecords(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/GetPlayerRecords", ReplyAction="http://tempuri.org/IPlayerService/GetPlayerRecordsResponse")]
+        System.Threading.Tasks.Task<MasterMind_Client.PlayerService.PlayerRecords> GetPlayerRecordsAsync(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/ChangePassword", ReplyAction="http://tempuri.org/IPlayerService/ChangePasswordResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/ChangePasswordErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        string ChangePassword(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/ChangePassword", ReplyAction="http://tempuri.org/IPlayerService/ChangePasswordResponse")]
+        System.Threading.Tasks.Task<string> ChangePasswordAsync(string username, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/ReportPlayer", ReplyAction="http://tempuri.org/IPlayerService/ReportPlayerResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/ReportPlayerErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void ReportPlayer(MasterMind_Client.PlayerService.Report report);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/ReportPlayer", ReplyAction="http://tempuri.org/IPlayerService/ReportPlayerResponse")]
+        System.Threading.Tasks.Task ReportPlayerAsync(MasterMind_Client.PlayerService.Report report);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -258,11 +440,11 @@ namespace MasterMind_Client.PlayerService {
                 base(binding, remoteAddress) {
         }
         
-        public System.ValueTuple<bool, string> RegisterPlayer(MasterMind_Client.PlayerService.Player player) {
+        public string RegisterPlayer(MasterMind_Client.PlayerService.Player player) {
             return base.Channel.RegisterPlayer(player);
         }
         
-        public System.Threading.Tasks.Task<System.ValueTuple<bool, string>> RegisterPlayerAsync(MasterMind_Client.PlayerService.Player player) {
+        public System.Threading.Tasks.Task<string> RegisterPlayerAsync(MasterMind_Client.PlayerService.Player player) {
             return base.Channel.RegisterPlayerAsync(player);
         }
         
@@ -288,6 +470,38 @@ namespace MasterMind_Client.PlayerService {
         
         public System.Threading.Tasks.Task<MasterMind_Client.PlayerService.Player> GetPlayerByIdAsync(int playerId) {
             return base.Channel.GetPlayerByIdAsync(playerId);
+        }
+        
+        public string UpdatePlayer(MasterMind_Client.PlayerService.Player player) {
+            return base.Channel.UpdatePlayer(player);
+        }
+        
+        public System.Threading.Tasks.Task<string> UpdatePlayerAsync(MasterMind_Client.PlayerService.Player player) {
+            return base.Channel.UpdatePlayerAsync(player);
+        }
+        
+        public MasterMind_Client.PlayerService.PlayerRecords GetPlayerRecords(string username) {
+            return base.Channel.GetPlayerRecords(username);
+        }
+        
+        public System.Threading.Tasks.Task<MasterMind_Client.PlayerService.PlayerRecords> GetPlayerRecordsAsync(string username) {
+            return base.Channel.GetPlayerRecordsAsync(username);
+        }
+        
+        public string ChangePassword(string username, string password) {
+            return base.Channel.ChangePassword(username, password);
+        }
+        
+        public System.Threading.Tasks.Task<string> ChangePasswordAsync(string username, string password) {
+            return base.Channel.ChangePasswordAsync(username, password);
+        }
+        
+        public void ReportPlayer(MasterMind_Client.PlayerService.Report report) {
+            base.Channel.ReportPlayer(report);
+        }
+        
+        public System.Threading.Tasks.Task ReportPlayerAsync(MasterMind_Client.PlayerService.Report report) {
+            return base.Channel.ReportPlayerAsync(report);
         }
     }
 }

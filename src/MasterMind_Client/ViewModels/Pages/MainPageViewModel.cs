@@ -7,17 +7,6 @@ namespace MasterMind_Client.ViewModels.Pages
 {
     public class MainPageViewModel : ViewModelBase
     {
-        public MainPageViewModel(INavigationService navigationService, IDialogService dialogService)
-        {
-            this.navigationService = navigationService;
-            this.dialogService = dialogService;
-            PlayCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
-            ProfileCommand = new RelayCommand(_ => NavigateTo("Pages/ProfilePage.xaml"));
-            FriendsCommand = new RelayCommand(_ => dialogService.ShowFriends());
-            ExitCommand = new RelayCommand(_ => dialogService.ShowLogOut());
-            LanguageCommand = new RelayCommand(_ => ChangeLanguage());
-        }
-
         public RelayCommand PlayCommand { get; }
 
         public RelayCommand ProfileCommand { get; }
@@ -30,6 +19,17 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
+
+        public MainPageViewModel(INavigationService navigationService, IDialogService dialogService)
+        {
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
+            PlayCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
+            ProfileCommand = new RelayCommand(_ => NavigateTo("Pages/ProfilePage.xaml"));
+            FriendsCommand = new RelayCommand(_ => dialogService.ShowFriends());
+            ExitCommand = new RelayCommand(_ => dialogService.ShowLogOut());
+            LanguageCommand = new RelayCommand(_ => ChangeLanguage());
+        }
 
         private void NavigateTo(string uri)
         {

@@ -1,3 +1,4 @@
+using MasterMind_Client.FriendsService;
 using MasterMind_Client.TempData;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
@@ -8,6 +9,14 @@ namespace MasterMind_Client.ViewModels.Modals
 {
     public class FriendsViewModel : ModalViewModelBase
     {
+        public ObservableCollection<FriendViewModel> Friends { get; }
+
+        public RelayCommand CloseCommand { get; }
+
+        public RelayCommand FriendRequestsCommand { get; }
+
+        private readonly IDialogService dialogService;
+
         public FriendsViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
@@ -17,20 +26,13 @@ namespace MasterMind_Client.ViewModels.Modals
             LoadFriends();
         }
 
-        public ObservableCollection<FriendViewModel> Friends { get; }
-
-        public RelayCommand CloseCommand { get; }
-
-        public RelayCommand FriendRequestsCommand { get; }
-
-        private readonly IDialogService dialogService;
-
         private void LoadFriends()
         {
-            var friends = FriendshipService.GetFrienships(CurrentPlayer.Instance.Id);
+            var friendService = new FriendsServiceClient();
+            var friends = friendService.GetFriendships(CurrentPlayer.Instance.Id);
             foreach (var friend in friends)
             {
-                Friends.Add(new FriendViewModel(friend.username));
+                Friends.Add(new FriendViewModel(friend.Username));
             }
         }
 

@@ -3,10 +3,13 @@
     public enum RepositoriesEnum
     {
         Success,
+        ValidInfo,
         UsernameTaken,
         EmailTaken,
         Error,
         WrongCode,
-        DatabaseError
+        PlayerNotFound,
+        DatabaseError,
+        Pending
     }
 }

@@ -1,5 +1,4 @@
 ﻿using log4net;
-using MasterMind_Server.Services;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -13,9 +12,12 @@ namespace MasterMind_Server
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();
-            var hosts = new List<ServiceHost>();
-            hosts.Add(new ServiceHost(typeof(Services.PlayerService)));
-            hosts.Add(new ServiceHost(typeof(Services.CodeService)));
+            var hosts = new List<ServiceHost>
+            {
+                new ServiceHost(typeof(Services.PlayerService)),
+                new ServiceHost(typeof(Services.CodeService)),
+                new ServiceHost(typeof(Services.FriendsService))
+            };
 
             foreach (var host in hosts)
             {

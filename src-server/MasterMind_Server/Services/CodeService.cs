@@ -4,6 +4,7 @@ using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
 using System;
+using System.Data.Entity.Core;
 using System.Net;
 using System.Net.Mail;
 using System.ServiceModel;
@@ -16,18 +17,20 @@ namespace MasterMind_Server.Services
 
         public bool AuthVerificationCode(string username, string code)
         {
-            var authResult = VerificationCodeRepository.AuthVerificationCode(username, code);
-
-            if (!authResult.Item1)
+            try
+            {
+                var authResult = VerificationCodeRepository.AuthVerificationCode(username, code);
+                return authResult;
+            }
+            catch (EntityException)
             {
                 var clientMessage = new ErrorMessage
                 {
-                    Message = authResult.Item2
+                    Message = ErrorMessagesEnum.DataBaseError.ToString()
                 };
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
-
-            return authResult.Item1;
+            
         }
 
         public void SendVerificationCode(int playerId)
@@ -36,7 +39,7 @@ namespace MasterMind_Server.Services
 
             if (result.Item1)
             {
-                string email = PlayerRepository.GetPlayerById(playerId).email;
+                string email = new PlayerRepository().GetPlayerById(playerId).email;
 
                 if (!String.IsNullOrWhiteSpace(email))
                 {

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="FriendsService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IFriendsService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8084/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8084/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" />
+      <xsd:import schemaLocation="http://localhost:8084/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8084/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IFriendsService_GetFriendships_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendships" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendships_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendshipsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendships_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q1:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendRequests" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendRequests_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q2:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendship_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendship" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendship_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendshipResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendship_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q3:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetFriendRequest_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q4:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_SendFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_SendFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_SendFriendRequest_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q5:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_AcceptFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_AcceptFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_AcceptFriendRequest_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q6:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_RejectFriendRequest_InputMessage">
+    <wsdl:part name="parameters" element="tns:RejectFriendRequest" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_RejectFriendRequest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RejectFriendRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_RejectFriendRequest_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q7:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_RemoveFriendship_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFriendship" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_RemoveFriendship_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFriendshipResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_RemoveFriendship_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q8:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:portType name="IFriendsService">
+    <wsdl:operation name="GetFriendships">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/GetFriendships" message="tns:IFriendsService_GetFriendships_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/GetFriendshipsResponse" message="tns:IFriendsService_GetFriendships_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/GetFriendshipsErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_GetFriendships_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequests" message="tns:IFriendsService_GetFriendRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequestsResponse" message="tns:IFriendsService_GetFriendRequests_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequestsErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_GetFriendRequests_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendship">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/GetFriendship" message="tns:IFriendsService_GetFriendship_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/GetFriendshipResponse" message="tns:IFriendsService_GetFriendship_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/GetFriendshipErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_GetFriendship_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequest" message="tns:IFriendsService_GetFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequestResponse" message="tns:IFriendsService_GetFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequestErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_GetFriendRequest_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/SendFriendRequest" message="tns:IFriendsService_SendFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/SendFriendRequestResponse" message="tns:IFriendsService_SendFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/SendFriendRequestErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_SendFriendRequest_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/AcceptFriendRequest" message="tns:IFriendsService_AcceptFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/AcceptFriendRequestResponse" message="tns:IFriendsService_AcceptFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/AcceptFriendRequestErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_AcceptFriendRequest_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RejectFriendRequest">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/RejectFriendRequest" message="tns:IFriendsService_RejectFriendRequest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/RejectFriendRequestResponse" message="tns:IFriendsService_RejectFriendRequest_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/RejectFriendRequestErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_RejectFriendRequest_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFriendship">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/RemoveFriendship" message="tns:IFriendsService_RemoveFriendship_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/RemoveFriendshipResponse" message="tns:IFriendsService_RemoveFriendship_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/RemoveFriendshipErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_RemoveFriendship_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IFriendsService" type="tns:IFriendsService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IFriendsService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetFriendships">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/GetFriendships" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendRequests">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/GetFriendRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendship">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/GetFriendship" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/GetFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SendFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/SendFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/AcceptFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RejectFriendRequest">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/RejectFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFriendship">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/RemoveFriendship" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FriendsService">
+    <wsdl:port name="NetTcpBinding_IFriendsService" binding="tns:NetTcpBinding_IFriendsService">
+      <soap12:address location="net.tcp://localhost:8085/MasterMindService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8085/MasterMindService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>GABOSAURIO-DESK\WinterOS</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -3,6 +3,9 @@ using log4net;
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Repositories.Dtos;
+using MasterMind_Server.Repositories.Enums;
+using System.Data.Entity.Core;
 using System.ServiceModel;
 
 namespace MasterMind_Server.Services
@@ -10,8 +13,10 @@ namespace MasterMind_Server.Services
     internal class PlayerService : IPlayerService
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(PlayerService));
+        private readonly ErrorMessage clientMessage = new ErrorMessage();
+        private readonly PlayerRepository playerRepository = new PlayerRepository();
 
-        public (bool, string) RegisterPlayer(Player player)
+        public string RegisterPlayer(Player player)
         {
             var playerEntity = new Data.Player
             {
@@ -20,23 +25,31 @@ namespace MasterMind_Server.Services
                 password = player.Password
             };
 
-            var result = PlayerRepository.CreatePlayer(playerEntity);
-
-            if (result.Item1)
+            try
             {
-                var playerRegistered = GetPlayerByUsername(playerEntity.username);
-                var authService = new CodeService();
-                authService.SendVerificationCode(playerRegistered.PlayerId);
-            }
+                var result = playerRepository.CreatePlayer(playerEntity);
 
-            return result;
+                if (result.Equals(RepositoriesEnum.Success.ToString()))
+                {
+                    var playerRegistered = GetPlayerByUsername(playerEntity.username);
+                    var authService = new CodeService();
+                    authService.SendVerificationCode(playerRegistered.PlayerId);
+                }
+
+                return result;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
         }
 
         public bool LoginPlayer(string username, string password)
         {
             var playerService = new PlayerService();
             var player = playerService.GetPlayerByUsername(username);
-            if (player != null)
+            if (player.PlayerId != 0)
             {
                 try
                 {
@@ -50,10 +63,7 @@ namespace MasterMind_Server.Services
                 catch (SaltParseException ex)
                 {
                     logger.Error(ex);
-                    var clientMessage = new ErrorMessage
-                    {
-                        Message = ErrorMessagesEnum.HashError.ToString()
-                    };
+                    clientMessage.Message = ErrorMessagesEnum.HashError.ToString();
                     throw new FaultException<ErrorMessage>(clientMessage);
                 }
             }
@@ -63,50 +73,151 @@ namespace MasterMind_Server.Services
 
         public Player GetPlayerByUsername(string username)
         {
-            var playerEntity = PlayerRepository.GetPlayerByUsername(username);
-
-            var player = new Player
+            try
             {
-                PlayerId = 0
-            };
+                var playerEntity = playerRepository.GetPlayerByUsername(username);
 
-            if (playerEntity != null)
-            {
-                player = new Player
+                var player = new Player
                 {
-                    PlayerId = playerEntity.player_id,
-                    Username = playerEntity.username,
-                    Email = playerEntity.email,
-                    Password = playerEntity.password
+                    PlayerId = 0
                 };
+
+                if (playerEntity != null)
+                {
+                    player = new Player
+                    {
+                        PlayerId = playerEntity.player_id,
+                        Username = playerEntity.username,
+                        Email = playerEntity.email,
+                        Password = playerEntity.password
+                    };
+                    return player;
+                }
+
                 return player;
             }
-
-            return player;
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
+            
         }
 
         public Player GetPlayerById(int playerId)
         {
-            var playerEntity = PlayerRepository.GetPlayerById(playerId);
-
-            var player = new Player
+            try
             {
-                PlayerId = 0
-            };
+                var playerEntity = playerRepository.GetPlayerById(playerId);
 
-            if (playerEntity != null)
-            {
-                player = new Player
+                var player = new Player
                 {
-                    PlayerId = playerEntity.player_id,
-                    Username = playerEntity.username,
-                    Email = playerEntity.email,
-                    Password = playerEntity.password
+                    PlayerId = 0
                 };
+
+                if (playerEntity != null)
+                {
+                    player = new Player
+                    {
+                        PlayerId = playerEntity.player_id,
+                        Username = playerEntity.username,
+                        Email = playerEntity.email,
+                        Password = playerEntity.password
+                    };
+                    return player;
+                }
+
                 return player;
             }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
+        }
 
-            return player;
+        public string UpdatePlayer(Player player)
+        {
+            var playerEntity = new Data.Player
+            {
+                player_id = player.PlayerId,
+                username = player.Username,
+                email = player.Email
+            };
+
+            try
+            {
+                var result = playerRepository.UpdatePlayer(playerEntity);
+                
+                return result;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
+        }
+
+        public PlayerRecords GetPlayerRecords(string username)
+        {
+            try
+            {
+                var playerRecordsDto = playerRepository.GetPlayerRecords(username);
+
+                var playerRecords = new PlayerRecords
+                {
+                    PlayerUsername = ""
+                };
+
+                if (playerRecordsDto != null)
+                {
+                    playerRecords.PlayerUsername = playerRecordsDto.PlayerUsername;
+                    playerRecords.TriesRecords = playerRecordsDto.PlayerTriesRecords;
+                    playerRecords.TimeTrialRecords = playerRecordsDto.PlayerTimeTrialRecords;
+                }
+
+                return playerRecords;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
+        }
+
+        public string ChangePassword(string username, string password)
+        {
+            try
+            {
+                var result = playerRepository.UpdatePassword(username, password);
+
+                return result;
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
+        }
+
+        public void ReportPlayer(Report report)
+        {
+            var reportDto = new ReportDto
+            {
+                ReportedPlayerUsername = report.ReportedPlayerUsername,
+                ReportedByPlayerUsername = report.ReportedByPlayerUsername,
+                Reason = report.Reason
+            };
+
+            try
+            {
+                playerRepository.ReportPlayer(reportDto);
+            }
+            catch (EntityException)
+            {
+                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
         }
     }
 }

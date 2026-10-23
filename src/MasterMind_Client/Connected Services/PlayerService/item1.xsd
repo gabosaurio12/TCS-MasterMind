@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="Player">
     <xs:sequence>
       <xs:element minOccurs="0" name="AvatarPath" nillable="true" type="xs:string" />
@@ -12,4 +13,20 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Player" nillable="true" type="tns:Player" />
+  <xs:complexType name="PlayerRecords">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PlayerUsername" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="TimeTrialRecords" nillable="true" type="q1:ArrayOfint" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="TriesRecords" nillable="true" type="q2:ArrayOfint" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PlayerRecords" nillable="true" type="tns:PlayerRecords" />
+  <xs:complexType name="Report">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Reason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReportedByPlayerUsername" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReportedPlayerUsername" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Report" nillable="true" type="tns:Report" />
 </xs:schema>

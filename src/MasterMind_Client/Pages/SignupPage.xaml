@@ -54,7 +54,7 @@
                        FontSize="52"/>
 
                 <TextBox x:Name="UsernameTxt" FontFamily="{StaticResource Elite}"
-                         Width="600" Height="100" FontSize="44" Margin="0,6,0,26"
+                         Width="600" Height="80" FontSize="40" Margin="0,6,0,26"
                          Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
@@ -72,7 +72,7 @@
                        FontSize="52"/>
 
                 <TextBox x:Name="EmailTxt" FontFamily="{StaticResource Elite}"
-                         Width="600" Height="100" FontSize="44" Margin="0,6,0,26"
+                         Width="600" Height="80" FontSize="40" Margin="0,6,0,26"
                          Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
                         <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
@@ -100,16 +100,16 @@
 
                 <PasswordBox x:Name="PasswordTxt" Style="{StaticResource MetalPasswordBox}"
                              FontFamily="{StaticResource Elite}"
-                             Width="600" Height="100" FontSize="44" Margin="0,6,0,30"
+                             Width="600" Height="80" FontSize="40" Margin="0,6,0,30"
                              PasswordChanged="PasswordTxt_PasswordChanged" />
 
                 <Button x:Name="RegisterBtn" Style="{StaticResource MetalButtonGreen}"
                         FontFamily="{StaticResource Elite}" FontSize="38"
-                        Width="280" Height="124"
+                        Width="280" Height="100"
                         Content="{x:Static p:Resources.SignupPage_Register}"
                         Command="{Binding RegisterCommand}" />
 
-                <StackPanel HorizontalAlignment="Center" Margin="0,0,0,0">
+                <StackPanel HorizontalAlignment="Center" Margin="0,30,0,0">
                     <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.SignupPage_AccountQuestion}"
                            FontFamily="{StaticResource Elite}" FontSize="32"
                            Foreground="{StaticResource CreamBrush}"
@@ -127,7 +127,7 @@
         <Button x:Name="LanguageBtn" Grid.Column="1"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Margin="0,0,50,40"
-                Width="153" Height="125" Content="🌐"
+                Width="100" Height="80" Content="🌐"
                 Style="{StaticResource MetalButtonBlue}"
                 FontFamily="{StaticResource Elite}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
