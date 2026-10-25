@@ -7,38 +7,34 @@
         mc:Ignorable="d"
         WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
-        Title="{x:Static p:Resources.LogOutModal_Title}" Height="376" Width="670"
-        Background="Transparent" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="{x:Static p:Resources.LogOutModal_Title}" Height="417" Width="670"
+        Background="{StaticResource ModalLogOutBgBrush}"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
-    <Border CornerRadius="25"
-        Background="#313539"
-        BorderBrush="Black"
-        BorderThickness="5">
+    <Grid Margin="40,46,40,42">
+        <Viewbox Stretch="Uniform">
+            <StackPanel>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+                <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.LogOutModal_Title}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                       FontFamily="{StaticResource Elite}" Foreground="{StaticResource CreamBrush}"
+                       FontSize="38" />
 
-            <Label x:Name="ModalTitleLbl" Grid.Row="0"
-                   Content="{x:Static p:Resources.LogOutModal_Title}"
-                   FontFamily="{StaticResource Aladin}" Foreground="White"
-                   FontSize="60" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,100,0,0">
+                    <Button x:Name="QuitBtn" Content="{x:Static p:Resources.UI_Quit}"
+                            Style="{StaticResource MetalButtonRed}"
+                            Width="250" Height="88" Padding="10,0" Margin="0,0,30,0"
+                            FontFamily="{StaticResource Elite}" FontSize="30"
+                            Command="{Binding QuitCommand}" />
 
-            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-                <Button x:Name="QuitBtn" Style="{StaticResource ModalRedButton}"
-                        Content="{x:Static p:Resources.UI_Quit}" Width="250" Height="88"
-                        FontFamily="{StaticResource Aladin}" FontSize="48"
-                        Margin="0,0,30,0" Command="{Binding QuitCommand}"/>
+                    <Button x:Name="LogOutBtn" Content="{x:Static p:Resources.LogOutModal_LogOut}"
+                            Style="{StaticResource MetalButtonBlue}"
+                            Width="250" Height="88" Padding="10,0"
+                            FontFamily="{StaticResource Elite}" FontSize="30"
+                            Command="{Binding LogOutCommand}" />
+                </StackPanel>
 
-                <Button x:Name="LogOutBtn" Style="{StaticResource ModalButton}"
-                        Content="{x:Static p:Resources.LogOutModal_LogOut}"
-                        Width="250" Height="88" Margin="30,0,0,0"
-                        FontFamily="{StaticResource Aladin}" FontSize="48"
-                        Command="{Binding LogOutCommand}"/>
             </StackPanel>
-        </Grid>
-
-    </Border>
+        </Viewbox>
+    </Grid>
 </Window>

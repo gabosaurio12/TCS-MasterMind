@@ -14,6 +14,7 @@ namespace MasterMind_Client.ViewModels.Modals
             this.dialogService = dialogService;
             ContinueCommand = new RelayCommand(_ => Continue());
             CancelCommand = new RelayCommand(_ => RequestClose());
+            ResendCodeCommand = new RelayCommand(_ => ResendCode());
         }
 
         public event EventHandler<Player> VerificationSucceded;
@@ -21,6 +22,8 @@ namespace MasterMind_Client.ViewModels.Modals
         public RelayCommand ContinueCommand { get; }
 
         public RelayCommand CancelCommand { get; }
+
+        public RelayCommand ResendCodeCommand { get; }
 
         public string CodeDigit0 { get; set; }
         public string CodeDigit1 { get; set; }
@@ -30,6 +33,21 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private readonly string username;
         private readonly IDialogService dialogService;
+
+        private void ResendCode()
+        {
+            var playerService = new PlayerServiceClient();
+            var player = playerService.GetPlayerByUsername(username);
+            if (player == null)
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameNotFound);
+                return;
+            }
+
+            var codeService = new CodeServiceClient();
+            codeService.SendVerificationCode(player.PlayerId);
+            dialogService.ShowSuccess(Properties.Resources.VerificationCodeModal_CodeResent);
+        }
 
         private void Continue()
         {

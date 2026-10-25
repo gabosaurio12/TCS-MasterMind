@@ -222,8 +222,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\ICodeService.cs" />
+    <Compile Include="Contracts\IFriendsCallbackService.cs" />
     <Compile Include="Contracts\IFriendsService.cs" />
+    <Compile Include="Contracts\ILobbyCallbackService.cs" />
+    <Compile Include="Contracts\ILobbyService.cs" />
+    <Compile Include="Contracts\IMatchCallbackService.cs" />
+    <Compile Include="Contracts\IMatchService.cs" />
     <Compile Include="Contracts\IPlayerService.cs" />
+    <Compile Include="Contracts\IRoomService.cs" />
     <Compile Include="Data\ClueColorsCatalog.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>

@@ -606,11 +606,14 @@
     <Resource Include="Assets\Backgrounds\ErrorNotificationModal_Background.png" />
     <Resource Include="Assets\Backgrounds\SuccessNotificationModal_Background.png" />
     <Resource Include="Assets\Backgrounds\Friends_Background.png" />
+    <Resource Include="Assets\Backgrounds\LogOutModal_Background.png" />
+    <Resource Include="Assets\Backgrounds\VerificationCodeModal_Background.png" />
     <Resource Include="Assets\Elements\Blue_Button.png" />
     <Resource Include="Assets\Elements\Green_Button.png" />
     <Resource Include="Assets\Elements\Grey_Button.png" />
     <Resource Include="Assets\Elements\Red_Button.png" />
     <Resource Include="Assets\Elements\TextBox.png" />
+    <Resource Include="Assets\Elements\CodeTextBox.png" />
     <Resource Include="Assets\Elements\Blue_Plus_Button.png" />
     <Resource Include="Assets\Elements\Red_Minus_Button.png" />
     <Resource Include="Assets\Elements\Red_Report_Button.png" />

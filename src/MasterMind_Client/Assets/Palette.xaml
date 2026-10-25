@@ -11,6 +11,7 @@
     <BitmapImage x:Key="BtnRedMinusImage" UriSource="/Assets/Elements/Red_Minus_Button.png" />
     <BitmapImage x:Key="BtnRedReportImage" UriSource="/Assets/Elements/Red_Report_Button.png" />
     <BitmapImage x:Key="FieldImage" UriSource="/Assets/Elements/TextBox.png" />
+    <BitmapImage x:Key="CodeFieldImage" UriSource="/Assets/Elements/CodeTextBox.png" />
 
     <!-- ============================ Backgrounds ============================ -->
 
@@ -25,6 +26,10 @@
                 ImageSource="/Assets/Backgrounds/SuccessNotificationModal_Background.png" />
     <ImageBrush x:Key="ModalFriendsBgBrush"
                 ImageSource="/Assets/Backgrounds/Friends_Background.png" />
+    <ImageBrush x:Key="ModalLogOutBgBrush"
+                ImageSource="/Assets/Backgrounds/LogOutModal_Background.png" />
+    <ImageBrush x:Key="ModalVerificationBgBrush"
+                ImageSource="/Assets/Backgrounds/VerificationCodeModal_Background.png" />
 
     <!-- ============================ Illustrations ============================ -->
 
