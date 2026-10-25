@@ -216,6 +216,9 @@
   <data name="VerificationCodeModal_ResendCode" xml:space="preserve">
     <value>Reenviar código de verificación</value>
   </data>
+  <data name="VerificationCodeModal_CodeResent" xml:space="preserve">
+    <value>Se envió un nuevo código de verificación a tu correo</value>
+  </data>
   <data name="ErrorNotification_WrongCode" xml:space="preserve">
     <value>El código de verificación ingresado es incorrecto, intenta de nuevo.</value>
   </data>

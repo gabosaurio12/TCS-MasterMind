@@ -889,6 +889,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Se envió un nuevo código de verificación a tu correo.
+        /// </summary>
+        public static string VerificationCodeModal_CodeResent {
+            get {
+                return ResourceManager.GetString("VerificationCodeModal_CodeResent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Escribe el código de verificación.
         /// </summary>
         public static string VerificationCodeModal_Title {

@@ -7,74 +7,74 @@
         mc:Ignorable="d"
         WindowStyle="None"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
-        Title="{x:Static p:Resources.VerificationCodeModal_Title}" Height="470" Width="660"
-        Background="Transparent" WindowStartupLocation="CenterScreen" >
+        Title="{x:Static p:Resources.VerificationCodeModal_Title}" Height="493" Width="660"
+        Background="{StaticResource ModalVerificationBgBrush}"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
-    <Border CornerRadius="25"
-            Background="#313539"
-            BorderBrush="Black"
-            BorderThickness="5">
-
+    <Grid Margin="40,50,40,50">
         <Viewbox Stretch="Uniform">
             <StackPanel>
 
                 <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.VerificationCodeModal_Title}"
-                       Margin="20" VerticalAlignment="Center"
-                       HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                       FontFamily="{StaticResource Aladin}" Foreground="White" FontSize="64" />
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,15,0,0"
+                       FontFamily="{StaticResource Elite}" Foreground="{StaticResource CreamBrush}"
+                       FontSize="20"/>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBox x:Name="CodeI0Txt" FontFamily="{StaticResource Aladin}"
-                             FontSize="70" Width="92" Height="144" Margin="5"
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <TextBox x:Name="CodeI0Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             Width="65" Height="100" Margin="0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
                              Text="{Binding CodeDigit0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBox x:Name="CodeI1Txt" FontFamily="{StaticResource Aladin}"
-                             FontSize="70" Width="92" Height="144" Margin="5"
+                    <TextBox x:Name="CodeI1Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             Width="65" Height="100" Margin="15,0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
                              Text="{Binding CodeDigit1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBox x:Name="CodeI2Txt" FontFamily="{StaticResource Aladin}"
-                             FontSize="70" Width="92" Height="144" Margin="5"
+                    <TextBox x:Name="CodeI2Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             Width="65" Height="100" Margin="0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
                              Text="{Binding CodeDigit2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBox x:Name="CodeI3Txt" FontFamily="{StaticResource Aladin}"
-                             FontSize="70" Width="92" Height="144" Margin="5"
+                    <TextBox x:Name="CodeI3Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             Width="65" Height="100" Margin="15,0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
                              Text="{Binding CodeDigit3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBox x:Name="CodeI4Txt" FontFamily="{StaticResource Aladin}"
-                             FontSize="70" Width="92" Height="144" Margin="5"
+                    <TextBox x:Name="CodeI4Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             Width="65" Height="100" Margin="0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
-                             HorizontalContentAlignment="Center" Style="{StaticResource RoundedTextBox}"
                              Text="{Binding CodeDigit4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50,0,0">
+                <TextBlock HorizontalAlignment="Center" Margin="0,16,0,0"
+                           FontFamily="{StaticResource Elite}" FontSize="18">
+                    <Hyperlink x:Name="ResendCodeLink" Command="{Binding ResendCodeCommand}"
+                               Foreground="{StaticResource LinkBrush}">
+                        <Run Text="{x:Static p:Resources.VerificationCodeModal_ResendCode}" />
+                    </Hyperlink>
+                </TextBlock>
 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
                     <Button x:Name="CancelBtn" Content="{x:Static p:Resources.UI_Cancel}"
-                            Width="150" Height="52" Style="{StaticResource ModalRedButton}"
-                            VerticalAlignment="Center" HorizontalAlignment="Center"
-                            FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                            Command="{Binding CancelCommand}"/>
+                            Style="{StaticResource MetalButtonRed}"
+                            Width="175" Height="52" Margin="0,0,30,0"
+                            FontFamily="{StaticResource Elite}" FontSize="24"
+                            Command="{Binding CancelCommand}" />
 
                     <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
-                            Width="150" Height="52" Style="{StaticResource ModalButton}"
-                            VerticalAlignment="Center" HorizontalAlignment="Center"
-                            FontFamily="{StaticResource Aladin}" FontSize="32" Margin="20"
-                            Command="{Binding ContinueCommand}"/>
+                            Style="{StaticResource MetalButtonBlue}"
+                            Width="175" Height="52"
+                            FontFamily="{StaticResource Elite}" FontSize="24"
+                            Command="{Binding ContinueCommand}" />
                 </StackPanel>
-
 
             </StackPanel>
         </Viewbox>
-
-    </Border>
-
-    
+    </Grid>
 </Window>
