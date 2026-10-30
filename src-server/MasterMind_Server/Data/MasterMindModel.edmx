@@ -104,8 +104,10 @@
           <Property Name="difficulty_id" Type="int" Nullable="false" />
           <Property Name="player_one_id" Type="int" Nullable="false" />
           <Property Name="player_two_id" Type="int" />
+          <Property Name="player_one_status" Type="tinyint" Nullable="false" />
+          <Property Name="player_two_status" Type="tinyint" Nullable="false" />
           <Property Name="room_privacy_id" Type="int" Nullable="false" />
-          <Property Name="private_room_code" Type="nvarchar" MaxLength="255" />
+          <Property Name="room_code" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="MatchRoomSecretCode">
           <Key>
@@ -226,7 +228,7 @@
           <Property Name="verification_code" Type="nvarchar" MaxLength="255" />
           <Property Name="player_id" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__CorrectPo__clue___2DE6D218">
+        <Association Name="FK__CorrectPo__clue___30C33EC3">
           <End Role="ClueColorsCatalog" Type="Self.ClueColorsCatalog" Multiplicity="1" />
           <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
           <ReferentialConstraint>
@@ -238,8 +240,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CorrectPo__corre__2CF2ADDF">
-          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="1" />
+        <Association Name="FK__CorrectPo__corre__2FCF1A8A">
+          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CorrectPositionAndColors">
@@ -250,8 +254,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CorrectPo__decip__2BFE89A6">
-          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+        <Association Name="FK__CorrectPo__decip__2EDAF651">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DecipherTry">
@@ -262,7 +268,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__color__2B0A656D">
+        <Association Name="FK__DecipherT__color__2DE6D218">
           <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
           <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
           <ReferentialConstraint>
@@ -274,8 +280,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__decip__2A164134">
-          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+        <Association Name="FK__DecipherT__decip__2CF2ADDF">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DecipherTry">
@@ -286,8 +294,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__match__282DF8C2">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__DecipherT__match__2B0A656D">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -298,7 +308,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__playe__29221CFB">
+        <Association Name="FK__DecipherT__playe__2BFE89A6">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
           <ReferentialConstraint>
@@ -310,7 +320,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Friendshi__addre__1DB06A4F">
+        <Association Name="FK__Friendshi__addre__208CD6FA">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
           <ReferentialConstraint>
@@ -322,7 +332,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Friendshi__reque__1CBC4616">
+        <Association Name="FK__Friendshi__reque__1F98B2C1">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
           <ReferentialConstraint>
@@ -334,7 +344,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Friendshi__statu__1EA48E88">
+        <Association Name="FK__Friendshi__statu__2180FB33">
           <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
           <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
           <ReferentialConstraint>
@@ -346,7 +356,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__addre__208CD6FA">
+        <Association Name="FK__GameInvit__addre__236943A5">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -358,8 +368,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__match__2180FB33">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__GameInvit__match__245D67DE">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -370,7 +382,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__reque__1F98B2C1">
+        <Association Name="FK__GameInvit__reque__22751F6C">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -382,7 +394,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__statu__22751F6C">
+        <Association Name="FK__GameInvit__statu__25518C17">
           <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -394,8 +406,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchResu__match__3864608B">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="0..1" />
+        <Association Name="FK__MatchResu__match__3B40CD36">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -406,7 +420,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchResu__playe__395884C4">
+        <Association Name="FK__MatchResu__playe__3C34F16F">
           <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
           <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
           <ReferentialConstraint>
@@ -418,7 +432,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchResu__playe__3A4CA8FD">
+        <Association Name="FK__MatchResu__playe__3D2915A8">
           <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
           <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
           <ReferentialConstraint>
@@ -430,7 +444,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__color__367C1819">
+        <Association Name="FK__MatchRoom__color__395884C4">
           <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
           <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
           <ReferentialConstraint>
@@ -442,7 +456,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__diffi__2FCF1A8A">
+        <Association Name="FK__MatchRoom__diffi__32AB8735">
           <End Role="DifficultiesCatalog" Type="Self.DifficultiesCatalog" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -454,7 +468,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__gamem__2EDAF651">
+        <Association Name="FK__MatchRoom__gamem__31B762FC">
           <End Role="GameModesCatalog" Type="Self.GameModesCatalog" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -466,8 +480,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__match__3587F3E0">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__MatchRoom__match__3864608B">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -478,7 +494,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__playe__30C33EC3">
+        <Association Name="FK__MatchRoom__playe__339FAB6E">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -490,7 +506,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__playe__31B762FC">
+        <Association Name="FK__MatchRoom__playe__3493CFA7">
           <End Role="Player" Type="Self.Player" Multiplicity="0..1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -502,7 +518,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__room___32AB8735">
+        <Association Name="FK__MatchRoom__room___3587F3E0">
           <End Role="PrivacyCatalog" Type="Self.PrivacyCatalog" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -514,7 +530,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerInM__playe__37703C52">
+        <Association Name="FK__PlayerInM__playe__3A4CA8FD">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="*" />
           <ReferentialConstraint>
@@ -526,7 +542,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerRep__reaso__25518C17">
+        <Association Name="FK__PlayerRep__reaso__282DF8C2">
           <End Role="ReportReasonCatalog" Type="Self.ReportReasonCatalog" Multiplicity="1" />
           <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
           <ReferentialConstraint>
@@ -538,7 +554,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerRep__repor__236943A5">
+        <Association Name="FK__PlayerRep__repor__2645B050">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
           <ReferentialConstraint>
@@ -550,7 +566,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerRep__repor__245D67DE">
+        <Association Name="FK__PlayerRep__repor__2739D489">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
           <ReferentialConstraint>
@@ -562,7 +578,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerTim__playe__2645B050">
+        <Association Name="FK__PlayerTim__playe__29221CFB">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerTimeTrialRecords" Type="Self.PlayerTimeTrialRecords" Multiplicity="*" />
           <ReferentialConstraint>
@@ -574,7 +590,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerTri__playe__2739D489">
+        <Association Name="FK__PlayerTri__playe__2A164134">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerTriesRecords" Type="Self.PlayerTriesRecords" Multiplicity="*" />
           <ReferentialConstraint>
@@ -586,8 +602,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RoundsTim__playe__3B40CD36">
-          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+        <Association Name="FK__RoundsTim__playe__3E1D39E1">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RoundsTimeResults" Type="Self.RoundsTimeResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PlayerInMatch">
@@ -598,8 +616,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RoundsTri__playe__3C34F16F">
-          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+        <Association Name="FK__RoundsTri__playe__3F115E1A">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RoundsTriesResults" Type="Self.RoundsTriesResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PlayerInMatch">
@@ -610,8 +630,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TimeTrial__match__339FAB6E">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__TimeTrial__match__367C1819">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TimeTrialConfig" Type="Self.TimeTrialConfig" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -622,8 +644,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TriesConf__match__3493CFA7">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__TriesConf__match__37703C52">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TriesConfig" Type="Self.TriesConfig" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -634,7 +658,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Verificat__playe__1BC821DD">
+        <Association Name="FK__Verificat__playe__1EA48E88">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="VerificationCode" Type="Self.VerificationCode" Multiplicity="*" />
           <ReferentialConstraint>
@@ -673,143 +697,143 @@
           <EntitySet Name="TimeTrialConfig" EntityType="Self.TimeTrialConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TriesConfig" EntityType="Self.TriesConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VerificationCode" EntityType="Self.VerificationCode" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__CorrectPo__clue___2DE6D218" Association="Self.FK__CorrectPo__clue___2DE6D218">
+          <AssociationSet Name="FK__CorrectPo__clue___30C33EC3" Association="Self.FK__CorrectPo__clue___30C33EC3">
             <End Role="ClueColorsCatalog" EntitySet="ClueColorsCatalog" />
             <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
           </AssociationSet>
-          <AssociationSet Name="FK__CorrectPo__corre__2CF2ADDF" Association="Self.FK__CorrectPo__corre__2CF2ADDF">
+          <AssociationSet Name="FK__CorrectPo__corre__2FCF1A8A" Association="Self.FK__CorrectPo__corre__2FCF1A8A">
             <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
             <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
           </AssociationSet>
-          <AssociationSet Name="FK__CorrectPo__decip__2BFE89A6" Association="Self.FK__CorrectPo__decip__2BFE89A6">
+          <AssociationSet Name="FK__CorrectPo__decip__2EDAF651" Association="Self.FK__CorrectPo__decip__2EDAF651">
             <End Role="DecipherTry" EntitySet="DecipherTry" />
             <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__color__2B0A656D" Association="Self.FK__DecipherT__color__2B0A656D">
+          <AssociationSet Name="FK__DecipherT__color__2DE6D218" Association="Self.FK__DecipherT__color__2DE6D218">
             <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
             <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__decip__2A164134" Association="Self.FK__DecipherT__decip__2A164134">
+          <AssociationSet Name="FK__DecipherT__decip__2CF2ADDF" Association="Self.FK__DecipherT__decip__2CF2ADDF">
             <End Role="DecipherTry" EntitySet="DecipherTry" />
             <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__match__282DF8C2" Association="Self.FK__DecipherT__match__282DF8C2">
+          <AssociationSet Name="FK__DecipherT__match__2B0A656D" Association="Self.FK__DecipherT__match__2B0A656D">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="DecipherTry" EntitySet="DecipherTry" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__playe__29221CFB" Association="Self.FK__DecipherT__playe__29221CFB">
+          <AssociationSet Name="FK__DecipherT__playe__2BFE89A6" Association="Self.FK__DecipherT__playe__2BFE89A6">
             <End Role="Player" EntitySet="Player" />
             <End Role="DecipherTry" EntitySet="DecipherTry" />
           </AssociationSet>
-          <AssociationSet Name="FK__Friendshi__addre__1DB06A4F" Association="Self.FK__Friendshi__addre__1DB06A4F">
+          <AssociationSet Name="FK__Friendshi__addre__208CD6FA" Association="Self.FK__Friendshi__addre__208CD6FA">
             <End Role="Player" EntitySet="Player" />
             <End Role="Friendship" EntitySet="Friendship" />
           </AssociationSet>
-          <AssociationSet Name="FK__Friendshi__reque__1CBC4616" Association="Self.FK__Friendshi__reque__1CBC4616">
+          <AssociationSet Name="FK__Friendshi__reque__1F98B2C1" Association="Self.FK__Friendshi__reque__1F98B2C1">
             <End Role="Player" EntitySet="Player" />
             <End Role="Friendship" EntitySet="Friendship" />
           </AssociationSet>
-          <AssociationSet Name="FK__Friendshi__statu__1EA48E88" Association="Self.FK__Friendshi__statu__1EA48E88">
+          <AssociationSet Name="FK__Friendshi__statu__2180FB33" Association="Self.FK__Friendshi__statu__2180FB33">
             <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
             <End Role="Friendship" EntitySet="Friendship" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__addre__208CD6FA" Association="Self.FK__GameInvit__addre__208CD6FA">
+          <AssociationSet Name="FK__GameInvit__addre__236943A5" Association="Self.FK__GameInvit__addre__236943A5">
             <End Role="Player" EntitySet="Player" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__match__2180FB33" Association="Self.FK__GameInvit__match__2180FB33">
+          <AssociationSet Name="FK__GameInvit__match__245D67DE" Association="Self.FK__GameInvit__match__245D67DE">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__reque__1F98B2C1" Association="Self.FK__GameInvit__reque__1F98B2C1">
+          <AssociationSet Name="FK__GameInvit__reque__22751F6C" Association="Self.FK__GameInvit__reque__22751F6C">
             <End Role="Player" EntitySet="Player" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__statu__22751F6C" Association="Self.FK__GameInvit__statu__22751F6C">
+          <AssociationSet Name="FK__GameInvit__statu__25518C17" Association="Self.FK__GameInvit__statu__25518C17">
             <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchResu__match__3864608B" Association="Self.FK__MatchResu__match__3864608B">
+          <AssociationSet Name="FK__MatchResu__match__3B40CD36" Association="Self.FK__MatchResu__match__3B40CD36">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="MatchResults" EntitySet="MatchResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchResu__playe__395884C4" Association="Self.FK__MatchResu__playe__395884C4">
+          <AssociationSet Name="FK__MatchResu__playe__3C34F16F" Association="Self.FK__MatchResu__playe__3C34F16F">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="MatchResults" EntitySet="MatchResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchResu__playe__3A4CA8FD" Association="Self.FK__MatchResu__playe__3A4CA8FD">
+          <AssociationSet Name="FK__MatchResu__playe__3D2915A8" Association="Self.FK__MatchResu__playe__3D2915A8">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="MatchResults" EntitySet="MatchResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__color__367C1819" Association="Self.FK__MatchRoom__color__367C1819">
+          <AssociationSet Name="FK__MatchRoom__color__395884C4" Association="Self.FK__MatchRoom__color__395884C4">
             <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
             <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__diffi__2FCF1A8A" Association="Self.FK__MatchRoom__diffi__2FCF1A8A">
+          <AssociationSet Name="FK__MatchRoom__diffi__32AB8735" Association="Self.FK__MatchRoom__diffi__32AB8735">
             <End Role="DifficultiesCatalog" EntitySet="DifficultiesCatalog" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__gamem__2EDAF651" Association="Self.FK__MatchRoom__gamem__2EDAF651">
+          <AssociationSet Name="FK__MatchRoom__gamem__31B762FC" Association="Self.FK__MatchRoom__gamem__31B762FC">
             <End Role="GameModesCatalog" EntitySet="GameModesCatalog" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__match__3587F3E0" Association="Self.FK__MatchRoom__match__3587F3E0">
+          <AssociationSet Name="FK__MatchRoom__match__3864608B" Association="Self.FK__MatchRoom__match__3864608B">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__playe__30C33EC3" Association="Self.FK__MatchRoom__playe__30C33EC3">
+          <AssociationSet Name="FK__MatchRoom__playe__339FAB6E" Association="Self.FK__MatchRoom__playe__339FAB6E">
             <End Role="Player" EntitySet="Player" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__playe__31B762FC" Association="Self.FK__MatchRoom__playe__31B762FC">
+          <AssociationSet Name="FK__MatchRoom__playe__3493CFA7" Association="Self.FK__MatchRoom__playe__3493CFA7">
             <End Role="Player" EntitySet="Player" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__room___32AB8735" Association="Self.FK__MatchRoom__room___32AB8735">
+          <AssociationSet Name="FK__MatchRoom__room___3587F3E0" Association="Self.FK__MatchRoom__room___3587F3E0">
             <End Role="PrivacyCatalog" EntitySet="PrivacyCatalog" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerInM__playe__37703C52" Association="Self.FK__PlayerInM__playe__37703C52">
+          <AssociationSet Name="FK__PlayerInM__playe__3A4CA8FD" Association="Self.FK__PlayerInM__playe__3A4CA8FD">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerRep__reaso__25518C17" Association="Self.FK__PlayerRep__reaso__25518C17">
+          <AssociationSet Name="FK__PlayerRep__reaso__282DF8C2" Association="Self.FK__PlayerRep__reaso__282DF8C2">
             <End Role="ReportReasonCatalog" EntitySet="ReportReasonCatalog" />
             <End Role="PlayerReport" EntitySet="PlayerReport" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerRep__repor__236943A5" Association="Self.FK__PlayerRep__repor__236943A5">
+          <AssociationSet Name="FK__PlayerRep__repor__2645B050" Association="Self.FK__PlayerRep__repor__2645B050">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerReport" EntitySet="PlayerReport" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerRep__repor__245D67DE" Association="Self.FK__PlayerRep__repor__245D67DE">
+          <AssociationSet Name="FK__PlayerRep__repor__2739D489" Association="Self.FK__PlayerRep__repor__2739D489">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerReport" EntitySet="PlayerReport" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerTim__playe__2645B050" Association="Self.FK__PlayerTim__playe__2645B050">
+          <AssociationSet Name="FK__PlayerTim__playe__29221CFB" Association="Self.FK__PlayerTim__playe__29221CFB">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerTimeTrialRecords" EntitySet="PlayerTimeTrialRecords" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerTri__playe__2739D489" Association="Self.FK__PlayerTri__playe__2739D489">
+          <AssociationSet Name="FK__PlayerTri__playe__2A164134" Association="Self.FK__PlayerTri__playe__2A164134">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerTriesRecords" EntitySet="PlayerTriesRecords" />
           </AssociationSet>
-          <AssociationSet Name="FK__RoundsTim__playe__3B40CD36" Association="Self.FK__RoundsTim__playe__3B40CD36">
+          <AssociationSet Name="FK__RoundsTim__playe__3E1D39E1" Association="Self.FK__RoundsTim__playe__3E1D39E1">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="RoundsTimeResults" EntitySet="RoundsTimeResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__RoundsTri__playe__3C34F16F" Association="Self.FK__RoundsTri__playe__3C34F16F">
+          <AssociationSet Name="FK__RoundsTri__playe__3F115E1A" Association="Self.FK__RoundsTri__playe__3F115E1A">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="RoundsTriesResults" EntitySet="RoundsTriesResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__TimeTrial__match__339FAB6E" Association="Self.FK__TimeTrial__match__339FAB6E">
+          <AssociationSet Name="FK__TimeTrial__match__367C1819" Association="Self.FK__TimeTrial__match__367C1819">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="TimeTrialConfig" EntitySet="TimeTrialConfig" />
           </AssociationSet>
-          <AssociationSet Name="FK__TriesConf__match__3493CFA7" Association="Self.FK__TriesConf__match__3493CFA7">
+          <AssociationSet Name="FK__TriesConf__match__37703C52" Association="Self.FK__TriesConf__match__37703C52">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="TriesConfig" EntitySet="TriesConfig" />
           </AssociationSet>
-          <AssociationSet Name="FK__Verificat__playe__1BC821DD" Association="Self.FK__Verificat__playe__1BC821DD">
+          <AssociationSet Name="FK__Verificat__playe__1EA48E88" Association="Self.FK__Verificat__playe__1EA48E88">
             <End Role="Player" EntitySet="Player" />
             <End Role="VerificationCode" EntitySet="VerificationCode" />
           </AssociationSet>
@@ -825,7 +849,7 @@
           </Key>
           <Property Name="clue_color_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="color" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="CorrectPositionAndColorsClue" Relationship="Self.FK__CorrectPo__clue___2DE6D218" FromRole="ClueColorsCatalog" ToRole="CorrectPositionAndColorsClue" />
+          <NavigationProperty Name="CorrectPositionAndColorsClue" Relationship="Self.FK__CorrectPo__clue___30C33EC3" FromRole="ClueColorsCatalog" ToRole="CorrectPositionAndColorsClue" />
         </EntityType>
         <EntityType Name="CodeColorsCatalog">
           <Key>
@@ -833,16 +857,16 @@
           </Key>
           <Property Name="code_color_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="color" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="DecipherTryCode" Relationship="Self.FK__DecipherT__color__2B0A656D" FromRole="CodeColorsCatalog" ToRole="DecipherTryCode" />
-          <NavigationProperty Name="MatchRoomSecretCode" Relationship="Self.FK__MatchRoom__color__367C1819" FromRole="CodeColorsCatalog" ToRole="MatchRoomSecretCode" />
+          <NavigationProperty Name="DecipherTryCode" Relationship="Self.FK__DecipherT__color__2DE6D218" FromRole="CodeColorsCatalog" ToRole="DecipherTryCode" />
+          <NavigationProperty Name="MatchRoomSecretCode" Relationship="Self.FK__MatchRoom__color__395884C4" FromRole="CodeColorsCatalog" ToRole="MatchRoomSecretCode" />
         </EntityType>
         <EntityType Name="CorrectPositionAndColors">
           <Key>
             <PropertyRef Name="decipher_try_id" />
           </Key>
           <Property Name="decipher_try_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CorrectPositionAndColorsClue" Relationship="Self.FK__CorrectPo__corre__2CF2ADDF" FromRole="CorrectPositionAndColors" ToRole="CorrectPositionAndColorsClue" />
-          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__CorrectPo__decip__2BFE89A6" FromRole="CorrectPositionAndColors" ToRole="DecipherTry" />
+          <NavigationProperty Name="CorrectPositionAndColorsClue" Relationship="Self.FK__CorrectPo__corre__2FCF1A8A" FromRole="CorrectPositionAndColors" ToRole="CorrectPositionAndColorsClue" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__CorrectPo__decip__2EDAF651" FromRole="CorrectPositionAndColors" ToRole="DecipherTry" />
         </EntityType>
         <EntityType Name="CorrectPositionAndColorsClue">
           <Key>
@@ -852,8 +876,8 @@
           <Property Name="correct_position_and_colors_id" Type="Int32" Nullable="false" />
           <Property Name="position" Type="Int32" Nullable="false" />
           <Property Name="clue_color_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ClueColorsCatalog" Relationship="Self.FK__CorrectPo__clue___2DE6D218" FromRole="CorrectPositionAndColorsClue" ToRole="ClueColorsCatalog" />
-          <NavigationProperty Name="CorrectPositionAndColors" Relationship="Self.FK__CorrectPo__corre__2CF2ADDF" FromRole="CorrectPositionAndColorsClue" ToRole="CorrectPositionAndColors" />
+          <NavigationProperty Name="ClueColorsCatalog" Relationship="Self.FK__CorrectPo__clue___30C33EC3" FromRole="CorrectPositionAndColorsClue" ToRole="ClueColorsCatalog" />
+          <NavigationProperty Name="CorrectPositionAndColors" Relationship="Self.FK__CorrectPo__corre__2FCF1A8A" FromRole="CorrectPositionAndColorsClue" ToRole="CorrectPositionAndColors" />
         </EntityType>
         <EntityType Name="DecipherTry">
           <Key>
@@ -863,10 +887,10 @@
           <Property Name="match_room_id" Type="Int32" Nullable="false" />
           <Property Name="player_id" Type="Int32" Nullable="false" />
           <Property Name="attempt_number" Type="Int32" />
-          <NavigationProperty Name="CorrectPositionAndColors" Relationship="Self.FK__CorrectPo__decip__2BFE89A6" FromRole="DecipherTry" ToRole="CorrectPositionAndColors" />
-          <NavigationProperty Name="DecipherTryCode" Relationship="Self.FK__DecipherT__decip__2A164134" FromRole="DecipherTry" ToRole="DecipherTryCode" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__DecipherT__match__282DF8C2" FromRole="DecipherTry" ToRole="MatchRoom" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__DecipherT__playe__29221CFB" FromRole="DecipherTry" ToRole="Player" />
+          <NavigationProperty Name="CorrectPositionAndColors" Relationship="Self.FK__CorrectPo__decip__2EDAF651" FromRole="DecipherTry" ToRole="CorrectPositionAndColors" />
+          <NavigationProperty Name="DecipherTryCode" Relationship="Self.FK__DecipherT__decip__2CF2ADDF" FromRole="DecipherTry" ToRole="DecipherTryCode" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__DecipherT__match__2B0A656D" FromRole="DecipherTry" ToRole="MatchRoom" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__DecipherT__playe__2BFE89A6" FromRole="DecipherTry" ToRole="Player" />
         </EntityType>
         <EntityType Name="DecipherTryCode">
           <Key>
@@ -876,8 +900,8 @@
           <Property Name="decipher_try_id" Type="Int32" Nullable="false" />
           <Property Name="position" Type="Int32" Nullable="false" />
           <Property Name="color_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CodeColorsCatalog" Relationship="Self.FK__DecipherT__color__2B0A656D" FromRole="DecipherTryCode" ToRole="CodeColorsCatalog" />
-          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__decip__2A164134" FromRole="DecipherTryCode" ToRole="DecipherTry" />
+          <NavigationProperty Name="CodeColorsCatalog" Relationship="Self.FK__DecipherT__color__2DE6D218" FromRole="DecipherTryCode" ToRole="CodeColorsCatalog" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__decip__2CF2ADDF" FromRole="DecipherTryCode" ToRole="DecipherTry" />
         </EntityType>
         <EntityType Name="DifficultiesCatalog">
           <Key>
@@ -885,7 +909,7 @@
           </Key>
           <Property Name="difficulty_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="difficulty" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__diffi__2FCF1A8A" FromRole="DifficultiesCatalog" ToRole="MatchRoom" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__diffi__32AB8735" FromRole="DifficultiesCatalog" ToRole="MatchRoom" />
         </EntityType>
         <EntityType Name="Friendship">
           <Key>
@@ -895,9 +919,9 @@
           <Property Name="requester_id" Type="Int32" Nullable="false" />
           <Property Name="addressee_id" Type="Int32" Nullable="false" />
           <Property Name="status_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__Friendshi__addre__1DB06A4F" FromRole="Friendship" ToRole="Player" />
-          <NavigationProperty Name="Player1" Relationship="Self.FK__Friendshi__reque__1CBC4616" FromRole="Friendship" ToRole="Player" />
-          <NavigationProperty Name="RequestStatusCatalog" Relationship="Self.FK__Friendshi__statu__1EA48E88" FromRole="Friendship" ToRole="RequestStatusCatalog" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__Friendshi__addre__208CD6FA" FromRole="Friendship" ToRole="Player" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__Friendshi__reque__1F98B2C1" FromRole="Friendship" ToRole="Player" />
+          <NavigationProperty Name="RequestStatusCatalog" Relationship="Self.FK__Friendshi__statu__2180FB33" FromRole="Friendship" ToRole="RequestStatusCatalog" />
         </EntityType>
         <EntityType Name="GameInvitation">
           <Key>
@@ -908,10 +932,10 @@
           <Property Name="addressee_id" Type="Int32" Nullable="false" />
           <Property Name="match_room_id" Type="Int32" Nullable="false" />
           <Property Name="status_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__GameInvit__addre__208CD6FA" FromRole="GameInvitation" ToRole="Player" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__GameInvit__match__2180FB33" FromRole="GameInvitation" ToRole="MatchRoom" />
-          <NavigationProperty Name="Player1" Relationship="Self.FK__GameInvit__reque__1F98B2C1" FromRole="GameInvitation" ToRole="Player" />
-          <NavigationProperty Name="RequestStatusCatalog" Relationship="Self.FK__GameInvit__statu__22751F6C" FromRole="GameInvitation" ToRole="RequestStatusCatalog" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__GameInvit__addre__236943A5" FromRole="GameInvitation" ToRole="Player" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__GameInvit__match__245D67DE" FromRole="GameInvitation" ToRole="MatchRoom" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__GameInvit__reque__22751F6C" FromRole="GameInvitation" ToRole="Player" />
+          <NavigationProperty Name="RequestStatusCatalog" Relationship="Self.FK__GameInvit__statu__25518C17" FromRole="GameInvitation" ToRole="RequestStatusCatalog" />
         </EntityType>
         <EntityType Name="GameModesCatalog">
           <Key>
@@ -919,7 +943,7 @@
           </Key>
           <Property Name="gamemode_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="gamemode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__gamem__2EDAF651" FromRole="GameModesCatalog" ToRole="MatchRoom" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__gamem__31B762FC" FromRole="GameModesCatalog" ToRole="MatchRoom" />
         </EntityType>
         <EntityType Name="MatchResults">
           <Key>
@@ -929,9 +953,9 @@
           <Property Name="match_room_id" Type="Int32" />
           <Property Name="player_one_results_id" Type="Int32" Nullable="false" />
           <Property Name="player_two_results_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchResu__match__3864608B" FromRole="MatchResults" ToRole="MatchRoom" />
-          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__MatchResu__playe__395884C4" FromRole="MatchResults" ToRole="PlayerInMatch" />
-          <NavigationProperty Name="PlayerInMatch1" Relationship="Self.FK__MatchResu__playe__3A4CA8FD" FromRole="MatchResults" ToRole="PlayerInMatch" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchResu__match__3B40CD36" FromRole="MatchResults" ToRole="MatchRoom" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__MatchResu__playe__3C34F16F" FromRole="MatchResults" ToRole="PlayerInMatch" />
+          <NavigationProperty Name="PlayerInMatch1" Relationship="Self.FK__MatchResu__playe__3D2915A8" FromRole="MatchResults" ToRole="PlayerInMatch" />
         </EntityType>
         <EntityType Name="MatchRoom">
           <Key>
@@ -943,19 +967,21 @@
           <Property Name="difficulty_id" Type="Int32" Nullable="false" />
           <Property Name="player_one_id" Type="Int32" Nullable="false" />
           <Property Name="player_two_id" Type="Int32" />
+          <Property Name="player_one_status" Type="Byte" Nullable="false" />
+          <Property Name="player_two_status" Type="Byte" Nullable="false" />
           <Property Name="room_privacy_id" Type="Int32" Nullable="false" />
-          <Property Name="private_room_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__match__282DF8C2" FromRole="MatchRoom" ToRole="DecipherTry" />
-          <NavigationProperty Name="DifficultiesCatalog" Relationship="Self.FK__MatchRoom__diffi__2FCF1A8A" FromRole="MatchRoom" ToRole="DifficultiesCatalog" />
-          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__match__2180FB33" FromRole="MatchRoom" ToRole="GameInvitation" />
-          <NavigationProperty Name="GameModesCatalog" Relationship="Self.FK__MatchRoom__gamem__2EDAF651" FromRole="MatchRoom" ToRole="GameModesCatalog" />
-          <NavigationProperty Name="MatchResults" Relationship="Self.FK__MatchResu__match__3864608B" FromRole="MatchRoom" ToRole="MatchResults" />
-          <NavigationProperty Name="MatchRoomSecretCode" Relationship="Self.FK__MatchRoom__match__3587F3E0" FromRole="MatchRoom" ToRole="MatchRoomSecretCode" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__MatchRoom__playe__30C33EC3" FromRole="MatchRoom" ToRole="Player" />
-          <NavigationProperty Name="Player1" Relationship="Self.FK__MatchRoom__playe__31B762FC" FromRole="MatchRoom" ToRole="Player" />
-          <NavigationProperty Name="PrivacyCatalog" Relationship="Self.FK__MatchRoom__room___32AB8735" FromRole="MatchRoom" ToRole="PrivacyCatalog" />
-          <NavigationProperty Name="TimeTrialConfig" Relationship="Self.FK__TimeTrial__match__339FAB6E" FromRole="MatchRoom" ToRole="TimeTrialConfig" />
-          <NavigationProperty Name="TriesConfig" Relationship="Self.FK__TriesConf__match__3493CFA7" FromRole="MatchRoom" ToRole="TriesConfig" />
+          <Property Name="room_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__match__2B0A656D" FromRole="MatchRoom" ToRole="DecipherTry" />
+          <NavigationProperty Name="DifficultiesCatalog" Relationship="Self.FK__MatchRoom__diffi__32AB8735" FromRole="MatchRoom" ToRole="DifficultiesCatalog" />
+          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__match__245D67DE" FromRole="MatchRoom" ToRole="GameInvitation" />
+          <NavigationProperty Name="GameModesCatalog" Relationship="Self.FK__MatchRoom__gamem__31B762FC" FromRole="MatchRoom" ToRole="GameModesCatalog" />
+          <NavigationProperty Name="MatchResults" Relationship="Self.FK__MatchResu__match__3B40CD36" FromRole="MatchRoom" ToRole="MatchResults" />
+          <NavigationProperty Name="MatchRoomSecretCode" Relationship="Self.FK__MatchRoom__match__3864608B" FromRole="MatchRoom" ToRole="MatchRoomSecretCode" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__MatchRoom__playe__339FAB6E" FromRole="MatchRoom" ToRole="Player" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__MatchRoom__playe__3493CFA7" FromRole="MatchRoom" ToRole="Player" />
+          <NavigationProperty Name="PrivacyCatalog" Relationship="Self.FK__MatchRoom__room___3587F3E0" FromRole="MatchRoom" ToRole="PrivacyCatalog" />
+          <NavigationProperty Name="TimeTrialConfig" Relationship="Self.FK__TimeTrial__match__367C1819" FromRole="MatchRoom" ToRole="TimeTrialConfig" />
+          <NavigationProperty Name="TriesConfig" Relationship="Self.FK__TriesConf__match__37703C52" FromRole="MatchRoom" ToRole="TriesConfig" />
         </EntityType>
         <EntityType Name="MatchRoomSecretCode">
           <Key>
@@ -965,8 +991,8 @@
           <Property Name="position" Type="Int32" Nullable="false" />
           <Property Name="match_room_id" Type="Int32" Nullable="false" />
           <Property Name="color_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CodeColorsCatalog" Relationship="Self.FK__MatchRoom__color__367C1819" FromRole="MatchRoomSecretCode" ToRole="CodeColorsCatalog" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__match__3587F3E0" FromRole="MatchRoomSecretCode" ToRole="MatchRoom" />
+          <NavigationProperty Name="CodeColorsCatalog" Relationship="Self.FK__MatchRoom__color__395884C4" FromRole="MatchRoomSecretCode" ToRole="CodeColorsCatalog" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__match__3864608B" FromRole="MatchRoomSecretCode" ToRole="MatchRoom" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -979,19 +1005,19 @@
           <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="avatar_path" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="is_online" Type="Byte" />
-          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__playe__29221CFB" FromRole="Player" ToRole="DecipherTry" />
-          <NavigationProperty Name="Friendship" Relationship="Self.FK__Friendshi__addre__1DB06A4F" FromRole="Player" ToRole="Friendship" />
-          <NavigationProperty Name="Friendship1" Relationship="Self.FK__Friendshi__reque__1CBC4616" FromRole="Player" ToRole="Friendship" />
-          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__addre__208CD6FA" FromRole="Player" ToRole="GameInvitation" />
-          <NavigationProperty Name="GameInvitation1" Relationship="Self.FK__GameInvit__reque__1F98B2C1" FromRole="Player" ToRole="GameInvitation" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__playe__30C33EC3" FromRole="Player" ToRole="MatchRoom" />
-          <NavigationProperty Name="MatchRoom1" Relationship="Self.FK__MatchRoom__playe__31B762FC" FromRole="Player" ToRole="MatchRoom" />
-          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__PlayerInM__playe__37703C52" FromRole="Player" ToRole="PlayerInMatch" />
-          <NavigationProperty Name="PlayerReport" Relationship="Self.FK__PlayerRep__repor__236943A5" FromRole="Player" ToRole="PlayerReport" />
-          <NavigationProperty Name="PlayerReport1" Relationship="Self.FK__PlayerRep__repor__245D67DE" FromRole="Player" ToRole="PlayerReport" />
-          <NavigationProperty Name="PlayerTimeTrialRecords" Relationship="Self.FK__PlayerTim__playe__2645B050" FromRole="Player" ToRole="PlayerTimeTrialRecords" />
-          <NavigationProperty Name="PlayerTriesRecords" Relationship="Self.FK__PlayerTri__playe__2739D489" FromRole="Player" ToRole="PlayerTriesRecords" />
-          <NavigationProperty Name="VerificationCode" Relationship="Self.FK__Verificat__playe__1BC821DD" FromRole="Player" ToRole="VerificationCode" />
+          <NavigationProperty Name="DecipherTry" Relationship="Self.FK__DecipherT__playe__2BFE89A6" FromRole="Player" ToRole="DecipherTry" />
+          <NavigationProperty Name="Friendship" Relationship="Self.FK__Friendshi__addre__208CD6FA" FromRole="Player" ToRole="Friendship" />
+          <NavigationProperty Name="Friendship1" Relationship="Self.FK__Friendshi__reque__1F98B2C1" FromRole="Player" ToRole="Friendship" />
+          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__addre__236943A5" FromRole="Player" ToRole="GameInvitation" />
+          <NavigationProperty Name="GameInvitation1" Relationship="Self.FK__GameInvit__reque__22751F6C" FromRole="Player" ToRole="GameInvitation" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__playe__339FAB6E" FromRole="Player" ToRole="MatchRoom" />
+          <NavigationProperty Name="MatchRoom1" Relationship="Self.FK__MatchRoom__playe__3493CFA7" FromRole="Player" ToRole="MatchRoom" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__PlayerInM__playe__3A4CA8FD" FromRole="Player" ToRole="PlayerInMatch" />
+          <NavigationProperty Name="PlayerReport" Relationship="Self.FK__PlayerRep__repor__2645B050" FromRole="Player" ToRole="PlayerReport" />
+          <NavigationProperty Name="PlayerReport1" Relationship="Self.FK__PlayerRep__repor__2739D489" FromRole="Player" ToRole="PlayerReport" />
+          <NavigationProperty Name="PlayerTimeTrialRecords" Relationship="Self.FK__PlayerTim__playe__29221CFB" FromRole="Player" ToRole="PlayerTimeTrialRecords" />
+          <NavigationProperty Name="PlayerTriesRecords" Relationship="Self.FK__PlayerTri__playe__2A164134" FromRole="Player" ToRole="PlayerTriesRecords" />
+          <NavigationProperty Name="VerificationCode" Relationship="Self.FK__Verificat__playe__1EA48E88" FromRole="Player" ToRole="VerificationCode" />
         </EntityType>
         <EntityType Name="PlayerInMatch">
           <Key>
@@ -1002,11 +1028,11 @@
           <Property Name="best_time" Type="Int32" />
           <Property Name="least_tries" Type="Int32" />
           <Property Name="rounds_won" Type="Int32" />
-          <NavigationProperty Name="MatchResults" Relationship="Self.FK__MatchResu__playe__395884C4" FromRole="PlayerInMatch" ToRole="MatchResults" />
-          <NavigationProperty Name="MatchResults1" Relationship="Self.FK__MatchResu__playe__3A4CA8FD" FromRole="PlayerInMatch" ToRole="MatchResults" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerInM__playe__37703C52" FromRole="PlayerInMatch" ToRole="Player" />
-          <NavigationProperty Name="RoundsTimeResults" Relationship="Self.FK__RoundsTim__playe__3B40CD36" FromRole="PlayerInMatch" ToRole="RoundsTimeResults" />
-          <NavigationProperty Name="RoundsTriesResults" Relationship="Self.FK__RoundsTri__playe__3C34F16F" FromRole="PlayerInMatch" ToRole="RoundsTriesResults" />
+          <NavigationProperty Name="MatchResults" Relationship="Self.FK__MatchResu__playe__3C34F16F" FromRole="PlayerInMatch" ToRole="MatchResults" />
+          <NavigationProperty Name="MatchResults1" Relationship="Self.FK__MatchResu__playe__3D2915A8" FromRole="PlayerInMatch" ToRole="MatchResults" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerInM__playe__3A4CA8FD" FromRole="PlayerInMatch" ToRole="Player" />
+          <NavigationProperty Name="RoundsTimeResults" Relationship="Self.FK__RoundsTim__playe__3E1D39E1" FromRole="PlayerInMatch" ToRole="RoundsTimeResults" />
+          <NavigationProperty Name="RoundsTriesResults" Relationship="Self.FK__RoundsTri__playe__3F115E1A" FromRole="PlayerInMatch" ToRole="RoundsTriesResults" />
         </EntityType>
         <EntityType Name="PlayerReport">
           <Key>
@@ -1016,9 +1042,9 @@
           <Property Name="reported_player_id" Type="Int32" Nullable="false" />
           <Property Name="reported_by_player_id" Type="Int32" Nullable="false" />
           <Property Name="reason_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerRep__repor__236943A5" FromRole="PlayerReport" ToRole="Player" />
-          <NavigationProperty Name="Player1" Relationship="Self.FK__PlayerRep__repor__245D67DE" FromRole="PlayerReport" ToRole="Player" />
-          <NavigationProperty Name="ReportReasonCatalog" Relationship="Self.FK__PlayerRep__reaso__25518C17" FromRole="PlayerReport" ToRole="ReportReasonCatalog" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerRep__repor__2645B050" FromRole="PlayerReport" ToRole="Player" />
+          <NavigationProperty Name="Player1" Relationship="Self.FK__PlayerRep__repor__2739D489" FromRole="PlayerReport" ToRole="Player" />
+          <NavigationProperty Name="ReportReasonCatalog" Relationship="Self.FK__PlayerRep__reaso__282DF8C2" FromRole="PlayerReport" ToRole="ReportReasonCatalog" />
         </EntityType>
         <EntityType Name="PlayerTimeTrialRecords">
           <Key>
@@ -1028,7 +1054,7 @@
           <Property Name="player_id" Type="Int32" Nullable="false" />
           <Property Name="time_record" Type="Int32" />
           <Property Name="rank" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerTim__playe__2645B050" FromRole="PlayerTimeTrialRecords" ToRole="Player" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerTim__playe__29221CFB" FromRole="PlayerTimeTrialRecords" ToRole="Player" />
         </EntityType>
         <EntityType Name="PlayerTriesRecords">
           <Key>
@@ -1038,7 +1064,7 @@
           <Property Name="player_id" Type="Int32" Nullable="false" />
           <Property Name="tries_record" Type="Int32" />
           <Property Name="rank" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerTri__playe__2739D489" FromRole="PlayerTriesRecords" ToRole="Player" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__PlayerTri__playe__2A164134" FromRole="PlayerTriesRecords" ToRole="Player" />
         </EntityType>
         <EntityType Name="PrivacyCatalog">
           <Key>
@@ -1046,7 +1072,7 @@
           </Key>
           <Property Name="privacy_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="privacy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__room___32AB8735" FromRole="PrivacyCatalog" ToRole="MatchRoom" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__MatchRoom__room___3587F3E0" FromRole="PrivacyCatalog" ToRole="MatchRoom" />
         </EntityType>
         <EntityType Name="ReportReasonCatalog">
           <Key>
@@ -1054,7 +1080,7 @@
           </Key>
           <Property Name="report_reason_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PlayerReport" Relationship="Self.FK__PlayerRep__reaso__25518C17" FromRole="ReportReasonCatalog" ToRole="PlayerReport" />
+          <NavigationProperty Name="PlayerReport" Relationship="Self.FK__PlayerRep__reaso__282DF8C2" FromRole="ReportReasonCatalog" ToRole="PlayerReport" />
         </EntityType>
         <EntityType Name="RequestStatusCatalog">
           <Key>
@@ -1062,8 +1088,8 @@
           </Key>
           <Property Name="request_status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Friendship" Relationship="Self.FK__Friendshi__statu__1EA48E88" FromRole="RequestStatusCatalog" ToRole="Friendship" />
-          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__statu__22751F6C" FromRole="RequestStatusCatalog" ToRole="GameInvitation" />
+          <NavigationProperty Name="Friendship" Relationship="Self.FK__Friendshi__statu__2180FB33" FromRole="RequestStatusCatalog" ToRole="Friendship" />
+          <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__statu__25518C17" FromRole="RequestStatusCatalog" ToRole="GameInvitation" />
         </EntityType>
         <EntityType Name="RoundsTimeResults">
           <Key>
@@ -1073,7 +1099,7 @@
           <Property Name="player_in_match_id" Type="Int32" Nullable="false" />
           <Property Name="round" Type="Int32" />
           <Property Name="time" Type="Int32" />
-          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__RoundsTim__playe__3B40CD36" FromRole="RoundsTimeResults" ToRole="PlayerInMatch" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__RoundsTim__playe__3E1D39E1" FromRole="RoundsTimeResults" ToRole="PlayerInMatch" />
         </EntityType>
         <EntityType Name="RoundsTriesResults">
           <Key>
@@ -1083,7 +1109,7 @@
           <Property Name="player_in_match_id" Type="Int32" Nullable="false" />
           <Property Name="round" Type="Int32" />
           <Property Name="tries" Type="Int32" />
-          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__RoundsTri__playe__3C34F16F" FromRole="RoundsTriesResults" ToRole="PlayerInMatch" />
+          <NavigationProperty Name="PlayerInMatch" Relationship="Self.FK__RoundsTri__playe__3F115E1A" FromRole="RoundsTriesResults" ToRole="PlayerInMatch" />
         </EntityType>
         <EntityType Name="TimeTrialConfig">
           <Key>
@@ -1091,7 +1117,7 @@
           </Key>
           <Property Name="match_room_id" Type="Int32" Nullable="false" />
           <Property Name="max_time_of_seconds" Type="Int32" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__TimeTrial__match__339FAB6E" FromRole="TimeTrialConfig" ToRole="MatchRoom" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__TimeTrial__match__367C1819" FromRole="TimeTrialConfig" ToRole="MatchRoom" />
         </EntityType>
         <EntityType Name="TriesConfig">
           <Key>
@@ -1099,7 +1125,7 @@
           </Key>
           <Property Name="match_room_id" Type="Int32" Nullable="false" />
           <Property Name="max_of_tries" Type="Int32" />
-          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__TriesConf__match__3493CFA7" FromRole="TriesConfig" ToRole="MatchRoom" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK__TriesConf__match__37703C52" FromRole="TriesConfig" ToRole="MatchRoom" />
         </EntityType>
         <EntityType Name="VerificationCode">
           <Key>
@@ -1108,9 +1134,9 @@
           <Property Name="verification_code_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="verification_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="player_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__Verificat__playe__1BC821DD" FromRole="VerificationCode" ToRole="Player" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__Verificat__playe__1EA48E88" FromRole="VerificationCode" ToRole="Player" />
         </EntityType>
-        <Association Name="FK__CorrectPo__clue___2DE6D218">
+        <Association Name="FK__CorrectPo__clue___30C33EC3">
           <End Role="ClueColorsCatalog" Type="Self.ClueColorsCatalog" Multiplicity="1" />
           <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1122,7 +1148,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__color__2B0A656D">
+        <Association Name="FK__DecipherT__color__2DE6D218">
           <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
           <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1134,7 +1160,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__color__367C1819">
+        <Association Name="FK__MatchRoom__color__395884C4">
           <End Role="CodeColorsCatalog" Type="Self.CodeColorsCatalog" Multiplicity="1" />
           <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1146,8 +1172,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CorrectPo__corre__2CF2ADDF">
-          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="1" />
+        <Association Name="FK__CorrectPo__corre__2FCF1A8A">
+          <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CorrectPositionAndColorsClue" Type="Self.CorrectPositionAndColorsClue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CorrectPositionAndColors">
@@ -1158,8 +1186,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CorrectPo__decip__2BFE89A6">
-          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+        <Association Name="FK__CorrectPo__decip__2EDAF651">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CorrectPositionAndColors" Type="Self.CorrectPositionAndColors" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="DecipherTry">
@@ -1170,8 +1200,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__decip__2A164134">
-          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1" />
+        <Association Name="FK__DecipherT__decip__2CF2ADDF">
+          <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DecipherTryCode" Type="Self.DecipherTryCode" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DecipherTry">
@@ -1182,8 +1214,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__match__282DF8C2">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__DecipherT__match__2B0A656D">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -1194,7 +1228,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DecipherT__playe__29221CFB">
+        <Association Name="FK__DecipherT__playe__2BFE89A6">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="DecipherTry" Type="Self.DecipherTry" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1206,7 +1240,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__diffi__2FCF1A8A">
+        <Association Name="FK__MatchRoom__diffi__32AB8735">
           <End Role="DifficultiesCatalog" Type="Self.DifficultiesCatalog" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1218,7 +1252,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Friendshi__addre__1DB06A4F">
+        <Association Name="FK__Friendshi__addre__208CD6FA">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1230,7 +1264,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Friendshi__reque__1CBC4616">
+        <Association Name="FK__Friendshi__reque__1F98B2C1">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1242,7 +1276,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Friendshi__statu__1EA48E88">
+        <Association Name="FK__Friendshi__statu__2180FB33">
           <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
           <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1254,7 +1288,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__addre__208CD6FA">
+        <Association Name="FK__GameInvit__addre__236943A5">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1266,8 +1300,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__match__2180FB33">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__GameInvit__match__245D67DE">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -1278,7 +1314,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__reque__1F98B2C1">
+        <Association Name="FK__GameInvit__reque__22751F6C">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1290,7 +1326,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__GameInvit__statu__22751F6C">
+        <Association Name="FK__GameInvit__statu__25518C17">
           <End Role="RequestStatusCatalog" Type="Self.RequestStatusCatalog" Multiplicity="1" />
           <End Role="GameInvitation" Type="Self.GameInvitation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1302,7 +1338,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__gamem__2EDAF651">
+        <Association Name="FK__MatchRoom__gamem__31B762FC">
           <End Role="GameModesCatalog" Type="Self.GameModesCatalog" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1314,8 +1350,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchResu__match__3864608B">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="0..1" />
+        <Association Name="FK__MatchResu__match__3B40CD36">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -1326,7 +1364,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchResu__playe__395884C4">
+        <Association Name="FK__MatchResu__playe__3C34F16F">
           <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
           <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1338,7 +1376,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchResu__playe__3A4CA8FD">
+        <Association Name="FK__MatchResu__playe__3D2915A8">
           <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
           <End Role="MatchResults" Type="Self.MatchResults" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1350,8 +1388,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__match__3587F3E0">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__MatchRoom__match__3864608B">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="MatchRoomSecretCode" Type="Self.MatchRoomSecretCode" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -1362,7 +1402,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__playe__30C33EC3">
+        <Association Name="FK__MatchRoom__playe__339FAB6E">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1374,7 +1414,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__playe__31B762FC">
+        <Association Name="FK__MatchRoom__playe__3493CFA7">
           <End Role="Player" Type="Self.Player" Multiplicity="0..1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1386,7 +1426,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MatchRoom__room___32AB8735">
+        <Association Name="FK__MatchRoom__room___3587F3E0">
           <End Role="PrivacyCatalog" Type="Self.PrivacyCatalog" Multiplicity="1" />
           <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1398,8 +1438,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TimeTrial__match__339FAB6E">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__TimeTrial__match__367C1819">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TimeTrialConfig" Type="Self.TimeTrialConfig" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -1410,8 +1452,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TriesConf__match__3493CFA7">
-          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1" />
+        <Association Name="FK__TriesConf__match__37703C52">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TriesConfig" Type="Self.TriesConfig" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="MatchRoom">
@@ -1422,7 +1466,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerInM__playe__37703C52">
+        <Association Name="FK__PlayerInM__playe__3A4CA8FD">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1434,7 +1478,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerRep__repor__236943A5">
+        <Association Name="FK__PlayerRep__repor__2645B050">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1446,7 +1490,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerRep__repor__245D67DE">
+        <Association Name="FK__PlayerRep__repor__2739D489">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1458,7 +1502,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerTim__playe__2645B050">
+        <Association Name="FK__PlayerTim__playe__29221CFB">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerTimeTrialRecords" Type="Self.PlayerTimeTrialRecords" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1470,7 +1514,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerTri__playe__2739D489">
+        <Association Name="FK__PlayerTri__playe__2A164134">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerTriesRecords" Type="Self.PlayerTriesRecords" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1482,7 +1526,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Verificat__playe__1BC821DD">
+        <Association Name="FK__Verificat__playe__1EA48E88">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="VerificationCode" Type="Self.VerificationCode" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1494,8 +1538,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RoundsTim__playe__3B40CD36">
-          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+        <Association Name="FK__RoundsTim__playe__3E1D39E1">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RoundsTimeResults" Type="Self.RoundsTimeResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PlayerInMatch">
@@ -1506,8 +1552,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RoundsTri__playe__3C34F16F">
-          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1" />
+        <Association Name="FK__RoundsTri__playe__3F115E1A">
+          <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RoundsTriesResults" Type="Self.RoundsTriesResults" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PlayerInMatch">
@@ -1518,7 +1566,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlayerRep__reaso__25518C17">
+        <Association Name="FK__PlayerRep__reaso__282DF8C2">
           <End Role="ReportReasonCatalog" Type="Self.ReportReasonCatalog" Multiplicity="1" />
           <End Role="PlayerReport" Type="Self.PlayerReport" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1557,143 +1605,143 @@
           <EntitySet Name="TimeTrialConfig" EntityType="Self.TimeTrialConfig" />
           <EntitySet Name="TriesConfig" EntityType="Self.TriesConfig" />
           <EntitySet Name="VerificationCode" EntityType="Self.VerificationCode" />
-          <AssociationSet Name="FK__CorrectPo__clue___2DE6D218" Association="Self.FK__CorrectPo__clue___2DE6D218">
+          <AssociationSet Name="FK__CorrectPo__clue___30C33EC3" Association="Self.FK__CorrectPo__clue___30C33EC3">
             <End Role="ClueColorsCatalog" EntitySet="ClueColorsCatalog" />
             <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__color__2B0A656D" Association="Self.FK__DecipherT__color__2B0A656D">
+          <AssociationSet Name="FK__DecipherT__color__2DE6D218" Association="Self.FK__DecipherT__color__2DE6D218">
             <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
             <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__color__367C1819" Association="Self.FK__MatchRoom__color__367C1819">
+          <AssociationSet Name="FK__MatchRoom__color__395884C4" Association="Self.FK__MatchRoom__color__395884C4">
             <End Role="CodeColorsCatalog" EntitySet="CodeColorsCatalog" />
             <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__CorrectPo__corre__2CF2ADDF" Association="Self.FK__CorrectPo__corre__2CF2ADDF">
+          <AssociationSet Name="FK__CorrectPo__corre__2FCF1A8A" Association="Self.FK__CorrectPo__corre__2FCF1A8A">
             <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
             <End Role="CorrectPositionAndColorsClue" EntitySet="CorrectPositionAndColorsClue" />
           </AssociationSet>
-          <AssociationSet Name="FK__CorrectPo__decip__2BFE89A6" Association="Self.FK__CorrectPo__decip__2BFE89A6">
+          <AssociationSet Name="FK__CorrectPo__decip__2EDAF651" Association="Self.FK__CorrectPo__decip__2EDAF651">
             <End Role="DecipherTry" EntitySet="DecipherTry" />
             <End Role="CorrectPositionAndColors" EntitySet="CorrectPositionAndColors" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__decip__2A164134" Association="Self.FK__DecipherT__decip__2A164134">
+          <AssociationSet Name="FK__DecipherT__decip__2CF2ADDF" Association="Self.FK__DecipherT__decip__2CF2ADDF">
             <End Role="DecipherTry" EntitySet="DecipherTry" />
             <End Role="DecipherTryCode" EntitySet="DecipherTryCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__match__282DF8C2" Association="Self.FK__DecipherT__match__282DF8C2">
+          <AssociationSet Name="FK__DecipherT__match__2B0A656D" Association="Self.FK__DecipherT__match__2B0A656D">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="DecipherTry" EntitySet="DecipherTry" />
           </AssociationSet>
-          <AssociationSet Name="FK__DecipherT__playe__29221CFB" Association="Self.FK__DecipherT__playe__29221CFB">
+          <AssociationSet Name="FK__DecipherT__playe__2BFE89A6" Association="Self.FK__DecipherT__playe__2BFE89A6">
             <End Role="Player" EntitySet="Player" />
             <End Role="DecipherTry" EntitySet="DecipherTry" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__diffi__2FCF1A8A" Association="Self.FK__MatchRoom__diffi__2FCF1A8A">
+          <AssociationSet Name="FK__MatchRoom__diffi__32AB8735" Association="Self.FK__MatchRoom__diffi__32AB8735">
             <End Role="DifficultiesCatalog" EntitySet="DifficultiesCatalog" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__Friendshi__addre__1DB06A4F" Association="Self.FK__Friendshi__addre__1DB06A4F">
+          <AssociationSet Name="FK__Friendshi__addre__208CD6FA" Association="Self.FK__Friendshi__addre__208CD6FA">
             <End Role="Player" EntitySet="Player" />
             <End Role="Friendship" EntitySet="Friendship" />
           </AssociationSet>
-          <AssociationSet Name="FK__Friendshi__reque__1CBC4616" Association="Self.FK__Friendshi__reque__1CBC4616">
+          <AssociationSet Name="FK__Friendshi__reque__1F98B2C1" Association="Self.FK__Friendshi__reque__1F98B2C1">
             <End Role="Player" EntitySet="Player" />
             <End Role="Friendship" EntitySet="Friendship" />
           </AssociationSet>
-          <AssociationSet Name="FK__Friendshi__statu__1EA48E88" Association="Self.FK__Friendshi__statu__1EA48E88">
+          <AssociationSet Name="FK__Friendshi__statu__2180FB33" Association="Self.FK__Friendshi__statu__2180FB33">
             <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
             <End Role="Friendship" EntitySet="Friendship" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__addre__208CD6FA" Association="Self.FK__GameInvit__addre__208CD6FA">
+          <AssociationSet Name="FK__GameInvit__addre__236943A5" Association="Self.FK__GameInvit__addre__236943A5">
             <End Role="Player" EntitySet="Player" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__match__2180FB33" Association="Self.FK__GameInvit__match__2180FB33">
+          <AssociationSet Name="FK__GameInvit__match__245D67DE" Association="Self.FK__GameInvit__match__245D67DE">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__reque__1F98B2C1" Association="Self.FK__GameInvit__reque__1F98B2C1">
+          <AssociationSet Name="FK__GameInvit__reque__22751F6C" Association="Self.FK__GameInvit__reque__22751F6C">
             <End Role="Player" EntitySet="Player" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__GameInvit__statu__22751F6C" Association="Self.FK__GameInvit__statu__22751F6C">
+          <AssociationSet Name="FK__GameInvit__statu__25518C17" Association="Self.FK__GameInvit__statu__25518C17">
             <End Role="RequestStatusCatalog" EntitySet="RequestStatusCatalog" />
             <End Role="GameInvitation" EntitySet="GameInvitation" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__gamem__2EDAF651" Association="Self.FK__MatchRoom__gamem__2EDAF651">
+          <AssociationSet Name="FK__MatchRoom__gamem__31B762FC" Association="Self.FK__MatchRoom__gamem__31B762FC">
             <End Role="GameModesCatalog" EntitySet="GameModesCatalog" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchResu__match__3864608B" Association="Self.FK__MatchResu__match__3864608B">
+          <AssociationSet Name="FK__MatchResu__match__3B40CD36" Association="Self.FK__MatchResu__match__3B40CD36">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="MatchResults" EntitySet="MatchResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchResu__playe__395884C4" Association="Self.FK__MatchResu__playe__395884C4">
+          <AssociationSet Name="FK__MatchResu__playe__3C34F16F" Association="Self.FK__MatchResu__playe__3C34F16F">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="MatchResults" EntitySet="MatchResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchResu__playe__3A4CA8FD" Association="Self.FK__MatchResu__playe__3A4CA8FD">
+          <AssociationSet Name="FK__MatchResu__playe__3D2915A8" Association="Self.FK__MatchResu__playe__3D2915A8">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="MatchResults" EntitySet="MatchResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__match__3587F3E0" Association="Self.FK__MatchRoom__match__3587F3E0">
+          <AssociationSet Name="FK__MatchRoom__match__3864608B" Association="Self.FK__MatchRoom__match__3864608B">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="MatchRoomSecretCode" EntitySet="MatchRoomSecretCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__playe__30C33EC3" Association="Self.FK__MatchRoom__playe__30C33EC3">
+          <AssociationSet Name="FK__MatchRoom__playe__339FAB6E" Association="Self.FK__MatchRoom__playe__339FAB6E">
             <End Role="Player" EntitySet="Player" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__playe__31B762FC" Association="Self.FK__MatchRoom__playe__31B762FC">
+          <AssociationSet Name="FK__MatchRoom__playe__3493CFA7" Association="Self.FK__MatchRoom__playe__3493CFA7">
             <End Role="Player" EntitySet="Player" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__MatchRoom__room___32AB8735" Association="Self.FK__MatchRoom__room___32AB8735">
+          <AssociationSet Name="FK__MatchRoom__room___3587F3E0" Association="Self.FK__MatchRoom__room___3587F3E0">
             <End Role="PrivacyCatalog" EntitySet="PrivacyCatalog" />
             <End Role="MatchRoom" EntitySet="MatchRoom" />
           </AssociationSet>
-          <AssociationSet Name="FK__TimeTrial__match__339FAB6E" Association="Self.FK__TimeTrial__match__339FAB6E">
+          <AssociationSet Name="FK__TimeTrial__match__367C1819" Association="Self.FK__TimeTrial__match__367C1819">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="TimeTrialConfig" EntitySet="TimeTrialConfig" />
           </AssociationSet>
-          <AssociationSet Name="FK__TriesConf__match__3493CFA7" Association="Self.FK__TriesConf__match__3493CFA7">
+          <AssociationSet Name="FK__TriesConf__match__37703C52" Association="Self.FK__TriesConf__match__37703C52">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="TriesConfig" EntitySet="TriesConfig" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerInM__playe__37703C52" Association="Self.FK__PlayerInM__playe__37703C52">
+          <AssociationSet Name="FK__PlayerInM__playe__3A4CA8FD" Association="Self.FK__PlayerInM__playe__3A4CA8FD">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerRep__repor__236943A5" Association="Self.FK__PlayerRep__repor__236943A5">
+          <AssociationSet Name="FK__PlayerRep__repor__2645B050" Association="Self.FK__PlayerRep__repor__2645B050">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerReport" EntitySet="PlayerReport" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerRep__repor__245D67DE" Association="Self.FK__PlayerRep__repor__245D67DE">
+          <AssociationSet Name="FK__PlayerRep__repor__2739D489" Association="Self.FK__PlayerRep__repor__2739D489">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerReport" EntitySet="PlayerReport" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerTim__playe__2645B050" Association="Self.FK__PlayerTim__playe__2645B050">
+          <AssociationSet Name="FK__PlayerTim__playe__29221CFB" Association="Self.FK__PlayerTim__playe__29221CFB">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerTimeTrialRecords" EntitySet="PlayerTimeTrialRecords" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerTri__playe__2739D489" Association="Self.FK__PlayerTri__playe__2739D489">
+          <AssociationSet Name="FK__PlayerTri__playe__2A164134" Association="Self.FK__PlayerTri__playe__2A164134">
             <End Role="Player" EntitySet="Player" />
             <End Role="PlayerTriesRecords" EntitySet="PlayerTriesRecords" />
           </AssociationSet>
-          <AssociationSet Name="FK__Verificat__playe__1BC821DD" Association="Self.FK__Verificat__playe__1BC821DD">
+          <AssociationSet Name="FK__Verificat__playe__1EA48E88" Association="Self.FK__Verificat__playe__1EA48E88">
             <End Role="Player" EntitySet="Player" />
             <End Role="VerificationCode" EntitySet="VerificationCode" />
           </AssociationSet>
-          <AssociationSet Name="FK__RoundsTim__playe__3B40CD36" Association="Self.FK__RoundsTim__playe__3B40CD36">
+          <AssociationSet Name="FK__RoundsTim__playe__3E1D39E1" Association="Self.FK__RoundsTim__playe__3E1D39E1">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="RoundsTimeResults" EntitySet="RoundsTimeResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__RoundsTri__playe__3C34F16F" Association="Self.FK__RoundsTri__playe__3C34F16F">
+          <AssociationSet Name="FK__RoundsTri__playe__3F115E1A" Association="Self.FK__RoundsTri__playe__3F115E1A">
             <End Role="PlayerInMatch" EntitySet="PlayerInMatch" />
             <End Role="RoundsTriesResults" EntitySet="RoundsTriesResults" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlayerRep__reaso__25518C17" Association="Self.FK__PlayerRep__reaso__25518C17">
+          <AssociationSet Name="FK__PlayerRep__reaso__282DF8C2" Association="Self.FK__PlayerRep__reaso__282DF8C2">
             <End Role="ReportReasonCatalog" EntitySet="ReportReasonCatalog" />
             <End Role="PlayerReport" EntitySet="PlayerReport" />
           </AssociationSet>
@@ -1811,8 +1859,10 @@
                 <ScalarProperty Name="difficulty_id" ColumnName="difficulty_id" />
                 <ScalarProperty Name="player_one_id" ColumnName="player_one_id" />
                 <ScalarProperty Name="player_two_id" ColumnName="player_two_id" />
+                <ScalarProperty Name="player_one_status" ColumnName="player_one_status" />
+                <ScalarProperty Name="player_two_status" ColumnName="player_two_status" />
                 <ScalarProperty Name="room_privacy_id" ColumnName="room_privacy_id" />
-                <ScalarProperty Name="private_room_code" ColumnName="private_room_code" />
+                <ScalarProperty Name="room_code" ColumnName="room_code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

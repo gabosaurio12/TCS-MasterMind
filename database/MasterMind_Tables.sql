@@ -242,7 +242,7 @@ GO
 ALTER TABLE [GameInvitation] ADD FOREIGN KEY ([addressee_id]) REFERENCES [Player] ([player_id])
 GO
 
-ALTER TABLE [GameInvitation] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id])
+ALTER TABLE [GameInvitation] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
 ALTER TABLE [GameInvitation] ADD FOREIGN KEY ([status_id]) REFERENCES [RequestStatusCatalog] ([request_status_id])
@@ -263,22 +263,22 @@ GO
 ALTER TABLE [PlayerTriesRecords] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id])
 GO
 
-ALTER TABLE [DecipherTry] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id])
+ALTER TABLE [DecipherTry] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
 ALTER TABLE [DecipherTry] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id])
 GO
 
-ALTER TABLE [DecipherTryCode] ADD FOREIGN KEY ([decipher_try_id]) REFERENCES [DecipherTry] ([decipher_try_id])
+ALTER TABLE [DecipherTryCode] ADD FOREIGN KEY ([decipher_try_id]) REFERENCES [DecipherTry] ([decipher_try_id]) ON DELETE CASCADE
 GO
 
 ALTER TABLE [DecipherTryCode] ADD FOREIGN KEY ([color_id]) REFERENCES [CodeColorsCatalog] ([code_color_id])
 GO
 
-ALTER TABLE [CorrectPositionAndColors] ADD FOREIGN KEY ([decipher_try_id]) REFERENCES [DecipherTry] ([decipher_try_id])
+ALTER TABLE [CorrectPositionAndColors] ADD FOREIGN KEY ([decipher_try_id]) REFERENCES [DecipherTry] ([decipher_try_id]) ON DELETE CASCADE
 GO
 
-ALTER TABLE [CorrectPositionAndColorsClue] ADD FOREIGN KEY ([correct_position_and_colors_id]) REFERENCES [CorrectPositionAndColors] ([decipher_try_id])
+ALTER TABLE [CorrectPositionAndColorsClue] ADD FOREIGN KEY ([correct_position_and_colors_id]) REFERENCES [CorrectPositionAndColors] ([decipher_try_id]) ON DELETE CASCADE
 GO
 
 ALTER TABLE [CorrectPositionAndColorsClue] ADD FOREIGN KEY ([clue_color_id]) REFERENCES [ClueColorsCatalog] ([clue_color_id])
@@ -299,13 +299,13 @@ GO
 ALTER TABLE [MatchRoom] ADD FOREIGN KEY (room_privacy_id) REFERENCES [PrivacyCatalog] ([privacy_id])
 GO
 
-ALTER TABLE [TimeTrialConfig] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id])
+ALTER TABLE [TimeTrialConfig] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
-ALTER TABLE [TriesConfig] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id])
+ALTER TABLE [TriesConfig] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
-ALTER TABLE [MatchRoomSecretCode] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id])
+ALTER TABLE [MatchRoomSecretCode] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
 ALTER TABLE [MatchRoomSecretCode] ADD FOREIGN KEY ([color_id]) REFERENCES [CodeColorsCatalog] ([code_color_id])
@@ -314,7 +314,7 @@ GO
 ALTER TABLE [PlayerInMatch] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id])
 GO
 
-ALTER TABLE [MatchResults] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id])
+ALTER TABLE [MatchResults] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
 ALTER TABLE [MatchResults] ADD FOREIGN KEY ([player_one_results_id]) REFERENCES [PlayerInMatch] ([player_in_match_id])
@@ -323,10 +323,10 @@ GO
 ALTER TABLE [MatchResults] ADD FOREIGN KEY ([player_two_results_id]) REFERENCES [PlayerInMatch] ([player_in_match_id])
 GO
 
-ALTER TABLE [RoundsTimeResults] ADD FOREIGN KEY ([player_in_match_id]) REFERENCES [PlayerInMatch] ([player_in_match_id])
+ALTER TABLE [RoundsTimeResults] ADD FOREIGN KEY ([player_in_match_id]) REFERENCES [PlayerInMatch] ([player_in_match_id]) ON DELETE CASCADE
 GO
 
-ALTER TABLE [RoundsTriesResults] ADD FOREIGN KEY ([player_in_match_id]) REFERENCES [PlayerInMatch] ([player_in_match_id])
+ALTER TABLE [RoundsTriesResults] ADD FOREIGN KEY ([player_in_match_id]) REFERENCES [PlayerInMatch] ([player_in_match_id]) ON DELETE CASCADE
 GO
 
 -- Insert catalogs
@@ -334,7 +334,8 @@ GO
 INSERT INTO [RequestStatusCatalog] ([status])
 VALUES
   ('Pending'),
-  ('Accepted');
+  ('Accepted'),
+  ('Rejected');
 GO
 INSERT INTO [ReportReasonCatalog] ([reason])
 VALUES

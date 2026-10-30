@@ -1,8 +1,9 @@
-﻿using System.ServiceModel;
+﻿using System.Runtime.Serialization;
+using System.ServiceModel;
 
 namespace MasterMind_Server.Contracts
 {
-    [ServiceContract(CallbackContract = typeof(ILobbyCallbackService))]
+    [ServiceContract]
     interface ILobbyCallbackService
     {
         [OperationContract(IsOneWay = true)]
@@ -12,9 +13,16 @@ namespace MasterMind_Server.Contracts
         void OnChangePlayerStatusCallback(PlayerStatus status);
     }
 
+    [DataContract]
     public class ChatMessage
     {
+        [DataMember]
+        public int RoomId { get; set; }
+
+        [DataMember]
         public string SenderUsername { get; set; }
+
+        [DataMember]
         public string Message { get; set; }
     }
 }

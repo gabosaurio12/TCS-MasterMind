@@ -19,7 +19,7 @@ namespace MasterMind_Server.Data
             : base("name=MasterMindEntities")
         {
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
