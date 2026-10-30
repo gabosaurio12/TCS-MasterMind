@@ -3,6 +3,7 @@ using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
+using System.ServiceModel;
 
 namespace MasterMind_Client.ViewModels.Pages
 {
@@ -56,13 +57,28 @@ namespace MasterMind_Client.ViewModels.Pages
             }
 
             var service = new PlayerServiceClient();
-            if (!service.LoginPlayer(player.Username, player.Password))
+            try
             {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCredentials);
-                isValid = false;
+                if (!service.LoginPlayer(player.Username, player.Password))
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCredentials);
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+            catch (FaultException ex)
+            {
+                var message = ex.Message;
+                switch (message)
+                {
+                    case "DatabaseError":
+                        dialogService.ShowError(Properties.Resources.ErrorNotification_Title);
+                        break;
+                }
             }
 
-            return isValid;
+            return false;
         }
 
         private void OnVerificationSucceded(Player verifiedPlayer)
