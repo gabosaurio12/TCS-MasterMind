@@ -13,7 +13,6 @@ namespace MasterMind_Server.Services
     internal class PlayerService : IPlayerService
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(PlayerService));
-        private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly PlayerRepository playerRepository = new PlayerRepository();
 
         public string RegisterPlayer(Player player)
@@ -40,8 +39,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
             }
         }
 
@@ -63,8 +61,7 @@ namespace MasterMind_Server.Services
                 catch (SaltParseException ex)
                 {
                     logger.Error(ex);
-                    clientMessage.Message = ErrorMessagesEnum.HashError.ToString();
-                    throw new FaultException<ErrorMessage>(clientMessage);
+                    throw new FaultException(ErrorMessagesEnum.HashError.ToString());
                 }
             }
 
@@ -98,8 +95,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
             }
             
         }
@@ -131,8 +127,8 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+
             }
         }
 
@@ -153,8 +149,8 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+
             }
         }
 
@@ -180,8 +176,8 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+
             }
         }
 
@@ -195,8 +191,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
             }
         }
 
@@ -215,8 +210,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
             }
         }
     }

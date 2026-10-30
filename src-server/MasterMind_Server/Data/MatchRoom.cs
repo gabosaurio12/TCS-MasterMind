@@ -29,8 +29,10 @@ namespace MasterMind_Server.Data
         public int difficulty_id { get; set; }
         public int player_one_id { get; set; }
         public Nullable<int> player_two_id { get; set; }
+        public byte player_one_status { get; set; }
+        public byte player_two_status { get; set; }
         public int room_privacy_id { get; set; }
-        public string private_room_code { get; set; }
+        public string room_code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DecipherTry> DecipherTry { get; set; }

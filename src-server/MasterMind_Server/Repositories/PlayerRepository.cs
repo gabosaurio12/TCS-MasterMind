@@ -120,7 +120,7 @@ namespace MasterMind_Server.Repositories
         public string UpdatePlayer(Player player)
         {
             string validationResult = ValidateData(player);
-            if (validationResult.Equals(RepositoriesEnum.ValidInfo))
+            if (validationResult.Equals(RepositoriesEnum.ValidInfo.ToString()))
             {
                 var formerPlayer = GetPlayerById(player.player_id);
                 if (formerPlayer != null)

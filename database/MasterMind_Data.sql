@@ -11,6 +11,8 @@
 --        ReportReasonCatalog:  1=InappropriateLanguage, 2=Cheating
 --        ClueColorsCatalog:    1=Black, 2=White
 --        GameModesCatalog:     1=TimeTrial, 2=Tries
+--        PrivacyCatalog:       1=Public, 2=Private
+--        DifficultiesCatalog:  1=Easy, 2=Normal, 3=Hard, 4=Enigma
 --        CodeColorsCatalog:    1=Blue, 2=Green, 3=Red, 4=Yellow,
 --                               5=Orange, 6=White
 -- =====================================================================
@@ -47,14 +49,16 @@ GO
 
 -- ---------------------------------------------------------------------
 -- 3. MatchRoom  (3 registros)
---    Variación de gamemode (TimeTrial y Tries) y de room_code
---    (sala pública sin código privado en la #2).
+--    Variación de gamemode (TimeTrial y Tries), dificultad, privacidad y
+--    room_code (la sala pública no lleva código privado).
 -- ---------------------------------------------------------------------
-INSERT INTO [MatchRoom] ([gamemode_id], [player_one_id], [player_two_id], [private_room_code])
+INSERT INTO [MatchRoom]
+  ([match_room_name], [gamemode_id], [difficulty_id], [player_one_id],
+   [player_two_id], [room_privacy_id], [room_code])
 VALUES
-  (1, 1, 2, 'ABC123'), -- Sala 1: TimeTrial, Ana vs Beto
-  (2, 3, 4, NULL),     -- Sala 2: Tries, Caro vs Dario, sala pública
-  (1, 5, 6, 'XYZ789'); -- Sala 3: TimeTrial, Elena vs Fabian
+  ('SalaTimeTrialAna',   1, 2, 1, 2, 2, 'ABC123'), -- Sala 1: privada, normal
+  ('SalaTriesCaro',      2, 1, 3, 4, 1, NULL),     -- Sala 2: pública, fácil
+  ('SalaTimeTrialElena', 1, 3, 5, 6, 2, 'XYZ789'); -- Sala 3: privada, difícil
 GO
 -- IDs esperados: Sala1=1, Sala2=2, Sala3=3
 
