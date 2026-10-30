@@ -11,6 +11,10 @@
         Background="{StaticResource ModalLogOutBgBrush}"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    </Window.Resources>
+
     <Grid Margin="40,46,40,42">
         <Viewbox Stretch="Uniform">
             <StackPanel>
@@ -31,7 +35,8 @@
                             Style="{StaticResource MetalButtonBlue}"
                             Width="250" Height="88" Padding="10,0"
                             FontFamily="{StaticResource Elite}" FontSize="30"
-                            Command="{Binding LogOutCommand}" />
+                            Command="{Binding LogOutCommand}"
+                            Visibility="{Binding IsLogOutVisible, Converter={StaticResource BoolToVisibility}}" />
                 </StackPanel>
 
             </StackPanel>

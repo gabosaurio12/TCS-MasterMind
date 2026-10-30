@@ -5,15 +5,27 @@ namespace MasterMind_Client.ViewModels.Modals
 {
     public class LogOutViewModel : ViewModelBase
     {
+
+        private bool isLogOutVisible;
+        public bool IsLogOutVisible
+        {
+            get => isLogOutVisible;
+            set
+            {
+                isLogOutVisible = value;
+                SetProperty(ref isLogOutVisible, value);
+            }
+        }
+
+        public RelayCommand QuitCommand { get; }
+        public RelayCommand LogOutCommand { get; }
+
         public LogOutViewModel()
         {
             QuitCommand = new RelayCommand(_ => Application.Current.Shutdown());
             LogOutCommand = new RelayCommand(_ => LogOut());
+            IsLogOutVisible = Properties.Settings.Default.RememberLogin;
         }
-
-        public RelayCommand QuitCommand { get; }
-
-        public RelayCommand LogOutCommand { get; }
 
         private void LogOut()
         {
