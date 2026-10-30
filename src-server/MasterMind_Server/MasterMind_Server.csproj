@@ -328,6 +328,9 @@
     <Compile Include="ErrorMessages\ErrorMessagesEnum.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ClassHelpers\RoomCreationData.cs" />
+    <Compile Include="Repositories\ClassHelpers\RoomMember.cs" />
+    <Compile Include="Repositories\ClassHelpers\StatusChangeContext.cs" />
     <Compile Include="Repositories\Dtos\ChatMessageResult.cs" />
     <Compile Include="Repositories\Dtos\PlayerRecordsDto.cs" />
     <Compile Include="Repositories\Dtos\PlayerStatusChangeResult.cs" />
@@ -348,6 +351,7 @@
     <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Repositories\RoomRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
+    <Compile Include="Services\Callbacks\LobbyCallbackService.cs" />
     <Compile Include="Services\CodeService.cs" />
     <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\LobbyService.cs" />

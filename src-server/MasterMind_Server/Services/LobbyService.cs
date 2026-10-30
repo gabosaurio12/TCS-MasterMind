@@ -93,7 +93,11 @@ namespace MasterMind_Server.Services
                 return;
             }
 
-            if (result.PromotedPlayer != null)
+            if (result.JoinedPlayer != null)
+            {
+                NotifyStatus(status.RoomId, status.Username, result.JoinedPlayer);
+            }
+            else if (result.PromotedPlayer != null)
             {
                 NotifyStatus(status.RoomId, status.Username, result.PromotedPlayer);
             }

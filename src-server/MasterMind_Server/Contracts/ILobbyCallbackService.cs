@@ -25,4 +25,20 @@ namespace MasterMind_Server.Contracts
         [DataMember]
         public string Message { get; set; }
     }
+
+    [DataContract]
+    public class PlayerStatusResponse
+    {
+        [DataMember]
+        public int RoomId { get; set; }
+
+        [DataMember]
+        public string Username { get; set; }
+
+        [DataMember]
+        public string Status { get; set; }
+
+        [DataMember]
+        public bool IsPlayerOne { get; set; }
+    }
 }

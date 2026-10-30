@@ -8,6 +8,8 @@ namespace MasterMind_Server.Repositories.Dtos
 
         public bool RoomDeleted { get; set; }
 
+        public PlayerStatus JoinedPlayer { get; set; }
+
         public PlayerStatus ChangedPlayer { get; set; }
 
         public PlayerStatus EscapedPlayer { get; set; }

@@ -1,6 +1,7 @@
 ﻿using log4net;
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Data;
+using MasterMind_Server.Repositories.ClassHelpers;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
@@ -13,7 +14,6 @@ using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
-using PlayerEntity = MasterMind_Server.Data.Player;
 
 namespace MasterMind_Server.Repositories
 {
@@ -25,6 +25,7 @@ namespace MasterMind_Server.Repositories
         private const int MaxRoomNameLength = 100;
         private readonly ILog logger = LogManager.GetLogger(typeof(RoomRepository));
         private readonly MasterMindEntities context = new MasterMindEntities(true);
+        private readonly PlayerRepository playerRepository = new PlayerRepository();
 
         public List<Room> GetPublicRooms()
         {
@@ -81,7 +82,31 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                return JoinRoomInternal(room, username);
+                if (room == null || string.IsNullOrWhiteSpace(room.Name))
+                {
+                    return RoomResultEnum.Error.ToString();
+                }
+
+                using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+                {
+                    var roomEntity = GetRoomEntityByName(room.Name);
+                    var player = playerRepository.GetPlayerByUsername(username);
+                    if (roomEntity == null || player == null || !IsPublic(roomEntity))
+                    {
+                        return RoomResultEnum.Error.ToString();
+                    }
+
+                    var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
+                    if (blockingResult != null)
+                    {
+                        return blockingResult;
+                    }
+
+                    SetPlayerTwo(roomEntity, player.player_id);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return RoomResultEnum.Success.ToString();
+                }
             }
             catch (EntityException ex)
             {
@@ -99,7 +124,32 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                return JoinRoomWithCodeInternal(room, username, code);
+                if (room == null || string.IsNullOrWhiteSpace(room.Name))
+                {
+                    return RoomResultEnum.Error.ToString();
+                }
+                using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+                {
+                    var roomEntity = GetRoomEntityByName(room.Name);
+                    var player = playerRepository.GetPlayerByUsername(username);
+                    if (roomEntity == null || player == null || IsPublic(roomEntity))
+                    {
+                        return RoomResultEnum.Error.ToString();
+                    }
+                    var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
+                    if (blockingResult != null)
+                    {
+                        return blockingResult;
+                    }
+                    if (!IsRoomCodeValid(roomEntity, code))
+                    {
+                        return RoomResultEnum.WrongCode.ToString();
+                    }
+                    SetPlayerTwo(roomEntity, player.player_id);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return RoomResultEnum.Success.ToString();
+                }
             }
             catch (EntityException ex)
             {
@@ -129,11 +179,54 @@ namespace MasterMind_Server.Repositories
             }
         }
 
+        public Room GetRoomById(int roomId)
+        {
+            try
+            {
+                var roomEntity = GetRoomEntityById(roomId);
+                return roomEntity == null
+                    ? new Room { RoomId = 0 }
+                    : RoomEntityToContract(roomEntity);
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw;
+            }
+        }
+
         public PlayerStatusChangeResult ChangePlayerStatus(PlayerStatus status)
         {
             try
             {
-                return ChangePlayerStatusInternal(status);
+                var result = new PlayerStatusChangeResult { Status = RoomResultEnum.Error.ToString() };
+                PlayerStatusEnum newStatus;
+                if (status == null || !TryParsePlayerStatus(status.Status, out newStatus))
+                {
+                    return result;
+                }
+
+                using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+                {
+                    var room = GetRoomEntityById(status.RoomId);
+                    var member = GetRoomMember(room, status.Username);
+                    if (member == null)
+                    {
+                        return result;
+                    }
+                    result.Status = RoomResultEnum.Success.ToString();
+                    result.ChangedPlayer = BuildPlayerStatus(room, member, newStatus);
+                    var changeContext = new StatusChangeContext
+                    {
+                        Room = room,
+                        Member = member,
+                        NewStatus = newStatus,
+                        Result = result
+                    };
+                    ApplyStatusChange(changeContext);
+                    transaction.Commit();
+                    return result;
+                }
             }
             catch (EntityException ex)
             {
@@ -171,96 +264,6 @@ namespace MasterMind_Server.Repositories
                     Status = RoomResultEnum.Success.ToString(),
                     Room = GetRoomByName(data.RoomName)
                 };
-            }
-        }
-
-        private string JoinRoomInternal(Room room, string username)
-        {
-            if (room == null || string.IsNullOrWhiteSpace(room.Name))
-            {
-                return RoomResultEnum.Error.ToString();
-            }
-
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
-            {
-                var roomEntity = GetRoomEntityByName(room.Name);
-                var player = GetPlayer(username);
-                if (roomEntity == null || player == null || !IsPublic(roomEntity))
-                {
-                    return RoomResultEnum.Error.ToString();
-                }
-
-                var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
-                if (blockingResult != null)
-                {
-                    return blockingResult;
-                }
-
-                SetPlayerTwo(roomEntity, player.player_id);
-                context.SaveChanges();
-                transaction.Commit();
-                return RoomResultEnum.Success.ToString();
-            }
-        }
-
-        private string JoinRoomWithCodeInternal(Room room, string username, string code)
-        {
-            if (room == null || string.IsNullOrWhiteSpace(room.Name))
-            {
-                return RoomResultEnum.Error.ToString();
-            }
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
-            {
-                var roomEntity = GetRoomEntityByName(room.Name);
-                var player = GetPlayer(username);
-                if (roomEntity == null || player == null || IsPublic(roomEntity))
-                {
-                    return RoomResultEnum.Error.ToString();
-                }
-                var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
-                if (blockingResult != null)
-                {
-                    return blockingResult;
-                }
-                if (!IsRoomCodeValid(roomEntity, code))
-                {
-                    return RoomResultEnum.WrongCode.ToString();
-                }
-                SetPlayerTwo(roomEntity, player.player_id);
-                context.SaveChanges();
-                transaction.Commit();
-                return RoomResultEnum.Success.ToString();
-            }
-        }
-
-        private PlayerStatusChangeResult ChangePlayerStatusInternal(PlayerStatus status)
-        {
-            var result = new PlayerStatusChangeResult { Status = RoomResultEnum.Error.ToString() };
-            PlayerStatusEnum newStatus;
-            if (status == null || !TryParsePlayerStatus(status.Status, out newStatus))
-            {
-                return result;
-            }
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
-            {
-                var room = GetRoomEntityById(status.RoomId);
-                var member = GetRoomMember(room, status.Username);
-                if (member == null)
-                {
-                    return result;
-                }
-                result.Status = RoomResultEnum.Success.ToString();
-                result.ChangedPlayer = BuildPlayerStatus(room, member, newStatus);
-                var changeContext = new StatusChangeContext
-                {
-                    Room = room,
-                    Member = member,
-                    NewStatus = newStatus,
-                    Result = result
-                };
-                ApplyStatusChange(changeContext);
-                transaction.Commit();
-                return result;
             }
         }
 
@@ -342,13 +345,13 @@ namespace MasterMind_Server.Repositories
 
         private void DeleteRoom(MatchRoom room)
         {
-            var playerInMatchIds = GetPlayerInMatchIds(room.match_room_id);
+            var playerInMatchIds = GetPlayerByUsernameInMatchIds(room.match_room_id);
             context.MatchRoom.Remove(room);
             context.SaveChanges();
             DeleteOrphanedPlayerInMatch(playerInMatchIds);
         }
 
-        private List<int> GetPlayerInMatchIds(int roomId)
+        private List<int> GetPlayerByUsernameInMatchIds(int roomId)
         {
             var results = context.MatchResults
                 .Where(result => result.match_room_id == roomId)
@@ -403,27 +406,62 @@ namespace MasterMind_Server.Repositories
             }
             var roomName = room.Name.Trim();
             var privacy = ParsePrivacy(room.RoomPrivacy);
-            var privacyId = privacy.HasValue ? FindPrivacyId(privacy.Value) : null;
+
+            int? privacyId = 0;
+            
+            if (privacy.HasValue)
+            {
+                privacyId = FindPrivacyId(privacy.Value);
+            }
+
             var gamemodeId = FindGameModeId(room.Gamemode);
             var difficultyId = FindDifficultyId(room.Difficulty);
-            var player = GetPlayer(room.PlayerOneUsername);
-            if (roomName.Length > MaxRoomNameLength
-                || !privacyId.HasValue
-                || !gamemodeId.HasValue
-                || !difficultyId.HasValue
-                || player == null)
-            {
-                return null;
-            }
-            return new RoomCreationData
+            var player = playerRepository.GetPlayerByUsername(room.PlayerOneUsername);
+
+            var creationData = new RoomCreationData
             {
                 RoomName = roomName,
                 Privacy = privacy.Value,
                 PrivacyId = privacyId.Value,
                 GamemodeId = gamemodeId.Value,
                 DifficultyId = difficultyId.Value,
-                PlayerOneId = player.player_id
+                PlayerOneId = player != null ? player.player_id : 0
             };
+
+            if (ValidateRoomData(creationData))
+            {
+                return null;
+            }
+
+            return creationData;
+        }
+
+        private bool ValidateRoomData(RoomCreationData data)
+        {
+            bool isValid = true;
+
+            if (data.RoomName.Length > MaxRoomNameLength)
+            {
+                isValid = false;
+            }
+            else if (data.PrivacyId == 0)
+            {
+                isValid = false;
+            }
+            else if (data.GamemodeId == 0)
+            {
+                isValid = false;
+            }
+            else if (data.DifficultyId == 0)
+            {
+                isValid = false;
+            }
+            else if (data.PlayerOneId == 0)
+            {
+                isValid = false;
+            }
+
+            return isValid;
         }
 
         private MatchRoom BuildRoomEntity(RoomCreationData data)
@@ -565,17 +603,6 @@ namespace MasterMind_Server.Repositories
             return catalog?.difficulty_id;
         }
 
-        private PlayerEntity GetPlayer(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                return null;
-            }
-
-            var playerName = username.Trim();
-            return context.Player.FirstOrDefault(player => player.username == playerName);
-        }
-
         private MatchRoom GetRoomEntityByName(string roomName)
         {
             if (string.IsNullOrWhiteSpace(roomName))
@@ -650,39 +677,6 @@ namespace MasterMind_Server.Repositories
             var value = BitConverter.ToUInt16(bytes, 0);
             var range = RoomCodeMaximum - RoomCodeMinimum + 1;
             return (RoomCodeMinimum + (value % range)).ToString(CultureInfo.InvariantCulture);
-        }
-
-        private class RoomCreationData
-        {
-            public string RoomName { get; set; }
-
-            public RoomPrivacyEnum Privacy { get; set; }
-
-            public int PrivacyId { get; set; }
-
-            public int GamemodeId { get; set; }
-
-            public int DifficultyId { get; set; }
-
-            public int PlayerOneId { get; set; }
-        }
-
-        private class RoomMember
-        {
-            public string Username { get; set; }
-
-            public bool IsPlayerOne { get; set; }
-        }
-
-        private class StatusChangeContext
-        {
-            public MatchRoom Room { get; set; }
-
-            public RoomMember Member { get; set; }
-
-            public PlayerStatusEnum NewStatus { get; set; }
-
-            public PlayerStatusChangeResult Result { get; set; }
         }
     }
 }
