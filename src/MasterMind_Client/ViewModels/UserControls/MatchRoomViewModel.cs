@@ -1,7 +1,5 @@
-using MasterMind_Client.Helpers;
 using MasterMind_Client.TempData.DTO;
 using MasterMind_Client.ViewModels.Base;
-using System.Windows.Media;
 
 namespace MasterMind_Client.ViewModels.UserControls
 {
@@ -12,7 +10,6 @@ namespace MasterMind_Client.ViewModels.UserControls
             Room = room;
             RoomName = room.RoomName;
             IsPrivate = room.Privacy == "Private";
-            PrivacyBrush = room.Privacy == "Private" ? UtilsUI.PrivateRed : UtilsUI.PublicBlue;
         }
 
         public MatchRoomDto Room { get; }
@@ -20,7 +17,5 @@ namespace MasterMind_Client.ViewModels.UserControls
         public string RoomName { get; }
 
         public bool IsPrivate { get; }
-
-        public Brush PrivacyBrush { get; }
     }
 }

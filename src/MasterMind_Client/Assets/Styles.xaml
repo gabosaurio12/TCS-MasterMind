@@ -639,4 +639,34 @@
         <Setter Property="CornerRadius" Value="12" />
     </Style>
 
+    <!-- ============================ Room row ============================ -->
+
+    <Style x:Key="RoomLeftPieceImage" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource PrivateRoomLeftSource}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPrivate}" Value="False">
+                <Setter Property="Source" Value="{StaticResource PublicRoomLeftSource}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RoomMiddlePieceImage" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource PrivateRoomMiddleSource}" />
+        <Setter Property="Stretch" Value="Fill" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPrivate}" Value="False">
+                <Setter Property="Source" Value="{StaticResource PublicRoomMiddleSource}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RoomRightPieceImage" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource PrivateRoomRightSource}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPrivate}" Value="False">
+                <Setter Property="Source" Value="{StaticResource PublicRoomRightSource}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

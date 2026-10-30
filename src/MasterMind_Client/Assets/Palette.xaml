@@ -43,6 +43,29 @@
     <ImageBrush x:Key="MachineBrush" ImageSource="{StaticResource MachineSource}"
                 Stretch="UniformToFill"/>
 
+    <!-- ============================ Rooms page ============================ -->
+
+    <ImageBrush x:Key="BgRoomsBrush" ImageSource="/Assets/Backgrounds/RoomsBackground.png"
+                Stretch="UniformToFill" />
+    <BitmapImage x:Key="RoomsContainerImage" UriSource="/Assets/Elements/Rooms_Container.png" />
+
+    <!-- Room row sprites -->
+    <BitmapImage x:Key="PrivateRoomImage" UriSource="/Assets/Elements/Private_Room.png" />
+    <BitmapImage x:Key="PublicRoomImage" UriSource="/Assets/Elements/Public_Room.png" />
+
+    <CroppedBitmap x:Key="PrivateRoomLeftSource" Source="{StaticResource PrivateRoomImage}"
+                   SourceRect="60,680,620,415" />
+    <CroppedBitmap x:Key="PrivateRoomMiddleSource" Source="{StaticResource PrivateRoomImage}"
+                   SourceRect="680,680,1390,415" />
+    <CroppedBitmap x:Key="PrivateRoomRightSource" Source="{StaticResource PrivateRoomImage}"
+                   SourceRect="2070,680,270,415" />
+    <CroppedBitmap x:Key="PublicRoomLeftSource" Source="{StaticResource PublicRoomImage}"
+                   SourceRect="60,680,620,415" />
+    <CroppedBitmap x:Key="PublicRoomMiddleSource" Source="{StaticResource PublicRoomImage}"
+                   SourceRect="680,680,1390,415" />
+    <CroppedBitmap x:Key="PublicRoomRightSource" Source="{StaticResource PublicRoomImage}"
+                   SourceRect="2070,680,270,415" />
+
     <!-- ============================ Colors ============================ -->
 
     <!-- Ink on parchment (inside the fields) -->

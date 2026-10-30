@@ -618,6 +618,10 @@
     <Resource Include="Assets\Elements\Red_Minus_Button.png" />
     <Resource Include="Assets\Elements\Red_Report_Button.png" />
     <Resource Include="Assets\Elements\MasterMind_Title.png" />
+    <Resource Include="Assets\Backgrounds\RoomsBackground.png" />
+    <Resource Include="Assets\Elements\Rooms_Container.png" />
+    <Resource Include="Assets\Elements\Private_Room.png" />
+    <Resource Include="Assets\Elements\Public_Room.png" />
     <None Include=".env">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

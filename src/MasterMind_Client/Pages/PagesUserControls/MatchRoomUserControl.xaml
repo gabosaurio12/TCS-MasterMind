@@ -3,39 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
-             xmlns:helpers="clr-namespace:MasterMind_Client.Helpers"
-             xmlns:p="clr-namespace:MasterMind_Client.Properties"
              mc:Ignorable="d"
              Height="94" Width="1300">
-    <Border x:Name="RoomBorder"
-            CornerRadius="10"
-            Cursor="Hand">
-        <Border.Style>
-            <Style TargetType="Border">
-                <Setter Property="Background" Value="{x:Static helpers:UtilsUI.RoomDefaultBackground}" />
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="True">
-                        <Setter Property="Background" Value="{x:Static helpers:UtilsUI.RoomSelectedBackground}" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="104" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+    <Grid Cursor="Hand">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-            <Ellipse x:Name="PrivacyFlag" Grid.Column="0" Width="64" Height="64"
-             Fill="{Binding PrivacyBrush}" />
+        <Viewbox Grid.Column="0">
+            <Image Style="{StaticResource RoomLeftPieceImage}" />
+        </Viewbox>
 
-            <Viewbox Grid.Column="1" StretchDirection="DownOnly" MaxHeight="55" HorizontalAlignment="Left">
-                <TextBlock x:Name="RoomNameTxt" FontFamily="{StaticResource Aladin}" FontSize="64"
-                   Foreground="White" Text="{Binding RoomName}"
-                   Margin="20,0,20,0"/>
-            </Viewbox>
+        <Image Grid.Column="1" Style="{StaticResource RoomMiddlePieceImage}" />
 
-        </Grid>
-    </Border>
+        <Viewbox Grid.Column="2">
+            <Image Style="{StaticResource RoomRightPieceImage}" />
+        </Viewbox>
+
+        <Viewbox Grid.ColumnSpan="3" StretchDirection="DownOnly" MaxHeight="55"
+                 HorizontalAlignment="Left" Margin="176,0,0,0">
+            <TextBlock x:Name="RoomNameTxt" FontFamily="{StaticResource Elite}" FontSize="64"
+                       Foreground="{StaticResource CreamBrush}" Text="{Binding RoomName}"
+                       Margin="20,0,20,0" />
+        </Viewbox>
+
+        <Border x:Name="RoomBorder" BorderThickness="4" CornerRadius="16" IsHitTestVisible="False">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Style.Triggers>
+                        <DataTrigger Value="True"
+                                     Binding="{Binding IsSelected,
+                                               RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+                            <Setter Property="BorderBrush" Value="{StaticResource CreamBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+    </Grid>
 </UserControl>
