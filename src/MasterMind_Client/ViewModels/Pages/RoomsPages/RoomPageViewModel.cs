@@ -1,14 +1,16 @@
-using MasterMind_Client.TempData;
-using MasterMind_Client.TempData.DTO;
+using MasterMind_Client.LobbyService;
+using MasterMind_Client.PlayerService;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
 using System;
+using System.ServiceModel;
 using System.Web;
 
 namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
-    public class RoomPageViewModel : ViewModelBase
+    public class RoomPageViewModel : ViewModelBase, ILobbyServiceCallback
     {
 
         public string RoomTitle
@@ -31,8 +33,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public bool IsReady
         {
-            get => _isReady;
-            private set => SetProperty(ref _isReady, value);
+            get => isReady;
+            private set => SetProperty(ref isReady, value);
         }
 
         public RelayCommand ReadyCommand { get; }
@@ -44,19 +46,31 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private string roomTitle;
         private PlayerSlotViewModel playerOne;
         private PlayerSlotViewModel playerTwo;
-        private bool _isReady;
+        private bool isReady;
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
+        private readonly InstanceContext instanceContext;
+
+        private readonly RoomServiceClient roomService = new RoomServiceClient();
+        private readonly LobbyServiceClient lobbyService;
 
         public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
             this.dialogService = dialogService;
+
+            var callbackHandler = this;
+            var instanceContext = new InstanceContext(callbackHandler);
+            lobbyService = new LobbyServiceClient(instanceContext);
+            this.instanceContext = instanceContext;
+
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
             EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
             InitializeFromUri(uri);
+
+            lobbyService = new LobbyServiceClient(this.instanceContext);
         }
 
 
@@ -69,7 +83,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 return;
             }
 
-            var room = TempMatchRoomsService.GetMatchRoomById(roomId);
+            var room = roomService.GetRoomById(roomId);
             if (room == null)
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
@@ -77,8 +91,23 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 return;
             }
 
-            RoomTitle = room.RoomName;
+            RoomTitle = room.Name;
             SetPlayers(room);
+            NotifyPlayerStatus(room);
+        }
+
+        private void NotifyPlayerStatus(Room room)
+        {
+            string username = CurrentPlayer.Instance.Username;
+            var playerStatus = new PlayerStatus
+            {
+                RoomId = room.RoomId,
+                Username = username,
+                Status = "NotReady",
+                IsPlayerOne = username.Equals(PlayerOne.Username)
+            };
+
+            lobbyService.ChangePlayerStatusAsync(playerStatus);
         }
 
         private int GetRoomIdFromQuery(Uri uri)
@@ -111,29 +140,30 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             return queryString;
         }
 
-        private void SetPlayers(MatchRoomDto room)
+        private void SetPlayers(Room room)
         {
-            if (room.PlayerOneId == CurrentPlayer.Instance.Id)
+            if (room.PlayerOneUsername == CurrentPlayer.Instance.Username)
             {
                 PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
-                PlayerTwo = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerTwoId));
+                PlayerTwo = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerTwoUsername));
             }
             else
             {
                 PlayerTwo = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
-                PlayerOne = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerOneId));
+                PlayerOne = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerOneUsername));
             }
         }
 
-        private string GetOpponentUsername(int opponentId)
+        private string GetOpponentUsername(string username)
         {
-            if (opponentId == 0)
+            if (string.IsNullOrWhiteSpace(username))
             {
                 return Properties.Resources.RoomPage_EmptySlot;
             }
 
-            var opponent = TempPlayerService.GetPlayerById(opponentId);
-            return opponent?.username ?? Properties.Resources.RoomPage_EmptySlot;
+            var playerService = new PlayerServiceClient();
+            var opponent = playerService.GetPlayerByUsername(username);
+            return opponent?.Username ?? Properties.Resources.RoomPage_EmptySlot;
         }
 
         private void SetReady()
@@ -162,6 +192,17 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private void NavigateTo(string uri)
         {
             navigationService.Navigate(new Uri(uri, UriKind.Relative));
+        }
+
+        public void OnMessageReceivedCallback(ChatMessage message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnChangePlayerStatusCallback(PlayerStatus status)
+        {
+            var room = roomService.GetRoomById(status.RoomId);
+            SetPlayers(room);
         }
     }
 }

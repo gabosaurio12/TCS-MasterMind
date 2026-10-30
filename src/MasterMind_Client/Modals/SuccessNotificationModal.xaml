@@ -28,7 +28,7 @@
 
                 <Button x:Name="ContinueBtn" Content="{x:Static p:Resources.UI_Continue}"
                         Style="{StaticResource MetalButtonBlue}"
-                        Width="230" Height="85" HorizontalAlignment="Center"
+                        Width="300" Height="85" HorizontalAlignment="Center"
                         FontFamily="{StaticResource Elite}" FontSize="32"
                         Command="{Binding ContinueCommand}" />
             </StackPanel>

@@ -1,15 +1,32 @@
-using MasterMind_Client.TempData;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.TempData.Enum;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
 using System;
 using System.Collections.ObjectModel;
+using System.ServiceModel;
 
 namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
     public class RoomsPageViewModel : ViewModelBase
     {
+
+        public ObservableCollection<MatchRoomViewModel> Rooms { get; }
+        public MatchRoomViewModel SelectedRoom
+        {
+            get => _selectedRoom;
+            set => SetProperty(ref _selectedRoom, value);
+        }
+        public RelayCommand JoinCommand { get; }
+        public RelayCommand CodeCommand { get; }
+        public RelayCommand CreateCommand { get; }
+        public RelayCommand BackCommand { get; }
+        private MatchRoomViewModel _selectedRoom;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
+        private readonly RoomServiceClient roomService = new RoomServiceClient();
+
         public RoomsPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
@@ -22,30 +39,9 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             LoadRooms();
         }
 
-        public ObservableCollection<MatchRoomViewModel> Rooms { get; }
-
-        public MatchRoomViewModel SelectedRoom
-        {
-            get => _selectedRoom;
-            set => SetProperty(ref _selectedRoom, value);
-        }
-
-        public RelayCommand JoinCommand { get; }
-
-        public RelayCommand CodeCommand { get; }
-
-        public RelayCommand CreateCommand { get; }
-
-        public RelayCommand BackCommand { get; }
-
-        private MatchRoomViewModel _selectedRoom;
-
-        private readonly INavigationService navigationService;
-        private readonly IDialogService dialogService;
-
         private void LoadRooms()
         {
-            var rooms = TempMatchRoomsService.GetMatchRooms();
+            var rooms = roomService.GetPublicRooms();
             foreach (var room in rooms)
             {
                 Rooms.Add(new MatchRoomViewModel(room));
@@ -60,29 +56,39 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             }
 
             var room = SelectedRoom.Room;
-            var result = TempMatchRoomsService.JoinMatchRoom(room.MatchRoomId, CurrentPlayer.Instance.Id);
-            if (result == MatchRoomJoinResultEnum.Success || result == MatchRoomJoinResultEnum.AlreadyJoined)
+            try
             {
-                var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.MatchRoomId}", UriKind.Relative);
-                navigationService.Navigate(uri);
+                var result = roomService.JoinRoom(room, CurrentPlayer.Instance.Username);
+                if (result.Equals(MatchRoomJoinResultEnum.Success.ToString()))
+                {
+                    var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.RoomId}", UriKind.Relative);
+                    navigationService.Navigate(uri);
+                }
+                else
+                {
+                    dialogService.ShowError(GetJoinErrorMessage(result));
+                }
+            }
+            catch (FaultException)
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
+            }
+            
+        }
+
+        private string GetJoinErrorMessage(string result)
+        {
+            string errorMessage;
+            if (result.Equals(MatchRoomJoinResultEnum.RoomIsFull.ToString()))
+            {
+                errorMessage = Properties.Resources.ErrorNotification_RoomFull;
             }
             else
             {
-                dialogService.ShowError(GetJoinErrorMessage(result));
+                errorMessage = Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom;
             }
-        }
 
-        private string GetJoinErrorMessage(MatchRoomJoinResultEnum result)
-        {
-            switch (result)
-            {
-                case MatchRoomJoinResultEnum.RoomFull:
-                    return Properties.Resources.ErrorNotification_RoomFull;
-                case MatchRoomJoinResultEnum.OwnRoom:
-                    return Properties.Resources.ErrorNotification_OwnRoom;
-                default:
-                    return Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom;
-            }
+            return errorMessage;
         }
 
         private void NavigateTo(string uri)

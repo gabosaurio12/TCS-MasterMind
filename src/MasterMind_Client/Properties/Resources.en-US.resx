@@ -387,9 +387,6 @@
   <data name="ErrorNotification_ErrorJoiningMatchRoom" xml:space="preserve">
     <value>There was an error while joining the room, try again later</value>
   </data>
-  <data name="ErrorNotification_OwnRoom" xml:space="preserve">
-    <value>You can't join your own room</value>
-  </data>
   <data name="ErrorNotification_RoomFull" xml:space="preserve">
     <value>The room is full, you can't join</value>
   </data>
@@ -404,5 +401,8 @@
   </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
     <value>There was an unexpected error while eliminating... Reporting the player. We are sorry.</value>
+  </data>
+  <data name="ErrorNotification_RoomNameTaken" xml:space="preserve">
+    <value>That name is already being used for another Room, use a different one please</value>
   </data>
 </root>

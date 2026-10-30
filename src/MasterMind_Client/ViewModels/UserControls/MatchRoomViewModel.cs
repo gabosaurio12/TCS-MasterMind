@@ -1,18 +1,18 @@
-using MasterMind_Client.TempData.DTO;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
 
 namespace MasterMind_Client.ViewModels.UserControls
 {
     public class MatchRoomViewModel : ViewModelBase
     {
-        public MatchRoomViewModel(MatchRoomDto room)
+        public MatchRoomViewModel(Room room)
         {
             Room = room;
-            RoomName = room.RoomName;
-            IsPrivate = room.Privacy == "Private";
+            RoomName = room.Name;
+            IsPrivate = room.RoomPrivacy == "Private";
         }
 
-        public MatchRoomDto Room { get; }
+        public Room Room { get; }
 
         public string RoomName { get; }
 

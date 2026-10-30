@@ -387,9 +387,6 @@
   <data name="ErrorNotification_ErrorJoiningMatchRoom" xml:space="preserve">
     <value>Hubo un error al unirte a la sala, intenta de nuevo más tarde</value>
   </data>
-  <data name="ErrorNotification_OwnRoom" xml:space="preserve">
-    <value>No puedes unirte a tu propia sala</value>
-  </data>
   <data name="ErrorNotification_RoomFull" xml:space="preserve">
     <value>La sala está llena, no puedes unirte</value>
   </data>
@@ -404,5 +401,8 @@
   </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
     <value>Hubo un error inesperado al eliminar... Reportar al jugador. Lo sentimos.</value>
+  </data>
+  <data name="ErrorNotification_RoomNameTaken" xml:space="preserve">
+    <value>Ese nombre ya está en uso por otra sala, utiliza otro por favor</value>
   </data>
 </root>

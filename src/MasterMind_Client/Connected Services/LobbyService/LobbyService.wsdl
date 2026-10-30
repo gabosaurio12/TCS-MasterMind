@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="LobbyService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_ILobbyService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8088/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8088/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" />
+      <xsd:import schemaLocation="http://localhost:8088/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8088/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILobbyService_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyService_SendMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyService_SendMessage_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q1:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyService_ChangePlayerStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePlayerStatus" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyService_ChangePlayerStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePlayerStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyService_ChangePlayerStatus_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q2:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyService_OnMessageReceivedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnMessageReceivedCallback" />
+  </wsdl:message>
+  <wsdl:message name="ILobbyService_OnChangePlayerStatusCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnChangePlayerStatusCallback" />
+  </wsdl:message>
+  <wsdl:portType name="ILobbyService">
+    <wsdl:operation name="SendMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/SendMessage" message="tns:ILobbyService_SendMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyService/SendMessageResponse" message="tns:ILobbyService_SendMessage_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ILobbyService/SendMessageErrorMessageFault" name="ErrorMessageFault" message="tns:ILobbyService_SendMessage_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePlayerStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILobbyService/ChangePlayerStatus" message="tns:ILobbyService_ChangePlayerStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyService/ChangePlayerStatusResponse" message="tns:ILobbyService_ChangePlayerStatus_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ILobbyService/ChangePlayerStatusErrorMessageFault" name="ErrorMessageFault" message="tns:ILobbyService_ChangePlayerStatus_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnMessageReceivedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyService/OnMessageReceivedCallback" message="tns:ILobbyService_OnMessageReceivedCallback_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnChangePlayerStatusCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/ILobbyService/OnChangePlayerStatusCallback" message="tns:ILobbyService_OnChangePlayerStatusCallback_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_ILobbyService" type="tns:ILobbyService">
+    <wsp:PolicyReference URI="#NetTcpBinding_ILobbyService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePlayerStatus">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/ChangePlayerStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="OnMessageReceivedCallback">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/OnMessageReceivedCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnChangePlayerStatusCallback">
+      <soap12:operation soapAction="http://tempuri.org/ILobbyService/OnChangePlayerStatusCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LobbyService">
+    <wsdl:port name="NetTcpBinding_ILobbyService" binding="tns:NetTcpBinding_ILobbyService">
+      <soap12:address location="net.tcp://localhost:8089/MasterMindService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8089/MasterMindService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>GABOSAURIO-DESK\WinterOS</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -4,14 +4,19 @@
     <!-- ============================ Sprites (9-slice) ============================ -->
 
     <BitmapImage x:Key="BtnBlueImage" UriSource="/Assets/Elements/Blue_Button.png" />
+    <BitmapImage x:Key="MediumBtnBlueImage" UriSource="/Assets/Elements/Blue_Button_Medium.png" />
     <BitmapImage x:Key="BtnGreenImage" UriSource="/Assets/Elements/Green_Button.png" />
+    <BitmapImage x:Key="MediumBtnGreenImage" UriSource="/Assets/Elements/Green_Button_Medium.png" />
     <BitmapImage x:Key="BtnRedImage" UriSource="/Assets/Elements/Red_Button.png" />
+    <BitmapImage x:Key="MediumBtnRedImage" UriSource="/Assets/Elements/Red_Button_Medium.png" />
     <BitmapImage x:Key="BtnGreyImage" UriSource="/Assets/Elements/Grey_Button.png" />
     <BitmapImage x:Key="BtnBluePlusImage" UriSource="/Assets/Elements/Blue_Plus_Button.png" />
     <BitmapImage x:Key="BtnRedMinusImage" UriSource="/Assets/Elements/Red_Minus_Button.png" />
     <BitmapImage x:Key="BtnRedReportImage" UriSource="/Assets/Elements/Red_Report_Button.png" />
     <BitmapImage x:Key="FieldImage" UriSource="/Assets/Elements/TextBox.png" />
+    <BitmapImage x:Key="LongFieldImage" UriSource="/Assets/Elements/TextBox_Long.png" />
     <BitmapImage x:Key="CodeFieldImage" UriSource="/Assets/Elements/CodeTextBox.png" />
+    <BitmapImage x:Key="BtnLanguageImage" UriSource="/Assets/Elements/Language_Button.png" />
 
     <!-- ============================ Backgrounds ============================ -->
 

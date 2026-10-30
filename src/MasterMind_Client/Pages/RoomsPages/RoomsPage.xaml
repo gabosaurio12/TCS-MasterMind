@@ -60,27 +60,27 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal"
                     HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="BackBtn" Content="{x:Static p:Resources.UI_Back}"
-                    Style="{StaticResource MetalButtonRed}"
-                    Width="288" Height="140" Margin="0,0,32,0"
-                    FontFamily="{StaticResource Elite}" FontSize="52"
+                    Style="{StaticResource MediumMetalButtonRed}"
+                    Width="320" Height="120" Margin="0,0,32,0"
+                    FontFamily="{StaticResource Elite}" FontSize="48"
                     Command="{Binding BackCommand}" />
 
             <Button x:Name="JoinBtn" Content="{x:Static p:Resources.RoomsPage_Join}"
-                    Style="{StaticResource MetalButtonBlue}"
-                    Width="288" Height="140" Margin="0,0,32,0"
-                    FontFamily="{StaticResource Elite}" FontSize="52"
+                    Style="{StaticResource MediumMetalButtonBlue}"
+                    Width="320" Height="120" Margin="0,0,32,0"
+                    FontFamily="{StaticResource Elite}" FontSize="48"
                     Command="{Binding JoinCommand}" />
 
             <Button x:Name="CodeBtn" Content="{x:Static p:Resources.RoomsPage_Code}"
-                    Style="{StaticResource MetalButtonBlue}"
-                    Width="288" Height="140" Margin="0,0,32,0"
-                    FontFamily="{StaticResource Elite}" FontSize="52"
+                    Style="{StaticResource MediumMetalButtonBlue}"
+                    Width="320" Height="120" Margin="0,0,32,0"
+                    FontFamily="{StaticResource Elite}" FontSize="48"
                     Command="{Binding CodeCommand}" />
 
             <Button x:Name="CreateBtn" Content="{x:Static p:Resources.UI_Create}"
-                    Style="{StaticResource MetalButtonGreen}"
-                    Width="288" Height="140"
-                    FontFamily="{StaticResource Elite}" FontSize="52"
+                    Style="{StaticResource MediumMetalButtonGreen}"
+                    Width="320" Height="120"
+                    FontFamily="{StaticResource Elite}" FontSize="48"
                     Command="{Binding CreateCommand}" />
         </StackPanel>
     </Grid>

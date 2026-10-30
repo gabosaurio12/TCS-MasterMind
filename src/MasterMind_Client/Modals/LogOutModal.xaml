@@ -27,14 +27,14 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,100,0,0">
                     <Button x:Name="QuitBtn" Content="{x:Static p:Resources.UI_Quit}"
                             Style="{StaticResource MetalButtonRed}"
-                            Width="250" Height="88" Padding="10,0" Margin="0,0,30,0"
+                            Width="250" Height="80" Padding="10,0" Margin="0,0,30,0"
                             FontFamily="{StaticResource Elite}" FontSize="30"
                             Command="{Binding QuitCommand}" />
 
                     <Button x:Name="LogOutBtn" Content="{x:Static p:Resources.LogOutModal_LogOut}"
                             Style="{StaticResource MetalButtonBlue}"
-                            Width="250" Height="88" Padding="10,0"
-                            FontFamily="{StaticResource Elite}" FontSize="30"
+                            Width="250" Height="80" Padding="10,0"
+                            FontFamily="{StaticResource Elite}" FontSize="26"
                             Command="{Binding LogOutCommand}"
                             Visibility="{Binding IsLogOutVisible, Converter={StaticResource BoolToVisibility}}" />
                 </StackPanel>

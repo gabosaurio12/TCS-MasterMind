@@ -1,15 +1,38 @@
+using log4net;
+using log4net.Repository.Hierarchy;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.TempData;
-using MasterMind_Client.TempData.DTO;
 using MasterMind_Client.TempData.Enum;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
+using System.ServiceModel;
 using System.Text.RegularExpressions;
 
 namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
     public class CreateRoomPageViewModel : ViewModelBase
     {
+        private readonly static ILog logger = LogManager.GetLogger(typeof(CreateRoomPageViewModel));
+
+        public string RoomName { get; set; }
+        public bool IsTimeTrial { get; set; }
+        public bool IsTries { get; set; }
+        public bool IsPrivate { get; set; }
+        public bool IsPublic { get; set; }
+        public bool IsEasy { get; set; }
+        public bool IsNormal { get; set; }
+        public bool IsHard { get; set; }
+        public bool IsEnigma { get; set; }
+
+        public RelayCommand CreateCommand { get; }
+        public RelayCommand CancelCommand { get; }
+
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
+
+        private readonly RoomServiceClient roomService = new RoomServiceClient();
+
         public CreateRoomPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
@@ -18,31 +41,6 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             CancelCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
         }
 
-        public string RoomName { get; set; }
-
-        public bool IsTimeTrial { get; set; }
-
-        public bool IsTries { get; set; }
-
-        public bool IsPrivate { get; set; }
-
-        public bool IsPublic { get; set; }
-
-        public bool IsEasy { get; set; }
-
-        public bool IsNormal { get; set; }
-
-        public bool IsHard { get; set; }
-
-        public bool IsEnigma { get; set; }
-
-        public RelayCommand CreateCommand { get; }
-
-        public RelayCommand CancelCommand { get; }
-
-        private readonly INavigationService navigationService;
-        private readonly IDialogService dialogService;
-
         private void Create()
         {
             if (!ValidateInput())
@@ -50,24 +48,32 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 return;
             }
 
-            var matchRoom = new MatchRoomDto
+            var matchRoom = new Room
             {
-                RoomName = RoomName.Trim(),
+                Name = RoomName.Trim(),
                 Gamemode = IsTimeTrial ? "TimeTrial" : "Tries",
                 Difficulty = GetDifficulty(),
-                Privacy = IsPrivate ? "Private" : "Public"
+                PlayerOneUsername = CurrentPlayer.Instance.Username,
+                RoomPrivacy = IsPrivate ? "Private" : "Public"
             };
-
-            var result = TempMatchRoomsService.CreateMatchRoom(matchRoom);
-            if (result == MatchRoomCreationResultEnum.Success)
+            try
             {
-                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
-                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                var result = roomService.CreateRoom(matchRoom);
+                if (result.Status.Equals(MatchRoomCreationResultEnum.Success.ToString()))
+                {
+                    dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
+                    NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                }
+                else if (result.Status.Equals(MatchRoomCreationResultEnum.RoomNameTaken))
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
+                }
             }
-            else
+            catch (FaultException)
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorCreatingMatchRoom);
             }
+            
         }
 
         private bool ValidateInput()

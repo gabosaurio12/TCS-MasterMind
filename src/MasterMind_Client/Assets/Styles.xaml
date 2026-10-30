@@ -496,12 +496,24 @@
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnBlueImage}" />
     </Style>
 
+    <Style x:Key="MediumMetalButtonBlue" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource MediumBtnBlueImage}" />
+    </Style>
+
     <Style x:Key="MetalButtonGreen" TargetType="Button" BasedOn="{StaticResource MetalButton}">
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnGreenImage}" />
+    </Style>
+    
+    <Style x:Key="MediumMetalButtonGreen" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource MediumBtnGreenImage}" />
     </Style>
 
     <Style x:Key="MetalButtonRed" TargetType="Button" BasedOn="{StaticResource MetalButton}">
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnRedImage}" />
+    </Style>
+
+    <Style x:Key="MediumMetalButtonRed" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource MediumBtnRedImage}" />
     </Style>
 
     <Style x:Key="MetalButtonGrey" TargetType="Button" BasedOn="{StaticResource MetalButton}">
@@ -522,6 +534,11 @@
 
     <Style x:Key="MetalButtonReport" TargetType="Button" BasedOn="{StaticResource MetalButton}">
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnRedReportImage}" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.06,0.06,0.06,0.06" />
+    </Style>
+    
+    <Style x:Key="LanguageButton" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnLanguageImage}" />
         <Setter Property="controls:NineSlice.SliceRatio" Value="0.06,0.06,0.06,0.06" />
     </Style>
 
@@ -546,6 +563,25 @@
         </Setter>
     </Style>
 
+    <Style x:Key="LongMetalTextBox" TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource CaretInkBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="24,0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid Background="Transparent">
+                        <controls:NineSlice Source="{StaticResource LongFieldImage}" SliceRatio="0.0475,0.123,0.0475,0.123" />
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="MetalPasswordBox" TargetType="PasswordBox">
         <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
         <Setter Property="CaretBrush" Value="{StaticResource CaretInkBrush}" />
@@ -559,6 +595,25 @@
                         <controls:NineSlice Source="{StaticResource FieldImage}" SliceRatio="0.0475,0.123,0.0475,0.123" />
                         <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LongMetalPasswordBox" TargetType="PasswordBox">
+        <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource CaretInkBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="24,0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Grid Background="Transparent">
+                        <controls:NineSlice Source="{StaticResource LongFieldImage}" SliceRatio="0.0475,0.123,0.0475,0.123" />
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
