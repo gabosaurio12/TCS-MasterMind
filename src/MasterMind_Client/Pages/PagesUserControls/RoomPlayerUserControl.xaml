@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              xmlns:p="clr-namespace:MasterMind_Client.Properties"
              d:DesignHeight="160" d:DesignWidth="470">
+
     <Grid x:Name="Grid" Background="{Binding BackgroundBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="140" />
@@ -16,9 +17,9 @@
         <Ellipse x:Name="AvatarEllipse" Grid.Column="0" Width="100" Height="100" Fill="#929292" />
 
         <Viewbox Grid.Column="1" StretchDirection="DownOnly" MaxHeight="55" HorizontalAlignment="Left"
-                 Margin="20,0,0,0">
+                             Margin="20,0,0,0">
             <TextBlock x:Name="UsernameTxt" FontFamily="{StaticResource Aladin}" FontSize="50"
-               Foreground="White" Text="{Binding Username}"/>
+                           Foreground="White" Text="{Binding Username}"/>
         </Viewbox>
 
     </Grid>

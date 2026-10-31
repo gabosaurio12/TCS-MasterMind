@@ -29,7 +29,7 @@ namespace MasterMind_Client.ViewModels.UserControls
 
         public void SetNotReady()
         {
-            BackgroundBrush = UtilsUI.NotReadyYellow;
+            BackgroundBrush = UtilsUI.PlayerSlotDefaultBackground;
         }
     }
 }

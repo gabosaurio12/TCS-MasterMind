@@ -9,10 +9,7 @@
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="{x:Static p:Resources.CreateRoomPage_Title}"
       Background="#585858">
-    
 
-    
-    
     <Grid Width="1500">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -145,22 +142,22 @@
             <!-- Buttons -->
 
             <Button x:Name="CancelBtn" Grid.Row="2"
-                HorizontalAlignment="Left"
-                Content="{x:Static p:Resources.UI_Cancel}"
-                Width="280" Height="100"
-                Foreground="White" FontSize="64"
-                FontFamily="{StaticResource Aladin}"
-                Style="{StaticResource RoundedRedButton}"
-                Command="{Binding CancelCommand}" />
+                    HorizontalAlignment="Left"
+                    Content="{x:Static p:Resources.UI_Cancel}"
+                    Width="280" Height="100"
+                    Foreground="White" FontSize="64"
+                    FontFamily="{StaticResource Aladin}"
+                    Style="{StaticResource RoundedRedButton}"
+                    Command="{Binding CancelCommand}" />
 
             <Button x:Name="CreateBtn" Grid.Row="2"
-                HorizontalAlignment="Right"
-                Content="{x:Static p:Resources.UI_Create}"
-                Width="280" Height="100"
-                Foreground="White" FontSize="64"
-                FontFamily="{StaticResource Aladin}"
-                Style="{StaticResource RoundedGreenButton}"
-                Command="{Binding CreateCommand}" />
+                    HorizontalAlignment="Right"
+                    Content="{x:Static p:Resources.UI_Create}"
+                    Width="280" Height="100"
+                    Foreground="White" FontSize="64"
+                    FontFamily="{StaticResource Aladin}"
+                    Style="{StaticResource RoundedGreenButton}"
+                    Command="{Binding CreateCommand}" />
         </Grid>
 
     </Page>

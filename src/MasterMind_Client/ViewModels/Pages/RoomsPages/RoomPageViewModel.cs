@@ -7,6 +7,7 @@ using MasterMind_Client.ViewModels.UserControls;
 using System;
 using System.ServiceModel;
 using System.Web;
+using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
@@ -47,6 +48,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private PlayerSlotViewModel playerOne;
         private PlayerSlotViewModel playerTwo;
         private bool isReady;
+        private int currentRoomId;
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
@@ -60,17 +62,14 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             this.navigationService = navigationService;
             this.dialogService = dialogService;
 
-            var callbackHandler = this;
-            var instanceContext = new InstanceContext(callbackHandler);
-            lobbyService = new LobbyServiceClient(instanceContext);
-            this.instanceContext = instanceContext;
+            this.instanceContext = new InstanceContext(this);
+            this.lobbyService = new LobbyServiceClient(this.instanceContext);
 
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
             EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
+            
             InitializeFromUri(uri);
-
-            lobbyService = new LobbyServiceClient(this.instanceContext);
         }
 
 
@@ -83,6 +82,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 return;
             }
 
+            currentRoomId = roomId;
+
             var room = roomService.GetRoomById(roomId);
             if (room == null)
             {
@@ -93,10 +94,10 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
             RoomTitle = room.Name;
             SetPlayers(room);
-            NotifyPlayerStatus(room);
+            NotifyPlayerJoined(room);
         }
 
-        private void NotifyPlayerStatus(Room room)
+        private void NotifyPlayerJoined(Room room)
         {
             string username = CurrentPlayer.Instance.Username;
             var playerStatus = new PlayerStatus
@@ -170,12 +171,37 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             IsReady = true;
             GetCurrentPlayerSlot().SetReady();
+            SendStatusToServer("Ready");
+        }
+
+        private void SetOpponentReady()
+        {
+            GetOpponentSlot().SetReady();
         }
 
         private void SetUnready()
         {
             IsReady = false;
             GetCurrentPlayerSlot().SetNotReady();
+            SendStatusToServer("NotReady");
+        }
+
+        private void SetOpponentUnready()
+        {
+            GetOpponentSlot().SetNotReady();
+        }
+
+        private void SendStatusToServer(string status)
+        {
+            int roomId = currentRoomId;
+            var playerStatus = new PlayerStatus
+            {
+                RoomId = roomId,
+                Username = CurrentPlayer.Instance.Username,
+                Status = status,
+                IsPlayerOne = CurrentPlayer.Instance.Username.Equals(PlayerOne?.Username)
+            };
+            lobbyService.ChangePlayerStatusAsync(playerStatus);
         }
 
         private PlayerSlotViewModel GetCurrentPlayerSlot()
@@ -187,6 +213,17 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             }
 
             return PlayerTwo;
+        }
+
+        private PlayerSlotViewModel GetOpponentSlot()
+        {
+            var username = CurrentPlayer.Instance.Username;
+            if (PlayerOne.Username == username)
+            {
+                return PlayerTwo;
+            }
+
+            return PlayerOne;
         }
 
         private void NavigateTo(string uri)
@@ -201,8 +238,28 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public void OnChangePlayerStatusCallback(PlayerStatus status)
         {
-            var room = roomService.GetRoomById(status.RoomId);
-            SetPlayers(room);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var freshRoomService = new RoomServiceClient();
+                var room = freshRoomService.GetRoomById(status.RoomId);
+
+                if (room != null)
+                {
+                    if (status.Status.Equals("Ready"))
+                    {
+                        SetOpponentReady();
+                    }
+                    else if (status.Status.Equals("NotReady"))
+                    {
+                        SetPlayers(room);
+                        SetOpponentUnready();
+                    }
+                    else
+                    {
+                        SetPlayers(room);
+                    }
+                }
+            });
         }
     }
 }

@@ -8,7 +8,6 @@ namespace MasterMind_Client.Helpers
     {
         public static readonly SolidColorBrush OfflineGray = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#929292"));
         public static readonly SolidColorBrush OnlineGreen = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#67D92A"));
-        public static readonly SolidColorBrush NotReadyYellow = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9C22A"));
         public static readonly SolidColorBrush PressedBlue = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2F4CC7"));
         public static readonly SolidColorBrush PressedRed = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#A51F22"));
         public static readonly SolidColorBrush PressedYellow = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#A88E18"));
