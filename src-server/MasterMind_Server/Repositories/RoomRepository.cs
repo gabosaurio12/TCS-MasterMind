@@ -430,10 +430,10 @@ namespace MasterMind_Server.Repositories
 
             if (ValidateRoomData(creationData))
             {
-                return null;
+                return creationData;
             }
 
-            return creationData;
+            return null;
         }
 
         private bool ValidateRoomData(RoomCreationData data)
