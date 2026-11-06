@@ -1,3 +1,4 @@
+using log4net;
 using MasterMind_Client.LobbyService;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
@@ -13,11 +14,21 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
     public class RoomPageViewModel : ViewModelBase, ILobbyServiceCallback
     {
+        private const string MessageSentResult = "MessageSent";
+        private const string InappropriateVocabularyResult = "InappropriateVocabulary";
+
+        private readonly static ILog logger = LogManager.GetLogger(typeof(RoomPageViewModel));
 
         public string RoomTitle
         {
             get => roomTitle;
             private set => SetProperty(ref roomTitle, value);
+        }
+
+        public string RoomCode
+        {
+            get => roomCode;
+            private set => SetProperty(ref roomCode, value);
         }
 
         public PlayerSlotViewModel PlayerOne
@@ -38,13 +49,30 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             private set => SetProperty(ref isReady, value);
         }
 
+        public string MessageText
+        {
+            get => messageText;
+            set => SetProperty(ref messageText, value);
+        }
+
+        public string ChatText
+        {
+            get => chatText;
+            private set => SetProperty(ref chatText, value);
+        }
+
         public RelayCommand ReadyCommand { get; }
 
         public RelayCommand UnreadyCommand { get; }
 
         public RelayCommand EscapeCommand { get; }
 
+        public RelayCommand SendCommand { get; }
+
         private string roomTitle;
+        private string roomCode;
+        private string messageText = string.Empty;
+        private string chatText = string.Empty;
         private PlayerSlotViewModel playerOne;
         private PlayerSlotViewModel playerTwo;
         private bool isReady;
@@ -68,8 +96,71 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
             EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
-            
+            SendCommand = new RelayCommand(_ => SendMessage(), _ => HasMessageText());
+
             InitializeFromUri(uri);
+        }
+
+        private bool HasMessageText()
+        {
+            return !string.IsNullOrWhiteSpace(messageText);
+        }
+
+        private void SendMessage()
+        {
+            string message = MessageText.Trim();
+            if (message.Length == 0)
+            {
+                return;
+            }
+
+            try
+            {
+                var chatMessage = new ChatMessage
+                {
+                    RoomId = currentRoomId,
+                    SenderUsername = CurrentPlayer.Instance.Username,
+                    Message = message
+                };
+
+                string result = lobbyService.SendMessage(chatMessage);
+                HandleSendMessageResult(result, message);
+            }
+            catch (FaultException<LobbyService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the chat message: {0}", faultException.Detail.Message);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure while sending a chat message", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
+            }
+        }
+
+        private void HandleSendMessageResult(string result, string message)
+        {
+            switch (result)
+            {
+                case MessageSentResult:
+                    AppendChatMessage(CurrentPlayer.Instance.Username, message);
+                    MessageText = string.Empty;
+                    break;
+                case InappropriateVocabularyResult:
+                    AppendChatMessage(CurrentPlayer.Instance.Username, message);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_InappropriateVocabulary);
+                    break;
+                default:
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
+                    break;
+            }
+        }
+
+        private void AppendChatMessage(string senderUsername, string message)
+        {
+            ChatText = string.IsNullOrEmpty(chatText)
+                ? $"{senderUsername}: {message}"
+                : $"{chatText}{Environment.NewLine}{senderUsername}: {message}";
         }
 
 
@@ -93,6 +184,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             }
 
             RoomTitle = room.Name;
+            RoomCode = room.RoomCode;
             SetPlayers(room);
             NotifyPlayerJoined(room);
         }
@@ -233,7 +325,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public void OnMessageReceivedCallback(ChatMessage message)
         {
-            throw new NotImplementedException();
+            Application.Current.Dispatcher.InvokeAsync(() =>
+                AppendChatMessage(message.SenderUsername, message.Message));
         }
 
         public void OnChangePlayerStatusCallback(PlayerStatus status)

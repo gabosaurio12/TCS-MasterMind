@@ -363,6 +363,9 @@
   <data name="RoomPage_Ready" xml:space="preserve">
     <value>Ready</value>
   </data>
+  <data name="RoomPage_RoomCode" xml:space="preserve">
+    <value>Room code</value>
+  </data>
   <data name="RoomPage_Room" xml:space="preserve">
     <value>Room</value>
   </data>
@@ -386,6 +389,12 @@
   </data>
   <data name="ErrorNotification_ErrorJoiningMatchRoom" xml:space="preserve">
     <value>There was an error while joining the room, try again later</value>
+  </data>
+  <data name="ErrorNotification_InappropriateVocabulary" xml:space="preserve">
+    <value>Your message contains inappropriate language</value>
+  </data>
+  <data name="ErrorNotification_MessageNotSent" xml:space="preserve">
+    <value>There was an error while sending the message, try again later</value>
   </data>
   <data name="ErrorNotification_RoomFull" xml:space="preserve">
     <value>The room is full, you can't join</value>

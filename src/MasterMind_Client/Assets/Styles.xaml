@@ -125,124 +125,52 @@
         </Setter>
     </Style>
 
-    <Style x:Key="RadioButtonBlue" TargetType="RadioButton">
-        <Setter Property="Background" Value="#4C6EF5"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
+    <Style x:Key="MetalRadioButton" TargetType="RadioButton">
+        <Setter Property="Foreground" Value="{StaticResource CreamBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FontFamily" Value="{StaticResource Elite}" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.08,0.126,0.08,0.126" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="10"
-                        Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#3B5BDB"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#2F4CC7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                    <Grid Background="Transparent">
+                        <controls:NineSlice Source="{Binding Path=(controls:NineSlice.SliceImage), RelativeSource={RelativeSource TemplatedParent}}"
+                                            SliceRatio="{Binding Path=(controls:NineSlice.SliceRatio), RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.92" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="False">
+                <Setter Property="Opacity" Value="0.7" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.45" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <Style x:Key="RadioButtonRed" TargetType="RadioButton">
-        <Setter Property="Background" Value="#D92A2D"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
-                    <Border x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="10"
-                        Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#C72629"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#A51F22"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="RadioButtonBlue" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnBlueImage}" />
     </Style>
 
-    <Style x:Key="RadioButtonYellow" TargetType="RadioButton">
-        <Setter Property="Background" Value="#D9C22A"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
-                    <Border x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="10"
-                        Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#C7B21F"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#A88E18"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="RadioButtonRed" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnRedImage}" />
     </Style>
 
-    <Style x:Key="RadioButtonOrange" TargetType="RadioButton">
-        <Setter Property="Background" Value="#D97C2A"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="16,8"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
-                    <Border x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="10"
-                        Cursor="Hand">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#C76E23"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#A85518"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="RadioButtonYellow" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnNormalImage}" />
+    </Style>
+
+    <Style x:Key="RadioButtonOrange" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnHardImage}" />
     </Style>
 
     <Style x:Key="TryButton" TargetType="Button">
@@ -471,8 +399,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Background="Transparent">
-                        <controls:NineSlice Source="{TemplateBinding controls:NineSlice.SliceImage}"
-                                            SliceRatio="{TemplateBinding controls:NineSlice.SliceRatio}" />
+                        <controls:NineSlice Source="{Binding Path=(controls:NineSlice.SliceImage), RelativeSource={RelativeSource TemplatedParent}}"
+                                            SliceRatio="{Binding Path=(controls:NineSlice.SliceRatio), RelativeSource={RelativeSource TemplatedParent}}" />
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
                                           Margin="{TemplateBinding Padding}" />
                     </Grid>
@@ -519,6 +447,24 @@
     <Style x:Key="MetalButtonGrey" TargetType="Button" BasedOn="{StaticResource MetalButton}">
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnGreyImage}" />
     </Style>
+
+    <Style x:Key="BlueDifficultyButton" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnEasyImage}" />
+    </Style>
+
+    <Style x:Key="YellowDifficultyButton" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnNormalImage}" />
+    </Style>
+
+    <Style x:Key="OrangeDifficultyButton" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnHardImage}" />
+    </Style>
+
+    <Style x:Key="RedDifficultyButton" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnEnigmaImage}" />
+    </Style>
+    
+    
 
     <!-- ============================ Icon buttons ============================ -->
 
@@ -640,6 +586,26 @@
         </Setter>
     </Style>
 
+    <Style x:Key="MetalChatTextBox" TargetType="TextBox">
+        <Setter Property="Foreground" Value="{StaticResource CreamBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource CreamBrush}" />
+        <Setter Property="Background" Value="{StaticResource ChatInputBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="10">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- ============================ Checkbox ============================ -->
 
     <Style x:Key="MetalCheckBox" TargetType="CheckBox">
@@ -692,6 +658,40 @@
         <Setter Property="BorderBrush" Value="{StaticResource FrameMetalBrush}" />
         <Setter Property="BorderThickness" Value="8" />
         <Setter Property="CornerRadius" Value="12" />
+    </Style>
+
+    <!-- ============================ Room page ============================ -->
+
+    <Style x:Key="RoomPlayerCardImage" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource PlayerCardNotReadyImage}" />
+        <Setter Property="Stretch" Value="Fill" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsReady}" Value="True">
+                <Setter Property="Source" Value="{StaticResource PlayerCardReadyImage}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="MetalSendButton" TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Image Source="{StaticResource SendButtonImage}" Stretch="Uniform" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.92" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Opacity" Value="0.75" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.45" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- ============================ Room row ============================ -->

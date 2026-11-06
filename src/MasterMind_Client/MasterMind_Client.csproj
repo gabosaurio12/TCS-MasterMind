@@ -793,6 +793,15 @@
     <Resource Include="Assets\Elements\Green_Button_Medium.png" />
     <Resource Include="Assets\Elements\Red_Button_Medium.png" />
     <Resource Include="Assets\Elements\Language_Button.png" />
+    <Resource Include="Assets\Elements\Chat_Background.png" />
+    <Resource Include="Assets\Elements\Player_Room_Card_NotReady.png" />
+    <Resource Include="Assets\Elements\Player_Room_Card_Ready.png" />
+    <Resource Include="Assets\Elements\Room_Code.png" />
+    <Resource Include="Assets\Elements\Send_Message_Button.png" />
+    <Resource Include="Assets\Elements\Blue_Difficulty_Button.png" />
+    <Resource Include="Assets\Elements\Orange_Difficulty_Button.png" />
+    <Resource Include="Assets\Elements\Red_Difficulty_Button.png" />
+    <Resource Include="Assets\Elements\Yellow_Difficulty_Button.png" />
     <Content Include="Data\MasterMindModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MasterMindModel.edmx</DependentUpon>

@@ -363,6 +363,9 @@
   <data name="RoomPage_Ready" xml:space="preserve">
     <value>Listo</value>
   </data>
+  <data name="RoomPage_RoomCode" xml:space="preserve">
+    <value>Código de sala</value>
+  </data>
   <data name="RoomPage_Room" xml:space="preserve">
     <value>Sala</value>
   </data>
@@ -386,6 +389,12 @@
   </data>
   <data name="ErrorNotification_ErrorJoiningMatchRoom" xml:space="preserve">
     <value>Hubo un error al unirte a la sala, intenta de nuevo más tarde</value>
+  </data>
+  <data name="ErrorNotification_InappropriateVocabulary" xml:space="preserve">
+    <value>Tu mensaje contiene lenguaje inapropiado</value>
+  </data>
+  <data name="ErrorNotification_MessageNotSent" xml:space="preserve">
+    <value>Hubo un error al enviar el mensaje, intenta de nuevo más tarde</value>
   </data>
   <data name="ErrorNotification_RoomFull" xml:space="preserve">
     <value>La sala está llena, no puedes unirte</value>

@@ -133,6 +133,24 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tu mensaje contiene lenguaje inapropiado.
+        /// </summary>
+        public static string ErrorNotification_InappropriateVocabulary {
+            get {
+                return ResourceManager.GetString("ErrorNotification_InappropriateVocabulary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hubo un error al enviar el mensaje, intenta de nuevo más tarde.
+        /// </summary>
+        public static string ErrorNotification_MessageNotSent {
+            get {
+                return ResourceManager.GetString("ErrorNotification_MessageNotSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hubo un error al enviar la solicitud de amistad. Intenta de nuevo más tarde.
         /// </summary>
         public static string ErrorNotification_ErrorSendingFriendRequest {
@@ -642,6 +660,15 @@ namespace MasterMind_Client.Properties {
         public static string RoomPage_Room {
             get {
                 return ResourceManager.GetString("RoomPage_Room", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Código de sala.
+        /// </summary>
+        public static string RoomPage_RoomCode {
+            get {
+                return ResourceManager.GetString("RoomPage_RoomCode", resourceCulture);
             }
         }
         
