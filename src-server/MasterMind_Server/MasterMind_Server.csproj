@@ -351,7 +351,6 @@
     <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Repositories\RoomRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
-    <Compile Include="Services\Callbacks\LobbyCallbackService.cs" />
     <Compile Include="Services\CodeService.cs" />
     <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\LobbyService.cs" />

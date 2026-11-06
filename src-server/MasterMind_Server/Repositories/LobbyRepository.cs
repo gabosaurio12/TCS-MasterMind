@@ -26,39 +26,45 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                return SendMessageInternal(message);
+                if (!IsMessageValid(message))
+                {
+                    return CreateResult(LobbyResultEnum.Error, null);
+                }
+
+                var room = GetRoomEntity(message.RoomId);
+                var member = GetRoomMember(room, message.SenderUsername);
+                if (member == null)
+                {
+                    return CreateResult(LobbyResultEnum.Error, null);
+                }
+
+                bool hasBannedWords;
+                var content = message.Message.Trim();
+                var censoredMessage = CensorMessage(content, out hasBannedWords);
+
+                if (hasBannedWords)
+                {
+                    ReportOffensiveMessage(room, member);
+                }
+
+                LobbyResultEnum status;
+                if (hasBannedWords)
+                {
+                    status = LobbyResultEnum.InappropriateVocabulary;
+
+                }
+                else
+                {
+                    status = LobbyResultEnum.MessageSent;
+                }
+
+                return CreateResult(status, censoredMessage);
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
                 throw;
             }
-        }
-
-        private ChatMessageResult SendMessageInternal(ChatMessage message)
-        {
-            if (!IsMessageValid(message))
-            {
-                return CreateResult(LobbyResultEnum.Error, null);
-            }
-
-            var room = GetRoomEntity(message.RoomId);
-            var member = GetRoomMember(room, message.SenderUsername);
-            if (member == null)
-            {
-                return CreateResult(LobbyResultEnum.Error, null);
-            }
-
-            bool hasBannedWords;
-            var content = message.Message.Trim();
-            var censoredMessage = CensorMessage(content, out hasBannedWords);
-            if (hasBannedWords)
-            {
-                ReportOffensiveMessage(room, member);
-            }
-
-            var status = hasBannedWords ? LobbyResultEnum.InappropriateVocabulary : LobbyResultEnum.MessageSent;
-            return CreateResult(status, censoredMessage);
         }
 
         private bool IsMessageValid(ChatMessage message)

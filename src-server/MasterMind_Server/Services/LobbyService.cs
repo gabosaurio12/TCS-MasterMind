@@ -27,7 +27,19 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                return SendMessageInternal(message);
+                var result = lobbyRepository.SendMessage(message);
+                if (!IsMessageAccepted(result.Status))
+                {
+                    return result.Status;
+                }
+
+                RegisterClient(message.RoomId, message.SenderUsername);
+                var outgoingMessage = BuildOutgoingMessage(message, result.Message);
+                NotifyClients(
+                    message.RoomId,
+                    message.SenderUsername,
+                    callback => callback.OnMessageReceivedCallback(outgoingMessage));
+                return result.Status;
             }
             catch (EntityException)
             {
@@ -43,7 +55,15 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                return ChangePlayerStatusInternal(status);
+                var result = roomRepository.ChangePlayerStatus(status);
+                if (result.Status != RoomResultEnum.Success.ToString())
+                {
+                    return result.Status;
+                }
+
+                RegisterClient(status.RoomId, status.Username);
+                NotifyStatusChanges(status, result);
+                return result.Status;
             }
             catch (EntityException)
             {
@@ -53,36 +73,6 @@ namespace MasterMind_Server.Services
             {
                 throw BuildDatabaseFault();
             }
-        }
-
-        private string SendMessageInternal(ChatMessage message)
-        {
-            var result = lobbyRepository.SendMessage(message);
-            if (!IsMessageAccepted(result.Status))
-            {
-                return result.Status;
-            }
-
-            RegisterClient(message.RoomId, message.SenderUsername);
-            var outgoingMessage = BuildOutgoingMessage(message, result.Message);
-            NotifyClients(
-                message.RoomId,
-                message.SenderUsername,
-                callback => callback.OnMessageReceivedCallback(outgoingMessage));
-            return result.Status;
-        }
-
-        private string ChangePlayerStatusInternal(PlayerStatus status)
-        {
-            var result = roomRepository.ChangePlayerStatus(status);
-            if (result.Status != RoomResultEnum.Success.ToString())
-            {
-                return result.Status;
-            }
-
-            RegisterClient(status.RoomId, status.Username);
-            NotifyStatusChanges(status, result);
-            return result.Status;
         }
 
         private void NotifyStatusChanges(PlayerStatus status, PlayerStatusChangeResult result)
