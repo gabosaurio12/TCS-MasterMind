@@ -10,7 +10,7 @@ namespace MasterMind_Server.Repositories.ClassHelpers
 
         public RoomMember Member { get; set; }
 
-        public PlayerStatusEnum NewStatus { get; set; }
+        public PlayerPossibleStatus NewStatus { get; set; }
 
         public PlayerStatusChangeResult Result { get; set; }
     }

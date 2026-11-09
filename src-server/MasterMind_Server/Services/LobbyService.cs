@@ -112,7 +112,7 @@ namespace MasterMind_Server.Services
             }
         }
 
-        private void NotifyStatus(int roomId, string senderUsername, PlayerStatus status)
+        private static void NotifyStatus(int roomId, string senderUsername, PlayerStatus status)
         {
             Action<ILobbyCallbackService> notifyStatusCallback =
                     callback => callback.OnChangePlayerStatusCallback(status);

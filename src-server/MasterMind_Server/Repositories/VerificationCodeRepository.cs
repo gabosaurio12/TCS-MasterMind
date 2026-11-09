@@ -88,7 +88,7 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
     }

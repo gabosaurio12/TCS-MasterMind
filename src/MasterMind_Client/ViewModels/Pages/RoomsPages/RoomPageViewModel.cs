@@ -243,7 +243,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             lobbyService.ChangePlayerStatusAsync(playerStatus);
         }
 
-        private int GetRoomIdFromQuery(Uri uri)
+        private static int GetRoomIdFromQuery(Uri uri)
         {
             string queryString = uri.IsAbsoluteUri
                 ? uri.Query

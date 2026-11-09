@@ -14,7 +14,7 @@ namespace MasterMind_Client.Modals
             InitializeComponent();
         }
 
-        private void MoveFocusToNext(TextBox currentTxt)
+        private static void MoveFocusToNext(TextBox currentTxt)
         {
             var request = new TraversalRequest(FocusNavigationDirection.Next);
             currentTxt.MoveFocus(request);
@@ -30,7 +30,7 @@ namespace MasterMind_Client.Modals
             }
         }
 
-        private void CodeTxt_PreviewKeyDown(object sender, KeyEventArgs e)
+        private static void CodeTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             var currentBox = (TextBox)sender;
 
