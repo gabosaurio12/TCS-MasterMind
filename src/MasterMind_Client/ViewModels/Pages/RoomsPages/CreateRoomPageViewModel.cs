@@ -1,7 +1,5 @@
 using log4net;
-using log4net.Repository.Hierarchy;
 using MasterMind_Client.RoomService;
-using MasterMind_Client.TempData;
 using MasterMind_Client.TempData.Enum;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
@@ -43,37 +41,66 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private void Create()
         {
-            if (!ValidateInput())
+            if (ValidateInput())
             {
-                return;
+                var matchRoom = new Room
+                {
+                    Name = RoomName.Trim(),
+                    Gamemode = IsTimeTrial ? "TimeTrial" : "Tries",
+                    Difficulty = GetDifficulty(),
+                    PlayerOneUsername = CurrentPlayer.Instance.Username,
+                    RoomPrivacy = IsPrivate ? "Private" : "Public"
+                };
+                try
+                {
+                    var result = roomService.CreateRoom(matchRoom);
+                    if (result.Status.Equals(MatchRoomCreationResultEnum.Success.ToString()))
+                    {
+                        dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
+                        NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                    }
+                    else if (result.Status.Equals(MatchRoomCreationResultEnum.RoomNameTaken.ToString()))
+                    {
+                        dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
+                    }
+                    else
+                    {
+                        dialogService.ShowError(Properties.Resources.ErrorNotification_UnexpectedError);
+                    }
+                }
+                catch (FaultException<RoomService.ErrorMessage> faultException)
+                {
+                    logger.WarnFormat("The server rejected the room creation: {0}", faultException.Detail.Message);
+                    ShowServerError(faultException.Detail.Message);
+                }
+                catch (FaultException faultException)
+                {
+                    logger.Error("Server fault during room creation", faultException);
+                    ShowServerError(faultException.Message);
+                }
+                catch (CommunicationException communicationException)
+                {
+                    logger.Error("Communication failure during room creation", communicationException);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                }
             }
+        }
 
-            var matchRoom = new Room
+        private void ShowServerError(string errorDetail)
+        {
+            switch (errorDetail)
             {
-                Name = RoomName.Trim(),
-                Gamemode = IsTimeTrial ? "TimeTrial" : "Tries",
-                Difficulty = GetDifficulty(),
-                PlayerOneUsername = CurrentPlayer.Instance.Username,
-                RoomPrivacy = IsPrivate ? "Private" : "Public"
-            };
-            try
-            {
-                var result = roomService.CreateRoom(matchRoom);
-                if (result.Status.Equals(MatchRoomCreationResultEnum.Success.ToString()))
-                {
-                    dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
-                    NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
-                }
-                else if (result.Status.Equals(MatchRoomCreationResultEnum.RoomNameTaken))
-                {
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
-                }
+                case "DataBaseError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                    break;
+                case "HashError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+                    break;
+                default:
+                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                    break;
             }
-            catch (FaultException)
-            {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorCreatingMatchRoom);
-            }
-            
         }
 
         private bool ValidateInput()

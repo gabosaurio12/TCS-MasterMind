@@ -126,11 +126,11 @@
     </Style>
 
     <Style x:Key="MetalRadioButton" TargetType="RadioButton">
-        <Setter Property="Foreground" Value="{StaticResource CreamBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource CreamBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="16,8" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontFamily" Value="{StaticResource Elite}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Elite}" />
         <Setter Property="controls:NineSlice.SliceRatio" Value="0.08,0.126,0.08,0.126" />
         <Setter Property="Template">
             <Setter.Value>
@@ -157,21 +157,21 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="RadioButtonBlue" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
-        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnBlueImage}" />
-    </Style>
+<Style x:Key="RadioButtonBlue" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnEasyImage}" />
+</Style>
 
-    <Style x:Key="RadioButtonRed" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
-        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnRedImage}" />
-    </Style>
+<Style x:Key="RadioButtonRed" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnEnigmaImage}" />
+</Style>
 
-    <Style x:Key="RadioButtonYellow" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+<Style x:Key="RadioButtonYellow" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnNormalImage}" />
-    </Style>
+</Style>
 
-    <Style x:Key="RadioButtonOrange" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
+<Style x:Key="RadioButtonOrange" TargetType="RadioButton" BasedOn="{StaticResource MetalRadioButton}">
         <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnHardImage}" />
-    </Style>
+</Style>
 
     <Style x:Key="TryButton" TargetType="Button">
         <Setter Property="Background" Value="#2AD0D9"/>

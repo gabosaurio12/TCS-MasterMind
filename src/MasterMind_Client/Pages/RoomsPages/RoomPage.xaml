@@ -32,7 +32,7 @@
                    FontFamily="{StaticResource Elite}" FontSize="44"
                    VerticalAlignment="Top" Height="74" Margin="0,44,0,0" />
 
-            <ScrollViewer x:Name="ChatScroll" Margin="54,134,54,180"
+            <ScrollViewer x:Name="ChatScroll" Margin="84,134,84,180"
                           VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch">
                 <TextBlock x:Name="ChatTxt" TextWrapping="Wrap"
                            Text="{Binding ChatText, NotifyOnTargetUpdated=True}"

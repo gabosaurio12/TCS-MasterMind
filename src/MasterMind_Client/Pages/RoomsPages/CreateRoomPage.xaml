@@ -71,13 +71,13 @@
                                 <RadioButton x:Name="TimeTrialBtn" Content="{x:Static p:Resources.Gamemode_TimeTrial}"
                                              GroupName="GamemodeGroup"
                                              Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
-                                             Width="240" Height="60" FontSize="32"
+                                             Width="240" Height="60" FontSize="24"
                                              Margin="0,0,30,0" IsChecked="{Binding IsTimeTrial, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="TriesBtn" Content="{x:Static p:Resources.Gamemode_Tries}"
                                              GroupName="GamemodeGroup"
                                              Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
-                                             Width="240" Height="60" FontSize="32"
+                                             Width="240" Height="60" FontSize="28"
                                              IsChecked="{Binding IsTries, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
@@ -94,13 +94,13 @@
                                 <RadioButton x:Name="PrivateBtn" Content="{x:Static p:Resources.RoomPrivacy_Private}"
                                              GroupName="PrivacyGroup"
                                              Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Elite}"
-                                             Width="240" Height="60" FontSize="32"
+                                             Width="240" Height="60" FontSize="28"
                                              Margin="0,0,30,0" IsChecked="{Binding IsPrivate, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="PublicBtn" Content="{x:Static p:Resources.RoomPrivacy_Public}"
                                              GroupName="PrivacyGroup"
                                              Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
-                                             Width="240" Height="60" FontSize="32"
+                                             Width="240" Height="60" FontSize="28"
                                              IsChecked="{Binding IsPublic, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
@@ -120,26 +120,26 @@
                                 <RadioButton x:Name="EasyBtn" Content="{x:Static p:Resources.GameDifficulty_Easy}"
                                              GroupName="DifficultyGroup"
                                              Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
-                                             Width="170" Height="60" FontSize="30"
+                                             Width="170" Height="60" FontSize="28"
                                              Margin="0,0,20,0" IsChecked="{Binding IsEasy, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="NormalBtn" Content="{x:Static p:Resources.GameDifficulty_Normal}"
                                              GroupName="DifficultyGroup"
                                              Style="{StaticResource RadioButtonYellow}" FontFamily="{StaticResource Elite}"
-                                             Width="170" Height="60" FontSize="30"
+                                             Width="170" Height="60" FontSize="28"
                                              Margin="0,0,20,0" IsChecked="{Binding IsNormal, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="HardBtn" Content="{x:Static p:Resources.GameDifficulty_Hard}"
                                              GroupName="DifficultyGroup"
                                              Style="{StaticResource RadioButtonOrange}" FontFamily="{StaticResource Elite}"
-                                             Width="170" Height="60" FontSize="30"
+                                             Width="170" Height="60" FontSize="28"
                                              IsChecked="{Binding IsHard, Mode=TwoWay}"/>
                             </StackPanel>
 
                             <RadioButton x:Name="EnigmaBtn" Content="{x:Static p:Resources.GameDifficulty_Enigma}"
                                          GroupName="DifficultyGroup"
                                          Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Elite}"
-                                         Width="170" Height="60" FontSize="30"
+                                         Width="170" Height="60" FontSize="28"
                                          HorizontalAlignment="Left"
                                          IsChecked="{Binding IsEnigma, Mode=TwoWay}"/>
                         </StackPanel>

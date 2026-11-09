@@ -2,6 +2,7 @@ using MasterMind_Client.Helpers;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
+using log4net;
 using System;
 using System.ServiceModel;
 
@@ -9,14 +10,7 @@ namespace MasterMind_Client.ViewModels.Pages
 {
     public class LoginPageViewModel : ViewModelBase
     {
-        public LoginPageViewModel(INavigationService navigationService, IDialogService dialogService)
-        {
-            this.navigationService = navigationService;
-            this.dialogService = dialogService;
-            LoginCommand = new RelayCommand(_ => Login());
-            SignupCommand = new RelayCommand(_ => NavigateTo("Pages/SignupPage.xaml"));
-            LanguageCommand = new RelayCommand(_ => ChangeLanguage());
-        }
+        private readonly static ILog logger = LogManager.GetLogger(typeof(LoginPageViewModel));
 
         public string Username { get; set; }
 
@@ -32,6 +26,15 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
+
+        public LoginPageViewModel(INavigationService navigationService, IDialogService dialogService)
+        {
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
+            LoginCommand = new RelayCommand(_ => Login());
+            SignupCommand = new RelayCommand(_ => NavigateTo("Pages/SignupPage.xaml"));
+            LanguageCommand = new RelayCommand(_ => ChangeLanguage());
+        }
 
         private void Login()
         {
@@ -67,18 +70,44 @@ namespace MasterMind_Client.ViewModels.Pages
 
                 return isValid;
             }
-            catch (FaultException ex)
+            catch (FaultException<PlayerService.ErrorMessage> faultException)
             {
-                var message = ex.Message;
-                switch (message)
-                {
-                    case "DatabaseError":
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_Title);
-                        break;
-                }
+                logger.WarnFormat("The server rejected the login: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+                isValid = false;
+                return isValid;
             }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault during login", faultException);
+                ShowServerError(faultException.Message);
+                isValid = false;
+                return isValid;
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure during login", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                isValid = false;
+                return isValid;
+            }
+        }
 
-            return false;
+        private void ShowServerError(string errorDetail)
+        {
+            switch (errorDetail)
+            {
+                case "DataBaseError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                    break;
+                case "HashError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+                    break;
+                default:
+                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                    break;
+            }
         }
 
         private void OnVerificationSucceded(Player verifiedPlayer)

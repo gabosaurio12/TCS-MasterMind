@@ -106,6 +106,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error de base de datos. Intenta de nuevo más tarde..
+        /// </summary>
+        public static string ErrorNotification_DatabaseError {
+            get {
+                return ResourceManager.GetString("ErrorNotification_DatabaseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to La dirección de correo electrónico ingresada ya está en uso, prueba una distinta por favor.
         /// </summary>
         public static string ErrorNotification_EmailTaken {
@@ -133,24 +142,6 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tu mensaje contiene lenguaje inapropiado.
-        /// </summary>
-        public static string ErrorNotification_InappropriateVocabulary {
-            get {
-                return ResourceManager.GetString("ErrorNotification_InappropriateVocabulary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hubo un error al enviar el mensaje, intenta de nuevo más tarde.
-        /// </summary>
-        public static string ErrorNotification_MessageNotSent {
-            get {
-                return ResourceManager.GetString("ErrorNotification_MessageNotSent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Hubo un error al enviar la solicitud de amistad. Intenta de nuevo más tarde.
         /// </summary>
         public static string ErrorNotification_ErrorSendingFriendRequest {
@@ -165,6 +156,15 @@ namespace MasterMind_Client.Properties {
         public static string ErrorNotification_FriendRequestPending {
             get {
                 return ResourceManager.GetString("ErrorNotification_FriendRequestPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tu mensaje contiene lenguaje inapropiado.
+        /// </summary>
+        public static string ErrorNotification_InappropriateVocabulary {
+            get {
+                return ResourceManager.GetString("ErrorNotification_InappropriateVocabulary", resourceCulture);
             }
         }
         
@@ -192,6 +192,15 @@ namespace MasterMind_Client.Properties {
         public static string ErrorNotification_InvalidPassword {
             get {
                 return ResourceManager.GetString("ErrorNotification_InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hubo un error al enviar el mensaje, intenta de nuevo más tarde.
+        /// </summary>
+        public static string ErrorNotification_MessageNotSent {
+            get {
+                return ResourceManager.GetString("ErrorNotification_MessageNotSent", resourceCulture);
             }
         }
         
@@ -232,11 +241,38 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El servidor está desconectado. Intenta de nuevo más tarde..
+        /// </summary>
+        public static string ErrorNotification_ServerDisconnected {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ServerDisconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se agotó el tiempo de espera. Intenta de nuevo..
+        /// </summary>
+        public static string ErrorNotification_Timeout {
+            get {
+                return ResourceManager.GetString("ErrorNotification_Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string ErrorNotification_Title {
             get {
                 return ResourceManager.GetString("ErrorNotification_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hubo un error insesperado, intente de nuevo más tarde o contacte a soporte técnico..
+        /// </summary>
+        public static string ErrorNotification_UnexpectedError {
+            get {
+                return ResourceManager.GetString("ErrorNotification_UnexpectedError", resourceCulture);
             }
         }
         

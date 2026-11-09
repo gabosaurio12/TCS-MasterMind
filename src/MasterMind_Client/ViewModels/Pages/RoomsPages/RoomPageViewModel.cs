@@ -95,7 +95,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
-            EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
+            EscapeCommand = new RelayCommand(_ => ExecuteEscapeCommand());
             SendCommand = new RelayCommand(_ => SendMessage(), _ => HasMessageText());
 
             InitializeFromUri(uri);
@@ -129,12 +129,29 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             catch (FaultException<LobbyService.ErrorMessage> faultException)
             {
                 logger.WarnFormat("The server rejected the chat message: {0}", faultException.Detail.Message);
-                dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
+                ShowServerError(faultException.Detail.Message);
             }
             catch (CommunicationException communicationException)
             {
                 logger.Error("Communication failure while sending a chat message", communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
+            }
+        }
+
+        private void ShowServerError(string errorDetail)
+        {
+            switch (errorDetail)
+            {
+                case "DataBaseError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                    break;
+                case "HashError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+                    break;
+                default:
+                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                    break;
             }
         }
 
@@ -175,18 +192,39 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
             currentRoomId = roomId;
 
-            var room = roomService.GetRoomById(roomId);
-            if (room == null)
+            try
             {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
-                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
-                return;
-            }
+                var room = roomService.GetRoomById(roomId);
+                if (room == null)
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
+                    NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                    return;
+                }
 
-            RoomTitle = room.Name;
-            RoomCode = room.RoomCode;
-            SetPlayers(room);
-            NotifyPlayerJoined(room);
+                RoomTitle = room.Name;
+                RoomCode = room.RoomCode;
+                SetPlayers(room);
+                NotifyPlayerJoined(room);
+            }
+            catch (FaultException<RoomService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the room lookup: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault during room lookup", faultException);
+                ShowServerError(faultException.Message);
+                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure during room lookup", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected); 
+                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+            }
         }
 
         private void NotifyPlayerJoined(Room room)
@@ -247,6 +285,20 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             }
         }
 
+        private void SetPlayersEscaped(Room room, PlayerStatus status)
+        {
+            if (room.PlayerOneUsername == status.Username)
+            {
+                PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
+                PlayerTwo = new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
+            }
+            else
+            {
+                PlayerTwo = new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
+                PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
+            }
+        }
+
         private string GetOpponentUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -254,9 +306,29 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 return Properties.Resources.RoomPage_EmptySlot;
             }
 
-            var playerService = new PlayerServiceClient();
-            var opponent = playerService.GetPlayerByUsername(username);
-            return opponent?.Username ?? Properties.Resources.RoomPage_EmptySlot;
+            try
+            {
+                var playerService = new PlayerServiceClient();
+                var opponent = playerService.GetPlayerByUsername(username);
+                return opponent?.Username ?? Properties.Resources.RoomPage_EmptySlot;
+            }
+            catch (FaultException<PlayerService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the player lookup: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+                return Properties.Resources.RoomPage_EmptySlot;
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault during player lookup", faultException);
+                ShowServerError(faultException.Message);
+                return Properties.Resources.RoomPage_EmptySlot;
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure during player lookup", communicationException);
+                return Properties.Resources.RoomPage_EmptySlot;
+            }
         }
 
         private void SetReady()
@@ -294,6 +366,26 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 IsPlayerOne = CurrentPlayer.Instance.Username.Equals(PlayerOne?.Username)
             };
             lobbyService.ChangePlayerStatusAsync(playerStatus);
+        }
+
+        private void SendEscapeToServer()
+        {
+            int roomId = currentRoomId;
+            var playerStatus = new PlayerStatus
+            {
+                RoomId = roomId,
+                Username = CurrentPlayer.Instance.Username,
+                Status = "Escaped",
+                IsPlayerOne = CurrentPlayer.Instance.Username.Equals(PlayerOne?.Username)
+            };
+            lobbyService.ChangePlayerStatusAsync(playerStatus);
+        }
+
+
+        private void ExecuteEscapeCommand()
+        {
+            SendEscapeToServer();
+            NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
         }
 
         private PlayerSlotViewModel GetCurrentPlayerSlot()
@@ -346,6 +438,10 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     {
                         SetPlayers(room);
                         SetOpponentUnready();
+                    }
+                    else if (status.Status.Equals("Escaped"))
+                    {
+                        SetPlayersEscaped(room, status);
                     }
                     else
                     {

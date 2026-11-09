@@ -414,4 +414,16 @@
   <data name="ErrorNotification_RoomNameTaken" xml:space="preserve">
     <value>Ese nombre ya está en uso por otra sala, utiliza otro por favor</value>
   </data>
+  <data name="ErrorNotification_ServerDisconnected" xml:space="preserve">
+    <value>El servidor está desconectado. Intenta de nuevo más tarde.</value>
+  </data>
+  <data name="ErrorNotification_Timeout" xml:space="preserve">
+    <value>Se agotó el tiempo de espera. Intenta de nuevo.</value>
+  </data>
+  <data name="ErrorNotification_DatabaseError" xml:space="preserve">
+    <value>Error de base de datos. Intenta de nuevo más tarde.</value>
+  </data>
+  <data name="ErrorNotification_UnexpectedError" xml:space="preserve">
+    <value>Hubo un error insesperado, intente de nuevo más tarde o contacte a soporte técnico.</value>
+  </data>
 </root>
