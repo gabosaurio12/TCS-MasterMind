@@ -325,7 +325,7 @@
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ErrorMessages\ErrorMessage.cs" />
-    <Compile Include="ErrorMessages\ErrorMessagesEnum.cs" />
+    <Compile Include="ErrorMessages\ErrorMessages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClassHelpers\RoomCreationData.cs" />
@@ -335,13 +335,14 @@
     <Compile Include="Repositories\Dtos\PlayerRecordsDto.cs" />
     <Compile Include="Repositories\Dtos\PlayerStatusChangeResult.cs" />
     <Compile Include="Repositories\Dtos\ReportDto.cs" />
-    <Compile Include="Repositories\Enums\FriendshipStatusEnum.cs" />
-    <Compile Include="Repositories\Enums\LobbyResultEnum.cs" />
+    <Compile Include="Repositories\Dtos\RoomMemberDto.cs" />
+    <Compile Include="Repositories\Enums\FriendshipStatus.cs" />
+    <Compile Include="Repositories\Enums\LobbyResult.cs" />
     <Compile Include="Repositories\Enums\PlayerStatusEnum.cs" />
-    <Compile Include="Repositories\Enums\ReportReasonEnum.cs" />
-    <Compile Include="Repositories\Enums\RepositoriesEnum.cs" />
-    <Compile Include="Repositories\Enums\RoomPrivacyEnum.cs" />
-    <Compile Include="Repositories\Enums\RoomResultEnum.cs" />
+    <Compile Include="Repositories\Enums\ReportReason.cs" />
+    <Compile Include="Repositories\Enums\RepositoriesMessages.cs" />
+    <Compile Include="Repositories\Enums\RoomPrivacy.cs" />
+    <Compile Include="Repositories\Enums\RoomResult.cs" />
     <Compile Include="Repositories\FriendsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IFriendsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ILobbyRepository.cs" />

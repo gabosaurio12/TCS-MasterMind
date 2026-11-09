@@ -27,7 +27,7 @@ namespace MasterMind_Client.ViewModels.Modals
             IsLogOutVisible = Properties.Settings.Default.RememberLogin;
         }
 
-        private void LogOut()
+        private static void LogOut()
         {
             Properties.Settings.Default.RememberLogin = false;
             Properties.Settings.Default.SavedUsername = "";

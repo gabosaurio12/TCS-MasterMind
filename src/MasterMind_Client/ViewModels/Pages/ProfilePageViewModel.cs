@@ -27,13 +27,12 @@ namespace MasterMind_Client.ViewModels.Pages
         public RelayCommand ChangePasswordCommand { get; }
 
         private readonly INavigationService navigationService;
-        private readonly IDialogService dialogService;
+
         private readonly PlayerServiceClient playerService = new PlayerServiceClient();
 
         public ProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
-            this.dialogService = dialogService;
             UpdateCommand = new RelayCommand(_ => NavigateTo("Pages/UpdateProfilePage.xaml"));
             BackCommand = new RelayCommand(_ => NavigateTo("Pages/MainPage.xaml"));
             ReportCommand = new RelayCommand(_ => ReportPlayer());

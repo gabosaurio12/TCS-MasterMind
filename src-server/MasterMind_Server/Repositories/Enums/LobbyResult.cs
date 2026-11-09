@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Repositories.Enums
 {
-    public enum LobbyResultEnum
+    public enum LobbyResult
     {
         Success,
         Error,

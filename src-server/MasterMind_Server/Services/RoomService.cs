@@ -112,7 +112,7 @@ namespace MasterMind_Server.Services
 
         private FaultException<ErrorMessage> BuildDatabaseFault()
         {
-            clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+            clientMessage.Message = ErrorMessages.DataBaseError.ToString();
             return new FaultException<ErrorMessage>(clientMessage);
         }
     }

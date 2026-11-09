@@ -124,7 +124,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             
         }
 
-        private string GetJoinErrorMessage(string result)
+        private static string GetJoinErrorMessage(string result)
         {
             string errorMessage;
             if (result.Equals("RoomIsFull"))

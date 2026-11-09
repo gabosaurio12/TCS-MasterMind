@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Repositories.Enums
 {
-    public enum RoomPrivacyEnum
+    public enum RoomPrivacy
     {
         Public,
         Private

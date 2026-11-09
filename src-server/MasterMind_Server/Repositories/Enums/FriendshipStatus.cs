@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Repositories.Enums
 {
-    public enum FriendshipStatusEnum
+    public enum FriendshipStatus
     {
         Success,
         Accepted,

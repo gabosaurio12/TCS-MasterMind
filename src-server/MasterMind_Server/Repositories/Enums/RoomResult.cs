@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Repositories.Enums
 {
-    public enum RoomResultEnum
+    public enum RoomResult
     {
         Success,
         Error,

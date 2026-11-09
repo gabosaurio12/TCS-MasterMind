@@ -28,7 +28,7 @@ namespace MasterMind_Server.Services
             {
                 var result = playerRepository.CreatePlayer(playerEntity);
 
-                if (result.Equals(RepositoriesEnum.Success.ToString()))
+                if (result.Equals(RepositoriesMessages.Success.ToString()))
                 {
                     var playerRegistered = GetPlayerByUsername(playerEntity.username);
                     var authService = new CodeService();
@@ -39,7 +39,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+                throw new FaultException(ErrorMessages.DataBaseError.ToString());
             }
         }
 
@@ -61,7 +61,7 @@ namespace MasterMind_Server.Services
                 catch (SaltParseException ex)
                 {
                     logger.Error(ex);
-                    throw new FaultException(ErrorMessagesEnum.HashError.ToString());
+                    throw new FaultException(ErrorMessages.HashError.ToString());
                 }
             }
 
@@ -95,7 +95,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+                throw new FaultException(ErrorMessages.DataBaseError.ToString());
             }
             
         }
@@ -127,7 +127,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+                throw new FaultException(ErrorMessages.DataBaseError.ToString());
 
             }
         }
@@ -149,7 +149,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+                throw new FaultException(ErrorMessages.DataBaseError.ToString());
 
             }
         }
@@ -176,7 +176,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+                throw new FaultException(ErrorMessages.DataBaseError.ToString());
 
             }
         }
@@ -191,7 +191,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+                throw new FaultException(ErrorMessages.DataBaseError.ToString());
             }
         }
 
@@ -210,7 +210,7 @@ namespace MasterMind_Server.Services
             }
             catch (EntityException)
             {
-                throw new FaultException(ErrorMessagesEnum.DataBaseError.ToString());
+                throw new FaultException(ErrorMessages.DataBaseError.ToString());
             }
         }
     }

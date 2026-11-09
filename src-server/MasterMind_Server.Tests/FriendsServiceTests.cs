@@ -37,7 +37,7 @@ namespace MasterMind_Server.Tests
         {
             string result = friendsService.SendFriendRequest(addressee.player_id, requester.player_id);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace MasterMind_Server.Tests
 
             string result = friendsService.SendFriendRequest(addressee.player_id, requester.player_id);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Pending.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Pending.ToString()));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace MasterMind_Server.Tests
         {
             string result = friendsService.SendFriendRequest(requester.player_id, requester.player_id);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Error.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Error.ToString()));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace MasterMind_Server.Tests
 
             Friendship result = friendsService.GetFriendRequest(addressee.player_id, requester.player_id);
 
-            Assert.That(result.Status, Is.EqualTo(FriendshipStatusEnum.Pending.ToString()));
+            Assert.That(result.Status, Is.EqualTo(FriendshipStatus.Pending.ToString()));
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace MasterMind_Server.Tests
 
             string result = friendsService.AcceptFriendRequest(request.FriendshipId);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace MasterMind_Server.Tests
         {
             string result = friendsService.AcceptFriendRequest(int.MaxValue);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Error.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Error.ToString()));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace MasterMind_Server.Tests
 
             string result = friendsService.RejectFriendRequest(request.FriendshipId);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace MasterMind_Server.Tests
         {
             string result = friendsService.RejectFriendRequest(int.MaxValue);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Error.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Error.ToString()));
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace MasterMind_Server.Tests
 
             Friendship result = friendsService.GetFriendship(addressee.player_id, requester.player_id);
 
-            Assert.That(result.Status, Is.EqualTo(FriendshipStatusEnum.Accepted.ToString()));
+            Assert.That(result.Status, Is.EqualTo(FriendshipStatus.Accepted.ToString()));
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace MasterMind_Server.Tests
 
             string result = friendsService.RemoveFriendship(addressee.username, requester.username);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
         }
 
         [Test]
@@ -193,7 +193,7 @@ namespace MasterMind_Server.Tests
                 TestDataFactory.CreateUniqueUsername(),
                 requester.username);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.PlayerNotFound.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.PlayerNotFound.ToString()));
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace MasterMind_Server.Tests
         {
             string result = friendsService.RemoveFriendship(addressee.username, requester.username);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Error.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Error.ToString()));
         }
     }
 }
