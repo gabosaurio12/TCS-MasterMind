@@ -26,7 +26,7 @@ namespace MasterMind_Server.Services
             {
                 var clientMessage = new ErrorMessage
                 {
-                    Message = ErrorMessagesEnum.DataBaseError.ToString()
+                    Message = ErrorMessages.DataBaseError.ToString()
                 };
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -48,7 +48,7 @@ namespace MasterMind_Server.Services
             }
         }
 
-        private bool SendEmail(string email, string code)
+        private static void SendEmail(string email, string code)
         {
             Env.Load();
             MailAddress to = new MailAddress(email);
@@ -75,14 +75,11 @@ namespace MasterMind_Server.Services
             try
             {
                 smtp.Send(emailMessage);
-                return true;
             }
             catch (SmtpException ex)
             {
                 logger.Error(ex);
             }
-
-            return false;
         }
     }
 }

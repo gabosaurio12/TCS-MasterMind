@@ -17,7 +17,7 @@ namespace MasterMind_Server.Services
     {
         private static readonly ConcurrentDictionary<int, ConcurrentDictionary<string, ILobbyCallbackService>>
             roomClientsByRoom = new ConcurrentDictionary<int, ConcurrentDictionary<string, ILobbyCallbackService>>();
-        private readonly ILog logger = LogManager.GetLogger(typeof(LobbyService));
+        private static readonly ILog logger = LogManager.GetLogger(typeof(LobbyService));
         private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly ILobbyRepository lobbyRepository = new LobbyRepository();
         private readonly IRoomRepository roomRepository = new RoomRepository();
@@ -60,7 +60,7 @@ namespace MasterMind_Server.Services
             try
             {
                 var result = roomRepository.ChangePlayerStatus(status);
-                if (result.Status != RoomResultEnum.Success.ToString())
+                if (result.Status != RoomResult.Success.ToString())
                 {
                     return result.Status;
                 }
@@ -123,10 +123,10 @@ namespace MasterMind_Server.Services
                 notifyStatusCallback);
         }
 
-        private bool IsMessageAccepted(string status)
+        private static bool IsMessageAccepted(string status)
         {
-            return status == LobbyResultEnum.MessageSent.ToString()
-                || status == LobbyResultEnum.InappropriateVocabulary.ToString();
+            return status == LobbyResult.MessageSent.ToString()
+                || status == LobbyResult.InappropriateVocabulary.ToString();
         }
 
         private ChatMessage BuildOutgoingMessage(ChatMessage message, string content)
@@ -139,7 +139,7 @@ namespace MasterMind_Server.Services
             };
         }
 
-        private void RegisterClient(int roomId, string username)
+        private static void RegisterClient(int roomId, string username)
         {
             if (roomId > 0 && !string.IsNullOrWhiteSpace(username))
             {
@@ -156,7 +156,7 @@ namespace MasterMind_Server.Services
             }
         }
 
-        private void NotifyClients(int roomId, string senderUsername, Action<ILobbyCallbackService> notify)
+        private static void NotifyClients(int roomId, string senderUsername, Action<ILobbyCallbackService> notify)
         {
             ConcurrentDictionary<string, ILobbyCallbackService> clients;
 
@@ -186,13 +186,13 @@ namespace MasterMind_Server.Services
             }
         }
 
-        private void HandleDisconnectedClient(int roomId, string username, Exception exception)
+        private static void HandleDisconnectedClient(int roomId, string username, Exception exception)
         {
             logger.Warn("A lobby client disconnected.", exception);
             RemoveClient(roomId, username);
         }
 
-        private void RemoveClient(int roomId, string username)
+        private static void RemoveClient(int roomId, string username)
         {
             var key = username?.Trim();
             if (string.IsNullOrEmpty(key))
@@ -212,7 +212,7 @@ namespace MasterMind_Server.Services
             }
         }
 
-        private void RemoveRoom(int roomId)
+        private static void RemoveRoom(int roomId)
         {
             ConcurrentDictionary<string, ILobbyCallbackService> removedRoom;
             roomClientsByRoom.TryRemove(roomId, out removedRoom);
@@ -220,7 +220,7 @@ namespace MasterMind_Server.Services
 
         private FaultException<ErrorMessage> BuildDatabaseFault()
         {
-            clientMessage.Message = ErrorMessagesEnum.DataBaseError.ToString();
+            clientMessage.Message = ErrorMessages.DataBaseError.ToString();
             return new FaultException<ErrorMessage>(clientMessage);
         }
     }

@@ -19,14 +19,14 @@ namespace MasterMind_Server.Repositories
             {
                 var validationResult = ValidateData(player);
 
-                if (validationResult.Equals(RepositoriesEnum.ValidInfo.ToString()))
+                if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
                 {
                     player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
 
                     Context.Player.Add(player);
                     Context.SaveChanges();
 
-                    validationResult = RepositoriesEnum.Success.ToString();
+                    validationResult = RepositoriesMessages.Success.ToString();
                 }
 
                 return validationResult;
@@ -34,7 +34,7 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -42,14 +42,14 @@ namespace MasterMind_Server.Repositories
         {
             if (Context.Player.Any(p => p.username == player.username))
             {
-                return RepositoriesEnum.UsernameTaken.ToString();
+                return RepositoriesMessages.UsernameTaken.ToString();
             }
             if (Context.Player.Any(p => p.email == player.email))
             {
-                return RepositoriesEnum.EmailTaken.ToString();
+                return RepositoriesMessages.EmailTaken.ToString();
             }
 
-            return RepositoriesEnum.ValidInfo.ToString();
+            return RepositoriesMessages.ValidInfo.ToString();
         }
 
         public Player GetPlayerByUsername(string username)
@@ -63,7 +63,7 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -78,7 +78,7 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -113,14 +113,14 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
         public string UpdatePlayer(Player player)
         {
             string validationResult = ValidateData(player);
-            if (validationResult.Equals(RepositoriesEnum.ValidInfo.ToString()))
+            if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
             {
                 var formerPlayer = GetPlayerById(player.player_id);
                 if (formerPlayer != null)
@@ -131,17 +131,17 @@ namespace MasterMind_Server.Repositories
                     try
                     {
                         Context.SaveChanges();
-                        return RepositoriesEnum.Success.ToString();
+                        return RepositoriesMessages.Success.ToString();
                     }
                     catch (EntityException ex)
                     {
                         logger.Error(ex);
-                        throw ex;
+                        throw;
                     }
                 }
                 else
                 {
-                    validationResult = RepositoriesEnum.PlayerNotFound.ToString();
+                    validationResult = RepositoriesMessages.PlayerNotFound.ToString();
                 }
             }
 
@@ -159,15 +159,15 @@ namespace MasterMind_Server.Repositories
 
                     Context.SaveChanges();
 
-                    return RepositoriesEnum.Success.ToString();
+                    return RepositoriesMessages.Success.ToString();
                 }
 
-                return RepositoriesEnum.PlayerNotFound.ToString();
+                return RepositoriesMessages.PlayerNotFound.ToString();
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -190,64 +190,71 @@ namespace MasterMind_Server.Repositories
 
                         Context.SaveChanges();
 
-                        result = RepositoriesEnum.Success.ToString();
+                        result = RepositoriesMessages.Success.ToString();
                     }
 
-                    result = RepositoriesEnum.PlayerNotFound.ToString();
+                    result = RepositoriesMessages.PlayerNotFound.ToString();
                 }
 
-                result = RepositoriesEnum.PlayerNotFound.ToString();
+                result = RepositoriesMessages.PlayerNotFound.ToString();
 
                 return result;
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
         private PlayerReport MakePlayerReport(ReportDto report, int[] playerIds)
         {
+            ReportReasonCatalog inappropriateLanguageEntity;
             int inappropriateLanguageId;
+            ReportReasonCatalog cheatingEntity;
             int cheatingId;
             try
             {
-                inappropriateLanguageId = Context.ReportReasonCatalog.FirstOrDefault(
-                    r => r.reason == ReportReasonEnum.InappropriateLanguage
-                    .ToString()).report_reason_id;
+                inappropriateLanguageEntity = Context.ReportReasonCatalog.FirstOrDefault(
+                    r => r.reason == ReportReason.InappropriateLanguage
+                    .ToString());
 
-                cheatingId = Context.ReportReasonCatalog.FirstOrDefault(
-                    r => r.reason == ReportReasonEnum.Cheating
-                    .ToString()).report_reason_id;
+                cheatingEntity = Context.ReportReasonCatalog.FirstOrDefault(
+                    r => r.reason == ReportReason.Cheating
+                    .ToString());
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
 
             PlayerReport newReport = new PlayerReport();
 
-            if (inappropriateLanguageId > 0 && cheatingId > 0)
+            if (inappropriateLanguageEntity != null && cheatingEntity != null)
             {
-                int reasonId;
+                inappropriateLanguageId = inappropriateLanguageEntity.report_reason_id;
+                cheatingId = cheatingEntity.report_reason_id;
+                if (inappropriateLanguageId > 0 && cheatingId > 0)
+                {
+                    int reasonId;
 
-                if (report.Reason == ReportReasonEnum.InappropriateLanguage.ToString())
-                {
-                    reasonId = inappropriateLanguageId;
-                }
-                else
-                {
-                    reasonId = cheatingId;
-                }
+                    if (report.Reason == ReportReason.InappropriateLanguage.ToString())
+                    {
+                        reasonId = inappropriateLanguageId;
+                    }
+                    else
+                    {
+                        reasonId = cheatingId;
+                    }
 
-                newReport = new PlayerReport
-                {
-                    reported_player_id = playerIds[0],
-                    reported_by_player_id = playerIds[1],
-                    reason_id = reasonId
-                };
+                    newReport = new PlayerReport
+                    {
+                        reported_player_id = playerIds[0],
+                        reported_by_player_id = playerIds[1],
+                        reason_id = reasonId
+                    };
+                }
             }
 
             return newReport;

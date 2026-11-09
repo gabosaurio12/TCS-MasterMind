@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace MasterMind_Server.Repositories
 {
-    internal class VerificationCodeRepository
+    internal static class VerificationCodeRepository
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(VerificationCodeRepository));
         private readonly static MasterMindEntities Context = new MasterMindEntities(true);

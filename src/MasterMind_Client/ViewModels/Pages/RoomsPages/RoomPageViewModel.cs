@@ -1,4 +1,5 @@
 using log4net;
+using MasterMind_Client.Helpers;
 using MasterMind_Client.LobbyService;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
@@ -16,6 +17,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
     {
         private const string MessageSentResult = "MessageSent";
         private const string InappropriateVocabularyResult = "InappropriateVocabulary";
+        private const string RoomsPageRoute = "Pages/RoomsPages/RoomsPage.xaml";
+
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(RoomPageViewModel));
 
@@ -80,7 +83,6 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
-        private readonly InstanceContext instanceContext;
 
         private readonly RoomServiceClient roomService = new RoomServiceClient();
         private readonly LobbyServiceClient lobbyService;
@@ -90,8 +92,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             this.navigationService = navigationService;
             this.dialogService = dialogService;
 
-            this.instanceContext = new InstanceContext(this);
-            this.lobbyService = new LobbyServiceClient(this.instanceContext);
+            InstanceContext instanceContext = new InstanceContext(this);
+            this.lobbyService = new LobbyServiceClient(instanceContext);
 
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
@@ -186,7 +188,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             int roomId = GetRoomIdFromQuery(uri);
             if (roomId == 0)
             {
-                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                NavigateTo(RoomsPageRoute);
                 return;
             }
 
@@ -198,7 +200,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 if (room == null)
                 {
                     dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
-                    NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                    NavigateTo(RoomsPageRoute);
                     return;
                 }
 
@@ -211,19 +213,19 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             {
                 logger.WarnFormat("The server rejected the room lookup: {0}", faultException.Detail.Message);
                 ShowServerError(faultException.Detail.Message);
-                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                NavigateTo(RoomsPageRoute);
             }
             catch (FaultException faultException)
             {
                 logger.Error("Server fault during room lookup", faultException);
                 ShowServerError(faultException.Message);
-                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                NavigateTo(RoomsPageRoute);
             }
             catch (CommunicationException communicationException)
             {
                 logger.Error("Communication failure during room lookup", communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected); 
-                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                NavigateTo(RoomsPageRoute);
             }
         }
 
@@ -256,7 +258,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             return 0;
         }
 
-        private string GetQueryFromRelativeUri(Uri uri)
+        private static string GetQueryFromRelativeUri(Uri uri)
         {
             string original = uri.OriginalString;
             int queryIndex = original.IndexOf('?');

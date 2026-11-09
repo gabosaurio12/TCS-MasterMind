@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Exceptions
 {
-    internal enum ErrorMessagesEnum
+    internal enum ErrorMessages
     {
         DataBaseError,
         HashError

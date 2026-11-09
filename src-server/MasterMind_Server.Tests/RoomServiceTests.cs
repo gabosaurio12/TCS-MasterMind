@@ -36,7 +36,7 @@ namespace MasterMind_Server.Tests
 
             RoomCreationResult result = roomService.CreateRoom(room);
 
-            Assert.That(result.Status, Is.EqualTo(RoomResultEnum.Success.ToString()));
+            Assert.That(result.Status, Is.EqualTo(RoomResult.Success.ToString()));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace MasterMind_Server.Tests
 
             RoomCreationResult result = roomService.CreateRoom(duplicateRoom);
 
-            Assert.That(result.Status, Is.EqualTo(RoomResultEnum.RoomNameTaken.ToString()));
+            Assert.That(result.Status, Is.EqualTo(RoomResult.RoomNameTaken.ToString()));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace MasterMind_Server.Tests
 
             RoomCreationResult result = roomService.CreateRoom(room);
 
-            Assert.That(result.Status, Is.EqualTo(RoomResultEnum.Error.ToString()));
+            Assert.That(result.Status, Is.EqualTo(RoomResult.Error.ToString()));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace MasterMind_Server.Tests
 
             RoomCreationResult result = roomService.CreateRoom(room);
 
-            Assert.That(result.Status, Is.EqualTo(RoomResultEnum.Error.ToString()));
+            Assert.That(result.Status, Is.EqualTo(RoomResult.Error.ToString()));
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace MasterMind_Server.Tests
 
             string result = roomService.JoinRoom(room, joiningPlayer.username);
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.Success.ToString()));
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace MasterMind_Server.Tests
 
             string result = roomService.JoinRoom(room, TestDataFactory.CreateUniqueUsername());
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.Error.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.Error.ToString()));
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace MasterMind_Server.Tests
 
             string result = roomService.JoinRoom(room, thirdPlayer.username);
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.RoomIsFull.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.RoomIsFull.ToString()));
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace MasterMind_Server.Tests
 
             string result = roomService.JoinRoom(room, roomOwner.username);
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.Success.ToString()));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace MasterMind_Server.Tests
 
             string result = roomService.JoinRoom(room, joiningPlayer.username);
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.Error.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.Error.ToString()));
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace MasterMind_Server.Tests
                 joiningPlayer.username,
                 createdRoom.Room.RoomCode);
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.Success.ToString()));
         }
 
         [Test]
@@ -209,7 +209,7 @@ namespace MasterMind_Server.Tests
 
             string result = roomService.JoinRoomWithCode(room, joiningPlayer.username, "000000");
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.WrongCode.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.WrongCode.ToString()));
         }
 
         [Test]
@@ -224,7 +224,7 @@ namespace MasterMind_Server.Tests
                 joiningPlayer.username,
                 createdRoom.Room.RoomCode);
 
-            Assert.That(result, Is.EqualTo(RoomResultEnum.Error.ToString()));
+            Assert.That(result, Is.EqualTo(RoomResult.Error.ToString()));
         }
 
         private Room BuildRoom(PlayerEntity owner, string privacy)

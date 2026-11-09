@@ -9,6 +9,10 @@ namespace MasterMind_Server
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(Program));
 
+        private Program()
+        {
+        }
+
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();

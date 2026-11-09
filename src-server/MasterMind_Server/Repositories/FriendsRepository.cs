@@ -49,14 +49,14 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
         private int GetAcceptedStatusId()
         {
             var acceptedStatusEntity = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted
+                    .FirstOrDefault(rq => rq.status == FriendshipStatus.Accepted
                     .ToString());
 
             int id = 0;
@@ -72,7 +72,7 @@ namespace MasterMind_Server.Repositories
         private int GetPendingStatusId()
         {
             var pendingStatusEntity = Context.RequestStatusCatalog
-                        .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString());
+                        .FirstOrDefault(rq => rq.status == FriendshipStatus.Pending.ToString());
 
             int id = 0;
 
@@ -120,11 +120,11 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
-        private List<int> GetFriendsIds(List<Friendship> friendships, int playerId)
+        private static List<int> GetFriendsIds(List<Friendship> friendships, int playerId)
         {
             List<int> friendsIds = new List<int>();
 
@@ -195,7 +195,7 @@ namespace MasterMind_Server.Repositories
                             FriendshipId = requestEntity.friendship_id,
                             AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
                             RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                            Status = FriendshipStatusEnum.Accepted.ToString()
+                            Status = FriendshipStatus.Accepted.ToString()
                         };
                     }
                 }
@@ -205,7 +205,7 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -234,7 +234,7 @@ namespace MasterMind_Server.Repositories
                             FriendshipId = requestEntity.friendship_id,
                             AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
                             RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                            Status = FriendshipStatusEnum.Pending.ToString()
+                            Status = FriendshipStatus.Pending.ToString()
                         };
                     }
                 }
@@ -244,7 +244,7 @@ namespace MasterMind_Server.Repositories
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -254,7 +254,7 @@ namespace MasterMind_Server.Repositories
             {
                 if (addresseeId == requesterId)
                 {
-                    return RepositoriesEnum.Error.ToString();
+                    return RepositoriesMessages.Error.ToString();
                 }
 
                 int pendingStatusId = GetPendingStatusId();
@@ -270,15 +270,15 @@ namespace MasterMind_Server.Repositories
                     {
                         if (existingRequest.status_id == pendingStatusId)
                         {
-                            return RepositoriesEnum.Pending.ToString();
+                            return RepositoriesMessages.Pending.ToString();
                         }
 
                         if (existingRequest.status_id == acceptedStatusId)
                         {
-                            return RepositoriesEnum.Error.ToString();
+                            return RepositoriesMessages.Error.ToString();
                         }
 
-                        return RepositoriesEnum.Error.ToString();
+                        return RepositoriesMessages.Error.ToString();
                     }
 
                     Context.Friendship.Add(new Friendship
@@ -289,15 +289,15 @@ namespace MasterMind_Server.Repositories
                     });
 
                     Context.SaveChanges();
-                    return RepositoriesEnum.Success.ToString();
+                    return RepositoriesMessages.Success.ToString();
                 }
 
-                return RepositoriesEnum.Error.ToString();
+                return RepositoriesMessages.Error.ToString();
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -317,16 +317,16 @@ namespace MasterMind_Server.Repositories
                     {
                         requestEntity.status_id = acceptedStatusId;
                         Context.SaveChanges();
-                        return RepositoriesEnum.Success.ToString();
+                        return RepositoriesMessages.Success.ToString();
                     }
                 }
 
-                return RepositoriesEnum.Error.ToString();
+                return RepositoriesMessages.Error.ToString();
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -345,16 +345,16 @@ namespace MasterMind_Server.Repositories
                     {
                         Context.Friendship.Remove(requestEntity);
                         Context.SaveChanges();
-                        return RepositoriesEnum.Success.ToString();
+                        return RepositoriesMessages.Success.ToString();
                     }
                 }
 
-                return RepositoriesEnum.Error.ToString();
+                return RepositoriesMessages.Error.ToString();
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -367,7 +367,7 @@ namespace MasterMind_Server.Repositories
 
                 if (addressee == null || requester == null)
                 {
-                    return RepositoriesEnum.PlayerNotFound.ToString();
+                    return RepositoriesMessages.PlayerNotFound.ToString();
                 }
 
                 int acceptedStatusId = GetAcceptedStatusId();
@@ -383,16 +383,16 @@ namespace MasterMind_Server.Repositories
                     {
                         Context.Friendship.Remove(friendshipEntity);
                         Context.SaveChanges();
-                        return RepositoriesEnum.Success.ToString();
+                        return RepositoriesMessages.Success.ToString();
                     }
                 }
 
-                return RepositoriesEnum.Error.ToString();
+                return RepositoriesMessages.Error.ToString();
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw ex;
+                throw;
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Repositories.Enums
 {
-    public enum ReportReasonEnum
+    public enum ReportReason
     {
         InappropriateLanguage,
         Cheating

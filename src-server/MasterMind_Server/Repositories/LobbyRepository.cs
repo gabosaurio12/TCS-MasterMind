@@ -28,14 +28,14 @@ namespace MasterMind_Server.Repositories
             {
                 if (!IsMessageValid(message))
                 {
-                    return CreateResult(LobbyResultEnum.Error, null);
+                    return CreateResult(LobbyResult.Error, null);
                 }
 
                 var room = GetRoomEntity(message.RoomId);
                 var member = GetRoomMember(room, message.SenderUsername);
                 if (member == null)
                 {
-                    return CreateResult(LobbyResultEnum.Error, null);
+                    return CreateResult(LobbyResult.Error, null);
                 }
 
                 bool hasBannedWords;
@@ -47,15 +47,15 @@ namespace MasterMind_Server.Repositories
                     ReportOffensiveMessage(room, member);
                 }
 
-                LobbyResultEnum status;
+                LobbyResult status;
                 if (hasBannedWords)
                 {
-                    status = LobbyResultEnum.InappropriateVocabulary;
+                    status = LobbyResult.InappropriateVocabulary;
 
                 }
                 else
                 {
-                    status = LobbyResultEnum.MessageSent;
+                    status = LobbyResult.MessageSent;
                 }
 
                 return CreateResult(status, censoredMessage);
@@ -67,7 +67,7 @@ namespace MasterMind_Server.Repositories
             }
         }
 
-        private bool IsMessageValid(ChatMessage message)
+        private static bool IsMessageValid(ChatMessage message)
         {
             return message != null
                 && message.RoomId > 0
@@ -76,7 +76,7 @@ namespace MasterMind_Server.Repositories
                 && message.Message.Trim().Length <= MaxMessageLength;
         }
 
-        private string CensorMessage(string message, out bool hasBannedWords)
+        private static string CensorMessage(string message, out bool hasBannedWords)
         {
             var censoredMessage = bannedWordsRegex.Replace(
                 message,
@@ -85,19 +85,19 @@ namespace MasterMind_Server.Repositories
             return censoredMessage;
         }
 
-        private void ReportOffensiveMessage(MatchRoom room, RoomMember member)
+        private void ReportOffensiveMessage(MatchRoom room, RoomMemberDto member)
         {
             var report = new ReportDto
             {
                 ReportedPlayerUsername = member.Username,
                 ReportedByPlayerUsername = GetOtherMemberUsername(room, member),
-                Reason = ReportReasonEnum.InappropriateLanguage.ToString()
+                Reason = ReportReason.InappropriateLanguage.ToString()
             };
 
             playerRepository.ReportPlayer(report);
         }
 
-        private string GetOtherMemberUsername(MatchRoom room, RoomMember member)
+        private static string GetOtherMemberUsername(MatchRoom room, RoomMemberDto member)
         {
             if (!member.IsPlayerOne)
             {
@@ -107,7 +107,7 @@ namespace MasterMind_Server.Repositories
             return room.Player1?.username ?? member.Username;
         }
 
-        private RoomMember GetRoomMember(MatchRoom room, string username)
+        private RoomMemberDto GetRoomMember(MatchRoom room, string username)
         {
             if (room == null || string.IsNullOrWhiteSpace(username))
             {
@@ -117,13 +117,13 @@ namespace MasterMind_Server.Repositories
             var playerName = username.Trim();
             if (string.Equals(room.Player?.username, playerName, StringComparison.OrdinalIgnoreCase))
             {
-                return new RoomMember { Username = room.Player.username, IsPlayerOne = true };
+                return new RoomMemberDto { Username = room.Player.username, IsPlayerOne = true };
             }
 
             if (room.Player1 != null
                 && string.Equals(room.Player1.username, playerName, StringComparison.OrdinalIgnoreCase))
             {
-                return new RoomMember { Username = room.Player1.username, IsPlayerOne = false };
+                return new RoomMemberDto { Username = room.Player1.username, IsPlayerOne = false };
             }
 
             return null;
@@ -137,7 +137,7 @@ namespace MasterMind_Server.Repositories
                 .FirstOrDefault(room => room.match_room_id == roomId);
         }
 
-        private ChatMessageResult CreateResult(LobbyResultEnum status, string message)
+        private ChatMessageResult CreateResult(LobbyResult status, string message)
         {
             return new ChatMessageResult
             {
@@ -152,13 +152,6 @@ namespace MasterMind_Server.Repositories
             return new Regex(
                 $@"\b({pattern})\b",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(500));
-        }
-
-        private class RoomMember
-        {
-            public string Username { get; set; }
-
-            public bool IsPlayerOne { get; set; }
         }
     }
 }

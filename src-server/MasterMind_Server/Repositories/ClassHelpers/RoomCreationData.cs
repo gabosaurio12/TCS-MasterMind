@@ -6,7 +6,7 @@ namespace MasterMind_Server.Repositories.ClassHelpers
     {
         public string RoomName { get; set; }
 
-        public RoomPrivacyEnum Privacy { get; set; }
+        public RoomPrivacy Privacy { get; set; }
 
         public int PrivacyId { get; set; }
 

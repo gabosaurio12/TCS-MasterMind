@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Repositories.Enums
 {
-    public enum RepositoriesEnum
+    public enum RepositoriesMessages
     {
         Success,
         ValidInfo,

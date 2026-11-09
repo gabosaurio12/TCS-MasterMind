@@ -37,7 +37,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.RegisterPlayer(player);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.RegisterPlayer(duplicate);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.UsernameTaken.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.UsernameTaken.ToString()));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.RegisterPlayer(duplicate);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.EmailTaken.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.EmailTaken.ToString()));
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.UpdatePlayer(update);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.UpdatePlayer(update);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.PlayerNotFound.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.PlayerNotFound.ToString()));
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.UpdatePlayer(update);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.UsernameTaken.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.UsernameTaken.ToString()));
         }
 
         [Test]
@@ -214,7 +214,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.UpdatePlayer(update);
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.EmailTaken.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.EmailTaken.ToString()));
         }
 
         [Test]
@@ -224,7 +224,7 @@ namespace MasterMind_Server.Tests
 
             string result = playerService.ChangePassword(existingPlayer.username, "NewPassword123!");
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
         }
 
         [Test]
@@ -234,7 +234,7 @@ namespace MasterMind_Server.Tests
                 TestDataFactory.CreateUniqueUsername(),
                 "NewPassword123!");
 
-            Assert.That(result, Is.EqualTo(RepositoriesEnum.PlayerNotFound.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.PlayerNotFound.ToString()));
         }
 
         [Test]
@@ -264,7 +264,7 @@ namespace MasterMind_Server.Tests
             {
                 ReportedPlayerUsername = reportedPlayer.username,
                 ReportedByPlayerUsername = reporter.username,
-                Reason = ReportReasonEnum.Cheating.ToString()
+                Reason = ReportReason.Cheating.ToString()
             };
 
             playerService.ReportPlayer(report);
@@ -280,7 +280,7 @@ namespace MasterMind_Server.Tests
             {
                 ReportedPlayerUsername = TestDataFactory.CreateUniqueUsername(),
                 ReportedByPlayerUsername = reporter.username,
-                Reason = ReportReasonEnum.Cheating.ToString()
+                Reason = ReportReason.Cheating.ToString()
             };
 
             playerService.ReportPlayer(report);
