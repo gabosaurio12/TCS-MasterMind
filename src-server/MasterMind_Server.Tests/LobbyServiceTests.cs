@@ -134,7 +134,7 @@ namespace MasterMind_Server.Tests
         public void TestChangePlayerStatusSuccess()
         {
             string result = firstClient.Service.ChangePlayerStatus(
-                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerStatusEnum.Ready));
+                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Ready));
 
             Assert.That(result, Is.EqualTo(RoomResult.Success.ToString()));
         }
@@ -142,7 +142,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestChangePlayerStatusInvalidStatusReturnsError()
         {
-            Contracts.PlayerStatus status = BuildStatus(firstPlayer.username, Repositories.Enums.PlayerStatusEnum.Ready);
+            Contracts.PlayerStatus status = BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Ready);
             status.Status = "UnknownStatus";
 
             string result = firstClient.Service.ChangePlayerStatus(status);
@@ -154,7 +154,7 @@ namespace MasterMind_Server.Tests
         public void TestChangePlayerStatusNonMemberReturnsError()
         {
             string result = firstClient.Service.ChangePlayerStatus(
-                BuildStatus(TestDataFactory.CreateUniqueUsername(), Repositories.Enums.PlayerStatusEnum.Ready));
+                BuildStatus(TestDataFactory.CreateUniqueUsername(), Repositories.Enums.PlayerPossibleStatus.Ready));
 
             Assert.That(result, Is.EqualTo(RoomResult.Error.ToString()));
         }
@@ -162,9 +162,9 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestChangePlayerStatusNotifiesOtherClient()
         {
-            firstClient.Service.ChangePlayerStatus(BuildStatus(firstPlayer.username, Repositories.Enums.PlayerStatusEnum.Ready));
+            firstClient.Service.ChangePlayerStatus(BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Ready));
 
-            secondClient.Service.ChangePlayerStatus(BuildStatus(secondPlayer.username, Repositories.Enums.PlayerStatusEnum.Ready));
+            secondClient.Service.ChangePlayerStatus(BuildStatus(secondPlayer.username, Repositories.Enums.PlayerPossibleStatus.Ready));
             bool notified = firstProbe.WaitForStatusChange(TestDataFactory.CallbackTimeout);
 
             Assert.That(notified, Is.True);
@@ -173,9 +173,9 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestChangePlayerStatusDeliversChangedPlayer()
         {
-            firstClient.Service.ChangePlayerStatus(BuildStatus(firstPlayer.username, Repositories.Enums.PlayerStatusEnum.Ready));
+            firstClient.Service.ChangePlayerStatus(BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Ready));
 
-            secondClient.Service.ChangePlayerStatus(BuildStatus(secondPlayer.username, Repositories.Enums.PlayerStatusEnum.Ready));
+            secondClient.Service.ChangePlayerStatus(BuildStatus(secondPlayer.username, Repositories.Enums.PlayerPossibleStatus.Ready));
             firstProbe.WaitForStatusChange(TestDataFactory.CallbackTimeout);
 
             Assert.That(firstProbe.LastStatusChange.Username, Is.EqualTo(secondPlayer.username));
@@ -185,7 +185,7 @@ namespace MasterMind_Server.Tests
         public void TestEscapePlayerTwoClearsPlayerTwo()
         {
             secondClient.Service.ChangePlayerStatus(
-                BuildStatus(secondPlayer.username, Repositories.Enums.PlayerStatusEnum.Escaped));
+                BuildStatus(secondPlayer.username, Repositories.Enums.PlayerPossibleStatus.Escaped));
 
             int? result = TestDatabase.GetRoomPlayerTwoId(room.RoomId);
 
@@ -196,7 +196,7 @@ namespace MasterMind_Server.Tests
         public void TestEscapePlayerOnePromotesPlayerTwo()
         {
             firstClient.Service.ChangePlayerStatus(
-                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerStatusEnum.Escaped));
+                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Escaped));
 
             int? result = TestDatabase.GetRoomPlayerOneId(room.RoomId);
 
@@ -208,7 +208,7 @@ namespace MasterMind_Server.Tests
         {
             Room soloRoom = CreatePublicRoom(firstPlayer);
             firstClient.Service.ChangePlayerStatus(
-                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerStatusEnum.Escaped, soloRoom.RoomId));
+                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Escaped, soloRoom.RoomId));
 
             Room result = new RoomService().GetRoomByName(soloRoom.Name);
 
@@ -251,7 +251,7 @@ namespace MasterMind_Server.Tests
             };
         }
 
-        private Contracts.PlayerStatus BuildStatus(string username, Repositories.Enums.PlayerStatusEnum status, int? roomId = null)
+        private Contracts.PlayerStatus BuildStatus(string username, Repositories.Enums.PlayerPossibleStatus status, int? roomId = null)
         {
             return new Contracts.PlayerStatus
             {

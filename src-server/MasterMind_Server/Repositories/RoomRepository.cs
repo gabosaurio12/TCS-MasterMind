@@ -200,7 +200,7 @@ namespace MasterMind_Server.Repositories
             try
             {
                 var result = new PlayerStatusChangeResult { Status = RoomResult.Error.ToString() };
-                Enums.PlayerStatusEnum newStatus;
+                Enums.PlayerPossibleStatus newStatus;
                 if (status == null || !TryParsePlayerStatus(status.Status, out newStatus))
                 {
                     return result;
@@ -270,7 +270,7 @@ namespace MasterMind_Server.Repositories
 
         private void ApplyStatusChange(StatusChangeContext context)
         {
-            if (context.NewStatus == Enums.PlayerStatusEnum.Escaped)
+            if (context.NewStatus == Enums.PlayerPossibleStatus.Escaped)
             {
                 ApplyEscape(context);
                 return;
@@ -284,7 +284,7 @@ namespace MasterMind_Server.Repositories
             changeContext.Result.EscapedPlayer = BuildPlayerStatus(
                 changeContext.Room,
                 changeContext.Member,
-                Enums.PlayerStatusEnum.Escaped);
+                Enums.PlayerPossibleStatus.Escaped);
 
             if (changeContext.Member.IsPlayerOne && !changeContext.Room.player_two_id.HasValue)
             {
@@ -313,13 +313,13 @@ namespace MasterMind_Server.Repositories
             room.player_one_id = room.player_two_id.Value;
             room.player_one_status = promotedStatus;
             room.player_two_id = null;
-            room.player_two_status = (byte)Enums.PlayerStatusEnum.NotReady;
+            room.player_two_status = (byte)Enums.PlayerPossibleStatus.NotReady;
 
             result.PromotedPlayer = new Contracts.PlayerStatus
             {
                 RoomId = room.match_room_id,
                 Username = promotedUsername,
-                Status = ((Enums.PlayerStatusEnum)promotedStatus).ToString(),
+                Status = ((Enums.PlayerPossibleStatus)promotedStatus).ToString(),
                 IsPlayerOne = true
             };
         }
@@ -327,10 +327,10 @@ namespace MasterMind_Server.Repositories
         private static void ClearPlayerTwo(MatchRoom room)
         {
             room.player_two_id = null;
-            room.player_two_status = (byte)Enums.PlayerStatusEnum.NotReady;
+            room.player_two_status = (byte)Enums.PlayerPossibleStatus.NotReady;
         }
 
-        private void SavePlayerStatus(MatchRoom room, bool isPlayerOne, Enums.PlayerStatusEnum status)
+        private void SavePlayerStatus(MatchRoom room, bool isPlayerOne, Enums.PlayerPossibleStatus status)
         {
             if (isPlayerOne)
             {
@@ -416,12 +416,7 @@ namespace MasterMind_Server.Repositories
                 return creationData;
             }
 
-            int? privacyId = 0;
-            
-            if (privacy.HasValue)
-            {
-                privacyId = FindPrivacyId(privacy.Value);
-            }
+            int? privacyId = FindPrivacyId(privacy.Value);
 
             var gamemodeId = FindGameModeId(room.Gamemode);
             var difficultyId = FindDifficultyId(room.Difficulty);
@@ -449,23 +444,11 @@ namespace MasterMind_Server.Repositories
         {
             bool isValid = true;
 
-            if (data.RoomName.Length > MaxRoomNameLength)
-            {
-                isValid = false;
-            }
-            else if (data.PrivacyId == 0)
-            {
-                isValid = false;
-            }
-            else if (data.GamemodeId == 0)
-            {
-                isValid = false;
-            }
-            else if (data.DifficultyId == 0)
-            {
-                isValid = false;
-            }
-            else if (data.PlayerOneId == 0)
+            if (data.RoomName.Length > MaxRoomNameLength ||
+                data.PrivacyId == 0 ||
+                data.GamemodeId == 0 ||
+                data.DifficultyId == 0 ||
+                data.PlayerOneId == 0)
             {
                 isValid = false;
             }
@@ -481,14 +464,14 @@ namespace MasterMind_Server.Repositories
                 gamemode_id = data.GamemodeId,
                 difficulty_id = data.DifficultyId,
                 player_one_id = data.PlayerOneId,
-                player_one_status = (byte)Enums.PlayerStatusEnum.NotReady,
-                player_two_status = (byte)Enums.PlayerStatusEnum.NotReady,
+                player_one_status = (byte)Enums.PlayerPossibleStatus.NotReady,
+                player_two_status = (byte)Enums.PlayerPossibleStatus.NotReady,
                 room_privacy_id = data.PrivacyId,
                 room_code = data.Privacy == RoomPrivacy.Private ? GenerateRoomCode() : null
             };
         }
 
-        private string GetJoinBlockingResult(MatchRoom room, int playerId)
+        private static string GetJoinBlockingResult(MatchRoom room, int playerId)
         {
             if (IsMember(room, playerId))
             {
@@ -506,7 +489,7 @@ namespace MasterMind_Server.Repositories
         private static void SetPlayerTwo(MatchRoom room, int playerId)
         {
             room.player_two_id = playerId;
-            room.player_two_status = (byte)Enums.PlayerStatusEnum.NotReady;
+            room.player_two_status = (byte)Enums.PlayerPossibleStatus.NotReady;
         }
 
         private static bool IsRoomCodeValid(MatchRoom room, string code)
@@ -549,7 +532,7 @@ namespace MasterMind_Server.Repositories
             return null;
         }
 
-        private Contracts.PlayerStatus BuildPlayerStatus(MatchRoom room, RoomMember member, Enums.PlayerStatusEnum status)
+        private Contracts.PlayerStatus BuildPlayerStatus(MatchRoom room, RoomMember member, Enums.PlayerPossibleStatus status)
         {
             return new Contracts.PlayerStatus
             {
@@ -560,12 +543,12 @@ namespace MasterMind_Server.Repositories
             };
         }
 
-        private static bool TryParsePlayerStatus(string status, out Enums.PlayerStatusEnum result)
+        private static bool TryParsePlayerStatus(string status, out Enums.PlayerPossibleStatus result)
         {
-            result = Enums.PlayerStatusEnum.NotReady;
+            result = Enums.PlayerPossibleStatus.NotReady;
             return !string.IsNullOrWhiteSpace(status)
                 && Enum.TryParse(status.Trim(), true, out result)
-                && Enum.IsDefined(typeof(Enums.PlayerStatusEnum), result);
+                && Enum.IsDefined(typeof(Enums.PlayerPossibleStatus), result);
         }
 
         private static RoomPrivacy? ParsePrivacy(string privacy)

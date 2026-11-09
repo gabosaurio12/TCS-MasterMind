@@ -1,6 +1,6 @@
 ﻿namespace MasterMind_Server.Repositories.Enums
 {
-    public enum PlayerStatusEnum
+    public enum PlayerPossibleStatus
     {
         NotReady = 0,
         Ready = 1,
