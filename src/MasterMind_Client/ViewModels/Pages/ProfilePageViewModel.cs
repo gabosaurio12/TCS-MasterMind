@@ -1,6 +1,4 @@
-using MasterMind_Client.TempData;
-using MasterMind_Client.TempData.Enum;
-using MasterMind_Client.TempData.DTO;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -30,6 +28,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
+        private readonly PlayerServiceClient playerService = new PlayerServiceClient();
 
         public ProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
@@ -51,16 +50,16 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private void SetRecords()
         {
-            var records = TempPlayerService.GetPlayerRecords(Username);
+            var records = playerService.GetPlayerRecords(Username);
             int rankCounter = 1;
-            foreach (var tries in records.PlayerTimeTrialRecords)
+            foreach (var tries in records.TimeTrialRecords)
             {
                 BestTimes.Add(string.Concat(rankCounter.ToString(), ") ", tries.ToString()));
                 rankCounter++;
             }
 
             rankCounter = 1;
-            foreach (var tries in records.PlayerTriesRecords)
+            foreach (var tries in records.TriesRecords)
             {
                 LeastTries.Add(string.Concat(rankCounter.ToString(), ") ", tries.ToString()));
                 rankCounter++;
@@ -69,14 +68,17 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private void ReportPlayer()
         {
-            var reportedPlayer = TempPlayerService.GetPlayerByUsername(ReportedPlayer);
-            var report = new PlayerReportDto
+            var reportedPlayer = playerService.GetPlayerByUsername(ReportedPlayer);
+            var report = new Report
             {
                 ReportedPlayerUsername = Username,
                 ReportedByPlayerUsername = CurrentPlayer.Instance.Username,
-                Reason = ReportReasonEnum.Cheating
+                Reason = "Cheating"
             };
-            var result = TempPlayerService.ReportPlayer(report);
+
+            //*** TO DO ***//
+            /*
+            var result = playerService.ReportPlayer(report);
             if (result)
             {
                 dialogService.ShowSuccess(Properties.Resources.SuccessNotification_PlayerReported);
@@ -84,7 +86,7 @@ namespace MasterMind_Client.ViewModels.Pages
             else
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_PlayerReportedError);
-            }
+            }*/
         }
 
         private void NavigateTo(string uri)

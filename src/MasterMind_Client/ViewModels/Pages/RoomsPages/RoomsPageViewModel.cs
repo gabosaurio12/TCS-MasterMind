@@ -1,5 +1,4 @@
 using MasterMind_Client.RoomService;
-using MasterMind_Client.TempData.Enum;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
@@ -97,7 +96,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             try
             {
                 var result = roomService.JoinRoom(room, CurrentPlayer.Instance.Username);
-                if (result.Equals(MatchRoomJoinResultEnum.Success.ToString()))
+                if (result.Equals("Success"))
                 {
                     var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.RoomId}", UriKind.Relative);
                     navigationService.Navigate(uri);
@@ -128,7 +127,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private string GetJoinErrorMessage(string result)
         {
             string errorMessage;
-            if (result.Equals(MatchRoomJoinResultEnum.RoomIsFull.ToString()))
+            if (result.Equals("RoomIsFull"))
             {
                 errorMessage = Properties.Resources.ErrorNotification_RoomFull;
             }
