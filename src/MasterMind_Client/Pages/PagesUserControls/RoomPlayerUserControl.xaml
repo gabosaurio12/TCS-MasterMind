@@ -1,25 +1,26 @@
 ﻿<UserControl x:Class="MasterMind_Client.Pages.PagesUserControls.RoomPlayerUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
-             mc:Ignorable="d" 
-             xmlns:p="clr-namespace:MasterMind_Client.Properties"
-             d:DesignHeight="160" d:DesignWidth="470">
-    <Grid x:Name="Grid" Background="{Binding BackgroundBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+             mc:Ignorable="d"
+             d:DesignHeight="215" d:DesignWidth="650">
 
-        <Ellipse x:Name="AvatarEllipse" Grid.Column="0" Width="100" Height="100" Fill="#929292" />
+    <Grid>
+        <Image x:Name="CardImg" Style="{StaticResource RoomPlayerCardImage}" />
 
-        <Viewbox Grid.Column="1" StretchDirection="DownOnly" MaxHeight="55" HorizontalAlignment="Left"
-                 Margin="20,0,0,0">
-            <TextBlock x:Name="UsernameTxt" FontFamily="{StaticResource Aladin}" FontSize="50"
-               Foreground="White" Text="{Binding Username}"/>
+        <Ellipse x:Name="AvatarEllipse" Width="132" Height="132"
+                 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="76,0,0,0">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="{StaticResource AvatarImage}" Stretch="UniformToFill" />
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Viewbox StretchDirection="DownOnly" MaxHeight="64"
+                 HorizontalAlignment="Center" Margin="230,0,130,0">
+            <TextBlock x:Name="UsernameTxt" FontFamily="{StaticResource Elite}" FontSize="56"
+                       Foreground="{StaticResource CreamBrush}" Text="{Binding Username}" />
         </Viewbox>
-
     </Grid>
 </UserControl>

@@ -84,7 +84,7 @@ namespace MasterMind_Client.TempData
                 }
                 else
                 {
-                    return MatchRoomCreationResultEnum.NameInUse;
+                    return MatchRoomCreationResultEnum.RoomNameTaken;
                 }
             }
             catch (EntityException ex)
@@ -189,26 +189,6 @@ namespace MasterMind_Client.TempData
             try
             {
                 var room = Context.MatchRoom.FirstOrDefault(matchRoom => matchRoom.match_room_id == matchRoomId);
-
-                if (room == null)
-                {
-                    return MatchRoomJoinResultEnum.Error;
-                }
-
-                if (room.player_one_id == playerId)
-                {
-                    return MatchRoomJoinResultEnum.OwnRoom;
-                }
-
-                if (room.player_two_id == playerId)
-                {
-                    return MatchRoomJoinResultEnum.AlreadyJoined;
-                }
-
-                if (room.player_two_id != null)
-                {
-                    return MatchRoomJoinResultEnum.RoomFull;
-                }
 
                 room.player_two_id = playerId;
                 Context.SaveChanges();

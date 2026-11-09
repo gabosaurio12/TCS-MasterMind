@@ -1,20 +1,34 @@
-using MasterMind_Client.TempData;
-using MasterMind_Client.TempData.DTO;
+using log4net;
+using MasterMind_Client.LobbyService;
+using MasterMind_Client.PlayerService;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
 using System;
+using System.ServiceModel;
 using System.Web;
+using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
-    public class RoomPageViewModel : ViewModelBase
+    public class RoomPageViewModel : ViewModelBase, ILobbyServiceCallback
     {
+        private const string MessageSentResult = "MessageSent";
+        private const string InappropriateVocabularyResult = "InappropriateVocabulary";
+
+        private readonly static ILog logger = LogManager.GetLogger(typeof(RoomPageViewModel));
 
         public string RoomTitle
         {
             get => roomTitle;
             private set => SetProperty(ref roomTitle, value);
+        }
+
+        public string RoomCode
+        {
+            get => roomCode;
+            private set => SetProperty(ref roomCode, value);
         }
 
         public PlayerSlotViewModel PlayerOne
@@ -31,8 +45,20 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public bool IsReady
         {
-            get => _isReady;
-            private set => SetProperty(ref _isReady, value);
+            get => isReady;
+            private set => SetProperty(ref isReady, value);
+        }
+
+        public string MessageText
+        {
+            get => messageText;
+            set => SetProperty(ref messageText, value);
+        }
+
+        public string ChatText
+        {
+            get => chatText;
+            private set => SetProperty(ref chatText, value);
         }
 
         public RelayCommand ReadyCommand { get; }
@@ -41,22 +67,117 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public RelayCommand EscapeCommand { get; }
 
+        public RelayCommand SendCommand { get; }
+
         private string roomTitle;
+        private string roomCode;
+        private string messageText = string.Empty;
+        private string chatText = string.Empty;
         private PlayerSlotViewModel playerOne;
         private PlayerSlotViewModel playerTwo;
-        private bool _isReady;
+        private bool isReady;
+        private int currentRoomId;
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
+        private readonly InstanceContext instanceContext;
+
+        private readonly RoomServiceClient roomService = new RoomServiceClient();
+        private readonly LobbyServiceClient lobbyService;
 
         public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
             this.dialogService = dialogService;
+
+            this.instanceContext = new InstanceContext(this);
+            this.lobbyService = new LobbyServiceClient(this.instanceContext);
+
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
-            EscapeCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/RoomsPage.xaml"));
+            EscapeCommand = new RelayCommand(_ => ExecuteEscapeCommand());
+            SendCommand = new RelayCommand(_ => SendMessage(), _ => HasMessageText());
+
             InitializeFromUri(uri);
+        }
+
+        private bool HasMessageText()
+        {
+            return !string.IsNullOrWhiteSpace(messageText);
+        }
+
+        private void SendMessage()
+        {
+            string message = MessageText.Trim();
+            if (message.Length == 0)
+            {
+                return;
+            }
+
+            try
+            {
+                var chatMessage = new ChatMessage
+                {
+                    RoomId = currentRoomId,
+                    SenderUsername = CurrentPlayer.Instance.Username,
+                    Message = message
+                };
+
+                string result = lobbyService.SendMessage(chatMessage);
+                HandleSendMessageResult(result, message);
+            }
+            catch (FaultException<LobbyService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the chat message: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure while sending a chat message", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
+            }
+        }
+
+        private void ShowServerError(string errorDetail)
+        {
+            switch (errorDetail)
+            {
+                case "DataBaseError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                    break;
+                case "HashError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+                    break;
+                default:
+                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                    break;
+            }
+        }
+
+        private void HandleSendMessageResult(string result, string message)
+        {
+            switch (result)
+            {
+                case MessageSentResult:
+                    AppendChatMessage(CurrentPlayer.Instance.Username, message);
+                    MessageText = string.Empty;
+                    break;
+                case InappropriateVocabularyResult:
+                    AppendChatMessage(CurrentPlayer.Instance.Username, message);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_InappropriateVocabulary);
+                    break;
+                default:
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
+                    break;
+            }
+        }
+
+        private void AppendChatMessage(string senderUsername, string message)
+        {
+            ChatText = string.IsNullOrEmpty(chatText)
+                ? $"{senderUsername}: {message}"
+                : $"{chatText}{Environment.NewLine}{senderUsername}: {message}";
         }
 
 
@@ -69,16 +190,55 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 return;
             }
 
-            var room = TempMatchRoomsService.GetMatchRoomById(roomId);
-            if (room == null)
-            {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
-                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
-                return;
-            }
+            currentRoomId = roomId;
 
-            RoomTitle = room.RoomName;
-            SetPlayers(room);
+            try
+            {
+                var room = roomService.GetRoomById(roomId);
+                if (room == null)
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
+                    NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                    return;
+                }
+
+                RoomTitle = room.Name;
+                RoomCode = room.RoomCode;
+                SetPlayers(room);
+                NotifyPlayerJoined(room);
+            }
+            catch (FaultException<RoomService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the room lookup: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault during room lookup", faultException);
+                ShowServerError(faultException.Message);
+                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure during room lookup", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected); 
+                NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+            }
+        }
+
+        private void NotifyPlayerJoined(Room room)
+        {
+            string username = CurrentPlayer.Instance.Username;
+            var playerStatus = new PlayerStatus
+            {
+                RoomId = room.RoomId,
+                Username = username,
+                Status = "NotReady",
+                IsPlayerOne = username.Equals(PlayerOne.Username)
+            };
+
+            lobbyService.ChangePlayerStatusAsync(playerStatus);
         }
 
         private int GetRoomIdFromQuery(Uri uri)
@@ -111,41 +271,121 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             return queryString;
         }
 
-        private void SetPlayers(MatchRoomDto room)
+        private void SetPlayers(Room room)
         {
-            if (room.PlayerOneId == CurrentPlayer.Instance.Id)
+            if (room.PlayerOneUsername == CurrentPlayer.Instance.Username)
             {
                 PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
-                PlayerTwo = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerTwoId));
+                PlayerTwo = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerTwoUsername));
             }
             else
             {
                 PlayerTwo = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
-                PlayerOne = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerOneId));
+                PlayerOne = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerOneUsername));
             }
         }
 
-        private string GetOpponentUsername(int opponentId)
+        private void SetPlayersEscaped(Room room, PlayerStatus status)
         {
-            if (opponentId == 0)
+            if (room.PlayerOneUsername == status.Username)
+            {
+                PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
+                PlayerTwo = new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
+            }
+            else
+            {
+                PlayerTwo = new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
+                PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
+            }
+        }
+
+        private string GetOpponentUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
             {
                 return Properties.Resources.RoomPage_EmptySlot;
             }
 
-            var opponent = TempPlayerService.GetPlayerById(opponentId);
-            return opponent?.username ?? Properties.Resources.RoomPage_EmptySlot;
+            try
+            {
+                var playerService = new PlayerServiceClient();
+                var opponent = playerService.GetPlayerByUsername(username);
+                return opponent?.Username ?? Properties.Resources.RoomPage_EmptySlot;
+            }
+            catch (FaultException<PlayerService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the player lookup: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+                return Properties.Resources.RoomPage_EmptySlot;
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault during player lookup", faultException);
+                ShowServerError(faultException.Message);
+                return Properties.Resources.RoomPage_EmptySlot;
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure during player lookup", communicationException);
+                return Properties.Resources.RoomPage_EmptySlot;
+            }
         }
 
         private void SetReady()
         {
             IsReady = true;
             GetCurrentPlayerSlot().SetReady();
+            SendStatusToServer("Ready");
+        }
+
+        private void SetOpponentReady()
+        {
+            GetOpponentSlot().SetReady();
         }
 
         private void SetUnready()
         {
             IsReady = false;
             GetCurrentPlayerSlot().SetNotReady();
+            SendStatusToServer("NotReady");
+        }
+
+        private void SetOpponentUnready()
+        {
+            GetOpponentSlot().SetNotReady();
+        }
+
+        private void SendStatusToServer(string status)
+        {
+            int roomId = currentRoomId;
+            var playerStatus = new PlayerStatus
+            {
+                RoomId = roomId,
+                Username = CurrentPlayer.Instance.Username,
+                Status = status,
+                IsPlayerOne = CurrentPlayer.Instance.Username.Equals(PlayerOne?.Username)
+            };
+            lobbyService.ChangePlayerStatusAsync(playerStatus);
+        }
+
+        private void SendEscapeToServer()
+        {
+            int roomId = currentRoomId;
+            var playerStatus = new PlayerStatus
+            {
+                RoomId = roomId,
+                Username = CurrentPlayer.Instance.Username,
+                Status = "Escaped",
+                IsPlayerOne = CurrentPlayer.Instance.Username.Equals(PlayerOne?.Username)
+            };
+            lobbyService.ChangePlayerStatusAsync(playerStatus);
+        }
+
+
+        private void ExecuteEscapeCommand()
+        {
+            SendEscapeToServer();
+            NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
         }
 
         private PlayerSlotViewModel GetCurrentPlayerSlot()
@@ -159,9 +399,56 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             return PlayerTwo;
         }
 
+        private PlayerSlotViewModel GetOpponentSlot()
+        {
+            var username = CurrentPlayer.Instance.Username;
+            if (PlayerOne.Username == username)
+            {
+                return PlayerTwo;
+            }
+
+            return PlayerOne;
+        }
+
         private void NavigateTo(string uri)
         {
             navigationService.Navigate(new Uri(uri, UriKind.Relative));
+        }
+
+        public void OnMessageReceivedCallback(ChatMessage message)
+        {
+            Application.Current.Dispatcher.InvokeAsync(() =>
+                AppendChatMessage(message.SenderUsername, message.Message));
+        }
+
+        public void OnChangePlayerStatusCallback(PlayerStatus status)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var freshRoomService = new RoomServiceClient();
+                var room = freshRoomService.GetRoomById(status.RoomId);
+
+                if (room != null)
+                {
+                    if (status.Status.Equals("Ready"))
+                    {
+                        SetOpponentReady();
+                    }
+                    else if (status.Status.Equals("NotReady"))
+                    {
+                        SetPlayers(room);
+                        SetOpponentUnready();
+                    }
+                    else if (status.Status.Equals("Escaped"))
+                    {
+                        SetPlayersEscaped(room, status);
+                    }
+                    else
+                    {
+                        SetPlayers(room);
+                    }
+                }
+            });
         }
     }
 }

@@ -7,8 +7,6 @@ namespace MasterMind_Client.Helpers
     public static class UtilsUI
     {
         public static readonly SolidColorBrush OfflineGray = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#929292"));
-        public static readonly SolidColorBrush OnlineGreen = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#67D92A"));
-        public static readonly SolidColorBrush NotReadyYellow = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9C22A"));
         public static readonly SolidColorBrush PressedBlue = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2F4CC7"));
         public static readonly SolidColorBrush PressedRed = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#A51F22"));
         public static readonly SolidColorBrush PressedYellow = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#A88E18"));
@@ -17,11 +15,6 @@ namespace MasterMind_Client.Helpers
         public static readonly SolidColorBrush UnpressedRed = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D92A2D"));
         public static readonly SolidColorBrush UnpressedYellow = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9C22A"));
         public static readonly SolidColorBrush UnpressedOrange = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D97C2A"));
-        public static readonly SolidColorBrush PrivateRed = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D92A2D"));
-        public static readonly SolidColorBrush PublicBlue = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2A59D9"));
-        public static readonly SolidColorBrush RoomDefaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#585858"));
-        public static readonly SolidColorBrush RoomSelectedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#58A354"));
-        public static readonly SolidColorBrush PlayerSlotDefaultBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#313539"));
 
         public static void ToggleLanguage()
         {

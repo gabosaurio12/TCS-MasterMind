@@ -57,7 +57,7 @@
                          Width="600" Height="80" FontSize="40" Margin="0,6,0,26"
                          Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
-                        <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
+                        <Style TargetType="TextBox" BasedOn="{StaticResource LongMetalTextBox}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsUsernameEmpty}" Value="True">
                                     <Setter Property="Foreground" Value="Red" />
@@ -75,7 +75,7 @@
                          Width="600" Height="80" FontSize="40" Margin="0,6,0,26"
                          Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
-                        <Style TargetType="TextBox" BasedOn="{StaticResource MetalTextBox}">
+                        <Style TargetType="TextBox" BasedOn="{StaticResource LongMetalTextBox}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsEmailEmpty}" Value="True">
                                     <Setter Property="Foreground" Value="Red" />
@@ -98,12 +98,12 @@
                     </Label.Style>
                 </Label>
 
-                <PasswordBox x:Name="PasswordTxt" Style="{StaticResource MetalPasswordBox}"
+                <PasswordBox x:Name="PasswordTxt" Style="{StaticResource LongMetalPasswordBox}"
                              FontFamily="{StaticResource Elite}"
                              Width="600" Height="80" FontSize="40" Margin="0,6,0,30"
                              PasswordChanged="PasswordTxt_PasswordChanged" />
 
-                <Button x:Name="RegisterBtn" Style="{StaticResource MetalButtonGreen}"
+                <Button x:Name="RegisterBtn" Style="{StaticResource MediumMetalButtonGreen}"
                         FontFamily="{StaticResource Elite}" FontSize="38"
                         Width="280" Height="100"
                         Content="{x:Static p:Resources.SignupPage_Register}"
@@ -127,8 +127,8 @@
         <Button x:Name="LanguageBtn" Grid.Column="1"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Margin="0,0,50,40"
-                Width="100" Height="80" Content="🌐"
-                Style="{StaticResource MetalButtonBlue}"
+                Width="120" Height="120"
+                Style="{StaticResource LanguageButton}"
                 FontFamily="{StaticResource Elite}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
     </Grid>

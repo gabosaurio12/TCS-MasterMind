@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="RoomService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IRoomService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8086/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8086/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" />
+      <xsd:import schemaLocation="http://localhost:8086/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8086/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IRoomService_GetPublicRooms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPublicRooms" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetPublicRooms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPublicRoomsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetPublicRooms_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q1:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_CreateRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRoom" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_CreateRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_CreateRoom_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q2:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_JoinRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinRoom" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_JoinRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_JoinRoom_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q3:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_JoinRoomWithCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:JoinRoomWithCode" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_JoinRoomWithCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:JoinRoomWithCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_JoinRoomWithCode_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q4:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoomByName" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoomByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomByName_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q5:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoomById" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoomByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomById_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q6:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:portType name="IRoomService">
+    <wsdl:operation name="GetPublicRooms">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/GetPublicRooms" message="tns:IRoomService_GetPublicRooms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/GetPublicRoomsResponse" message="tns:IRoomService_GetPublicRooms_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/GetPublicRoomsErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_GetPublicRooms_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateRoom">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/CreateRoom" message="tns:IRoomService_CreateRoom_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/CreateRoomResponse" message="tns:IRoomService_CreateRoom_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/CreateRoomErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_CreateRoom_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinRoom">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/JoinRoom" message="tns:IRoomService_JoinRoom_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/JoinRoomResponse" message="tns:IRoomService_JoinRoom_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/JoinRoomErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_JoinRoom_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="JoinRoomWithCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/JoinRoomWithCode" message="tns:IRoomService_JoinRoomWithCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/JoinRoomWithCodeResponse" message="tns:IRoomService_JoinRoomWithCode_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/JoinRoomWithCodeErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_JoinRoomWithCode_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/GetRoomByName" message="tns:IRoomService_GetRoomByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/GetRoomByNameResponse" message="tns:IRoomService_GetRoomByName_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/GetRoomByNameErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_GetRoomByName_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/GetRoomById" message="tns:IRoomService_GetRoomById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/GetRoomByIdResponse" message="tns:IRoomService_GetRoomById_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/GetRoomByIdErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_GetRoomById_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IRoomService" type="tns:IRoomService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IRoomService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetPublicRooms">
+      <soap12:operation soapAction="http://tempuri.org/IRoomService/GetPublicRooms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRoom">
+      <soap12:operation soapAction="http://tempuri.org/IRoomService/CreateRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="JoinRoom">
+      <soap12:operation soapAction="http://tempuri.org/IRoomService/JoinRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="JoinRoomWithCode">
+      <soap12:operation soapAction="http://tempuri.org/IRoomService/JoinRoomWithCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomByName">
+      <soap12:operation soapAction="http://tempuri.org/IRoomService/GetRoomByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomById">
+      <soap12:operation soapAction="http://tempuri.org/IRoomService/GetRoomById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RoomService">
+    <wsdl:port name="NetTcpBinding_IRoomService" binding="tns:NetTcpBinding_IRoomService">
+      <soap12:address location="net.tcp://localhost:8087/MasterMindService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8087/MasterMindService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>GABOSAURIO-DESK\WinterOS</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

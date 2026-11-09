@@ -137,9 +137,9 @@
                         HorizontalAlignment="Center" Margin="0,0,0,44">
 
                 <Viewbox Stretch="UniformToFill" MaxHeight="71">
-                    <TextBox x:Name="ReportUsernameTxt" Style="{StaticResource MetalTextBox}"
+                    <TextBox x:Name="ReportUsernameTxt" Style="{StaticResource LongMetalTextBox}"
                              FontFamily="{StaticResource Elite}" FontSize="40"
-                             Width="459" Height="71" Padding="20,0"
+                             Width="600" Height="80" Padding="20,0"
                              Foreground="{StaticResource InkMutedBrush}"
                              Text="{Binding ReportedPlayer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              GotFocus="ReportUsernameTxt_GotFocus"

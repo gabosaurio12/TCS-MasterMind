@@ -27,6 +27,10 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         Room GetRoomByName(string roomName);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        Room GetRoomById(int roomId);
     }
 
     [DataContract]

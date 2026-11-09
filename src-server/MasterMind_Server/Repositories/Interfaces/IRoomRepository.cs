@@ -16,6 +16,8 @@ namespace MasterMind_Server.Repositories.Interfaces
 
         Room GetRoomByName(string roomName);
 
+        Room GetRoomById(int roomId);
+
         PlayerStatusChangeResult ChangePlayerStatus(PlayerStatus status);
     }
 }
