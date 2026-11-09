@@ -192,11 +192,15 @@ namespace MasterMind_Server.Repositories
 
                         result = RepositoriesMessages.Success.ToString();
                     }
-
+                    else
+                    {
+                        result = RepositoriesMessages.PlayerNotFound.ToString();
+                    }
+                }
+                else
+                {
                     result = RepositoriesMessages.PlayerNotFound.ToString();
                 }
-
-                result = RepositoriesMessages.PlayerNotFound.ToString();
 
                 return result;
             }
