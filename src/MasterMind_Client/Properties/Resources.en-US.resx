@@ -363,6 +363,9 @@
   <data name="RoomPage_Ready" xml:space="preserve">
     <value>Ready</value>
   </data>
+  <data name="RoomPage_RoomCode" xml:space="preserve">
+    <value>Room code</value>
+  </data>
   <data name="RoomPage_Room" xml:space="preserve">
     <value>Room</value>
   </data>
@@ -387,8 +390,11 @@
   <data name="ErrorNotification_ErrorJoiningMatchRoom" xml:space="preserve">
     <value>There was an error while joining the room, try again later</value>
   </data>
-  <data name="ErrorNotification_OwnRoom" xml:space="preserve">
-    <value>You can't join your own room</value>
+  <data name="ErrorNotification_InappropriateVocabulary" xml:space="preserve">
+    <value>Your message contains inappropriate language</value>
+  </data>
+  <data name="ErrorNotification_MessageNotSent" xml:space="preserve">
+    <value>There was an error while sending the message, try again later</value>
   </data>
   <data name="ErrorNotification_RoomFull" xml:space="preserve">
     <value>The room is full, you can't join</value>
@@ -404,5 +410,20 @@
   </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
     <value>There was an unexpected error while eliminating... Reporting the player. We are sorry.</value>
+  </data>
+  <data name="ErrorNotification_RoomNameTaken" xml:space="preserve">
+    <value>That name is already being used for another Room, use a different one please</value>
+  </data>
+  <data name="ErrorNotification_ServerDisconnected" xml:space="preserve">
+    <value>The server is disconnected. Try again later.</value>
+  </data>
+  <data name="ErrorNotification_Timeout" xml:space="preserve">
+    <value>Timed out. Try again.</value>
+  </data>
+  <data name="ErrorNotification_DatabaseError" xml:space="preserve">
+    <value>Database error. Try again later.</value>
+  </data>
+  <data name="ErrorNotification_UnexpectedError" xml:space="preserve">
+    <value>There was an unexpected error, try again later or contact tech support.</value>
   </data>
 </root>

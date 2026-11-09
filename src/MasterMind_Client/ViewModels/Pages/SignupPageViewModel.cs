@@ -2,7 +2,9 @@ using MasterMind_Client.Helpers;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
+using log4net;
 using System;
+using System.ServiceModel;
 using System.Text.RegularExpressions;
 
 namespace MasterMind_Client.ViewModels.Pages
@@ -18,6 +20,8 @@ namespace MasterMind_Client.ViewModels.Pages
             @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
             RegexOptions.None,
             TimeSpan.FromMilliseconds(100));
+
+        private readonly static ILog logger = LogManager.GetLogger(typeof(SignupPageViewModel));
 
         public SignupPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
@@ -79,20 +83,56 @@ namespace MasterMind_Client.ViewModels.Pages
                 Email = Email
             };
 
-            var service = new PlayerServiceClient();
-            var result = service.RegisterPlayer(player);
-            switch (result)
+            try
             {
-                case "Success":
-                    dialogService.ShowSuccess(
-                        Properties.Resources.SuccessNotification_Register,
-                        () => ShowVerificationCode(player.Username));
+                var service = new PlayerServiceClient();
+                var result = service.RegisterPlayer(player);
+                switch (result)
+                {
+                    case "Success":
+                        dialogService.ShowSuccess(
+                            Properties.Resources.SuccessNotification_Register,
+                            () => ShowVerificationCode(player.Username));
+                        break;
+                    case "UsernameTaken":
+                        dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
+                        break;
+                    case "EmailTaken":
+                        dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
+                        break;
+                }
+            }
+            catch (FaultException<PlayerService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the registration: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault during registration", faultException);
+                ShowServerError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure during registration", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+        }
+
+
+        private void ShowServerError(string errorDetail)
+        {
+            switch (errorDetail)
+            {
+                case "DataBaseError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
                     break;
-                case "UsernameTaken":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
+                case "HashError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
                     break;
-                case "EmailTaken":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
+                default:
+                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                     break;
             }
         }

@@ -1,6 +1,4 @@
-using MasterMind_Client.Helpers;
 using MasterMind_Client.ViewModels.Base;
-using System.Windows.Media;
 
 namespace MasterMind_Client.ViewModels.UserControls
 {
@@ -9,27 +7,26 @@ namespace MasterMind_Client.ViewModels.UserControls
         public PlayerSlotViewModel(string username)
         {
             Username = username;
-            backgroundBrush = UtilsUI.PlayerSlotDefaultBackground;
         }
 
         public string Username { get; }
 
-        public Brush BackgroundBrush
+        public bool IsReady
         {
-            get => backgroundBrush;
-            private set => SetProperty(ref backgroundBrush, value);
+            get => isReady;
+            private set => SetProperty(ref isReady, value);
         }
 
-        private Brush backgroundBrush;
+        private bool isReady;
 
         public void SetReady()
         {
-            BackgroundBrush = UtilsUI.OnlineGreen;
+            IsReady = true;
         }
 
         public void SetNotReady()
         {
-            BackgroundBrush = UtilsUI.NotReadyYellow;
+            IsReady = false;
         }
     }
 }

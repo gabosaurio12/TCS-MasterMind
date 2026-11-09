@@ -4,14 +4,23 @@
     <!-- ============================ Sprites (9-slice) ============================ -->
 
     <BitmapImage x:Key="BtnBlueImage" UriSource="/Assets/Elements/Blue_Button.png" />
+    <BitmapImage x:Key="MediumBtnBlueImage" UriSource="/Assets/Elements/Blue_Button_Medium.png" />
     <BitmapImage x:Key="BtnGreenImage" UriSource="/Assets/Elements/Green_Button.png" />
+    <BitmapImage x:Key="MediumBtnGreenImage" UriSource="/Assets/Elements/Green_Button_Medium.png" />
     <BitmapImage x:Key="BtnRedImage" UriSource="/Assets/Elements/Red_Button.png" />
+    <BitmapImage x:Key="MediumBtnRedImage" UriSource="/Assets/Elements/Red_Button_Medium.png" />
     <BitmapImage x:Key="BtnGreyImage" UriSource="/Assets/Elements/Grey_Button.png" />
     <BitmapImage x:Key="BtnBluePlusImage" UriSource="/Assets/Elements/Blue_Plus_Button.png" />
     <BitmapImage x:Key="BtnRedMinusImage" UriSource="/Assets/Elements/Red_Minus_Button.png" />
     <BitmapImage x:Key="BtnRedReportImage" UriSource="/Assets/Elements/Red_Report_Button.png" />
     <BitmapImage x:Key="FieldImage" UriSource="/Assets/Elements/TextBox.png" />
+    <BitmapImage x:Key="LongFieldImage" UriSource="/Assets/Elements/TextBox_Long.png" />
     <BitmapImage x:Key="CodeFieldImage" UriSource="/Assets/Elements/CodeTextBox.png" />
+    <BitmapImage x:Key="BtnLanguageImage" UriSource="/Assets/Elements/Language_Button.png" />
+    <BitmapImage x:Key="BtnEasyImage" UriSource="/Assets/Elements/Blue_Difficulty_Button.png" />
+    <BitmapImage x:Key="BtnNormalImage" UriSource="/Assets/Elements/Yellow_Difficulty_Button.png" />
+    <BitmapImage x:Key="BtnHardImage" UriSource="/Assets/Elements/Orange_Difficulty_Button.png" />
+    <BitmapImage x:Key="BtnEnigmaImage" UriSource="/Assets/Elements/Red_Difficulty_Button.png" />
 
     <!-- ============================ Backgrounds ============================ -->
 
@@ -43,6 +52,37 @@
     <ImageBrush x:Key="MachineBrush" ImageSource="{StaticResource MachineSource}"
                 Stretch="UniformToFill"/>
 
+    <!-- ============================ Rooms page ============================ -->
+
+    <ImageBrush x:Key="BgRoomsBrush" ImageSource="/Assets/Backgrounds/RoomsBackground.png"
+                Stretch="UniformToFill" />
+    <BitmapImage x:Key="RoomsContainerImage" UriSource="/Assets/Elements/Rooms_Container.png" />
+
+    <!-- Room row sprites -->
+    <BitmapImage x:Key="PrivateRoomImage" UriSource="/Assets/Elements/Private_Room.png" />
+    <BitmapImage x:Key="PublicRoomImage" UriSource="/Assets/Elements/Public_Room.png" />
+
+    <CroppedBitmap x:Key="PrivateRoomLeftSource" Source="{StaticResource PrivateRoomImage}"
+                   SourceRect="60,680,620,415" />
+    <CroppedBitmap x:Key="PrivateRoomMiddleSource" Source="{StaticResource PrivateRoomImage}"
+                   SourceRect="680,680,1390,415" />
+    <CroppedBitmap x:Key="PrivateRoomRightSource" Source="{StaticResource PrivateRoomImage}"
+                   SourceRect="2070,680,270,415" />
+    <CroppedBitmap x:Key="PublicRoomLeftSource" Source="{StaticResource PublicRoomImage}"
+                   SourceRect="60,680,620,415" />
+    <CroppedBitmap x:Key="PublicRoomMiddleSource" Source="{StaticResource PublicRoomImage}"
+                   SourceRect="680,680,1390,415" />
+    <CroppedBitmap x:Key="PublicRoomRightSource" Source="{StaticResource PublicRoomImage}"
+                   SourceRect="2070,680,270,415" />
+
+    <!-- ============================ Room page ============================ -->
+
+    <BitmapImage x:Key="ChatPanelImage" UriSource="/Assets/Elements/Chat_Background.png" />
+    <BitmapImage x:Key="PlayerCardNotReadyImage" UriSource="/Assets/Elements/Player_Room_Card_NotReady.png" />
+    <BitmapImage x:Key="PlayerCardReadyImage" UriSource="/Assets/Elements/Player_Room_Card_Ready.png" />
+    <BitmapImage x:Key="RoomCodeImage" UriSource="/Assets/Elements/Room_Code.png" />
+    <BitmapImage x:Key="SendButtonImage" UriSource="/Assets/Elements/Send_Message_Button.png" />
+
     <!-- ============================ Colors ============================ -->
 
     <!-- Ink on parchment (inside the fields) -->
@@ -57,6 +97,7 @@
     <!-- Panels -->
     <SolidColorBrush x:Key="PanelOliveBrush" Color="#2B3127" />
     <SolidColorBrush x:Key="PanelOliveDarkBrush" Color="#232820" />
+    <SolidColorBrush x:Key="ChatInputBrush" Color="#1F1F1F" />
     <SolidColorBrush x:Key="FrameMetalBrush" Color="#6E6E60" />
 
     <!-- Game semantics (also used by UtilsUI from code) -->
@@ -70,4 +111,4 @@
 
     <!-- Text cursor inside the fields -->
     <SolidColorBrush x:Key="CaretInkBrush" Color="#3B2F1E" />
-</ResourceDictionary>
+</ResourceDictionary>

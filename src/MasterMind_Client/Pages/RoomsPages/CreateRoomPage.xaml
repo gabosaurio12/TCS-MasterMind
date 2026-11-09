@@ -5,162 +5,164 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MasterMind_Client.Pages.RoomsPages"
       xmlns:p="clr-namespace:MasterMind_Client.Properties"
+      xmlns:controls="clr-namespace:MasterMind_Client.Controls"
       mc:Ignorable="d"  
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="{x:Static p:Resources.CreateRoomPage_Title}"
-      Background="#585858">
-    
+      Background="{StaticResource BgRoomsBrush}">
 
-    
-    
-    <Grid Width="1500">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="650" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+    <Grid>
+        <!-- Title -->
 
-            <Label Grid.Row="0" x:Name="PageTitleLbl" Content="{x:Static p:Resources.CreateRoomPage_Title}"
-               FontFamily="{StaticResource Aladin}" FontSize="112" Foreground="White"
-               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Viewbox VerticalAlignment="Top" Stretch="Uniform" StretchDirection="DownOnly"
+                 MaxHeight="120" Margin="0,36,0,0">
+            <Label x:Name="PageTitleLbl" Content="{x:Static p:Resources.CreateRoomPage_Title}"
+                   Style="{StaticResource MetalTitleLbl}"
+                   FontFamily="{StaticResource Elite}" FontSize="104" />
+        </Viewbox>
 
-            <!-- Form Grid -->
-            <Grid Grid.Row="1" Background="#313539">
+        <!-- Container Panel -->
+
+        <Grid Width="1420" Height="646" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,40,0,0">
+            <controls:NineSlice Source="{StaticResource RoomsContainerImage}" SliceRatio="0.04,0.06,0.04,0.06" />
+
+            <Grid Margin="70,50,70,50">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="400" />
                 </Grid.RowDefinitions>
 
-                <!-- Form Grid Row 0 -->
-                <StackPanel Grid.Row="0">
+                <!-- Room Name Section -->
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,30">
                     <Label x:Name="RoomNameLbl"
-                       Content="{x:Static p:Resources.CreateRoomPage_Name}"
-                       FontFamily="{StaticResource Aladin}" Foreground="White"
-                       FontSize="64" Margin="66,15,0,15"/>
+                           Content="{x:Static p:Resources.CreateRoomPage_Name}"
+                           Style="{StaticResource MetalFieldLbl}"
+                           FontFamily="{StaticResource Elite}" FontSize="44"
+                           Margin="0,0,0,10" />
 
                     <TextBox x:Name="RoomNameTxt"
-                         Width="1400" Height="94" Foreground="White"
-                         FontFamily="{StaticResource Aladin}"
-                         FontSize="78"
-                         Style="{StaticResource RoundedDarkTextBox}"
-                         Text="{Binding RoomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Style="{StaticResource LongMetalTextBox}"
+                             Height="70" FontSize="36"
+                             FontFamily="{StaticResource Elite}"
+                             Text="{Binding RoomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
-                <!-- ButtonsGrid -->
+                <!-- Options Grid -->
 
-                <Grid Grid.Row="1" Margin="55,0,55,0">
+                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- ButtonsGrid Column0-->
+                    <!-- Left Column: Gamemode & Privacy -->
 
-                    <StackPanel Grid.Column="0">
-
+                    <StackPanel Grid.Column="0" Margin="0,0,40,0">
                         <!-- Gamemode Stack -->
-                        <StackPanel HorizontalAlignment="Left">
+                        <StackPanel Margin="0,0,0,30">
                             <Label x:Name="GamemodeLbl"
-                               Content="{x:Static p:Resources.CreateRoomPage_Mode}"
-                               FontFamily="{StaticResource Aladin}" Foreground="White"
-                               FontSize="64" Margin="0,0,0,15"/>
+                                   Content="{x:Static p:Resources.CreateRoomPage_Mode}"
+                                   Style="{StaticResource MetalFieldLbl}"
+                                   FontFamily="{StaticResource Elite}" FontSize="40"
+                                   Margin="0,0,0,10" />
 
                             <StackPanel Orientation="Horizontal">
                                 <RadioButton x:Name="TimeTrialBtn" Content="{x:Static p:Resources.Gamemode_TimeTrial}"
-                                         GroupName="GamemodeGroup"
-                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
-                                         Width="250" Height="64" FontSize="48"
-                                         Margin="0,0,40,0" IsChecked="{Binding IsTimeTrial, Mode=TwoWay}"/>
+                                             GroupName="GamemodeGroup"
+                                             Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
+                                             Width="240" Height="60" FontSize="24"
+                                             Margin="0,0,30,0" IsChecked="{Binding IsTimeTrial, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="TriesBtn" Content="{x:Static p:Resources.Gamemode_Tries}"
-                                         GroupName="GamemodeGroup"
-                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
-                                         Width="250" Height="64" FontSize="48"
-                                         IsChecked="{Binding IsTries, Mode=TwoWay}"/>
+                                             GroupName="GamemodeGroup"
+                                             Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
+                                             Width="240" Height="60" FontSize="28"
+                                             IsChecked="{Binding IsTries, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
 
-                        <!-- PrivacyStack -->
-                        <StackPanel Margin="0,20,0,0" HorizontalAlignment="Left">
+                        <!-- Privacy Stack -->
+                        <StackPanel>
                             <Label x:Name="PrivacyLbl"
-                               Content="{x:Static p:Resources.CreateRoomPage_Privacy}"
-                               FontFamily="{StaticResource Aladin}" Foreground="White"
-                               FontSize="64" Margin="0,0,0,15"/>
+                                   Content="{x:Static p:Resources.CreateRoomPage_Privacy}"
+                                   Style="{StaticResource MetalFieldLbl}"
+                                   FontFamily="{StaticResource Elite}" FontSize="40"
+                                   Margin="0,0,0,10" />
 
                             <StackPanel Orientation="Horizontal">
                                 <RadioButton x:Name="PrivateBtn" Content="{x:Static p:Resources.RoomPrivacy_Private}"
-                                         GroupName="PrivacyGroup"
-                                         Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Aladin}"
-                                         Width="250" Height="64" FontSize="48"
-                                         Margin="0,0,40,0" IsChecked="{Binding IsPrivate, Mode=TwoWay}"/>
+                                             GroupName="PrivacyGroup"
+                                             Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Elite}"
+                                             Width="240" Height="60" FontSize="28"
+                                             Margin="0,0,30,0" IsChecked="{Binding IsPrivate, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="PublicBtn" Content="{x:Static p:Resources.RoomPrivacy_Public}"
-                                         GroupName="PrivacyGroup"
-                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
-                                         Width="250" Height="64" FontSize="48"
-                                         IsChecked="{Binding IsPublic, Mode=TwoWay}"/>
+                                             GroupName="PrivacyGroup"
+                                             Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
+                                             Width="240" Height="60" FontSize="28"
+                                             IsChecked="{Binding IsPublic, Mode=TwoWay}"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
 
-                    <!-- ButtonsGrid Column1 -->
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                        <Label x:Name="DifficultyLbl"
-                           Content="{x:Static p:Resources.CreateRoomPage_Difficulty}"
-                           FontFamily="{StaticResource Aladin}" Foreground="White"
-                           FontSize="64" Margin="0,0,0,15"/>
+                    <!-- Right Column: Difficulty -->
 
-                        <!-- DifficultyStack -->
+                    <StackPanel Grid.Column="1">
+                        <Label x:Name="DifficultyLbl"
+                               Content="{x:Static p:Resources.CreateRoomPage_Difficulty}"
+                               Style="{StaticResource MetalFieldLbl}"
+                               FontFamily="{StaticResource Elite}" FontSize="40"
+                               Margin="0,0,0,10" />
+
                         <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
                                 <RadioButton x:Name="EasyBtn" Content="{x:Static p:Resources.GameDifficulty_Easy}"
-                                         GroupName="DifficultyGroup"
-                                         Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Aladin}"
-                                         Width="200" Height="64" FontSize="48"
-                                         Margin="0,0,40,0" IsChecked="{Binding IsEasy, Mode=TwoWay}"/>
+                                             GroupName="DifficultyGroup"
+                                             Style="{StaticResource RadioButtonBlue}" FontFamily="{StaticResource Elite}"
+                                             Width="170" Height="60" FontSize="28"
+                                             Margin="0,0,20,0" IsChecked="{Binding IsEasy, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="NormalBtn" Content="{x:Static p:Resources.GameDifficulty_Normal}"
-                                         GroupName="DifficultyGroup"
-                                         Style="{StaticResource RadioButtonYellow}" FontFamily="{StaticResource Aladin}"
-                                         Width="200" Height="64" FontSize="48"
-                                         Margin="0,0,40,0" IsChecked="{Binding IsNormal, Mode=TwoWay}"/>
+                                             GroupName="DifficultyGroup"
+                                             Style="{StaticResource RadioButtonYellow}" FontFamily="{StaticResource Elite}"
+                                             Width="170" Height="60" FontSize="28"
+                                             Margin="0,0,20,0" IsChecked="{Binding IsNormal, Mode=TwoWay}"/>
 
                                 <RadioButton x:Name="HardBtn" Content="{x:Static p:Resources.GameDifficulty_Hard}"
-                                         GroupName="DifficultyGroup"
-                                         Style="{StaticResource RadioButtonOrange}" FontFamily="{StaticResource Aladin}"
-                                         Width="200" Height="64" FontSize="48"
-                                         IsChecked="{Binding IsHard, Mode=TwoWay}"/>
+                                             GroupName="DifficultyGroup"
+                                             Style="{StaticResource RadioButtonOrange}" FontFamily="{StaticResource Elite}"
+                                             Width="170" Height="60" FontSize="28"
+                                             IsChecked="{Binding IsHard, Mode=TwoWay}"/>
                             </StackPanel>
 
                             <RadioButton x:Name="EnigmaBtn" Content="{x:Static p:Resources.GameDifficulty_Enigma}"
-                                     GroupName="DifficultyGroup"
-                                     Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Aladin}"
-                                     Width="200" Height="64" FontSize="48"
-                                     Margin="0,40,0,0" IsChecked="{Binding IsEnigma, Mode=TwoWay}"/>
+                                         GroupName="DifficultyGroup"
+                                         Style="{StaticResource RadioButtonRed}" FontFamily="{StaticResource Elite}"
+                                         Width="170" Height="60" FontSize="28"
+                                         HorizontalAlignment="Left"
+                                         IsChecked="{Binding IsEnigma, Mode=TwoWay}"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
             </Grid>
-
-            <!-- Buttons -->
-
-            <Button x:Name="CancelBtn" Grid.Row="2"
-                HorizontalAlignment="Left"
-                Content="{x:Static p:Resources.UI_Cancel}"
-                Width="280" Height="100"
-                Foreground="White" FontSize="64"
-                FontFamily="{StaticResource Aladin}"
-                Style="{StaticResource RoundedRedButton}"
-                Command="{Binding CancelCommand}" />
-
-            <Button x:Name="CreateBtn" Grid.Row="2"
-                HorizontalAlignment="Right"
-                Content="{x:Static p:Resources.UI_Create}"
-                Width="280" Height="100"
-                Foreground="White" FontSize="64"
-                FontFamily="{StaticResource Aladin}"
-                Style="{StaticResource RoundedGreenButton}"
-                Command="{Binding CreateCommand}" />
         </Grid>
 
-    </Page>
+        <!-- Bottom Action Buttons -->
+
+        <Button x:Name="CancelBtn" Content="{x:Static p:Resources.UI_Cancel}"
+                Style="{StaticResource MediumMetalButtonRed}"
+                Width="380" Height="110" Margin="80,0,0,80"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                FontFamily="{StaticResource Elite}" FontSize="44"
+                Command="{Binding CancelCommand}" />
+
+        <Button x:Name="CreateBtn" Content="{x:Static p:Resources.UI_Create}"
+                Style="{StaticResource MediumMetalButtonGreen}"
+                Width="380" Height="110" Margin="0,0,80,80"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                FontFamily="{StaticResource Elite}" FontSize="44"
+                Command="{Binding CreateCommand}" />
+
+    </Grid>
+</Page>

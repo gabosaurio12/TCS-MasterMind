@@ -22,31 +22,31 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
                     <TextBox x:Name="CodeI0Txt" Style="{StaticResource MetalCodeTextBox}"
-                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
                              Width="65" Height="100" Margin="0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
                              Text="{Binding CodeDigit0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI1Txt" Style="{StaticResource MetalCodeTextBox}"
-                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
                              Width="65" Height="100" Margin="15,0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
                              Text="{Binding CodeDigit1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI2Txt" Style="{StaticResource MetalCodeTextBox}"
-                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
                              Width="65" Height="100" Margin="0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
                              Text="{Binding CodeDigit2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI3Txt" Style="{StaticResource MetalCodeTextBox}"
-                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
                              Width="65" Height="100" Margin="15,0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
                              Text="{Binding CodeDigit3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBox x:Name="CodeI4Txt" Style="{StaticResource MetalCodeTextBox}"
-                             FontFamily="{StaticResource Elite}" FontSize="54"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
                              Width="65" Height="100" Margin="0"
                              TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
                              Text="{Binding CodeDigit4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

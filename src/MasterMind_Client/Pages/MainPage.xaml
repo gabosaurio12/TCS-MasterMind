@@ -78,8 +78,8 @@
         <Button x:Name="LanguageBtn" Grid.Column="1"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom"
                 Margin="0,0,50,40"
-                Width="153" Height="125" Content="🌐"
-                Style="{StaticResource MetalButtonBlue}"
+                Width="120" Height="120"
+                Style="{StaticResource LanguageButton}"
                 FontFamily="{StaticResource Elite}" FontSize="32"
                 Command="{Binding LanguageCommand}" />
     </Grid>
