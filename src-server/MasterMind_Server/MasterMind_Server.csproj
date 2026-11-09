@@ -338,7 +338,7 @@
     <Compile Include="Repositories\Dtos\RoomMemberDto.cs" />
     <Compile Include="Repositories\Enums\FriendshipStatus.cs" />
     <Compile Include="Repositories\Enums\LobbyResult.cs" />
-    <Compile Include="Repositories\Enums\PlayerStatusEnum.cs" />
+    <Compile Include="Repositories\Enums\PlayerPossibleStatus.cs" />
     <Compile Include="Repositories\Enums\ReportReason.cs" />
     <Compile Include="Repositories\Enums\RepositoriesMessages.cs" />
     <Compile Include="Repositories\Enums\RoomPrivacy.cs" />

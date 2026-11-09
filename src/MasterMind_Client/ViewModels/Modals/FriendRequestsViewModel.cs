@@ -62,7 +62,7 @@ namespace MasterMind_Client.ViewModels.Modals
             var playerService = new PlayerServiceClient();
             var username = AddresseeUsername.Trim();
             var addressee = playerService.GetPlayerByUsername(username);
-            if (addressee != null)
+            if (addressee.PlayerId > 0)
             {
 
                 var result = friendService.SendFriendRequest(addressee.PlayerId, CurrentPlayer.Instance.Id);

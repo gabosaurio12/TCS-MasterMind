@@ -85,8 +85,9 @@
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
             <Label x:Name="RoomCodeValueLbl" Content="{Binding RoomCode}"
-                   Margin="30,84,30,56"
-                   FontFamily="{StaticResource Elite}" FontSize="72"
+                   Margin="45,100,45,105"
+                   Width="350" Height="65"
+                   FontFamily="{StaticResource Elite}" FontSize="56"
                    Foreground="{StaticResource InkBrush}"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
         </Grid>

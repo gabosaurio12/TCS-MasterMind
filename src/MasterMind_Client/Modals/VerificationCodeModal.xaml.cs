@@ -30,7 +30,7 @@ namespace MasterMind_Client.Modals
             }
         }
 
-        private static void CodeTxt_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void CodeTxt_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             var currentBox = (TextBox)sender;
 

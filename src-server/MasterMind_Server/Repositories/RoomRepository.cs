@@ -467,7 +467,7 @@ namespace MasterMind_Server.Repositories
                 player_one_status = (byte)Enums.PlayerPossibleStatus.NotReady,
                 player_two_status = (byte)Enums.PlayerPossibleStatus.NotReady,
                 room_privacy_id = data.PrivacyId,
-                room_code = data.Privacy == RoomPrivacy.Private ? GenerateRoomCode() : null
+                room_code = GenerateRoomCode()
             };
         }
 
