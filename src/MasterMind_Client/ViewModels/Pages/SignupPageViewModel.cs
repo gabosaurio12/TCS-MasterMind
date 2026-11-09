@@ -162,7 +162,7 @@ namespace MasterMind_Client.ViewModels.Pages
                 isValid = false;
             }
 
-            if (Regex.IsMatch(Username, @"\s"))
+            if (Regex.IsMatch(Username, @"\s", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
                 isValid = false;

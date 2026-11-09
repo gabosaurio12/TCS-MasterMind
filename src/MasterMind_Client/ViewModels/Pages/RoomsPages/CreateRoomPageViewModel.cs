@@ -114,7 +114,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 isValid = false;
             }
 
-            if (roomName != null && Regex.IsMatch(roomName, @"\s"))
+            if (roomName != null && Regex.IsMatch(roomName, @"\s", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
                 isValid = false;
