@@ -151,7 +151,7 @@ namespace MasterMind_Server.Repositories
             var pattern = string.Join("|", bannedWords.Select(Regex.Escape));
             return new Regex(
                 $@"\b({pattern})\b",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
+                RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(500));
         }
 
         private class RoomMember
