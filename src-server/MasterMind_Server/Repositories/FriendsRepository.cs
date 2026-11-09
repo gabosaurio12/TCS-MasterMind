@@ -18,27 +18,29 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                int acceptedStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted
-                    .ToString()).request_status_id;
-
-                var friendships = Context.Friendship.Where(friendship => (
-                    friendship.requester_id == playerId ||
-                    friendship.addressee_id == playerId) &&
-                    friendship.status_id == acceptedStatusId)
-                    .ToList();
-
-                List<int> friendsIds = GetFriendsIds(friendships, playerId);
+                int acceptedStatusId = GetAcceptedStatusId();
 
                 List<Contracts.Player> friends = new List<Contracts.Player>();
 
-                foreach (var friendId in friendsIds)
+                if (acceptedStatusId > 0)
                 {
-                    var friend = playerRepository.GetPlayerById(friendId);
-                    if (friend != null)
-                    {
+                    var friendships = Context.Friendship.Where(friendship => (
+                        friendship.requester_id == playerId ||
+                        friendship.addressee_id == playerId) &&
+                        friendship.status_id == acceptedStatusId)
+                        .ToList();
 
-                        friends.Add(PlayerEntityToPlayerContract(friend));
+                    List<int> friendsIds = GetFriendsIds(friendships, playerId);
+
+
+                    foreach (var friendId in friendsIds)
+                    {
+                        var friend = playerRepository.GetPlayerById(friendId);
+                        if (friend != null)
+                        {
+
+                            friends.Add(PlayerEntityToPlayerContract(friend));
+                        }
                     }
                 }
 
@@ -50,6 +52,38 @@ namespace MasterMind_Server.Repositories
                 throw ex;
             }
         }
+
+        private int GetAcceptedStatusId()
+        {
+            var acceptedStatusEntity = Context.RequestStatusCatalog
+                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted
+                    .ToString());
+
+            int id = 0;
+
+            if (acceptedStatusEntity != null)
+            {
+                id = acceptedStatusEntity.request_status_id;
+            }
+
+            return id;
+        }
+
+        private int GetPendingStatusId()
+        {
+            var pendingStatusEntity = Context.RequestStatusCatalog
+                        .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString());
+
+            int id = 0;
+
+            if (pendingStatusEntity != null)
+            {
+                id = pendingStatusEntity.request_status_id;
+            }
+
+            return id;
+        }
+
 
         private Contracts.Player PlayerEntityToPlayerContract(Player player)
         {
@@ -67,16 +101,19 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                int pendingStatusId = Context.RequestStatusCatalog
-                        .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString())
-                        .request_status_id;
+                int pendingStatusId = GetPendingStatusId();
 
-                var friendships = Context.Friendship.Where(friendship => friendship.addressee_id == playerId
+                List<Contracts.Player> friends = new List<Contracts.Player>();
+
+                if (pendingStatusId > 0)
+                {
+                    var friendships = Context.Friendship.Where(friendship => friendship.addressee_id == playerId
                     && friendship.status_id == pendingStatusId).ToList();
 
-                List<int> friendsIds = GetFriendsIds(friendships, playerId);
+                    List<int> friendsIds = GetFriendsIds(friendships, playerId);
 
-                var friends = GetFriendshipsFromIds(friendsIds);
+                    friends = GetFriendshipsFromIds(friendsIds);
+                }
 
                 return friends;
             }
@@ -137,29 +174,30 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                int acceptedStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted
-                    .ToString()).request_status_id;
-
-                var requestEntity = Context.Friendship.FirstOrDefault(
-                                req => req.requester_id == requesterId &&
-                                req.addressee_id == addresseeId &&
-                                req.status_id == acceptedStatusId);
+                int acceptedStatusId = GetAcceptedStatusId();
 
                 var request = new Contracts.Friendship
                 {
                     FriendshipId = 0
                 };
 
-                if (requestEntity != null)
+                if (acceptedStatusId > 0)
                 {
-                    request = new Contracts.Friendship
+                    var requestEntity = Context.Friendship.FirstOrDefault(
+                                req => req.requester_id == requesterId &&
+                                req.addressee_id == addresseeId &&
+                                req.status_id == acceptedStatusId);
+
+                    if (requestEntity != null)
                     {
-                        FriendshipId = requestEntity.friendship_id,
-                        AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
-                        RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                        Status = FriendshipStatusEnum.Accepted.ToString()
-                    };
+                        request = new Contracts.Friendship
+                        {
+                            FriendshipId = requestEntity.friendship_id,
+                            AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                            RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
+                            Status = FriendshipStatusEnum.Accepted.ToString()
+                        };
+                    }
                 }
 
                 return request;
@@ -175,29 +213,30 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                int pendingStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending
-                    .ToString()).request_status_id;
-
-                var requestEntity = Context.Friendship.FirstOrDefault(
-                                req => req.requester_id == requesterId &&
-                                req.addressee_id == addresseeId &&
-                                req.status_id == pendingStatusId);
+                int pendingStatusId = GetPendingStatusId();
 
                 var request = new Contracts.Friendship
                 {
                     FriendshipId = 0
                 };
 
-                if (requestEntity != null)
+                if (pendingStatusId > 0)
                 {
-                    request = new Contracts.Friendship
+                    var requestEntity = Context.Friendship.FirstOrDefault(
+                                req => req.requester_id == requesterId &&
+                                req.addressee_id == addresseeId &&
+                                req.status_id == pendingStatusId);
+
+                    if (requestEntity != null)
                     {
-                        FriendshipId = requestEntity.friendship_id,
-                        AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
-                        RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                        Status = FriendshipStatusEnum.Pending.ToString()
-                    };
+                        request = new Contracts.Friendship
+                        {
+                            FriendshipId = requestEntity.friendship_id,
+                            AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                            RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
+                            Status = FriendshipStatusEnum.Pending.ToString()
+                        };
+                    }
                 }
 
                 return request;
@@ -218,39 +257,42 @@ namespace MasterMind_Server.Repositories
                     return RepositoriesEnum.Error.ToString();
                 }
 
-                int pendingStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString()).request_status_id;
-                int acceptedStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted.ToString()).request_status_id;
+                int pendingStatusId = GetPendingStatusId();
+                int acceptedStatusId = GetAcceptedStatusId();
 
-                var existingRequest = Context.Friendship.FirstOrDefault(req =>
+                if (pendingStatusId > 0 && acceptedStatusId > 0)
+                {
+                    var existingRequest = Context.Friendship.FirstOrDefault(req =>
                     (req.requester_id == requesterId && req.addressee_id == addresseeId) ||
                     (req.requester_id == addresseeId && req.addressee_id == requesterId));
 
-                if (existingRequest != null)
-                {
-                    if (existingRequest.status_id == pendingStatusId)
+                    if (existingRequest != null)
                     {
-                        return RepositoriesEnum.Pending.ToString();
-                    }
+                        if (existingRequest.status_id == pendingStatusId)
+                        {
+                            return RepositoriesEnum.Pending.ToString();
+                        }
 
-                    if (existingRequest.status_id == acceptedStatusId)
-                    {
+                        if (existingRequest.status_id == acceptedStatusId)
+                        {
+                            return RepositoriesEnum.Error.ToString();
+                        }
+
                         return RepositoriesEnum.Error.ToString();
                     }
 
-                    return RepositoriesEnum.Error.ToString();
+                    Context.Friendship.Add(new Friendship
+                    {
+                        requester_id = requesterId,
+                        addressee_id = addresseeId,
+                        status_id = pendingStatusId
+                    });
+
+                    Context.SaveChanges();
+                    return RepositoriesEnum.Success.ToString();
                 }
 
-                Context.Friendship.Add(new Friendship
-                {
-                    requester_id = requesterId,
-                    addressee_id = addresseeId,
-                    status_id = pendingStatusId
-                });
-
-                Context.SaveChanges();
-                return RepositoriesEnum.Success.ToString();
+                return RepositoriesEnum.Error.ToString();
             }
             catch (EntityException ex)
             {
@@ -263,19 +305,20 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                int pendingStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString()).request_status_id;
-                int acceptedStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted.ToString()).request_status_id;
+                int pendingStatusId = GetPendingStatusId();
+                int acceptedStatusId = GetAcceptedStatusId();
 
-                var requestEntity = Context.Friendship.FirstOrDefault(req =>
-                    req.friendship_id == requestId && req.status_id == pendingStatusId);
-
-                if (requestEntity != null)
+                if (pendingStatusId > 0 && acceptedStatusId > 0)
                 {
-                    requestEntity.status_id = acceptedStatusId;
-                    Context.SaveChanges();
-                    return RepositoriesEnum.Success.ToString();
+                    var requestEntity = Context.Friendship.FirstOrDefault(req =>
+                                        req.friendship_id == requestId && req.status_id == pendingStatusId);
+
+                    if (requestEntity != null)
+                    {
+                        requestEntity.status_id = acceptedStatusId;
+                        Context.SaveChanges();
+                        return RepositoriesEnum.Success.ToString();
+                    }
                 }
 
                 return RepositoriesEnum.Error.ToString();
@@ -291,17 +334,19 @@ namespace MasterMind_Server.Repositories
         {
             try
             {
-                int pendingStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Pending.ToString()).request_status_id;
+                int pendingStatusId = GetPendingStatusId();
 
-                var requestEntity = Context.Friendship.FirstOrDefault(req =>
+                if (pendingStatusId > 0)
+                {
+                    var requestEntity = Context.Friendship.FirstOrDefault(req =>
                     req.friendship_id == requestId && req.status_id == pendingStatusId);
 
-                if (requestEntity != null)
-                {
-                    Context.Friendship.Remove(requestEntity);
-                    Context.SaveChanges();
-                    return RepositoriesEnum.Success.ToString();
+                    if (requestEntity != null)
+                    {
+                        Context.Friendship.Remove(requestEntity);
+                        Context.SaveChanges();
+                        return RepositoriesEnum.Success.ToString();
+                    }
                 }
 
                 return RepositoriesEnum.Error.ToString();
@@ -325,19 +370,21 @@ namespace MasterMind_Server.Repositories
                     return RepositoriesEnum.PlayerNotFound.ToString();
                 }
 
-                int acceptedStatusId = Context.RequestStatusCatalog
-                    .FirstOrDefault(rq => rq.status == FriendshipStatusEnum.Accepted.ToString()).request_status_id;
+                int acceptedStatusId = GetAcceptedStatusId();
 
-                var friendshipEntity = Context.Friendship.FirstOrDefault(friendship =>
+                if (acceptedStatusId > 0)
+                {
+                    var friendshipEntity = Context.Friendship.FirstOrDefault(friendship =>
                     ((friendship.requester_id == requester.player_id && friendship.addressee_id == addressee.player_id) ||
                     (friendship.requester_id == addressee.player_id && friendship.addressee_id == requester.player_id)) &&
                     friendship.status_id == acceptedStatusId);
 
-                if (friendshipEntity != null)
-                {
-                    Context.Friendship.Remove(friendshipEntity);
-                    Context.SaveChanges();
-                    return RepositoriesEnum.Success.ToString();
+                    if (friendshipEntity != null)
+                    {
+                        Context.Friendship.Remove(friendshipEntity);
+                        Context.SaveChanges();
+                        return RepositoriesEnum.Success.ToString();
+                    }
                 }
 
                 return RepositoriesEnum.Error.ToString();

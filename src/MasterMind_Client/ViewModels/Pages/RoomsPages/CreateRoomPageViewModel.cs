@@ -1,6 +1,5 @@
 using log4net;
 using MasterMind_Client.RoomService;
-using MasterMind_Client.TempData.Enum;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -54,12 +53,12 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 try
                 {
                     var result = roomService.CreateRoom(matchRoom);
-                    if (result.Status.Equals(MatchRoomCreationResultEnum.Success.ToString()))
+                    if (result.Status.Equals("Success"))
                     {
                         dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
                         NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
                     }
-                    else if (result.Status.Equals(MatchRoomCreationResultEnum.RoomNameTaken.ToString()))
+                    else if (result.Status.Equals("RoomNameTaken"))
                     {
                         dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
                     }

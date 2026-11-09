@@ -1,5 +1,4 @@
-using MasterMind_Client.Data;
-using MasterMind_Client.TempData;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -39,12 +38,11 @@ namespace MasterMind_Client.ViewModels.Pages
 
             var player = new Player
             {
-                player_id = CurrentPlayer.Instance.Id,
-                username = Username,
-                email = Email,
+                PlayerId = CurrentPlayer.Instance.Id,
+                Username = Username,
+                Email = Email,
             };
 
-            TempPlayerService.UpdatePlayer(player);
             NavigateTo("Pages/ProfilePage.xaml");
         }
 

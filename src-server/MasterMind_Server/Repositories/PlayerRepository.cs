@@ -227,23 +227,30 @@ namespace MasterMind_Server.Repositories
                 throw ex;
             }
 
-            int reasonId;
+            PlayerReport newReport = new PlayerReport();
 
-            if (report.Reason == ReportReasonEnum.InappropriateLanguage.ToString())
+            if (inappropriateLanguageId > 0 && cheatingId > 0)
             {
-                reasonId = inappropriateLanguageId;
-            }
-            else
-            {
-                reasonId = cheatingId;
+                int reasonId;
+
+                if (report.Reason == ReportReasonEnum.InappropriateLanguage.ToString())
+                {
+                    reasonId = inappropriateLanguageId;
+                }
+                else
+                {
+                    reasonId = cheatingId;
+                }
+
+                newReport = new PlayerReport
+                {
+                    reported_player_id = playerIds[0],
+                    reported_by_player_id = playerIds[1],
+                    reason_id = reasonId
+                };
             }
 
-            return new PlayerReport
-            {
-                reported_player_id = playerIds[0],
-                reported_by_player_id = playerIds[1],
-                reason_id = reasonId
-            };
+            return newReport;
         }
     }
 }

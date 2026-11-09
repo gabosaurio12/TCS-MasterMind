@@ -1,5 +1,4 @@
 using MasterMind_Client.FriendsService;
-using MasterMind_Client.TempData;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;

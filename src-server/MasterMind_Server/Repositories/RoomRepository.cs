@@ -576,7 +576,14 @@ namespace MasterMind_Server.Repositories
         {
             var catalog = context.PrivacyCatalog
                 .FirstOrDefault(entity => entity.privacy == privacy.ToString());
-            return catalog?.privacy_id;
+
+            int id = 0;
+
+            if (catalog != null)
+            {
+                id = catalog.privacy_id;
+            }
+            return id;
         }
 
         private int? FindGameModeId(string gamemode)
