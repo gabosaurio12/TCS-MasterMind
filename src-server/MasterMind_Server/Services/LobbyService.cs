@@ -9,7 +9,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Data.Entity.Core;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.ServiceModel;
 
 namespace MasterMind_Server.Services
@@ -34,11 +33,16 @@ namespace MasterMind_Server.Services
                 }
 
                 RegisterClient(message.RoomId, message.SenderUsername);
+
                 var outgoingMessage = BuildOutgoingMessage(message, result.Message);
+                Action<ILobbyCallbackService> sendMessageCallback =
+                    callback => callback.OnMessageReceivedCallback(outgoingMessage);
+
                 NotifyClients(
                     message.RoomId,
                     message.SenderUsername,
-                    callback => callback.OnMessageReceivedCallback(outgoingMessage));
+                    sendMessageCallback);
+
                 return result.Status;
             }
             catch (EntityException)
@@ -63,6 +67,7 @@ namespace MasterMind_Server.Services
 
                 RegisterClient(status.RoomId, status.Username);
                 NotifyStatusChanges(status, result);
+
                 return result.Status;
             }
             catch (EntityException)
@@ -80,38 +85,42 @@ namespace MasterMind_Server.Services
             if (result.RoomDeleted)
             {
                 RemoveRoom(status.RoomId);
-                return;
             }
+            else
+            {
+                if (result.JoinedPlayer != null)
+                {
+                    NotifyStatus(status.RoomId, status.Username, result.JoinedPlayer);
+                }
+                else if (result.PromotedPlayer != null)
+                {
+                    NotifyStatus(status.RoomId, status.Username, result.PromotedPlayer);
+                }
+                else if (result.EscapedPlayer != null)
+                {
+                    NotifyStatus(status.RoomId, status.Username, result.EscapedPlayer);
+                }
+                else if (result.ChangedPlayer != null)
+                {
+                    NotifyStatus(status.RoomId, status.Username, result.ChangedPlayer);
+                }
 
-            if (result.JoinedPlayer != null)
-            {
-                NotifyStatus(status.RoomId, status.Username, result.JoinedPlayer);
-            }
-            else if (result.PromotedPlayer != null)
-            {
-                NotifyStatus(status.RoomId, status.Username, result.PromotedPlayer);
-            }
-            else if (result.EscapedPlayer != null)
-            {
-                NotifyStatus(status.RoomId, status.Username, result.EscapedPlayer);
-            }
-            else if (result.ChangedPlayer != null)
-            {
-                NotifyStatus(status.RoomId, status.Username, result.ChangedPlayer);
-            }
-
-            if (result.EscapedPlayer != null)
-            {
-                RemoveClient(status.RoomId, status.Username);
+                if (result.EscapedPlayer != null)
+                {
+                    RemoveClient(status.RoomId, status.Username);
+                }
             }
         }
 
         private void NotifyStatus(int roomId, string senderUsername, PlayerStatus status)
         {
+            Action<ILobbyCallbackService> notifyStatusCallback =
+                    callback => callback.OnChangePlayerStatusCallback(status);
+
             NotifyClients(
                 roomId,
                 senderUsername,
-                callback => callback.OnChangePlayerStatusCallback(status));
+                notifyStatusCallback);
         }
 
         private bool IsMessageAccepted(string status)
@@ -132,50 +141,47 @@ namespace MasterMind_Server.Services
 
         private void RegisterClient(int roomId, string username)
         {
-            if (roomId <= 0 || string.IsNullOrWhiteSpace(username))
+            if (roomId > 0 && !string.IsNullOrWhiteSpace(username))
             {
-                return;
-            }
+                var callback = OperationContext.Current?.GetCallbackChannel<ILobbyCallbackService>();
+                if (callback != null)
+                {
+                    var newClients = new ConcurrentDictionary<string, ILobbyCallbackService>(StringComparer.OrdinalIgnoreCase);
 
-            var callback = OperationContext.Current?.GetCallbackChannel<ILobbyCallbackService>();
-            if (callback == null)
-            {
-                return;
+                    var clients = roomClientsByRoom.GetOrAdd(
+                        roomId,
+                        id => newClients);
+                    clients[username.Trim()] = callback;
+                }
             }
-
-            var clients = roomClientsByRoom.GetOrAdd(
-                roomId,
-                id => new ConcurrentDictionary<string, ILobbyCallbackService>(StringComparer.OrdinalIgnoreCase));
-            clients[username.Trim()] = callback;
         }
 
         private void NotifyClients(int roomId, string senderUsername, Action<ILobbyCallbackService> notify)
         {
             ConcurrentDictionary<string, ILobbyCallbackService> clients;
-            if (!roomClientsByRoom.TryGetValue(roomId, out clients))
-            {
-                return;
-            }
 
-            var sender = senderUsername?.Trim();
-            foreach (var client in clients.ToArray())
+            if (roomClientsByRoom.TryGetValue(roomId, out clients))
             {
-                if (string.Equals(client.Key, sender, StringComparison.OrdinalIgnoreCase))
+                var sender = senderUsername?.Trim();
+                foreach (var client in clients.ToArray())
                 {
-                    continue;
-                }
+                    if (string.Equals(client.Key, sender, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
 
-                try
-                {
-                    notify(client.Value);
-                }
-                catch (CommunicationException ex)
-                {
-                    HandleDisconnectedClient(roomId, client.Key, ex);
-                }
-                catch (TimeoutException ex)
-                {
-                    HandleDisconnectedClient(roomId, client.Key, ex);
+                    try
+                    {
+                        notify(client.Value);
+                    }
+                    catch (CommunicationException ex)
+                    {
+                        HandleDisconnectedClient(roomId, client.Key, ex);
+                    }
+                    catch (TimeoutException ex)
+                    {
+                        HandleDisconnectedClient(roomId, client.Key, ex);
+                    }
                 }
             }
         }
@@ -195,16 +201,14 @@ namespace MasterMind_Server.Services
             }
 
             ConcurrentDictionary<string, ILobbyCallbackService> clients;
-            if (!roomClientsByRoom.TryGetValue(roomId, out clients))
+            if (roomClientsByRoom.TryGetValue(roomId, out clients))
             {
-                return;
-            }
-
-            ILobbyCallbackService removedClient;
-            clients.TryRemove(key, out removedClient);
-            if (clients.IsEmpty)
-            {
-                RemoveRoom(roomId);
+                ILobbyCallbackService removedClient;
+                clients.TryRemove(key, out removedClient);
+                if (clients.IsEmpty)
+                {
+                    RemoveRoom(roomId);
+                }
             }
         }
 

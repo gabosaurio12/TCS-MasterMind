@@ -588,7 +588,19 @@ namespace MasterMind_Server.Repositories
 
             var catalog = context.GameModesCatalog
                 .FirstOrDefault(entity => entity.gamemode == gamemode.Trim());
-            return catalog?.gamemode_id;
+
+            int id;
+
+            if (catalog == null)
+            {
+                id = 0;
+            }
+            else
+            {
+                id = catalog.gamemode_id;
+            }
+
+            return id;
         }
 
         private int? FindDifficultyId(string difficulty)
