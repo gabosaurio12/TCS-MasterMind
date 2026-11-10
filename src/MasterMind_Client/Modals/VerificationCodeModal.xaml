@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MasterMind_Client.Modals"
         mc:Ignorable="d"
         WindowStyle="None"
+        AllowsTransparency="True"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
         Title="{x:Static p:Resources.VerificationCodeModal_Title}" Height="493" Width="660"
         Background="{StaticResource ModalVerificationBgBrush}"

@@ -7,6 +7,7 @@
         xmlns:controls="clr-namespace:MasterMind_Client.Modals.ModalsUserControls"
         mc:Ignorable="d"
         WindowStyle="None"
+        AllowsTransparency="True"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
         Title="{x:Static p:Resources.FriendRequestsModal_Title}" Height="857" Width="628"
         Background="{StaticResource ModalFriendsBgBrush}"
