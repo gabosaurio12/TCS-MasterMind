@@ -165,6 +165,9 @@
   <data name="UI_Quit" xml:space="preserve">
     <value>Quit</value>
   </data>
+  <data name="UI_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="ErrorNotification_InvalidInput" xml:space="preserve">
     <value>One or more fields you entered are empty fields, there should not be any empty record fields.</value>
   </data>
@@ -407,6 +410,9 @@
   </data>
   <data name="SuccessNotification_PlayerReported" xml:space="preserve">
     <value>The player has been eliminated... Reported successfully!</value>
+  </data>
+  <data name="SuccessNotification_PasswordChanged" xml:space="preserve">
+    <value>Your password was changed successfully!</value>
   </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
     <value>There was an unexpected error while eliminating... Reporting the player. We are sorry.</value>

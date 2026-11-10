@@ -45,6 +45,15 @@ namespace MasterMind_Client.ViewModels.Services
             modal.Show();
         }
 
+        public void ShowChangePassword()
+        {
+            var modal = new ChangePasswordModal();
+            var viewModel = new ChangePasswordViewModel(this);
+            modal.DataContext = viewModel;
+            viewModel.CloseRequested += (sender, e) => modal.Close();
+            modal.Show();
+        }
+
         public void ShowFriends()
         {
             var modal = new FriendsModal();

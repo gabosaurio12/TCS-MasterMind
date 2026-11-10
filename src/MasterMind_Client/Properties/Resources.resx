@@ -165,6 +165,9 @@
   <data name="UI_Quit" xml:space="preserve">
     <value>Salir</value>
   </data>
+  <data name="UI_Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
   <data name="ErrorNotification_InvalidInput" xml:space="preserve">
     <value>Uno o más campos que ingresaste están campos vacíos, no debe haber ningún campo de registro vacío.</value>
   </data>
@@ -407,6 +410,9 @@
   </data>
   <data name="SuccessNotification_PlayerReported" xml:space="preserve">
     <value>¡El jugador fue eliminado... Reportado con éxito!</value>
+  </data>
+  <data name="SuccessNotification_PasswordChanged" xml:space="preserve">
+    <value>¡Tu contraseña fue cambiada con éxito!</value>
   </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
     <value>Hubo un error inesperado al eliminar... Reportar al jugador. Lo sentimos.</value>

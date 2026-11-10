@@ -835,6 +835,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ¡Tu contraseña fue cambiada con éxito!.
+        /// </summary>
+        public static string SuccessNotification_PasswordChanged {
+            get {
+                return ResourceManager.GetString("SuccessNotification_PasswordChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ¡El jugador fue eliminado... Reportado con éxito!.
         /// </summary>
         public static string SuccessNotification_PlayerReported {
@@ -930,6 +939,15 @@ namespace MasterMind_Client.Properties {
         public static string UI_Quit {
             get {
                 return ResourceManager.GetString("UI_Quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Guardar.
+        /// </summary>
+        public static string UI_Save {
+            get {
+                return ResourceManager.GetString("UI_Save", resourceCulture);
             }
         }
         

@@ -11,6 +11,8 @@ namespace MasterMind_Client.ViewModels.Services
 
         void ShowVerificationCode(string username, Action<Player> verificationSucceded);
 
+        void ShowChangePassword();
+
         void ShowFriends();
 
         void ShowFriendRequests();

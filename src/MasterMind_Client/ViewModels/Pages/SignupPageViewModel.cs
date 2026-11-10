@@ -11,11 +11,6 @@ namespace MasterMind_Client.ViewModels.Pages
 {
     public class SignupPageViewModel : ViewModelBase
     {
-        private static readonly Regex PasswordRegex = new Regex(
-            @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$",
-            RegexOptions.None,
-            TimeSpan.FromMilliseconds(100));
-
         private static readonly Regex EmailRegex = new Regex(
             @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
             RegexOptions.None,
@@ -182,7 +177,7 @@ namespace MasterMind_Client.ViewModels.Pages
                 isValid = false;
             }
 
-            if (!PasswordRegex.IsMatch(Password))
+            if (!PasswordValidator.IsValid(Password))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidPassword);
                 isValid = false;
