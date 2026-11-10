@@ -15,103 +15,137 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="250" />
-        </Grid.RowDefinitions>
-
         <!-- Backgrounds -->
-        <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Fill="#141414" Margin="0,0,5,0" />
-        <Rectangle Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Fill="#585858" />
+        <Rectangle Grid.Column="0" Fill="{StaticResource BgLeftPanelGreenBrush}" />
+        <Rectangle Grid.Column="1" Fill="{StaticResource BgRightPanelBrush}" />
 
-        <!-- Column 1-->
+        <!-- Left panel: avatar, editable player data and action buttons -->
+        <Grid Grid.Column="0" Margin="40,50,40,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <Ellipse x:Name="Avatar" Grid.Row="0" Grid.Column="0"
-                 Height="250" Width="250" >
-            <Ellipse.Fill>
-                <ImageBrush x:Name="AvatarImg" ImageSource="/Images/Avatars/Link con fondo.png" Stretch="UniformToFill" />
-            </Ellipse.Fill>
-        </Ellipse>
+            <Grid Grid.Row="0" Width="292" Height="292"
+                  HorizontalAlignment="Center" Margin="0,10,0,20">
+                <Ellipse x:Name="Avatar" Width="292" Height="292"
+                         Stroke="{StaticResource FrameMetalBrush}" StrokeThickness="12">
+                    <Ellipse.Fill>
+                        <ImageBrush x:Name="AvatarImg"
+                                    ImageSource="{StaticResource AvatarImage}"
+                                    Stretch="UniformToFill" />
+                    </Ellipse.Fill>
+                </Ellipse>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
-            <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
-                   FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
-                   HorizontalAlignment="Center"/>
-            <TextBox x:Name="PlayerUsernameTxt" Style="{StaticResource RoundedTextBox}"
-                     Width="550" Height="65" FontSize="48" 
-                     FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
-                     Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Image x:Name="EditAvatarImg" Source="{StaticResource EditAvatarIconImage}"
+                       Width="130" Height="130" Stretch="Uniform"
+                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                       Margin="0,0,-65,-65" />
+            </Grid>
 
-            <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
-                   FontSize="64" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
-                   HorizontalAlignment="Center"/>
-            <TextBox x:Name="PlayerEmailTxt" Style="{StaticResource RoundedTextBox}"
-                     Width="550" Height="65" FontSize="48" 
-                     FontFamily="{StaticResource Aladin}" HorizontalAlignment="Center"
-                     Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
-            <Button x:Name="SaveBtn" Width="345" Height="85" FontSize="64"
-                    Content="{x:Static p:Resources.UpdateProfilePage_Save}" Margin="10"
-                    FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedButton}"
-                    Command="{Binding SaveCommand}"/>
+                <Label x:Name="UsernameLbl" Content="{x:Static p:Resources.Player_Username}"
+                       Style="{StaticResource MetalFieldLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="56" />
 
-            <Button x:Name="CancelBtn" Width="345" Height="85" FontSize="64"
-                    Content="{x:Static p:Resources.UI_Cancel}" Margin="10"
-                    FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedRedButton}"
-                    Command="{Binding CancelCommand}" />
-        </StackPanel>
+                <TextBox x:Name="PlayerUsernameTxt" Style="{StaticResource LongMetalTextBox}"
+                         FontFamily="{StaticResource Elite}" FontSize="40"
+                         Width="600" Height="80" Margin="0,10,0,30"
+                         Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-        <!-- Column 2 -->
+                <Label x:Name="EmailLbl" Content="{x:Static p:Resources.Player_Email}"
+                       Style="{StaticResource MetalFieldLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="56" />
 
-        <Label x:Name="RecordsLbl" Content="{x:Static p:Resources.ProfilePage_Records}"
-               Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center"
-               VerticalAlignment="Center" Foreground="#67D92A" FontFamily="{StaticResource Aladin}"
-               FontSize="152"/>
-
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" 
-                    HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" Margin="20">
-                <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
-                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
-
-                <Label x:Name="PlayerBestTimeLbl" Content="15"
-                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
-
-                <Label x:Name="SecondsLbl" Content="{x:Static p:Resources.ProfilePage_Seconds}"
-                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+                <TextBox x:Name="PlayerEmailTxt" Style="{StaticResource LongMetalTextBox}"
+                         FontFamily="{StaticResource Elite}" FontSize="40"
+                         Width="600" Height="80" Margin="0,10,0,0"
+                         Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="20">
-                <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
-                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                <Label x:Name="PlayerLeastTriesLbl" Content="3"
-                       Foreground="White" FontFamily="{StaticResource Aladin}" FontSize="56" />
+                <Button x:Name="SaveBtn" Style="{StaticResource MetalButtonBlue}"
+                        FontFamily="{StaticResource Elite}" FontSize="46"
+                        Width="356" Height="115" Margin="0,0,0,24"
+                        Content="{x:Static p:Resources.UpdateProfilePage_Save}"
+                        Command="{Binding SaveCommand}" />
+
+                <Button x:Name="CancelBtn" Style="{StaticResource MetalButtonRed}"
+                        FontFamily="{StaticResource Elite}" FontSize="46"
+                        Width="356" Height="115"
+                        Content="{x:Static p:Resources.UI_Cancel}"
+                        Command="{Binding CancelCommand}" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Right panel: records, report field and back button -->
+        <Grid Grid.Column="1" Margin="60,50,60,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Row="0" Stretch="Fill" StretchDirection="DownOnly" MaxHeight="150">
+                <Label x:Name="RecordsLbl" Content="{x:Static p:Resources.ProfilePage_Records}"
+                       Style="{StaticResource MetalTitleLbl}"
+                       FontFamily="{StaticResource Elite}" FontSize="140" />
+            </Viewbox>
+
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,34">
+                    <Label x:Name="BestTimeLbl" Content="{x:Static p:Resources.ProfilePage_BestTime}"
+                           FontFamily="{StaticResource Elite}" FontSize="38"
+                           Foreground="{StaticResource CreamBrush}" />
+
+                    <Label x:Name="PlayerBestTimeLbl" Content="{Binding BestTimeText}"
+                           FontFamily="{StaticResource Elite}" FontSize="38"
+                           Foreground="{StaticResource CreamMutedBrush}" Margin="14,0,0,0" />
+
+                    <Label x:Name="SecondsLbl" Content="{x:Static p:Resources.ProfilePage_Seconds}"
+                           FontFamily="{StaticResource Elite}" FontSize="38"
+                           Foreground="{StaticResource CreamMutedBrush}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label x:Name="LeastTriesLbl" Content="{x:Static p:Resources.ProfilePage_LeastTries}"
+                           FontFamily="{StaticResource Elite}" FontSize="38"
+                           Foreground="{StaticResource CreamBrush}" />
+
+                    <Label x:Name="PlayerLeastTriesLbl" Content="{Binding LeastTriesText}"
+                           FontFamily="{StaticResource Elite}" FontSize="38"
+                           Foreground="{StaticResource CreamMutedBrush}" Margin="14,0,0,0" />
+                </StackPanel>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="20">
-                <Viewbox StretchDirection="DownOnly" MaxHeight="55">
+            <StackPanel Grid.Row="2" Orientation="Horizontal"
+                        HorizontalAlignment="Center" Margin="0,0,0,44">
 
-                    <TextBox x:Name="ReportUsernameTxt" Height="60" Width="496"
-                             Style="{StaticResource RoundedTextBox}" FontSize="42"
+                <Viewbox Stretch="UniformToFill" MaxHeight="71">
+                    <TextBox x:Name="ReportUsernameTxt" Style="{StaticResource LongMetalTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="40"
+                             Width="600" Height="80" Padding="20,0"
+                             Foreground="{StaticResource InkMutedBrush}"
                              Text="{x:Static p:Resources.ProfilePage_ReportPlayer}"
-                             FontFamily="{StaticResource Aladin}" Foreground="Gray"
                              IsEnabled="False" />
                 </Viewbox>
 
                 <Button x:Name="ReportBtn" Style="{StaticResource MetalButtonReport}"
-                        Width="45" Height="45" Padding="0"
+                        Width="71" Height="71" Padding="0" Margin="16,0,0,0"
                         IsEnabled="False" />
             </StackPanel>
-        </StackPanel>
 
-        <Button x:Name="BackBtn" Grid.Row="2" Grid.Column="1" Width="345" Height="85" FontSize="64"
-                Content="{x:Static p:Resources.UI_Back}" Margin="5"
-                FontFamily="{StaticResource Aladin}" Style="{StaticResource RoundedRedButton}"
-                IsEnabled="False" Background="#CC7E80" />
-
+            <Button x:Name="BackBtn" Grid.Row="3" Style="{StaticResource MetalButtonRed}"
+                    HorizontalAlignment="Center"
+                    FontFamily="{StaticResource Elite}" FontSize="46"
+                    Width="374" Height="124"
+                    Content="{x:Static p:Resources.UI_Back}"
+                    IsEnabled="False" />
+        </Grid>
     </Grid>
 </Page>

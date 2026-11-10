@@ -45,6 +45,7 @@
     <BitmapImage x:Key="LogoSource" UriSource="/Assets/Elements/MasterMind_Title.png" />
     <BitmapImage x:Key="MachineSource" UriSource="/Assets/Elements/DecipheringMachine.png" />
     <BitmapImage x:Key="AvatarImage" UriSource="/Assets/DefaultAvatar.png" />
+    <BitmapImage x:Key="EditAvatarIconImage" UriSource="/Assets/Elements/Edit_Avatar_Icon.png" />
 
     <ImageBrush x:Key="LogoBrush" ImageSource="{StaticResource LogoSource}"
                 Stretch="UniformToFill"  />

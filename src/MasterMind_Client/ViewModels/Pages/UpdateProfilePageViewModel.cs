@@ -1,4 +1,3 @@
-using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -8,19 +7,37 @@ namespace MasterMind_Client.ViewModels.Pages
 {
     public class UpdateProfilePageViewModel : ViewModelBase
     {
+        private const string DefaultBestTime = "15";
+        private const string DefaultLeastTries = "3";
+
+        private string username;
+        private string email;
+
         public UpdateProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
             this.dialogService = dialogService;
             SaveCommand = new RelayCommand(_ => Save());
             CancelCommand = new RelayCommand(_ => NavigateTo("Pages/ProfilePage.xaml"));
-            Username = CurrentPlayer.Instance.Username;
-            Email = CurrentPlayer.Instance.Email;
+            username = CurrentPlayer.Instance.Username;
+            email = CurrentPlayer.Instance.Email;
         }
 
-        public string Username { get; set; }
+        public string Username
+        {
+            get { return this.username; }
+            set { SetProperty(ref this.username, value); }
+        }
 
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return this.email; }
+            set { SetProperty(ref this.email, value); }
+        }
+
+        public string BestTimeText { get; } = DefaultBestTime;
+
+        public string LeastTriesText { get; } = DefaultLeastTries;
 
         public RelayCommand SaveCommand { get; }
 
@@ -35,13 +52,6 @@ namespace MasterMind_Client.ViewModels.Pages
             {
                 return;
             }
-
-            var player = new Player
-            {
-                PlayerId = CurrentPlayer.Instance.Id,
-                Username = Username,
-                Email = Email,
-            };
 
             NavigateTo("Pages/ProfilePage.xaml");
         }
