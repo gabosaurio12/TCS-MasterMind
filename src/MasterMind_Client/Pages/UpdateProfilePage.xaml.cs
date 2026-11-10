@@ -1,5 +1,4 @@
 ﻿using MasterMind_Client.ViewModels.Pages;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace MasterMind_Client.Pages
