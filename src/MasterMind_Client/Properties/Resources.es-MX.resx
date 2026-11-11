@@ -165,6 +165,9 @@
   <data name="UI_Quit" xml:space="preserve">
     <value>Salir</value>
   </data>
+  <data name="UI_Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
   <data name="ErrorNotification_InvalidInput" xml:space="preserve">
     <value>Uno o más campos que ingresaste son inválidos, revisa por favor que no haya campos vacíos, que el formato sea correcto y que la contraseña tenga mínimo 8 caracteres, una mayúscula, una minúscula y un número</value>
   </data>
@@ -408,6 +411,9 @@
   <data name="SuccessNotification_PlayerReported" xml:space="preserve">
     <value>¡El jugador fue eliminado... Reportado con éxito!</value>
   </data>
+  <data name="SuccessNotification_PasswordChanged" xml:space="preserve">
+    <value>¡Tu contraseña fue cambiada con éxito!</value>
+  </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
     <value>Hubo un error inesperado al eliminar... Reportar al jugador. Lo sentimos.</value>
   </data>
@@ -425,5 +431,8 @@
   </data>
   <data name="ErrorNotification_UnexpectedError" xml:space="preserve">
     <value>Hubo un error insesperado, intente de nuevo más tarde o contacte a soporte técnico.</value>
+  </data>
+  <data name="SuccessNotification_PlayerUpdated" xml:space="preserve">
+    <value>¡Tu perfil fue actualizado con éxito!</value>
   </data>
 </root>

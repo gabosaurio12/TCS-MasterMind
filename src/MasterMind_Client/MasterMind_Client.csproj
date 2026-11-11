@@ -263,6 +263,10 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="CurrentPlayer.cs" />
+    <Compile Include="Enums\ServerMessages.cs" />
+    <Compile Include="Modals\ChangePasswordModal.xaml.cs">
+      <DependentUpon>ChangePasswordModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modals\FriendRequestsModal.xaml.cs">
       <DependentUpon>FriendRequestsModal.xaml</DependentUpon>
     </Compile>
@@ -332,10 +336,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\UtilsUI.cs" />
+    <Compile Include="Helpers\PasswordValidator.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
+    <Compile Include="ViewModels\Modals\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\Modals\ErrorNotificationViewModel.cs" />
     <Compile Include="ViewModels\Modals\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModels\Modals\FriendsViewModel.cs" />
@@ -362,6 +368,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modals\ChangePasswordModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Modals\ErrorNotificationModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

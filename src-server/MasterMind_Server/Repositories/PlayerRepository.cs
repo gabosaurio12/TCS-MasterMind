@@ -52,6 +52,20 @@ namespace MasterMind_Server.Repositories
             return RepositoriesMessages.ValidInfo.ToString();
         }
 
+        private string ValidateUpdateData(Player player, int playerId)
+        {
+            if (Context.Player.Any(p => p.username == player.username && p.player_id != playerId))
+            {
+                return RepositoriesMessages.UsernameTaken.ToString();
+            }
+            if (Context.Player.Any(p => p.email == player.email && p.player_id != playerId))
+            {
+                return RepositoriesMessages.EmailTaken.ToString();
+            }
+
+            return RepositoriesMessages.ValidInfo.ToString();
+        }
+
         public Player GetPlayerByUsername(string username)
         {
             try
@@ -119,10 +133,11 @@ namespace MasterMind_Server.Repositories
 
         public string UpdatePlayer(Player player)
         {
-            string validationResult = ValidateData(player);
+            var formerPlayer = GetPlayerById(player.player_id);
+            string validationResult = ValidateUpdateData(player, formerPlayer.player_id);
+
             if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
             {
-                var formerPlayer = GetPlayerById(player.player_id);
                 if (formerPlayer != null)
                 {
                     formerPlayer.username = player.username;

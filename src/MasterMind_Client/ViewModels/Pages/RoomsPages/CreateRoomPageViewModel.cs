@@ -70,35 +70,18 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 catch (FaultException<RoomService.ErrorMessage> faultException)
                 {
                     logger.WarnFormat("The server rejected the room creation: {0}", faultException.Detail.Message);
-                    ShowServerError(faultException.Detail.Message);
+                    dialogService.ShowServerError(faultException.Detail.Message);
                 }
                 catch (FaultException faultException)
                 {
                     logger.Error("Server fault during room creation", faultException);
-                    ShowServerError(faultException.Message);
+                    dialogService.ShowServerError(faultException.Message);
                 }
                 catch (CommunicationException communicationException)
                 {
                     logger.Error("Communication failure during room creation", communicationException);
                     dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                 }
-            }
-        }
-
-        private void ShowServerError(string errorDetail)
-        {
-            switch (errorDetail)
-            {
-                case "DataBaseError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
-                    break;
-                case "HashError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
-                    break;
-                default:
-                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
-                    break;
             }
         }
 

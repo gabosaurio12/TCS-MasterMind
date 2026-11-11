@@ -28,15 +28,18 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private readonly INavigationService navigationService;
 
+        private readonly IDialogService dialogService;
+
         private readonly PlayerServiceClient playerService = new PlayerServiceClient();
 
         public ProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
+            this.dialogService = dialogService;
             UpdateCommand = new RelayCommand(_ => NavigateTo("Pages/UpdateProfilePage.xaml"));
             BackCommand = new RelayCommand(_ => NavigateTo("Pages/MainPage.xaml"));
             ReportCommand = new RelayCommand(_ => ReportPlayer());
-            ChangePasswordCommand = new RelayCommand(_ => { });
+            ChangePasswordCommand = new RelayCommand(_ => ChangePassword());
             Username = CurrentPlayer.Instance.Username;
             Email = CurrentPlayer.Instance.Email;
 
@@ -86,6 +89,11 @@ namespace MasterMind_Client.ViewModels.Pages
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_PlayerReportedError);
             }*/
+        }
+
+        private void ChangePassword()
+        {
+            dialogService.ShowChangePassword();
         }
 
         private void NavigateTo(string uri)
