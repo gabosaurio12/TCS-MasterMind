@@ -1,5 +1,4 @@
 using log4net;
-using MasterMind_Client.Helpers;
 using MasterMind_Client.LobbyService;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
@@ -93,7 +92,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             this.dialogService = dialogService;
 
             InstanceContext instanceContext = new InstanceContext(this);
-            this.lobbyService = new LobbyServiceClient(instanceContext);
+            lobbyService = new LobbyServiceClient(instanceContext);
 
             ReadyCommand = new RelayCommand(_ => SetReady());
             UnreadyCommand = new RelayCommand(_ => SetUnready());
@@ -224,7 +223,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             catch (CommunicationException communicationException)
             {
                 logger.Error("Communication failure during room lookup", communicationException);
-                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected); 
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                 NavigateTo(RoomsPageRoute);
             }
         }

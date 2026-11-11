@@ -6,6 +6,6 @@ namespace MasterMind_Server.Contracts
     interface IFriendsCallbackService
     {
         [OperationContract(IsOneWay = true)]
-        void OnFriendshipStatusChanged(Friendship friendship);
+        void OnFriendshipStatusChanged();
     }
 }

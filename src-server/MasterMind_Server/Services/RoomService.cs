@@ -1,7 +1,6 @@
 ﻿using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
-using MasterMind_Server.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Data.Entity.Infrastructure;
@@ -12,7 +11,7 @@ namespace MasterMind_Server.Services
     internal class RoomService : IRoomService
     {
         private readonly ErrorMessage clientMessage = new ErrorMessage();
-        private readonly IRoomRepository roomRepository = new RoomRepository();
+        private readonly RoomRepository roomRepository = new RoomRepository();
 
         public List<Room> GetPublicRooms()
         {

@@ -149,6 +149,15 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("ErrorNotification_ErrorSendingFriendRequest", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error removing the friend. Try again later..
+        /// </summary>
+        public static string ErrorNotification_ErrorRemovingFriend {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorRemovingFriend", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to La solicitud de amistad enviada a este jugador está en espera de ser aceptada.
@@ -156,6 +165,15 @@ namespace MasterMind_Client.Properties {
         public static string ErrorNotification_FriendRequestPending {
             get {
                 return ResourceManager.GetString("ErrorNotification_FriendRequestPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¡Este usuario y tú ya son amigos!.
+        /// </summary>
+        public static string ErrorNotification_FriendshipAccepted {
+            get {
+                return ResourceManager.GetString("ErrorNotification_FriendshipAccepted", resourceCulture);
             }
         }
         
@@ -822,6 +840,15 @@ namespace MasterMind_Client.Properties {
         public static string SuccessNotification_FriendRequestSent {
             get {
                 return ResourceManager.GetString("SuccessNotification_FriendRequestSent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Friend removed successfully!.
+        /// </summary>
+        public static string SuccessNotification_FriendRemoved {
+            get {
+                return ResourceManager.GetString("SuccessNotification_FriendRemoved", resourceCulture);
             }
         }
         

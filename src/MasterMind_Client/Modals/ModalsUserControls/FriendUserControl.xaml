@@ -41,7 +41,8 @@
                     Width="45" Height="45" Padding="0" />
 
             <Button x:Name="RemoveFriend" Style="{StaticResource MetalButtonMinus}"
-                    Width="45" Height="45" Padding="0" Margin="16,0,0,0" />
+                    Width="45" Height="45" Padding="0" Margin="16,0,0,0"
+                    Command="{Binding RemoveCommand}" />
         </StackPanel>
 
     </Grid>
