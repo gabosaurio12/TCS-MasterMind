@@ -10,6 +10,7 @@
         WrongCode,
         PlayerNotFound,
         DatabaseError,
-        Pending
+        Pending,
+        FriendshipAccepted
     }
 }

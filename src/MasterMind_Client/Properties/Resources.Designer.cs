@@ -853,6 +853,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ¡Tu perfil fue actualizado con éxito!.
+        /// </summary>
+        public static string SuccessNotification_PlayerUpdated {
+            get {
+                return ResourceManager.GetString("SuccessNotification_PlayerUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ¡Tu cuenta fue registrada con éxito! Se envió un código de verificación a tu correo.
         /// </summary>
         public static string SuccessNotification_Register {

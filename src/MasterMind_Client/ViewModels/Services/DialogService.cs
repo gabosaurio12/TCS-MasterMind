@@ -1,3 +1,4 @@
+using log4net.Repository.Hierarchy;
 using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Modals;
@@ -15,6 +16,22 @@ namespace MasterMind_Client.ViewModels.Services
             modal.DataContext = viewModel;
             viewModel.CloseRequested += (sender, e) => modal.Close();
             modal.Show();
+        }
+
+        public void ShowServerError(string errorDetail)
+        {
+            switch (errorDetail)
+            {
+                case "DataBaseError":
+                    ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                    break;
+                case "HashError":
+                    ShowError(Properties.Resources.ErrorNotification_Timeout);
+                    break;
+                default:
+                    ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                    break;
+            }
         }
 
         public void ShowSuccess(string message, Action modalClosed = null)

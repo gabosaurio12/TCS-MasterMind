@@ -263,6 +263,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="CurrentPlayer.cs" />
+    <Compile Include="Enums\ServerMessages.cs" />
     <Compile Include="Modals\ChangePasswordModal.xaml.cs">
       <DependentUpon>ChangePasswordModal.xaml</DependentUpon>
     </Compile>

@@ -275,7 +275,7 @@ namespace MasterMind_Server.Repositories
 
                         if (existingRequest.status_id == acceptedStatusId)
                         {
-                            return RepositoriesMessages.Error.ToString();
+                            return RepositoriesMessages.FriendshipAccepted.ToString();
                         }
 
                         return RepositoriesMessages.Error.ToString();

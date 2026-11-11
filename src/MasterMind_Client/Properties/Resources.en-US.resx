@@ -432,4 +432,7 @@
   <data name="ErrorNotification_UnexpectedError" xml:space="preserve">
     <value>There was an unexpected error, try again later or contact tech support.</value>
   </data>
+  <data name="SuccessNotification_PlayerUpdated" xml:space="preserve">
+    <value>Your profile was successfully updated!</value>
+  </data>
 </root>

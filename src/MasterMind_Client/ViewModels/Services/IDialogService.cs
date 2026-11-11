@@ -7,6 +7,8 @@ namespace MasterMind_Client.ViewModels.Services
     {
         void ShowError(string message);
 
+        void ShowServerError(string detailMessage);
+
         void ShowSuccess(string message, Action modalClosed = null);
 
         void ShowVerificationCode(string username, Action<Player> verificationSucceded);
