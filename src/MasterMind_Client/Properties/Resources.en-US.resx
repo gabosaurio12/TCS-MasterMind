@@ -438,4 +438,10 @@
   <data name="ErrorNotification_FriendshipAccepted" xml:space="preserve">
     <value>This user and you are friends already!</value>
   </data>
+  <data name="SuccessNotification_FriendRemoved" xml:space="preserve">
+    <value>Friend removed successfully!</value>
+  </data>
+  <data name="ErrorNotification_ErrorRemovingFriend" xml:space="preserve">
+    <value>There was an error removing the friend. Try again later.</value>
+  </data>
 </root>
