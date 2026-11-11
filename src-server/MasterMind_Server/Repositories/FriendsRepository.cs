@@ -248,6 +248,44 @@ namespace MasterMind_Server.Repositories
             }
         }
 
+        public Contracts.Friendship GetFriendRequestById(int requestId)
+        {
+            try
+            {
+                int pendingStatusId = GetPendingStatusId();
+
+                var request = new Contracts.Friendship
+                {
+                    FriendshipId = 0
+                };
+
+                if (pendingStatusId > 0)
+                {
+                    var requestEntity = Context.Friendship.FirstOrDefault(
+                                req => req.friendship_id == requestId &&
+                                req.status_id == pendingStatusId);
+
+                    if (requestEntity != null)
+                    {
+                        request = new Contracts.Friendship
+                        {
+                            FriendshipId = requestEntity.friendship_id,
+                            AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                            RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
+                            Status = FriendshipStatus.Pending.ToString()
+                        };
+                    }
+                }
+
+                return request;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw;
+            }
+        }
+
         public string SendFriendRequest(int addresseeId, int requesterId)
         {
             try

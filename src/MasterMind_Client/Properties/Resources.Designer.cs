@@ -160,6 +160,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ¡Este usuario y tú ya son amigos!.
+        /// </summary>
+        public static string ErrorNotification_FriendshipAccepted {
+            get {
+                return ResourceManager.GetString("ErrorNotification_FriendshipAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tu mensaje contiene lenguaje inapropiado.
         /// </summary>
         public static string ErrorNotification_InappropriateVocabulary {

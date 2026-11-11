@@ -435,4 +435,7 @@
   <data name="SuccessNotification_PlayerUpdated" xml:space="preserve">
     <value>Your profile was successfully updated!</value>
   </data>
+  <data name="ErrorNotification_FriendshipAccepted" xml:space="preserve">
+    <value>This user and you are friends already!</value>
+  </data>
 </root>

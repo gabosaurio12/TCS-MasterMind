@@ -293,7 +293,7 @@ namespace MasterMind_Client.FriendsService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FriendsService.IFriendsService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FriendsService.IFriendsService", CallbackContract=typeof(MasterMind_Client.FriendsService.IFriendsServiceCallback))]
     public interface IFriendsService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendsService/GetFriendships", ReplyAction="http://tempuri.org/IFriendsService/GetFriendshipsResponse")]
@@ -351,6 +351,27 @@ namespace MasterMind_Client.FriendsService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendsService/RemoveFriendship", ReplyAction="http://tempuri.org/IFriendsService/RemoveFriendshipResponse")]
         System.Threading.Tasks.Task<string> RemoveFriendshipAsync(string addresseeUsername, string requesterUsername);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendsService/RegisterFriendsClient", ReplyAction="http://tempuri.org/IFriendsService/RegisterFriendsClientResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.FriendsService.ErrorMessage), Action="http://tempuri.org/IFriendsService/RegisterFriendsClientErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void RegisterFriendsClient(int friendshipId, string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendsService/RegisterFriendsClient", ReplyAction="http://tempuri.org/IFriendsService/RegisterFriendsClientResponse")]
+        System.Threading.Tasks.Task RegisterFriendsClientAsync(int friendshipId, string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendsService/RegisterFriendRequestsClient", ReplyAction="http://tempuri.org/IFriendsService/RegisterFriendRequestsClientResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.FriendsService.ErrorMessage), Action="http://tempuri.org/IFriendsService/RegisterFriendRequestsClientErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void RegisterFriendRequestsClient(int friendshipId, string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendsService/RegisterFriendRequestsClient", ReplyAction="http://tempuri.org/IFriendsService/RegisterFriendRequestsClientResponse")]
+        System.Threading.Tasks.Task RegisterFriendRequestsClientAsync(int friendshipId, string username);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IFriendsServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IFriendsService/OnFriendshipStatusChanged")]
+        void OnFriendshipStatusChanged();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -359,25 +380,26 @@ namespace MasterMind_Client.FriendsService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class FriendsServiceClient : System.ServiceModel.ClientBase<MasterMind_Client.FriendsService.IFriendsService>, MasterMind_Client.FriendsService.IFriendsService {
+    public partial class FriendsServiceClient : System.ServiceModel.DuplexClientBase<MasterMind_Client.FriendsService.IFriendsService>, MasterMind_Client.FriendsService.IFriendsService {
         
-        public FriendsServiceClient() {
+        public FriendsServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public FriendsServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public FriendsServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public FriendsServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public FriendsServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public FriendsServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public FriendsServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public FriendsServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public FriendsServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public MasterMind_Client.FriendsService.Player[] GetFriendships(int playerId) {
@@ -442,6 +464,22 @@ namespace MasterMind_Client.FriendsService {
         
         public System.Threading.Tasks.Task<string> RemoveFriendshipAsync(string addresseeUsername, string requesterUsername) {
             return base.Channel.RemoveFriendshipAsync(addresseeUsername, requesterUsername);
+        }
+        
+        public void RegisterFriendsClient(int friendshipId, string username) {
+            base.Channel.RegisterFriendsClient(friendshipId, username);
+        }
+        
+        public System.Threading.Tasks.Task RegisterFriendsClientAsync(int friendshipId, string username) {
+            return base.Channel.RegisterFriendsClientAsync(friendshipId, username);
+        }
+        
+        public void RegisterFriendRequestsClient(int friendshipId, string username) {
+            base.Channel.RegisterFriendRequestsClient(friendshipId, username);
+        }
+        
+        public System.Threading.Tasks.Task RegisterFriendRequestsClientAsync(int friendshipId, string username) {
+            return base.Channel.RegisterFriendRequestsClientAsync(friendshipId, username);
         }
     }
 }
