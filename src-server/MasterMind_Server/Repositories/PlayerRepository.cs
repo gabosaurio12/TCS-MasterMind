@@ -136,9 +136,9 @@ namespace MasterMind_Server.Repositories
             var formerPlayer = GetPlayerById(player.player_id);
             string validationResult = ValidateUpdateData(player, formerPlayer.player_id);
 
-            if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
+            if (formerPlayer != null)
             {
-                if (formerPlayer != null)
+                if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
                 {
                     formerPlayer.username = player.username;
                     formerPlayer.email = player.email;
