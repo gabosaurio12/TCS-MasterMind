@@ -186,6 +186,30 @@ namespace MasterMind_Server.Repositories
             }
         }
 
+        public string UpdateAvatarPath(int playerId, string fileName)
+        {
+            try
+            {
+                var player = GetPlayerById(playerId);
+
+                if (player == null)
+                {
+                    return RepositoriesMessages.PlayerNotFound.ToString();
+                }
+
+                player.avatar_path = fileName;
+
+                Context.SaveChanges();
+
+                return RepositoriesMessages.Success.ToString();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw;
+            }
+        }
+
         public string ReportPlayer(ReportDto report)
         {
             try

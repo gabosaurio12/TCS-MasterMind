@@ -22,7 +22,8 @@ namespace MasterMind_Server
                 new ServiceHost(typeof(Services.CodeService)),
                 new ServiceHost(typeof(Services.RoomService)),
                 new ServiceHost(typeof(Services.FriendsService)),
-                new ServiceHost(typeof(Services.LobbyService))
+                new ServiceHost(typeof(Services.LobbyService)),
+                new ServiceHost(typeof(Services.AvatarService))
             };
 
             foreach (var host in hosts)

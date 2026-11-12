@@ -243,5 +243,14 @@ namespace MasterMind_Server.Tests.TestSupport
                 return context.Player.FirstOrDefault(p => p.username == username);
             }
         }
+
+        public static string GetAvatarPath(int playerId)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                var player = context.Player.FirstOrDefault(p => p.player_id == playerId);
+                return player?.avatar_path;
+            }
+        }
     }
 }
