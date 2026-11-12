@@ -39,14 +39,6 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         string RemoveFriendship(string addresseeUsername, string requesterUsername);
-
-        [OperationContract]
-        [FaultContract(typeof(ErrorMessage))]
-        void RegisterFriendsClient(int friendshipId, string username);
-
-        [OperationContract]
-        [FaultContract(typeof(ErrorMessage))]
-        void RegisterFriendRequestsClient(int friendshipId, string username);
     }
 
     [DataContract]
