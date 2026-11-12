@@ -435,4 +435,13 @@
   <data name="SuccessNotification_PlayerUpdated" xml:space="preserve">
     <value>¡Tu perfil fue actualizado con éxito!</value>
   </data>
+  <data name="ErrorNotification_FriendshipAccepted" xml:space="preserve">
+    <value>¡Este usuario y tú ya son amigos!</value>
+  </data>
+  <data name="SuccessNotification_FriendRemoved" xml:space="preserve">
+    <value>¡Amigo eliminado con éxito!</value>
+  </data>
+  <data name="ErrorNotification_ErrorRemovingFriend" xml:space="preserve">
+    <value>Hubo un error al eliminar al amigo. Intenta de nuevo más tarde.</value>
+  </data>
 </root>

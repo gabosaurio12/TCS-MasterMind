@@ -1,4 +1,3 @@
-using log4net.Repository.Hierarchy;
 using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Modals;
@@ -18,9 +17,9 @@ namespace MasterMind_Client.ViewModels.Services
             modal.Show();
         }
 
-        public void ShowServerError(string errorDetail)
+        public void ShowServerError(string errorMessage)
         {
-            switch (errorDetail)
+            switch (errorMessage)
             {
                 case "DataBaseError":
                     ShowError(Properties.Resources.ErrorNotification_DatabaseError);

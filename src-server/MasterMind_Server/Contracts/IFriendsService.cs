@@ -5,7 +5,7 @@ using System.ServiceModel;
 
 namespace MasterMind_Server.Contracts
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IFriendsCallbackService))]
     interface IFriendsService
     {
         [OperationContract]

@@ -4,7 +4,6 @@ using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
-using MasterMind_Server.Repositories.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Data.Entity.Core;
@@ -15,12 +14,15 @@ namespace MasterMind_Server.Services
 {
     internal class LobbyService : ILobbyService
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(LobbyService));
+
+
         private static readonly ConcurrentDictionary<int, ConcurrentDictionary<string, ILobbyCallbackService>>
             roomClientsByRoom = new ConcurrentDictionary<int, ConcurrentDictionary<string, ILobbyCallbackService>>();
-        private static readonly ILog logger = LogManager.GetLogger(typeof(LobbyService));
         private readonly ErrorMessage clientMessage = new ErrorMessage();
-        private readonly ILobbyRepository lobbyRepository = new LobbyRepository();
-        private readonly IRoomRepository roomRepository = new RoomRepository();
+
+        private readonly LobbyRepository lobbyRepository = new LobbyRepository();
+        private readonly RoomRepository roomRepository = new RoomRepository();
 
         public string SendMessage(ChatMessage message)
         {
@@ -146,7 +148,8 @@ namespace MasterMind_Server.Services
                 var callback = OperationContext.Current?.GetCallbackChannel<ILobbyCallbackService>();
                 if (callback != null)
                 {
-                    var newClients = new ConcurrentDictionary<string, ILobbyCallbackService>(StringComparer.OrdinalIgnoreCase);
+                    var newClients = new ConcurrentDictionary<string,
+                        ILobbyCallbackService>(StringComparer.OrdinalIgnoreCase);
 
                     var clients = roomClientsByRoom.GetOrAdd(
                         roomId,
@@ -188,26 +191,24 @@ namespace MasterMind_Server.Services
 
         private static void HandleDisconnectedClient(int roomId, string username, Exception exception)
         {
-            logger.Warn("A lobby client disconnected.", exception);
+            logger.Warn(exception);
             RemoveClient(roomId, username);
         }
 
         private static void RemoveClient(int roomId, string username)
         {
             var key = username?.Trim();
-            if (string.IsNullOrEmpty(key))
+            if (!string.IsNullOrEmpty(key))
             {
-                return;
-            }
-
-            ConcurrentDictionary<string, ILobbyCallbackService> clients;
-            if (roomClientsByRoom.TryGetValue(roomId, out clients))
-            {
-                ILobbyCallbackService removedClient;
-                clients.TryRemove(key, out removedClient);
-                if (clients.IsEmpty)
+                ConcurrentDictionary<string, ILobbyCallbackService> clients;
+                if (roomClientsByRoom.TryGetValue(roomId, out clients))
                 {
-                    RemoveRoom(roomId);
+                    ILobbyCallbackService removedClient;
+                    clients.TryRemove(key, out removedClient);
+                    if (clients.IsEmpty)
+                    {
+                        RemoveRoom(roomId);
+                    }
                 }
             }
         }

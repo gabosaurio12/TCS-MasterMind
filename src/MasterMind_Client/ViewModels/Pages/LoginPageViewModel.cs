@@ -70,43 +70,26 @@ namespace MasterMind_Client.ViewModels.Pages
 
                 return isValid;
             }
-            catch (FaultException<PlayerService.ErrorMessage> faultException)
+            catch (FaultException<ErrorMessage> faultException)
             {
-                logger.WarnFormat("The server rejected the login: {0}", faultException.Detail.Message);
-                ShowServerError(faultException.Detail.Message);
+                logger.WarnFormat(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
                 isValid = false;
                 return isValid;
             }
             catch (FaultException faultException)
             {
-                logger.Error("Server fault during login", faultException);
-                ShowServerError(faultException.Message);
+                logger.Error(faultException);
+                dialogService.ShowServerError(faultException.Message);
                 isValid = false;
                 return isValid;
             }
             catch (CommunicationException communicationException)
             {
-                logger.Error("Communication failure during login", communicationException);
+                logger.Error(communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                 isValid = false;
                 return isValid;
-            }
-        }
-
-        private void ShowServerError(string errorDetail)
-        {
-            switch (errorDetail)
-            {
-                case "DataBaseError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
-                    break;
-                case "HashError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
-                    break;
-                default:
-                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
-                    break;
             }
         }
 

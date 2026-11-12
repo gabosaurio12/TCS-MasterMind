@@ -1,4 +1,5 @@
-﻿using MasterMind_Server.Contracts;
+﻿using log4net;
+using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace MasterMind_Server.Services
 {
     internal class FriendsService : IFriendsService
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(FriendsService));
+
         private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly FriendsRepository friendsRepository = new FriendsRepository();
 
@@ -17,6 +20,7 @@ namespace MasterMind_Server.Services
             try
             {
                 var result = friendsRepository.AcceptFriendRequest(requestId);
+
                 return result;
             }
             catch (EntityException)
@@ -101,6 +105,7 @@ namespace MasterMind_Server.Services
             try
             {
                 var result = friendsRepository.RemoveFriendship(addresseeUsername, requesterUsername);
+
                 return result;
             }
             catch (EntityException)
@@ -115,6 +120,7 @@ namespace MasterMind_Server.Services
             try
             {
                 var result = friendsRepository.SendFriendRequest(addresseeId, requesterId);
+
                 return result;
             }
             catch (EntityException)
