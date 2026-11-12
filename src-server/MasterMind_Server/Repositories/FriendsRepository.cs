@@ -368,6 +368,30 @@ namespace MasterMind_Server.Repositories
             }
         }
 
+        public string GetRequesterUsernameByRequestId(int requestId)
+        {
+            try
+            {
+                var requestEntity = Context.Friendship.FirstOrDefault(req => req.friendship_id == requestId);
+
+                if (requestEntity != null)
+                {
+                    var requester = playerRepository.GetPlayerById(requestEntity.requester_id);
+                    if (requester != null)
+                    {
+                        return requester.username;
+                    }
+                }
+
+                return string.Empty;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw;
+            }
+        }
+
         public string RejectFriendRequest(int requestId)
         {
             try

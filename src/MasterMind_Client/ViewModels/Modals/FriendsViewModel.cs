@@ -126,9 +126,24 @@ namespace MasterMind_Client.ViewModels.Modals
             RequestClose();
         }
 
+        private void ClearFriends()
+        {
+            foreach (var friendVm in Friends)
+            {
+                friendVm.Removed -= OnFriendRemoved;
+            }
+
+            Friends.Clear();
+        }
+
         public void OnFriendshipStatusChanged()
         {
-            MessageBox.Show("Friendship status changed. Refreshing friends list.");
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                ClearFriends();
+                LoadFriends();
+                RegisterFriendships();
+            });
         }
 
         private void OnFriendRemoved(object sender, EventArgs e)

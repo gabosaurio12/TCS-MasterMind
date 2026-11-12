@@ -1,7 +1,10 @@
-﻿using log4net;
+﻿using System;
+using log4net;
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Repositories.Enums;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.ServiceModel;
@@ -12,6 +15,11 @@ namespace MasterMind_Server.Services
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(FriendsService));
 
+        private static readonly ConcurrentDictionary<string, IFriendsCallbackService> friendsClientsByModal =
+            new ConcurrentDictionary<string, IFriendsCallbackService>();
+        private static readonly ConcurrentDictionary<string, IFriendsCallbackService> friendRequestsClientsByModal =
+            new ConcurrentDictionary<string, IFriendsCallbackService>();
+
         private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly FriendsRepository friendsRepository = new FriendsRepository();
 
@@ -21,12 +29,69 @@ namespace MasterMind_Server.Services
             {
                 var result = friendsRepository.AcceptFriendRequest(requestId);
 
+                if (result.Equals(RepositoriesMessages.Success.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    var requesterUsername = friendsRepository.GetRequesterUsernameByRequestId(requestId);
+                    NotifyFriendshipStatusChanged(requesterUsername);
+                }
+
                 return result;
             }
             catch (EntityException)
             {
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
+            }
+        }
+
+        private void NotifyFriendshipStatusChanged(string username)
+        {
+            if (!string.IsNullOrEmpty(username))
+            {
+                if (friendsClientsByModal.TryGetValue(username, out var callback))
+                {
+                    try
+                    {
+                        callback.OnFriendshipStatusChanged();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.WarnFormat(username, ex.Message);
+                        friendsClientsByModal.TryRemove(username, out _);
+                    }
+                }
+            }
+        }
+
+        public void RegisterFriendsClient(int friendshipId, string username)
+        {
+            try
+            {
+                var callback = OperationContext.Current?.GetCallbackChannel<IFriendsCallbackService>();
+                if (callback != null)
+                {
+                    friendsClientsByModal[username] = callback;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        public void RegisterFriendRequestsClient(int friendshipId, string username)
+        {
+            try
+            {
+                var callback = OperationContext.Current?.GetCallbackChannel<IFriendsCallbackService>();
+                if (callback != null)
+                {
+                    friendRequestsClientsByModal[username] = callback;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
