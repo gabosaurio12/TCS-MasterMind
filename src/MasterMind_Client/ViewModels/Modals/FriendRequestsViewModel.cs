@@ -130,7 +130,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
         }
 
-        private void RegisterCallback(int addresseeId)
+        private async void RegisterCallback(int addresseeId)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace MasterMind_Client.ViewModels.Modals
 
                 if (friendship.FriendshipId > 0)
                 {
-                    friendService.RegisterFriendRequestsClient(
+                    await friendService.RegisterFriendsClientAsync(
                         friendship.FriendshipId,
                         CurrentPlayer.Instance.Username);
                 }

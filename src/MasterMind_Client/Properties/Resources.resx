@@ -444,4 +444,7 @@
   <data name="ErrorNotification_ErrorRemovingFriend" xml:space="preserve">
     <value>Hubo un error al eliminar al amigo. Intenta de nuevo más tarde.</value>
   </data>
+  <data name="VerificationCodeModal_CodeSent" xml:space="preserve">
+    <value>Se envió un código de verificación a tu correo electrónico</value>
+  </data>
 </root>

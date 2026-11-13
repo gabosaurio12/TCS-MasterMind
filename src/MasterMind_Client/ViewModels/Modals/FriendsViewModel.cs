@@ -7,6 +7,7 @@ using MasterMind_Client.ViewModels.UserControls;
 using System;
 using System.Collections.ObjectModel;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Modals
@@ -73,34 +74,13 @@ namespace MasterMind_Client.ViewModels.Modals
         {
             try
             {
-                var friendRequests = friendService.GetFriendRequests(CurrentPlayer.Instance.Id);
-                foreach (var requester in friendRequests)
+                var friendships = friendService.GetAllFriendshipsAndRequests(CurrentPlayer.Instance.Id);
+                foreach (var friendship in friendships)
                 {
-                    var request = friendService.GetFriendRequest(
-                        CurrentPlayer.Instance.Id,
-                        requester.PlayerId);
 
-                    if (request.FriendshipId > 0)
-                    {
-                        friendService.RegisterFriendRequestsClient(
-                            request.FriendshipId,
-                            CurrentPlayer.Instance.Username);
-                    }
-                }
-
-                var frienships = friendService.GetFriendships(CurrentPlayer.Instance.Id);
-                foreach (var friend in frienships)
-                {
-                    var request = friendService.GetFriendship(
-                        CurrentPlayer.Instance.Id,
-                        friend.PlayerId);
-
-                    if (request.FriendshipId > 0)
-                    {
-                        friendService.RegisterFriendsClient(
-                        request.FriendshipId,
+                    friendService.RegisterFriendsClient(
+                        friendship.FriendshipId,
                         CurrentPlayer.Instance.Username);
-                    }
                 }
             }
             catch (FaultException<ErrorMessage> faultException)

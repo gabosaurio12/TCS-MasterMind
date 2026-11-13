@@ -18,6 +18,10 @@ namespace MasterMind_Server.Contracts
 
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
+        List<Friendship> GetAllFriendshipsAndRequests(int playerId);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
         Friendship GetFriendship(int addresseeId, int requesterId);
 
         [OperationContract]
@@ -43,10 +47,6 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         void RegisterFriendsClient(int friendshipId, string username);
-
-        [OperationContract]
-        [FaultContract(typeof(ErrorMessage))]
-        void RegisterFriendRequestsClient(int friendshipId, string username);
     }
 
     [DataContract]

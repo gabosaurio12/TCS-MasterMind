@@ -48,7 +48,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -112,14 +111,13 @@ namespace MasterMind_Server.Repositories
 
                     List<int> friendsIds = GetFriendsIds(friendships, playerId);
 
-                    friends = GetFriendshipsFromIds(friendsIds);
+                    friends = GetFriendshipsAsPlayersFromIds(friendsIds);
                 }
 
                 return friends;
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -146,7 +144,7 @@ namespace MasterMind_Server.Repositories
             return friendsIds;
         }
 
-        private List<Contracts.Player> GetFriendshipsFromIds(List<int> friendsIds)
+        private List<Contracts.Player> GetFriendshipsAsPlayersFromIds(List<int> friendsIds)
         {
             List<Contracts.Player> friends = new List<Contracts.Player>();
 
@@ -170,6 +168,26 @@ namespace MasterMind_Server.Repositories
             return friends;
         }
 
+        private List<Contracts.Friendship> GetFriendshipsFromEntities(List<Friendship> friendshipsEntities)
+        {
+            List<Contracts.Friendship> friendships = new List<Contracts.Friendship>();
+
+            foreach (var friendship in friendshipsEntities)
+            {
+                var friendShip = new Contracts.Friendship
+                {
+                    FriendshipId = friendship.friendship_id,
+                    AddresseeUsername = playerRepository.GetPlayerById(friendship.addressee_id).username,
+                    RequesterUsername = playerRepository.GetPlayerById(friendship.requester_id).username,
+                    Status = FriendshipStatus.Accepted.ToString()
+                };
+
+                friendships.Add(friendShip);
+            }
+
+            return friendships;
+        }
+
         public Contracts.Friendship GetFriendship(int addresseeId, int requesterId)
         {
             try
@@ -184,8 +202,11 @@ namespace MasterMind_Server.Repositories
                 if (acceptedStatusId > 0)
                 {
                     var requestEntity = Context.Friendship.FirstOrDefault(
-                                req => req.requester_id == requesterId &&
-                                req.addressee_id == addresseeId &&
+                                req => (
+                                (req.requester_id == requesterId &&
+                                req.addressee_id == addresseeId) ||
+                                req.requester_id == addresseeId &&
+                                req.addressee_id == requesterId) &&
                                 req.status_id == acceptedStatusId);
 
                     if (requestEntity != null)
@@ -204,7 +225,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -243,7 +263,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -281,7 +300,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -334,7 +352,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -363,7 +380,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -387,7 +403,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -415,7 +430,6 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -453,7 +467,25 @@ namespace MasterMind_Server.Repositories
             }
             catch (EntityException ex)
             {
-                logger.Error(ex);
+                throw;
+            }
+        }
+
+        public List<Contracts.Friendship> GetAllFriendshipsAndRequests(int playerId)
+        {
+            try
+            {
+                var friendshipsEntities = Context.Friendship.Where(
+                    friendship => friendship.addressee_id == playerId ||
+                    friendship.requester_id == playerId).ToList();
+
+                List<Contracts.Friendship> friendships = new List<Contracts.Friendship>();
+                friendships = GetFriendshipsFromEntities(friendshipsEntities);
+
+                return friendships;
+            }
+            catch (EntityException ex)
+            {
                 throw;
             }
         }

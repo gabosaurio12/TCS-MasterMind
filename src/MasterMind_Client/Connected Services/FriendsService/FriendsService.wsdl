@@ -55,6 +55,15 @@
   <wsdl:message name="IFriendsService_GetFriendRequests_ErrorMessageFault_FaultMessage">
     <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q2:ErrorMessage" />
   </wsdl:message>
+  <wsdl:message name="IFriendsService_GetAllFriendshipsAndRequests_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllFriendshipsAndRequests" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetAllFriendshipsAndRequests_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllFriendshipsAndRequestsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_GetAllFriendshipsAndRequests_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q3:ErrorMessage" />
+  </wsdl:message>
   <wsdl:message name="IFriendsService_GetFriendship_InputMessage">
     <wsdl:part name="parameters" element="tns:GetFriendship" />
   </wsdl:message>
@@ -62,7 +71,7 @@
     <wsdl:part name="parameters" element="tns:GetFriendshipResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_GetFriendship_ErrorMessageFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q3:ErrorMessage" />
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q4:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_GetFriendRequest_InputMessage">
     <wsdl:part name="parameters" element="tns:GetFriendRequest" />
@@ -71,7 +80,7 @@
     <wsdl:part name="parameters" element="tns:GetFriendRequestResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_GetFriendRequest_ErrorMessageFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q4:ErrorMessage" />
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q5:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_SendFriendRequest_InputMessage">
     <wsdl:part name="parameters" element="tns:SendFriendRequest" />
@@ -80,7 +89,7 @@
     <wsdl:part name="parameters" element="tns:SendFriendRequestResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_SendFriendRequest_ErrorMessageFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q5:ErrorMessage" />
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q6:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_AcceptFriendRequest_InputMessage">
     <wsdl:part name="parameters" element="tns:AcceptFriendRequest" />
@@ -89,7 +98,7 @@
     <wsdl:part name="parameters" element="tns:AcceptFriendRequestResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_AcceptFriendRequest_ErrorMessageFault_FaultMessage">
-    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q6:ErrorMessage" />
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q7:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_RejectFriendRequest_InputMessage">
     <wsdl:part name="parameters" element="tns:RejectFriendRequest" />
@@ -98,7 +107,7 @@
     <wsdl:part name="parameters" element="tns:RejectFriendRequestResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_RejectFriendRequest_ErrorMessageFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q7:ErrorMessage" />
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q8:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_RemoveFriendship_InputMessage">
     <wsdl:part name="parameters" element="tns:RemoveFriendship" />
@@ -107,7 +116,7 @@
     <wsdl:part name="parameters" element="tns:RemoveFriendshipResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_RemoveFriendship_ErrorMessageFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q8:ErrorMessage" />
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q9:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_RegisterFriendsClient_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterFriendsClient" />
@@ -116,15 +125,6 @@
     <wsdl:part name="parameters" element="tns:RegisterFriendsClientResponse" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_RegisterFriendsClient_ErrorMessageFault_FaultMessage">
-    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q9:ErrorMessage" />
-  </wsdl:message>
-  <wsdl:message name="IFriendsService_RegisterFriendRequestsClient_InputMessage">
-    <wsdl:part name="parameters" element="tns:RegisterFriendRequestsClient" />
-  </wsdl:message>
-  <wsdl:message name="IFriendsService_RegisterFriendRequestsClient_OutputMessage">
-    <wsdl:part name="parameters" element="tns:RegisterFriendRequestsClientResponse" />
-  </wsdl:message>
-  <wsdl:message name="IFriendsService_RegisterFriendRequestsClient_ErrorMessageFault_FaultMessage">
     <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q10:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_OnFriendshipStatusChanged_OutputCallbackMessage">
@@ -140,6 +140,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequests" message="tns:IFriendsService_GetFriendRequests_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequestsResponse" message="tns:IFriendsService_GetFriendRequests_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/GetFriendRequestsErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_GetFriendRequests_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFriendshipsAndRequests">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/GetAllFriendshipsAndRequests" message="tns:IFriendsService_GetAllFriendshipsAndRequests_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/GetAllFriendshipsAndRequestsResponse" message="tns:IFriendsService_GetAllFriendshipsAndRequests_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/GetAllFriendshipsAndRequestsErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_GetAllFriendshipsAndRequests_ErrorMessageFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetFriendship">
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/GetFriendship" message="tns:IFriendsService_GetFriendship_InputMessage" />
@@ -176,11 +181,6 @@
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendsClientResponse" message="tns:IFriendsService_RegisterFriendsClient_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendsClientErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_RegisterFriendsClient_ErrorMessageFault_FaultMessage" />
     </wsdl:operation>
-    <wsdl:operation name="RegisterFriendRequestsClient">
-      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendRequestsClient" message="tns:IFriendsService_RegisterFriendRequestsClient_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendRequestsClientResponse" message="tns:IFriendsService_RegisterFriendRequestsClient_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendRequestsClientErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_RegisterFriendRequestsClient_ErrorMessageFault_FaultMessage" />
-    </wsdl:operation>
     <wsdl:operation name="OnFriendshipStatusChanged">
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/OnFriendshipStatusChanged" message="tns:IFriendsService_OnFriendshipStatusChanged_OutputCallbackMessage" />
     </wsdl:operation>
@@ -202,6 +202,18 @@
     </wsdl:operation>
     <wsdl:operation name="GetFriendRequests">
       <soap12:operation soapAction="http://tempuri.org/IFriendsService/GetFriendRequests" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllFriendshipsAndRequests">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/GetAllFriendshipsAndRequests" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -286,18 +298,6 @@
     </wsdl:operation>
     <wsdl:operation name="RegisterFriendsClient">
       <soap12:operation soapAction="http://tempuri.org/IFriendsService/RegisterFriendsClient" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-      <wsdl:fault name="ErrorMessageFault">
-        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="RegisterFriendRequestsClient">
-      <soap12:operation soapAction="http://tempuri.org/IFriendsService/RegisterFriendRequestsClient" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

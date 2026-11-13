@@ -17,8 +17,6 @@ namespace MasterMind_Server.Services
 
         private static readonly ConcurrentDictionary<string, IFriendsCallbackService> friendsClientsByModal =
             new ConcurrentDictionary<string, IFriendsCallbackService>();
-        private static readonly ConcurrentDictionary<string, IFriendsCallbackService> friendRequestsClientsByModal =
-            new ConcurrentDictionary<string, IFriendsCallbackService>();
 
         private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly FriendsRepository friendsRepository = new FriendsRepository();
@@ -37,8 +35,9 @@ namespace MasterMind_Server.Services
 
                 return result;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -79,22 +78,6 @@ namespace MasterMind_Server.Services
             }
         }
 
-        public void RegisterFriendRequestsClient(int friendshipId, string username)
-        {
-            try
-            {
-                var callback = OperationContext.Current?.GetCallbackChannel<IFriendsCallbackService>();
-                if (callback != null)
-                {
-                    friendRequestsClientsByModal[username] = callback;
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex);
-            }
-        }
-
         public Friendship GetFriendRequest(int addresseeId, int requesterId)
         {
             try
@@ -102,8 +85,9 @@ namespace MasterMind_Server.Services
                 var friendRequest = friendsRepository.GetFriendRequest(addresseeId, requesterId);
                 return friendRequest;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -116,8 +100,9 @@ namespace MasterMind_Server.Services
                 var friendships = friendsRepository.GetFriendRequests(playerId);
                 return friendships;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -130,8 +115,9 @@ namespace MasterMind_Server.Services
                 var friendRequest = friendsRepository.GetFriendship(addresseeId, requesterId);
                 return friendRequest;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -144,8 +130,9 @@ namespace MasterMind_Server.Services
                 var friendships = friendsRepository.GetFriendships(playerId);
                 return friendships;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -158,8 +145,9 @@ namespace MasterMind_Server.Services
                 var result = friendsRepository.RejectFriendRequest(requestId);
                 return result;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -173,8 +161,9 @@ namespace MasterMind_Server.Services
 
                 return result;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
@@ -188,8 +177,24 @@ namespace MasterMind_Server.Services
 
                 return result;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
+                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
+        }
+
+        public List<Friendship> GetAllFriendshipsAndRequests(int playerId)
+        {
+            try
+            {
+                var friendships = friendsRepository.GetAllFriendshipsAndRequests(playerId);
+                return friendships;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
                 clientMessage.Message = ErrorMessages.DataBaseError.ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
