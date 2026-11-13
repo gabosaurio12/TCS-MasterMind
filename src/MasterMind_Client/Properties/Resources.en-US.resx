@@ -447,4 +447,10 @@
   <data name="ErrorNotification_ErrorJoiningRoomGiveRoomCode" xml:space="preserve">
     <value>There was an error while joining the room, try joining with this code:</value>
   </data>
+  <data name="MatchTries_RemainingTries" xml:space="preserve">
+    <value>Remaining tries:</value>
+  </data>
+  <data name="MatchTries_PinColours" xml:space="preserve">
+    <value>Pin Colours</value>
+  </data>
 </root>

@@ -38,6 +38,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTriesViewModel.cs" />
+
     <Reference Include="BCrypt-Net-Next, Version=4.2.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>packages\BCrypt.Net-Next.4.2.0\lib\net472\BCrypt-Net-Next.dll</HintPath>
     </Reference>
@@ -231,6 +233,23 @@
     <Reference Include="XAMLMarkupExtensions, Version=2.1.3.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
       <HintPath>packages\XAMLMarkupExtensions.2.1.3\lib\net472\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
+  
+    <Resource Include="Assets\Backgrounds\Match_Background.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\Counter.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\DecipheringMachine_Empty_WithoutOk.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\Ok_Button.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\PinColours.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\BluePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\RedPin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\YellowPin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\GreenPin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\WhitePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\OrangePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\ColourPin_Empty.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\CluePin_Empty.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\WhiteCluePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\BlackCluePin.png" />
+
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -288,8 +307,8 @@
     <Compile Include="Modals\VerificationCodeModal.xaml.cs">
       <DependentUpon>VerificationCodeModal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MatchPages\TriesMatchPage.xaml.cs">
-      <DependentUpon>TriesMatchPage.xaml</DependentUpon>
+    <Compile Include="Pages\MatchPages\MatchTriesPage.xaml.cs">
+      <DependentUpon>MatchTriesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MatchPages\UserControls\BoardUserControl.xaml.cs">
       <DependentUpon>BoardUserControl.xaml</DependentUpon>
@@ -420,7 +439,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MatchPages\TriesMatchPage.xaml">
+    <Page Include="Pages\MatchPages\MatchTriesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

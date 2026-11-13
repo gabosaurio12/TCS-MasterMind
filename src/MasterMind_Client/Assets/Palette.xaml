@@ -84,6 +84,25 @@
     <BitmapImage x:Key="RoomCodeImage" UriSource="/Assets/Elements/Room_Code.png" />
     <BitmapImage x:Key="SendButtonImage" UriSource="/Assets/Elements/Send_Message_Button.png" />
 
+    <!-- ============================ Match Tries assets ============================ -->
+
+    <ImageBrush x:Key="BgMatchBrush" ImageSource="/Assets/Backgrounds/Match_Background.png"
+                Stretch="UniformToFill" />
+    <BitmapImage x:Key="DecipheringMachineWithoutOkImage" UriSource="/Assets/Elements/DecipheringMachine/DecipheringMachine_Empty_WithoutOk.png" />
+    <BitmapImage x:Key="OkButtonImage" UriSource="/Assets/Elements/DecipheringMachine/Ok_Button.png" />
+    <BitmapImage x:Key="CounterImage" UriSource="/Assets/Elements/DecipheringMachine/Counter.png" />
+    <BitmapImage x:Key="PinColoursPanelImage" UriSource="/Assets/Elements/DecipheringMachine/PinColours.png" />
+    <BitmapImage x:Key="BluePinImage" UriSource="/Assets/Elements/DecipheringMachine/BluePin.png" />
+    <BitmapImage x:Key="RedPinImage" UriSource="/Assets/Elements/DecipheringMachine/RedPin.png" />
+    <BitmapImage x:Key="YellowPinImage" UriSource="/Assets/Elements/DecipheringMachine/YellowPin.png" />
+    <BitmapImage x:Key="GreenPinImage" UriSource="/Assets/Elements/DecipheringMachine/GreenPin.png" />
+    <BitmapImage x:Key="WhitePinImage" UriSource="/Assets/Elements/DecipheringMachine/WhitePin.png" />
+    <BitmapImage x:Key="OrangePinImage" UriSource="/Assets/Elements/DecipheringMachine/OrangePin.png" />
+    <BitmapImage x:Key="ColourPinEmptyImage" UriSource="/Assets/Elements/DecipheringMachine/ColourPin_Empty.png" />
+    <BitmapImage x:Key="CluePinEmptyImage" UriSource="/Assets/Elements/DecipheringMachine/CluePin_Empty.png" />
+    <BitmapImage x:Key="WhiteCluePinImage" UriSource="/Assets/Elements/DecipheringMachine/WhiteCluePin.png" />
+    <BitmapImage x:Key="BlackCluePinImage" UriSource="/Assets/Elements/DecipheringMachine/BlackCluePin.png" />
+
     <!-- ============================ Colors ============================ -->
 
     <!-- Ink on parchment (inside the fields) -->

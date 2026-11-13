@@ -447,4 +447,10 @@
   <data name="ErrorNotification_ErrorJoiningRoomGiveRoomCode" xml:space="preserve">
     <value>Hubo un error al tratar de unirte directamente a la sala, intenta unirte con este código:</value>
   </data>
+  <data name="MatchTries_RemainingTries" xml:space="preserve">
+    <value>Intentos restantes:</value>
+  </data>
+  <data name="MatchTries_PinColours" xml:space="preserve">
+    <value>Colores</value>
+  </data>
 </root>

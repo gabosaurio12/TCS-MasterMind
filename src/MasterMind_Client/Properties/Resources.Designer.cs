@@ -556,6 +556,24 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colores.
+        /// </summary>
+        public static string MatchTries_PinColours {
+            get {
+                return ResourceManager.GetString("MatchTries_PinColours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intentos restantes:.
+        /// </summary>
+        public static string MatchTries_RemainingTries {
+            get {
+                return ResourceManager.GetString("MatchTries_RemainingTries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Escribe tu nueva contraseña.
         /// </summary>
         public static string NewPasswordModal_Title {
