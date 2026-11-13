@@ -43,8 +43,7 @@
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Image Source="{DynamicResource OkButtonImage}" Stretch="Fill"/>
-                            <TextBlock Text="OK" FontFamily="{StaticResource Elite}" FontSize="32" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="{DynamicResource OkButtonImage}" Stretch="Fill" Margin="-60,35,60,-35"/>
                         </Grid>
                     </ControlTemplate>
                 </Button.Template>
