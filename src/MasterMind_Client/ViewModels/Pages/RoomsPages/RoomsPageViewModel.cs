@@ -35,7 +35,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             this.dialogService = dialogService;
             Rooms = new ObservableCollection<MatchRoomViewModel>();
             JoinCommand = new RelayCommand(_ => Join());
-            CodeCommand = new RelayCommand(_ => { });
+            CodeCommand = new RelayCommand(_ => OpenRoomCodeModal());
             CreateCommand = new RelayCommand(_ => NavigateTo("Pages/RoomsPages/CreateRoomPage.xaml"));
             BackCommand = new RelayCommand(_ => NavigateTo("Pages/MainPage.xaml"));
             LoadRooms();
@@ -51,19 +51,19 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     Rooms.Add(new MatchRoomViewModel(room));
                 }
             }
-            catch (FaultException<RoomService.ErrorMessage> faultException)
+            catch (FaultException<ErrorMessage> faultException)
             {
-                logger.WarnFormat("The server rejected the room list request: {0}", faultException.Detail.Message);
+                logger.WarnFormat(faultException.Detail.Message);
                 ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
-                logger.Error("Server fault while loading rooms", faultException);
+                logger.Error(faultException);
                 ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
-                logger.Error("Communication failure while loading rooms", communicationException);
+                logger.Error(communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
         }
@@ -79,7 +79,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
                     break;
                 default:
-                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
+                    logger.WarnFormat(errorDetail);
                     dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                     break;
             }
@@ -106,22 +106,33 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     dialogService.ShowError(GetJoinErrorMessage(result));
                 }
             }
-            catch (FaultException<RoomService.ErrorMessage> faultException)
+            catch (FaultException<ErrorMessage> faultException)
             {
-                logger.WarnFormat("The server rejected the join request: {0}", faultException.Detail.Message);
+                logger.WarnFormat(faultException.Detail.Message);
                 ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
-                logger.Error("Server fault during join", faultException);
+                logger.Error(faultException);
                 ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
-                logger.Error("Communication failure during join", communicationException);
+                logger.Error(communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
             
+        }
+
+        private void OpenRoomCodeModal()
+        {
+            dialogService.ShowPrivateRoomCode(room => NavigateToRoom(room));
+        }
+
+        private void NavigateToRoom(Room room)
+        {
+            var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.RoomId}", UriKind.Relative);
+            navigationService.Navigate(uri);
         }
 
         private static string GetJoinErrorMessage(string result)

@@ -1,5 +1,6 @@
 using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Modals;
 using System;
 using System.Windows;
@@ -57,6 +58,20 @@ namespace MasterMind_Client.ViewModels.Services
             {
                 verificationSucceded?.Invoke(player);
                 modal.Close();
+            };
+            modal.Show();
+        }
+
+        public void ShowPrivateRoomCode(Action<Room> roomJoined)
+        {
+            var modal = new PrivateRoomCodeModal();
+            var viewModel = new PrivateRoomCodeViewModel(this);
+            modal.DataContext = viewModel;
+            viewModel.CloseRequested += (sender, e) => modal.Close();
+            viewModel.RoomJoined += (sender, room) =>
+            {
+                modal.Close();
+                roomJoined?.Invoke(room);
             };
             modal.Show();
         }

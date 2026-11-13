@@ -142,20 +142,29 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hubo un error al tratar de unirte directamente a la sala, intenta unirte con este código:.
+        /// </summary>
+        public static string ErrorNotification_ErrorJoiningRoomGiveRoomCode {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorJoiningRoomGiveRoomCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hubo un error al eliminar al amigo. Intenta de nuevo más tarde..
+        /// </summary>
+        public static string ErrorNotification_ErrorRemovingFriend {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorRemovingFriend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hubo un error al enviar la solicitud de amistad. Intenta de nuevo más tarde.
         /// </summary>
         public static string ErrorNotification_ErrorSendingFriendRequest {
             get {
                 return ResourceManager.GetString("ErrorNotification_ErrorSendingFriendRequest", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to There was an error removing the friend. Try again later..
-        /// </summary>
-        public static string ErrorNotification_ErrorRemovingFriend {
-            get {
-                return ResourceManager.GetString("ErrorNotification_ErrorRemovingFriend", resourceCulture);
             }
         }
         
@@ -835,20 +844,20 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ¡Amigo eliminado con éxito!.
+        /// </summary>
+        public static string SuccessNotification_FriendRemoved {
+            get {
+                return ResourceManager.GetString("SuccessNotification_FriendRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ¡La solicitud de amistad fue enviada con éxito!.
         /// </summary>
         public static string SuccessNotification_FriendRequestSent {
             get {
                 return ResourceManager.GetString("SuccessNotification_FriendRequestSent", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Friend removed successfully!.
-        /// </summary>
-        public static string SuccessNotification_FriendRemoved {
-            get {
-                return ResourceManager.GetString("SuccessNotification_FriendRemoved", resourceCulture);
             }
         }
         
