@@ -227,6 +227,25 @@ namespace MasterMind_Server.Tests
             Assert.That(result, Is.EqualTo(RoomResult.Error.ToString()));
         }
 
+        [Test]
+        public void TestGetRoomByCodeSuccess()
+        {
+            Room room = BuildRoom(roomOwner, TestDataFactory.PrivatePrivacy);
+            RoomCreationResult createdRoom = roomService.CreateRoom(room);
+
+            Room result = roomService.GetRoomByCode(createdRoom.Room.RoomCode);
+
+            Assert.That(result.RoomId, Is.EqualTo(createdRoom.Room.RoomId));
+        }
+
+        [Test]
+        public void TestGetRoomByCodeNotFoundReturnsEmptyRoom()
+        {
+            Room result = roomService.GetRoomByCode("000000");
+
+            Assert.That(result.RoomId, Is.EqualTo(0));
+        }
+
         private Room BuildRoom(PlayerEntity owner, string privacy)
         {
             return new Room

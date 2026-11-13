@@ -444,4 +444,7 @@
   <data name="ErrorNotification_ErrorRemovingFriend" xml:space="preserve">
     <value>Hubo un error al eliminar al amigo. Intenta de nuevo más tarde.</value>
   </data>
+  <data name="ErrorNotification_ErrorJoiningRoomGiveRoomCode" xml:space="preserve">
+    <value>Hubo un error al tratar de unirte directamente a la sala, intenta unirte con este código:</value>
+  </data>
 </root>

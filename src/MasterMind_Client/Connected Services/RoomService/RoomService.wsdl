@@ -91,6 +91,15 @@
   <wsdl:message name="IRoomService_GetRoomById_ErrorMessageFault_FaultMessage">
     <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q6:ErrorMessage" />
   </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomByCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoomByCode" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomByCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRoomByCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRoomService_GetRoomByCode_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q7:ErrorMessage" />
+  </wsdl:message>
   <wsdl:portType name="IRoomService">
     <wsdl:operation name="GetPublicRooms">
       <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/GetPublicRooms" message="tns:IRoomService_GetPublicRooms_InputMessage" />
@@ -121,6 +130,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/GetRoomById" message="tns:IRoomService_GetRoomById_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/GetRoomByIdResponse" message="tns:IRoomService_GetRoomById_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/GetRoomByIdErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_GetRoomById_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomByCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRoomService/GetRoomByCode" message="tns:IRoomService_GetRoomByCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRoomService/GetRoomByCodeResponse" message="tns:IRoomService_GetRoomByCode_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IRoomService/GetRoomByCodeErrorMessageFault" name="ErrorMessageFault" message="tns:IRoomService_GetRoomByCode_ErrorMessageFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IRoomService" type="tns:IRoomService">
@@ -188,6 +202,18 @@
     </wsdl:operation>
     <wsdl:operation name="GetRoomById">
       <soap12:operation soapAction="http://tempuri.org/IRoomService/GetRoomById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoomByCode">
+      <soap12:operation soapAction="http://tempuri.org/IRoomService/GetRoomByCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

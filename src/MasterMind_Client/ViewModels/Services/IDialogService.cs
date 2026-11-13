@@ -1,4 +1,5 @@
 using MasterMind_Client.PlayerService;
+using MasterMind_Client.RoomService;
 using System;
 
 namespace MasterMind_Client.ViewModels.Services
@@ -12,6 +13,8 @@ namespace MasterMind_Client.ViewModels.Services
         void ShowSuccess(string message, Action modalClosed = null);
 
         void ShowVerificationCode(string username, Action<Player> verificationSucceded);
+
+        void ShowPrivateRoomCode(Action<Room> roomJoined);
 
         void ShowChangePassword();
 
