@@ -727,6 +727,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Falta {0}s para comenzar.
+        /// </summary>
+        public static string RoomPage_GameStarting {
+            get {
+                return ResourceManager.GetString("RoomPage_GameStarting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Listo.
         /// </summary>
         public static string RoomPage_Ready {

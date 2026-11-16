@@ -36,14 +36,14 @@
         <!-- Center: Deciphering Machine & Board -->
         <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="950" Height="900">
             <!-- Machine Body Without OK Button -->
-            <Image Source="{DynamicResource DecipheringMachineWithoutOkImage}" Stretch="Fill"/>
+            <Image Source="{DynamicResource DecipheringMachineWithoutOkImage}" Stretch="Fill" Margin="0,-39,0,-62"/>
 
             <!-- OK Button (Interactive) -->
-            <Button Command="{Binding TryCommand}" Width="120" Height="120" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,55,85,0" Cursor="Hand">
+            <Button Command="{Binding TryCommand}" Width="120" Height="120" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,66,147,0" Cursor="Hand">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Image Source="{DynamicResource OkButtonImage}" Stretch="Fill" Margin="-60,35,60,-35"/>
+                            <Image Source="{DynamicResource OkButtonImage}" Stretch="Fill" Margin="0,0,0,0"/>
                         </Grid>
                     </ControlTemplate>
                 </Button.Template>
@@ -68,7 +68,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Width="40" Height="40" Margin="6" Background="Transparent">
+                                        <Border Width="20" Height="20" Margin="5" Background="Transparent">
                                             <Image Source="{Binding ClueImageSource}" Stretch="Uniform"/>
                                         </Border>
                                     </DataTemplate>
@@ -84,7 +84,8 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Command="{Binding PlacePinCommand}" Width="90" Height="90" Margin="8" Background="Transparent" BorderThickness="0" Cursor="Hand">
+                                        <Button Command="{Binding PlacePinCommand}" Width="70" Height="70" Margin="5" Background="Transparent"
+                                                BorderThickness="0" Cursor="Hand">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
                                                     <Grid>

@@ -1,4 +1,5 @@
 ﻿using MasterMind_Client.ViewModels.Pages.RoomsPages;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,6 +15,7 @@ namespace MasterMind_Client.Pages.RoomsPages
         {
             InitializeComponent();
             Loaded += RoomPage_Loaded;
+            Unloaded += RoomPage_Unloaded;
             ChatTxt.TargetUpdated += ChatTxt_TargetUpdated;
         }
 
@@ -30,6 +32,11 @@ namespace MasterMind_Client.Pages.RoomsPages
             {
                 DataContext = new RoomPageViewModel(uri, AppServices.NavigationService, AppServices.DialogService);
             }
+        }
+
+        private void RoomPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            (DataContext as IDisposable)?.Dispose();
         }
     }
 }

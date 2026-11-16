@@ -39,7 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ViewModels\Pages\MatchPages\MatchTriesViewModel.cs" />
-
     <Reference Include="BCrypt-Net-Next, Version=4.2.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>packages\BCrypt.Net-Next.4.2.0\lib\net472\BCrypt-Net-Next.dll</HintPath>
     </Reference>
@@ -233,7 +232,6 @@
     <Reference Include="XAMLMarkupExtensions, Version=2.1.3.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
       <HintPath>packages\XAMLMarkupExtensions.2.1.3\lib\net472\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
-  
     <Resource Include="Assets\Backgrounds\Match_Background.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\Counter.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\DecipheringMachine_Empty_WithoutOk.png" />
@@ -249,7 +247,6 @@
     <Resource Include="Assets\Elements\DecipheringMachine\CluePin_Empty.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\WhiteCluePin.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\BlackCluePin.png" />
-
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -309,15 +306,6 @@
     </Compile>
     <Compile Include="Pages\MatchPages\MatchTriesPage.xaml.cs">
       <DependentUpon>MatchTriesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MatchPages\UserControls\BoardUserControl.xaml.cs">
-      <DependentUpon>BoardUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MatchPages\UserControls\CodeTryUserControl.xaml.cs">
-      <DependentUpon>CodeTryUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MatchPages\UserControls\PinsUserControl.xaml.cs">
-      <DependentUpon>PinsUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PagesUserControls\MatchRoomUserControl.xaml.cs">
       <DependentUpon>MatchRoomUserControl.xaml</DependentUpon>
@@ -440,18 +428,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MatchPages\MatchTriesPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MatchPages\UserControls\BoardUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MatchPages\UserControls\CodeTryUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MatchPages\UserControls\PinsUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

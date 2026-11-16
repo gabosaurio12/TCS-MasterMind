@@ -9,10 +9,11 @@ using System;
 using System.ServiceModel;
 using System.Web;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 {
-    public class RoomPageViewModel : ViewModelBase, ILobbyServiceCallback
+    public class RoomPageViewModel : ViewModelBase, ILobbyServiceCallback, IDisposable
     {
         private const string MessageSentResult = "MessageSent";
         private const string InappropriateVocabularyResult = "InappropriateVocabulary";
@@ -51,6 +52,28 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             private set => SetProperty(ref isReady, value);
         }
 
+        public bool IsCountdownActive
+        {
+            get => isCountdownActive;
+            private set => SetProperty(ref isCountdownActive, value);
+        }
+
+        public int CountdownTime
+        {
+            get => countdownTime;
+            private set
+            {
+                SetProperty(ref countdownTime, value);
+                CountdownText = string.Format(Properties.Resources.RoomPage_GameStarting, value);
+            }
+        }
+
+        public string CountdownText
+        {
+            get => countdownText;
+            private set => SetProperty(ref countdownText, value);
+        }
+
         public string MessageText
         {
             get => messageText;
@@ -83,6 +106,13 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
 
+        private const int CountdownDuration = 5;
+
+        private bool isCountdownActive;
+        private int countdownTime;
+        private string countdownText = string.Empty;
+        private DispatcherTimer countdownTimer;
+
         private readonly RoomServiceClient roomService = new RoomServiceClient();
         private readonly LobbyServiceClient lobbyService;
 
@@ -94,10 +124,16 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             InstanceContext instanceContext = new InstanceContext(this);
             lobbyService = new LobbyServiceClient(instanceContext);
 
-            ReadyCommand = new RelayCommand(_ => SetReady());
-            UnreadyCommand = new RelayCommand(_ => SetUnready());
+            ReadyCommand = new RelayCommand(_ => { SetReady(); MaybeStartCountdown(); });
+            UnreadyCommand = new RelayCommand(_ => { SetUnready(); StopCountdown(); });
             EscapeCommand = new RelayCommand(_ => ExecuteEscapeCommand());
-            SendCommand = new RelayCommand(_ => SendMessage(), _ => HasMessageText());
+            SendCommand = new RelayCommand(_ => SendMessage(), _ => HasMessageText() && !IsCountdownActive);
+
+            countdownTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            countdownTimer.Tick += CountdownTimer_Tick;
 
             InitializeFromUri(uri);
         }
@@ -385,8 +421,9 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private void ExecuteEscapeCommand()
         {
+            StopCountdown();
             SendEscapeToServer();
-            NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+            NavigateTo(RoomsPageRoute);
         }
 
         private PlayerSlotViewModel GetCurrentPlayerSlot()
@@ -434,15 +471,18 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     if (status.Status.Equals("Ready"))
                     {
                         SetOpponentReady();
+                        MaybeStartCountdown();
                     }
                     else if (status.Status.Equals("NotReady"))
                     {
+                        StopCountdown();
                         SetPlayers(room);
                         SetOpponentUnready();
                     }
                     else if (status.Status.Equals("Escaped"))
                     {
                         SetPlayersEscaped(room, status);
+                        StopCountdown();
                     }
                     else
                     {
@@ -451,5 +491,48 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 }
             });
         }
+
+        private void CountdownTimer_Tick(object sender, EventArgs e)
+        {
+            if (CountdownTime > 0)
+            {
+                CountdownTime--;
+            }
+            else
+            {
+                countdownTimer.Stop();
+                IsCountdownActive = false;
+                NavigateToGamePage();
+            }
+        }
+
+        private void MaybeStartCountdown()
+        {
+            if (PlayerOne.IsReady && PlayerTwo.IsReady && !IsCountdownActive)
+            {
+                CountdownTime = CountdownDuration;
+                IsCountdownActive = true;
+                countdownTimer.Start();
+            }
+        }
+
+        private void StopCountdown()
+        {
+            IsCountdownActive = false;
+            countdownTimer.Stop();
+            CountdownTime = CountdownDuration;
+        }
+
+        private void NavigateToGamePage()
+        {
+            navigationService.Navigate(new Uri("Pages/MatchPages/MatchTriesPage.xaml", UriKind.Relative));
+        }
+
+        public void Dispose()
+        {
+            countdownTimer.Stop();
+            countdownTimer.Tick -= CountdownTimer_Tick;
+        }
+
     }
 }

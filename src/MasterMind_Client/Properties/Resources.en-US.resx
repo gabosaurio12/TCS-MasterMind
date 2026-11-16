@@ -375,6 +375,9 @@
   <data name="RoomPage_Unready" xml:space="preserve">
     <value>Unready</value>
   </data>
+  <data name="RoomPage_GameStarting" xml:space="preserve">
+    <value>Starting in {0}s</value>
+  </data>
   <data name="LoginPage_RememberLogin" xml:space="preserve">
     <value>Remember Login?</value>
   </data>

@@ -131,4 +131,4 @@
 
     <!-- Text cursor inside the fields -->
     <SolidColorBrush x:Key="CaretInkBrush" Color="#3B2F1E" />
-</ResourceDictionary>
+</ResourceDictionary>
