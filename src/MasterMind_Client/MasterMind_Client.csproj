@@ -262,6 +262,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\AvatarService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="CurrentPlayer.cs" />
     <Compile Include="Enums\ServerMessages.cs" />
     <Compile Include="Modals\ChangePasswordModal.xaml.cs">
@@ -337,6 +342,8 @@
     </Compile>
     <Compile Include="Helpers\UtilsUI.cs" />
     <Compile Include="Helpers\PasswordValidator.cs" />
+    <Compile Include="Helpers\AvatarImageCompressor.cs" />
+    <Compile Include="Helpers\AvatarCompressionException.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
@@ -603,6 +610,22 @@
     <None Include="Connected Services\PlayerService\MasterMind_Client.PlayerService.PlayerRecords.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\AvatarService\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AvatarService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AvatarService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AvatarService\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AvatarService\AvatarService.wsdl" />
+    <None Include="Connected Services\AvatarService\MasterMind_Client.AvatarService.AvatarImage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PlayerService\PlayerService.wsdl" />
     <None Include="Connected Services\RoomService\item.xsd">
       <SubType>Designer</SubType>
@@ -651,6 +674,13 @@
   <ItemGroup>
     <Resource Include="Assets\Elements\DecipheringMachine.png" />
     <None Include="Connected Services\PlayerService\item.disco" />
+    <None Include="Connected Services\AvatarService\item.disco" />
+    <None Include="Connected Services\AvatarService\configuration91.svcinfo" />
+    <None Include="Connected Services\AvatarService\configuration.svcinfo" />
+    <None Include="Connected Services\AvatarService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Connected Services\PlayerService\configuration91.svcinfo" />
     <None Include="Connected Services\PlayerService\configuration.svcinfo" />
     <None Include="Connected Services\PlayerService\Reference.svcmap">
@@ -709,6 +739,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\CodeService\" />
+    <WCFMetadataStorage Include="Connected Services\AvatarService\" />
     <WCFMetadataStorage Include="Connected Services\FriendsService\" />
     <WCFMetadataStorage Include="Connected Services\LobbyService\" />
     <WCFMetadataStorage Include="Connected Services\PlayerService\" />
