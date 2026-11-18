@@ -46,7 +46,7 @@ namespace MasterMind_Server.Repositories
 
                 return friends;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -116,7 +116,7 @@ namespace MasterMind_Server.Repositories
 
                 return friends;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -223,7 +223,7 @@ namespace MasterMind_Server.Repositories
 
                 return request;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -261,7 +261,7 @@ namespace MasterMind_Server.Repositories
 
                 return request;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -298,7 +298,7 @@ namespace MasterMind_Server.Repositories
 
                 return request;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -350,7 +350,7 @@ namespace MasterMind_Server.Repositories
 
                 return RepositoriesMessages.Error.ToString();
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -378,7 +378,7 @@ namespace MasterMind_Server.Repositories
 
                 return RepositoriesMessages.Error.ToString();
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -401,7 +401,7 @@ namespace MasterMind_Server.Repositories
 
                 return string.Empty;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -428,7 +428,7 @@ namespace MasterMind_Server.Repositories
 
                 return RepositoriesMessages.Error.ToString();
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -465,7 +465,7 @@ namespace MasterMind_Server.Repositories
 
                 return RepositoriesMessages.Error.ToString();
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }
@@ -479,12 +479,11 @@ namespace MasterMind_Server.Repositories
                     friendship => friendship.addressee_id == playerId ||
                     friendship.requester_id == playerId).ToList();
 
-                List<Contracts.Friendship> friendships = new List<Contracts.Friendship>();
-                friendships = GetFriendshipsFromEntities(friendshipsEntities);
+                List<Contracts.Friendship> friendships = GetFriendshipsFromEntities(friendshipsEntities);
 
                 return friendships;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
                 throw;
             }

@@ -31,9 +31,8 @@ namespace MasterMind_Server.Repositories
 
                 return validationResult;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -74,9 +73,8 @@ namespace MasterMind_Server.Repositories
 
                 return player;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -89,9 +87,8 @@ namespace MasterMind_Server.Repositories
 
                 return player;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -124,9 +121,8 @@ namespace MasterMind_Server.Repositories
 
                 return null;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -134,10 +130,11 @@ namespace MasterMind_Server.Repositories
         public string UpdatePlayer(Player player)
         {
             var formerPlayer = GetPlayerById(player.player_id);
-            string validationResult = ValidateUpdateData(player, formerPlayer.player_id);
+            string validationResult = RepositoriesMessages.Error.ToString();
 
             if (formerPlayer != null)
             {
+                validationResult = ValidateUpdateData(player, formerPlayer.player_id);
                 if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
                 {
                     formerPlayer.username = player.username;
@@ -148,9 +145,8 @@ namespace MasterMind_Server.Repositories
                         Context.SaveChanges();
                         return RepositoriesMessages.Success.ToString();
                     }
-                    catch (EntityException ex)
+                    catch (EntityException)
                     {
-                        logger.Error(ex);
                         throw;
                     }
                 }
@@ -179,9 +175,8 @@ namespace MasterMind_Server.Repositories
 
                 return RepositoriesMessages.PlayerNotFound.ToString();
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -219,9 +214,8 @@ namespace MasterMind_Server.Repositories
 
                 return result;
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -242,9 +236,8 @@ namespace MasterMind_Server.Repositories
                     r => r.reason == ReportReason.Cheating
                     .ToString());
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
 

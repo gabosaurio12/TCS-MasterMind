@@ -60,9 +60,8 @@ namespace MasterMind_Server.Repositories
 
                 return CreateResult(status, censoredMessage);
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
