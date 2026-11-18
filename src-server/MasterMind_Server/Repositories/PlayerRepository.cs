@@ -99,7 +99,7 @@ namespace MasterMind_Server.Repositories
         public string UpdatePlayer(Player player)
         {
             var formerPlayer = GetPlayerById(player.player_id);
-            string validationResult = RepositoriesMessages.Error.ToString();
+            string validationResult;
 
             if (formerPlayer != null)
             {
