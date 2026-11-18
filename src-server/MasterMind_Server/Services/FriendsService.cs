@@ -20,6 +20,7 @@ namespace MasterMind_Server.Services
 
         private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly FriendsRepository friendsRepository = new FriendsRepository();
+        private readonly PlayerRepository playerRepository = new PlayerRepository();
 
         public string AcceptFriendRequest(int requestId)
         {
@@ -27,7 +28,7 @@ namespace MasterMind_Server.Services
             {
                 var result = friendsRepository.AcceptFriendRequest(requestId);
 
-                if (result.Equals(RepositoriesMessages.Success.ToString(), StringComparison.OrdinalIgnoreCase))
+                if (IsSuccess(result))
                 {
                     var requesterUsername = friendsRepository.GetRequesterUsernameByRequestId(requestId);
                     NotifyFriendshipStatusChanged(requesterUsername);
@@ -43,38 +44,56 @@ namespace MasterMind_Server.Services
             }
         }
 
+        private static bool IsSuccess(string result)
+        {
+            return RepositoriesMessages.Success.ToString().Equals(result, StringComparison.OrdinalIgnoreCase);
+        }
+
         private void NotifyFriendshipStatusChanged(string username)
         {
-            if (!string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username) || !friendsClientsByModal.TryGetValue(username, out var callback))
             {
-                if (friendsClientsByModal.TryGetValue(username, out var callback))
-                {
-                    try
-                    {
-                        callback.OnFriendshipStatusChanged();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.WarnFormat(username, ex.Message);
-                        friendsClientsByModal.TryRemove(username, out _);
-                    }
-                }
+                return;
+            }
+
+            try
+            {
+                callback.OnFriendshipStatusChanged();
+            }
+            catch (Exception ex) when (ex is CommunicationException || ex is TimeoutException
+                || ex is ObjectDisposedException)
+            {
+                logger.WarnFormat("Callback for {0} failed: {1}", username, ex.Message);
+                RemoveSubscription(username, callback);
             }
         }
 
-        public void RegisterFriendsClient(int friendshipId, string username)
+        private static void RemoveSubscription(string username, IFriendsCallbackService callback)
         {
-            try
+            ((ICollection<KeyValuePair<string, IFriendsCallbackService>>)friendsClientsByModal)
+                .Remove(new KeyValuePair<string, IFriendsCallbackService>(username, callback));
+        }
+
+        public void Subscribe(string username)
+        {
+            var callback = OperationContext.Current?.GetCallbackChannel<IFriendsCallbackService>();
+            if (callback == null || string.IsNullOrWhiteSpace(username))
             {
-                var callback = OperationContext.Current?.GetCallbackChannel<IFriendsCallbackService>();
-                if (callback != null)
-                {
-                    friendsClientsByModal[username] = callback;
-                }
+                return;
             }
-            catch (Exception ex)
+
+            friendsClientsByModal[username] = callback;
+            var channel = OperationContext.Current.Channel;
+            channel.Closed += (sender, e) => RemoveSubscription(username, callback);
+            channel.Faulted += (sender, e) => RemoveSubscription(username, callback);
+        }
+
+        public void Unsubscribe(string username)
+        {
+            var callback = OperationContext.Current?.GetCallbackChannel<IFriendsCallbackService>();
+            if (callback != null && !string.IsNullOrWhiteSpace(username))
             {
-                logger.Error(ex);
+                RemoveSubscription(username, callback);
             }
         }
 
@@ -159,6 +178,11 @@ namespace MasterMind_Server.Services
             {
                 var result = friendsRepository.RemoveFriendship(addresseeUsername, requesterUsername);
 
+                if (IsSuccess(result))
+                {
+                    NotifyFriendshipStatusChanged(addresseeUsername);
+                }
+
                 return result;
             }
             catch (EntityException ex)
@@ -174,6 +198,11 @@ namespace MasterMind_Server.Services
             try
             {
                 var result = friendsRepository.SendFriendRequest(addresseeId, requesterId);
+
+                if (IsSuccess(result))
+                {
+                    NotifyFriendshipStatusChanged(playerRepository.GetPlayerById(addresseeId)?.username);
+                }
 
                 return result;
             }

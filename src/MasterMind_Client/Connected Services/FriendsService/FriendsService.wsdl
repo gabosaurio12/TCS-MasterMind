@@ -118,14 +118,23 @@
   <wsdl:message name="IFriendsService_RemoveFriendship_ErrorMessageFault_FaultMessage">
     <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q9:ErrorMessage" />
   </wsdl:message>
-  <wsdl:message name="IFriendsService_RegisterFriendsClient_InputMessage">
-    <wsdl:part name="parameters" element="tns:RegisterFriendsClient" />
+  <wsdl:message name="IFriendsService_Subscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
   </wsdl:message>
-  <wsdl:message name="IFriendsService_RegisterFriendsClient_OutputMessage">
-    <wsdl:part name="parameters" element="tns:RegisterFriendsClientResponse" />
+  <wsdl:message name="IFriendsService_Subscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
   </wsdl:message>
-  <wsdl:message name="IFriendsService_RegisterFriendsClient_ErrorMessageFault_FaultMessage">
+  <wsdl:message name="IFriendsService_Subscribe_ErrorMessageFault_FaultMessage">
     <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q10:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_Unsubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unsubscribe" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_Unsubscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendsService_Unsubscribe_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q11:ErrorMessage" />
   </wsdl:message>
   <wsdl:message name="IFriendsService_OnFriendshipStatusChanged_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:OnFriendshipStatusChanged" />
@@ -176,10 +185,15 @@
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/RemoveFriendshipResponse" message="tns:IFriendsService_RemoveFriendship_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/RemoveFriendshipErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_RemoveFriendship_ErrorMessageFault_FaultMessage" />
     </wsdl:operation>
-    <wsdl:operation name="RegisterFriendsClient">
-      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendsClient" message="tns:IFriendsService_RegisterFriendsClient_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendsClientResponse" message="tns:IFriendsService_RegisterFriendsClient_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/RegisterFriendsClientErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_RegisterFriendsClient_ErrorMessageFault_FaultMessage" />
+    <wsdl:operation name="Subscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/Subscribe" message="tns:IFriendsService_Subscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/SubscribeResponse" message="tns:IFriendsService_Subscribe_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/SubscribeErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_Subscribe_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendsService/Unsubscribe" message="tns:IFriendsService_Unsubscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/UnsubscribeResponse" message="tns:IFriendsService_Unsubscribe_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendsService/UnsubscribeErrorMessageFault" name="ErrorMessageFault" message="tns:IFriendsService_Unsubscribe_ErrorMessageFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="OnFriendshipStatusChanged">
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendsService/OnFriendshipStatusChanged" message="tns:IFriendsService_OnFriendshipStatusChanged_OutputCallbackMessage" />
@@ -296,8 +310,20 @@
         <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="RegisterFriendsClient">
-      <soap12:operation soapAction="http://tempuri.org/IFriendsService/RegisterFriendsClient" style="document" />
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <soap12:operation soapAction="http://tempuri.org/IFriendsService/Unsubscribe" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

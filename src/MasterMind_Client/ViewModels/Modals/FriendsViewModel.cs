@@ -12,7 +12,8 @@ using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Modals
 {
-    public class FriendsViewModel : ModalViewModelBase, IFriendsServiceCallback
+    [CallbackBehavior(UseSynchronizationContext = false)]
+    public class FriendsViewModel : ModalViewModelBase, IFriendsServiceCallback, IDisposable
     {
 
         private static readonly ILog logger = LogManager.GetLogger(typeof(FriendsViewModel));
@@ -27,6 +28,8 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private readonly FriendsServiceClient friendService;
 
+        private bool disposed;
+
         public FriendsViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
@@ -38,7 +41,7 @@ namespace MasterMind_Client.ViewModels.Modals
             CloseCommand = new RelayCommand(_ => RequestClose());
             FriendRequestsCommand = new RelayCommand(_ => OpenFriendRequests());
             LoadFriends();
-            RegisterFriendships();
+            Subscribe();
         }
 
         private void LoadFriends()
@@ -55,7 +58,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<ErrorMessage> faultException)
             {
-                logger.WarnFormat(faultException.Detail.Message);
+                logger.Error(faultException.Detail.Message);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
@@ -70,22 +73,15 @@ namespace MasterMind_Client.ViewModels.Modals
             }
         }
 
-        private void RegisterFriendships()
+        private void Subscribe()
         {
             try
             {
-                var friendships = friendService.GetAllFriendshipsAndRequests(CurrentPlayer.Instance.Id);
-                foreach (var friendship in friendships)
-                {
-
-                    friendService.RegisterFriendsClient(
-                        friendship.FriendshipId,
-                        CurrentPlayer.Instance.Username);
-                }
+                friendService.Subscribe(CurrentPlayer.Instance.Username);
             }
             catch (FaultException<ErrorMessage> faultException)
             {
-                logger.WarnFormat(faultException.Detail.Message);
+                logger.Error(faultException.Detail.Message);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
@@ -118,12 +114,46 @@ namespace MasterMind_Client.ViewModels.Modals
 
         public void OnFriendshipStatusChanged()
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke((Action)(() =>
             {
+                if (disposed)
+                {
+                    return;
+                }
+
                 ClearFriends();
                 LoadFriends();
-                RegisterFriendships();
-            });
+            }));
+        }
+
+        public void Dispose()
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            disposed = true;
+            foreach (var friendVm in Friends)
+            {
+                friendVm.Removed -= OnFriendRemoved;
+            }
+
+            CloseChannel();
+        }
+
+        private void CloseChannel()
+        {
+            try
+            {
+                friendService.Unsubscribe(CurrentPlayer.Instance.Username);
+                friendService.Close();
+            }
+            catch (Exception ex) when (ex is CommunicationException || ex is TimeoutException)
+            {
+                logger.Error(ex.Message);
+                friendService.Abort();
+            }
         }
 
         private void OnFriendRemoved(object sender, EventArgs e)
@@ -150,7 +180,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<FriendsService.ErrorMessage> faultException)
             {
-                logger.WarnFormat(faultException.Detail.Message);
+                logger.Error(faultException.Detail.Message);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)

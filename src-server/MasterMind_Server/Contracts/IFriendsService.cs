@@ -46,7 +46,11 @@ namespace MasterMind_Server.Contracts
 
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
-        void RegisterFriendsClient(int friendshipId, string username);
+        void Subscribe(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        void Unsubscribe(string username);
     }
 
     [DataContract]

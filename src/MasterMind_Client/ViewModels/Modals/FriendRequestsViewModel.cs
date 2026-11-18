@@ -5,12 +5,15 @@ using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
+using System;
 using System.Collections.ObjectModel;
 using System.ServiceModel;
+using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Modals
 {
-    public class FriendRequestsViewModel : ModalViewModelBase, IFriendsServiceCallback
+    [CallbackBehavior(UseSynchronizationContext = false)]
+    public class FriendRequestsViewModel : ModalViewModelBase, IFriendsServiceCallback, IDisposable
     {
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(FriendRequestsViewModel));
@@ -21,7 +24,7 @@ namespace MasterMind_Client.ViewModels.Modals
         public RelayCommand CloseCommand { get; }
         private readonly IDialogService dialogService;
         private readonly FriendsServiceClient friendService;
-
+        private bool disposed;
 
         public FriendRequestsViewModel(IDialogService dialogService)
         {
@@ -35,15 +38,60 @@ namespace MasterMind_Client.ViewModels.Modals
             CloseCommand = new RelayCommand(_ => Close());
 
             LoadRequests();
-            RegisterCallback(CurrentPlayer.Instance.Id);
+            Subscribe();
         }
 
         private void LoadRequests()
         {
-            var requests = friendService.GetFriendRequests(CurrentPlayer.Instance.Id);
-            foreach (var request in requests)
+            ExecuteSafely(() =>
             {
-                AddRequest(request);
+                try
+                {
+                    var requests = friendService.GetFriendRequests(CurrentPlayer.Instance.Id);
+                    foreach (var request in requests)
+                    {
+                        AddRequest(request);
+                    }
+                }
+                catch (FaultException<FriendsService.ErrorMessage> faultException)
+                {
+                    logger.Error(faultException.Detail.Message);
+                    dialogService.ShowServerError(faultException.Detail.Message);
+                }
+                catch (FaultException faultException)
+                {
+                    logger.Error(faultException);
+                    dialogService.ShowServerError(faultException.Message);
+                }
+                catch (CommunicationException communicationException)
+                {
+                    logger.Error(communicationException);
+                    dialogService.ShowServerError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                }
+
+            });
+        }
+
+        private void ExecuteSafely(Action serviceCall)
+        {
+            try
+            {
+                serviceCall();
+            }
+            catch (FaultException<FriendsService.ErrorMessage> faultException)
+            {
+                logger.Error(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error(faultException);
+                dialogService.ShowServerError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error(communicationException);
+                dialogService.ShowServerError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
         }
 
@@ -68,14 +116,20 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private void OnRequestAccepted(object sender, Friendship request)
         {
-            friendService.AcceptFriendRequest(request.FriendshipId);
-            Requests.Remove((FriendRequestViewModel)sender);
+            ExecuteSafely(() =>
+            {
+                friendService.AcceptFriendRequest(request.FriendshipId);
+                Requests.Remove((FriendRequestViewModel)sender);
+            });
         }
 
         private void OnRequestRejected(object sender, Friendship request)
         {
-            friendService.RejectFriendRequest(request.FriendshipId);
-            Requests.Remove((FriendRequestViewModel)sender);
+            ExecuteSafely(() =>
+            {
+                friendService.RejectFriendRequest(request.FriendshipId);
+                Requests.Remove((FriendRequestViewModel)sender);
+            });
         }
 
         private void SendFriendRequest()
@@ -92,8 +146,6 @@ namespace MasterMind_Client.ViewModels.Modals
                     if (result.Equals(ServerMessages.Success.ToString()))
                     {
                         dialogService.ShowSuccess(Properties.Resources.SuccessNotification_FriendRequestSent);
-
-                        RegisterCallback(addressee.PlayerId);
                     }
                     else if (result.Equals(ServerMessages.Pending.ToString()))
                     {
@@ -110,7 +162,7 @@ namespace MasterMind_Client.ViewModels.Modals
                 }
                 catch (FaultException<FriendsService.ErrorMessage> faultException)
                 {
-                    logger.WarnFormat(faultException.Detail.Message);
+                    logger.Error(faultException.Detail.Message);
                     dialogService.ShowServerError(faultException.Detail.Message);
                 }
                 catch (FaultException faultException)
@@ -130,34 +182,9 @@ namespace MasterMind_Client.ViewModels.Modals
             }
         }
 
-        private async void RegisterCallback(int addresseeId)
+        private void Subscribe()
         {
-            try
-            {
-                var friendship = friendService.GetFriendRequest(addresseeId, CurrentPlayer.Instance.Id);
-
-                if (friendship.FriendshipId > 0)
-                {
-                    await friendService.RegisterFriendsClientAsync(
-                        friendship.FriendshipId,
-                        CurrentPlayer.Instance.Username);
-                }
-            }
-            catch (FaultException<FriendsService.ErrorMessage> faultException)
-            {
-                logger.WarnFormat(faultException.Detail.Message);
-                dialogService.ShowServerError(faultException.Detail.Message);
-            }
-            catch (FaultException faultException)
-            {
-                logger.Error(faultException);
-                dialogService.ShowServerError(faultException.Message);
-            }
-            catch (CommunicationException communicationException)
-            {
-                logger.Error(communicationException);
-                dialogService.ShowServerError(Properties.Resources.ErrorNotification_ServerDisconnected);
-            }
+            ExecuteSafely(() => friendService.Subscribe(CurrentPlayer.Instance.Username));
         }
 
         private void Close()
@@ -168,8 +195,47 @@ namespace MasterMind_Client.ViewModels.Modals
 
         public void OnFriendshipStatusChanged()
         {
-            ClearRequests();
-            LoadRequests();
+            Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                if (disposed)
+                {
+                    return;
+                }
+
+                ClearRequests();
+                LoadRequests();
+            }));
+        }
+
+        public void Dispose()
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            disposed = true;
+            foreach (var request in Requests)
+            {
+                request.Accepted -= OnRequestAccepted;
+                request.Rejected -= OnRequestRejected;
+            }
+
+            CloseChannel();
+        }
+
+        private void CloseChannel()
+        {
+            try
+            {
+                friendService.Unsubscribe(CurrentPlayer.Instance.Username);
+                friendService.Close();
+            }
+            catch (Exception ex) when (ex is CommunicationException || ex is TimeoutException)
+            {
+                logger.Error(ex.Message);
+                friendService.Abort();
+            }
         }
     }
 }
