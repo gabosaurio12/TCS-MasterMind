@@ -30,21 +30,24 @@ namespace MasterMind_Client.Helpers
                 return currentPlayer.Avatar;
             }
 
-            if (string.IsNullOrEmpty(currentPlayer.AvatarPath))
+            var avatar = await GetAvatarAsync(currentPlayer.Id, currentPlayer.AvatarPath);
+
+            if (avatar != GetDefaultAvatar())
             {
-                return GetDefaultAvatar();
+                currentPlayer.SetAvatar(avatar, currentPlayer.AvatarPath);
             }
-
-            var avatar = await RequestAvatarAsync(currentPlayer.Id);
-
-            if (avatar == null)
-            {
-                return GetDefaultAvatar();
-            }
-
-            currentPlayer.SetAvatar(avatar, currentPlayer.AvatarPath);
 
             return avatar;
+        }
+
+        public static async Task<ImageSource> GetAvatarAsync(int playerId, string avatarPath)
+        {
+            if (string.IsNullOrEmpty(avatarPath))
+            {
+                return GetDefaultAvatar();
+            }
+
+            return await RequestAvatarAsync(playerId) ?? GetDefaultAvatar();
         }
 
         private static async Task<ImageSource> RequestAvatarAsync(int playerId)

@@ -276,13 +276,13 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             if (room.PlayerOneUsername == CurrentPlayer.Instance.Username)
             {
-                PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
-                PlayerTwo = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerTwoUsername));
+                PlayerOne = CreateCurrentPlayerSlot();
+                PlayerTwo = CreateOpponentSlot(room.PlayerTwoUsername);
             }
             else
             {
-                PlayerTwo = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
-                PlayerOne = new PlayerSlotViewModel(GetOpponentUsername(room.PlayerOneUsername));
+                PlayerTwo = CreateCurrentPlayerSlot();
+                PlayerOne = CreateOpponentSlot(room.PlayerOneUsername);
             }
         }
 
@@ -290,46 +290,60 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             if (room.PlayerOneUsername == status.Username)
             {
-                PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
-                PlayerTwo = new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
+                PlayerOne = CreateCurrentPlayerSlot();
+                PlayerTwo = CreateEmptySlot();
             }
             else
             {
-                PlayerTwo = new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
-                PlayerOne = new PlayerSlotViewModel(CurrentPlayer.Instance.Username);
+                PlayerTwo = CreateEmptySlot();
+                PlayerOne = CreateCurrentPlayerSlot();
             }
         }
 
-        private string GetOpponentUsername(string username)
+        private static PlayerSlotViewModel CreateCurrentPlayerSlot()
+        {
+            var currentPlayer = CurrentPlayer.Instance;
+
+            return new PlayerSlotViewModel(currentPlayer.Username, currentPlayer.Id, currentPlayer.AvatarPath);
+        }
+
+        private static PlayerSlotViewModel CreateEmptySlot()
+        {
+            return new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
+        }
+
+        private PlayerSlotViewModel CreateOpponentSlot(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
             {
-                return Properties.Resources.RoomPage_EmptySlot;
+                return CreateEmptySlot();
             }
 
             try
             {
                 var playerService = new PlayerServiceClient();
                 var opponent = playerService.GetPlayerByUsername(username);
-                return opponent?.Username ?? Properties.Resources.RoomPage_EmptySlot;
+
+                return opponent == null
+                    ? CreateEmptySlot()
+                    : new PlayerSlotViewModel(opponent.Username, opponent.PlayerId, opponent.AvatarPath);
             }
             catch (FaultException<PlayerService.ErrorMessage> faultException)
             {
                 logger.WarnFormat("The server rejected the player lookup: {0}", faultException.Detail.Message);
                 ShowServerError(faultException.Detail.Message);
-                return Properties.Resources.RoomPage_EmptySlot;
             }
             catch (FaultException faultException)
             {
                 logger.Error("Server fault during player lookup", faultException);
                 ShowServerError(faultException.Message);
-                return Properties.Resources.RoomPage_EmptySlot;
             }
             catch (CommunicationException communicationException)
             {
                 logger.Error("Communication failure during player lookup", communicationException);
-                return Properties.Resources.RoomPage_EmptySlot;
             }
+
+            return CreateEmptySlot();
         }
 
         private void SetReady()

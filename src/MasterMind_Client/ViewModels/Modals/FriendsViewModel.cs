@@ -47,7 +47,7 @@ namespace MasterMind_Client.ViewModels.Modals
                 var friends = friendService.GetFriendships(CurrentPlayer.Instance.Id);
                 foreach (var friend in friends)
                 {
-                    var friendVm = new FriendViewModel(friend.Username);
+                    var friendVm = new FriendViewModel(friend);
                     friendVm.Removed += OnFriendRemoved;
                     Friends.Add(friendVm);
                 }
