@@ -42,41 +42,11 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             if (ValidateInput())
             {
-                var matchRoom = new Room
-                {
-                    Name = RoomName.Trim(),
-                    Gamemode = IsTimeTrial ? "TimeTrial" : "Tries",
-                    Difficulty = GetDifficulty(),
-                    PlayerOneUsername = CurrentPlayer.Instance.Username,
-                    RoomPrivacy = IsPrivate ? "Private" : "Public"
-                };
+                var matchRoom = GetRoomWithInput();
+
                 try
                 {
-                    var result = roomService.CreateRoom(matchRoom);
-                    if (result.Status.Equals("Success"))
-                    {
-                        dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
-
-                        var room = roomService.GetRoomByName(RoomName.Trim());
-                        if (room != null && room.RoomId > 0)
-                        {
-                            var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.RoomId}", UriKind.Relative);
-                            navigationService.Navigate(uri);
-                        } 
-                        else
-                        {
-                            dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
-                            NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
-                        }
-                    }
-                    else if (result.Status.Equals("RoomNameTaken"))
-                    {
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
-                    }
-                    else
-                    {
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_UnexpectedError);
-                    }
+                    CreateRoom(matchRoom);
                 }
                 catch (FaultException<ErrorMessage> faultException)
                 {
@@ -93,6 +63,47 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     logger.Error(communicationException);
                     dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                 }
+            }
+        }
+
+        private Room GetRoomWithInput()
+        {
+            return new Room
+            {
+                Name = RoomName.Trim(),
+                Gamemode = IsTimeTrial ? "TimeTrial" : "Tries",
+                Difficulty = GetDifficulty(),
+                PlayerOneUsername = CurrentPlayer.Instance.Username,
+                RoomPrivacy = IsPrivate ? "Private" : "Public"
+            };
+        }
+
+        private void CreateRoom(Room matchRoom)
+        {
+            var result = roomService.CreateRoom(matchRoom);
+            if (result.Status.Equals("Success"))
+            {
+                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
+
+                var room = roomService.GetRoomByName(RoomName.Trim());
+                if (room != null && room.RoomId > 0)
+                {
+                    var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.RoomId}", UriKind.Relative);
+                    navigationService.Navigate(uri);
+                }
+                else
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
+                    NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                }
+            }
+            else if (result.Status.Equals("RoomNameTaken"))
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
+            }
+            else
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_UnexpectedError);
             }
         }
 

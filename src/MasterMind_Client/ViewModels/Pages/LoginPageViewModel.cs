@@ -32,12 +32,12 @@ namespace MasterMind_Client.ViewModels.Pages
         {
             this.navigationService = navigationService;
             this.dialogService = dialogService;
-            LoginCommand = new RelayCommand(_ => Login());
+            LoginCommand = new RelayCommand(async _ => await Login());
             SignupCommand = new RelayCommand(_ => NavigateTo("Pages/SignupPage.xaml"));
             LanguageCommand = new RelayCommand(_ => ChangeLanguage());
         }
 
-        private async void Login()
+        private async Task Login()
         {
             var player = new Player
             {

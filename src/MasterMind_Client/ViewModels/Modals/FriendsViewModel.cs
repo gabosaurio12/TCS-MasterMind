@@ -13,7 +13,7 @@ using System.Windows;
 namespace MasterMind_Client.ViewModels.Modals
 {
     [CallbackBehavior(UseSynchronizationContext = false)]
-    public class FriendsViewModel : ModalViewModelBase, IFriendsServiceCallback, IDisposable
+    public class FriendsViewModel : ModalViewModelBase, IFriendsServiceCallback
     {
 
         private static readonly ILog logger = LogManager.GetLogger(typeof(FriendsViewModel));
@@ -58,7 +58,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<ErrorMessage> faultException)
             {
-                logger.Error(faultException.Detail.Message);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
@@ -81,7 +81,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<ErrorMessage> faultException)
             {
-                logger.Error(faultException.Detail.Message);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
@@ -151,7 +151,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (Exception ex) when (ex is CommunicationException || ex is TimeoutException)
             {
-                logger.Error(ex.Message);
+                logger.Error(ex);
                 friendService.Abort();
             }
         }
@@ -180,7 +180,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<FriendsService.ErrorMessage> faultException)
             {
-                logger.Error(faultException.Detail.Message);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
