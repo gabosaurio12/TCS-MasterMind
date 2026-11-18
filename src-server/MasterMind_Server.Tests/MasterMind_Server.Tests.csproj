@@ -96,8 +96,11 @@
     <Compile Include="TestSupport\TestDatabase.cs" />
     <Compile Include="TestSupport\LobbyServiceHost.cs" />
     <Compile Include="TestSupport\LobbyCallbackProbe.cs" />
+    <Compile Include="TestSupport\FriendsServiceHost.cs" />
+    <Compile Include="TestSupport\FriendsCallbackProbe.cs" />
     <Compile Include="PlayerServiceTests.cs" />
     <Compile Include="FriendsServiceTests.cs" />
+    <Compile Include="FriendsCallbackTests.cs" />
     <Compile Include="RoomServiceTests.cs" />
     <Compile Include="LobbyServiceTests.cs" />
     <Compile Include="CodeServiceTests.cs" />

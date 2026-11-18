@@ -1015,6 +1015,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Se envió un código de verificación a tu correo electrónico.
+        /// </summary>
+        public static string VerificationCodeModal_CodeSent {
+            get {
+                return ResourceManager.GetString("VerificationCodeModal_CodeSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reenviar código de verificación.
         /// </summary>
         public static string VerificationCodeModal_ResendCode {
