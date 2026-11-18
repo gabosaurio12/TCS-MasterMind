@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace MasterMind_Client.ViewModels.Modals
 {
-    public class PrivateRoomCodeViewModel : ModalViewModelBase, IDisposable
+    public class PrivateRoomCodeViewModel : ModalViewModelBase
     {
         private const int RoomCodeLength = 6;
         private const string SuccessResult = "Success";

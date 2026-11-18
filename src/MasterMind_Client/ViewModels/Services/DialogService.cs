@@ -18,9 +18,9 @@ namespace MasterMind_Client.ViewModels.Services
             modal.Show();
         }
 
-        public void ShowServerError(string errorMessage)
+        public void ShowServerError(string detailMessage)
         {
-            switch (errorMessage)
+            switch (detailMessage)
             {
                 case "DataBaseError":
                     ShowError(Properties.Resources.ErrorNotification_DatabaseError);

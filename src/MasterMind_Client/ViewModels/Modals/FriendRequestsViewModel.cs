@@ -13,7 +13,7 @@ using System.Windows;
 namespace MasterMind_Client.ViewModels.Modals
 {
     [CallbackBehavior(UseSynchronizationContext = false)]
-    public class FriendRequestsViewModel : ModalViewModelBase, IFriendsServiceCallback, IDisposable
+    public class FriendRequestsViewModel : ModalViewModelBase, IFriendsServiceCallback
     {
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(FriendRequestsViewModel));
@@ -55,7 +55,7 @@ namespace MasterMind_Client.ViewModels.Modals
                 }
                 catch (FaultException<FriendsService.ErrorMessage> faultException)
                 {
-                    logger.Error(faultException.Detail.Message);
+                    logger.Error(faultException);
                     dialogService.ShowServerError(faultException.Detail.Message);
                 }
                 catch (FaultException faultException)
@@ -80,7 +80,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<FriendsService.ErrorMessage> faultException)
             {
-                logger.Error(faultException.Detail.Message);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
@@ -162,7 +162,7 @@ namespace MasterMind_Client.ViewModels.Modals
                 }
                 catch (FaultException<FriendsService.ErrorMessage> faultException)
                 {
-                    logger.Error(faultException.Detail.Message);
+                    logger.Error(faultException);
                     dialogService.ShowServerError(faultException.Detail.Message);
                 }
                 catch (FaultException faultException)
@@ -233,7 +233,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (Exception ex) when (ex is CommunicationException || ex is TimeoutException)
             {
-                logger.Error(ex.Message);
+                logger.Error(ex);
                 friendService.Abort();
             }
         }
