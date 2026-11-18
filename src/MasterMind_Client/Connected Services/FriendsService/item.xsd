@@ -18,6 +18,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Player" nillable="true" type="tns:Player" />
+  <xs:complexType name="ArrayOfFriendship">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Friendship" nillable="true" type="tns:Friendship" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFriendship" nillable="true" type="tns:ArrayOfFriendship" />
   <xs:complexType name="Friendship">
     <xs:sequence>
       <xs:element minOccurs="0" name="AddresseeUsername" nillable="true" type="xs:string" />

@@ -1,5 +1,6 @@
 using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Modals;
 using Microsoft.Win32;
 using System;
@@ -20,9 +21,9 @@ namespace MasterMind_Client.ViewModels.Services
             modal.Show();
         }
 
-        public void ShowServerError(string errorMessage)
+        public void ShowServerError(string detailMessage)
         {
-            switch (errorMessage)
+            switch (detailMessage)
             {
                 case "DataBaseError":
                     ShowError(Properties.Resources.ErrorNotification_DatabaseError);
@@ -69,6 +70,20 @@ namespace MasterMind_Client.ViewModels.Services
             {
                 verificationSucceded?.Invoke(player);
                 modal.Close();
+            };
+            modal.Show();
+        }
+
+        public void ShowPrivateRoomCode(Action<Room> roomJoined)
+        {
+            var modal = new PrivateRoomCodeModal();
+            var viewModel = new PrivateRoomCodeViewModel(this);
+            modal.DataContext = viewModel;
+            viewModel.CloseRequested += (sender, e) => modal.Close();
+            viewModel.RoomJoined += (sender, room) =>
+            {
+                modal.Close();
+                roomJoined?.Invoke(room);
             };
             modal.Show();
         }

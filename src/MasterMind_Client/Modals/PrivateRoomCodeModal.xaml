@@ -1,0 +1,86 @@
+﻿<Window x:Class="MasterMind_Client.Modals.PrivateRoomCodeModal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MasterMind_Client.Modals"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        xmlns:p="clr-namespace:MasterMind_Client.Properties"
+        Title="{x:Static p:Resources.PrivateRoomCodeModal_Title}" Height="493" Width="660"
+        Background="{StaticResource ModalVerificationBgBrush}"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+    <!-- Margin keeps the content inside the metal frame of the panel -->
+    <Grid Margin="40,50,40,50">
+        <Viewbox Stretch="Uniform">
+            <StackPanel>
+
+                <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.PrivateRoomCodeModal_Title}"
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+                       FontFamily="{StaticResource Elite}" Foreground="{StaticResource CreamBrush}"
+                       FontSize="20" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
+                    <TextBox x:Name="CodeI0Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
+                             Width="65" Height="100" Margin="0"
+                             MaxLength="1"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             Text="{Binding CodeDigit0, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBox x:Name="CodeI1Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
+                             Width="65" Height="100" Margin="15,0"
+                             MaxLength="1"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             Text="{Binding CodeDigit1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBox x:Name="CodeI2Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
+                             Width="65" Height="100" Margin="0"
+                             MaxLength="1"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             Text="{Binding CodeDigit2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBox x:Name="CodeI3Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
+                             Width="65" Height="100" Margin="15,0"
+                             MaxLength="1"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             Text="{Binding CodeDigit3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBox x:Name="CodeI4Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
+                             Width="65" Height="100" Margin="0"
+                             MaxLength="1"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             Text="{Binding CodeDigit4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBox x:Name="CodeI5Txt" Style="{StaticResource MetalCodeTextBox}"
+                             FontFamily="{StaticResource Elite}" FontSize="52"
+                             Width="65" Height="100" Margin="15,0"
+                             MaxLength="1"
+                             TextChanged="CodeTxt_TextChanged" PreviewKeyDown="CodeTxt_PreviewKeyDown"
+                             Text="{Binding CodeDigit5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,56,0,0">
+                    <Button x:Name="CancelBtn" Content="{x:Static p:Resources.UI_Cancel}"
+                            Style="{StaticResource MetalButtonRed}"
+                            Width="175" Height="52" Margin="0,0,30,0"
+                            FontFamily="{StaticResource Elite}" FontSize="24"
+                            Command="{Binding CancelCommand}" />
+
+                    <Button x:Name="JoinBtn" Content="{x:Static p:Resources.PrivateRoomCodeModal_Join}"
+                            Style="{StaticResource MetalButtonBlue}"
+                            Width="175" Height="52"
+                            FontFamily="{StaticResource Elite}" FontSize="24"
+                            Command="{Binding JoinCommand}" />
+                </StackPanel>
+
+            </StackPanel>
+        </Viewbox>
+    </Grid>
+</Window>

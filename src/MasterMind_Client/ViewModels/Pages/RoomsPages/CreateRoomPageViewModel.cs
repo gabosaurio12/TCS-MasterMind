@@ -42,46 +42,68 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             if (ValidateInput())
             {
-                var matchRoom = new Room
-                {
-                    Name = RoomName.Trim(),
-                    Gamemode = IsTimeTrial ? "TimeTrial" : "Tries",
-                    Difficulty = GetDifficulty(),
-                    PlayerOneUsername = CurrentPlayer.Instance.Username,
-                    RoomPrivacy = IsPrivate ? "Private" : "Public"
-                };
+                var matchRoom = GetRoomWithInput();
+
                 try
                 {
-                    var result = roomService.CreateRoom(matchRoom);
-                    if (result.Status.Equals("Success"))
-                    {
-                        dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
-                        NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
-                    }
-                    else if (result.Status.Equals("RoomNameTaken"))
-                    {
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
-                    }
-                    else
-                    {
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_UnexpectedError);
-                    }
+                    CreateRoom(matchRoom);
                 }
-                catch (FaultException<RoomService.ErrorMessage> faultException)
+                catch (FaultException<ErrorMessage> faultException)
                 {
-                    logger.WarnFormat("The server rejected the room creation: {0}", faultException.Detail.Message);
+                    logger.WarnFormat(faultException.Detail.Message);
                     dialogService.ShowServerError(faultException.Detail.Message);
                 }
                 catch (FaultException faultException)
                 {
-                    logger.Error("Server fault during room creation", faultException);
+                    logger.Error(faultException);
                     dialogService.ShowServerError(faultException.Message);
                 }
                 catch (CommunicationException communicationException)
                 {
-                    logger.Error("Communication failure during room creation", communicationException);
+                    logger.Error(communicationException);
                     dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                 }
+            }
+        }
+
+        private Room GetRoomWithInput()
+        {
+            return new Room
+            {
+                Name = RoomName.Trim(),
+                Gamemode = IsTimeTrial ? "TimeTrial" : "Tries",
+                Difficulty = GetDifficulty(),
+                PlayerOneUsername = CurrentPlayer.Instance.Username,
+                RoomPrivacy = IsPrivate ? "Private" : "Public"
+            };
+        }
+
+        private void CreateRoom(Room matchRoom)
+        {
+            var result = roomService.CreateRoom(matchRoom);
+            if (result.Status.Equals("Success"))
+            {
+                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
+
+                var room = roomService.GetRoomByName(RoomName.Trim());
+                if (room != null && room.RoomId > 0)
+                {
+                    var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.RoomId}", UriKind.Relative);
+                    navigationService.Navigate(uri);
+                }
+                else
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
+                    NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                }
+            }
+            else if (result.Status.Equals("RoomNameTaken"))
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
+            }
+            else
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_UnexpectedError);
             }
         }
 
