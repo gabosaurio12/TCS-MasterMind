@@ -1,15 +1,26 @@
+using MasterMind_Client.Helpers;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace MasterMind_Client.ViewModels.Pages
 {
     public class ProfilePageViewModel : ViewModelBase
     {
 
+        private ImageSource avatar = AvatarLoader.GetDefaultAvatar();
+
         public string Username { get; }
+
+        public ImageSource Avatar
+        {
+            get { return this.avatar; }
+            private set { SetProperty(ref this.avatar, value); }
+        }
 
         public string Email { get; }
 
@@ -48,6 +59,12 @@ namespace MasterMind_Client.ViewModels.Pages
             ReportedPlayer = Properties.Resources.ProfilePage_ReportPlayer;
 
             SetRecords();
+            _ = LoadAvatarAsync();
+        }
+
+        private async Task LoadAvatarAsync()
+        {
+            Avatar = await AvatarLoader.GetCurrentPlayerAvatarAsync();
         }
 
         private void SetRecords()

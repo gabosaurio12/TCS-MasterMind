@@ -31,7 +31,7 @@
                      HorizontalAlignment="Center" Margin="0,10,0,20"
                      Stroke="{StaticResource FrameMetalBrush}" StrokeThickness="12">
                 <Ellipse.Fill>
-                    <ImageBrush x:Name="AvatarImg" ImageSource="{StaticResource AvatarImage}" Stretch="UniformToFill" />
+                    <ImageBrush x:Name="AvatarImg" ImageSource="{Binding Avatar}" Stretch="UniformToFill" />
                 </Ellipse.Fill>
             </Ellipse>
 

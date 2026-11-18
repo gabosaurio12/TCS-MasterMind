@@ -1,6 +1,7 @@
 using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Modals;
+using Microsoft.Win32;
 using System;
 using System.Windows;
 
@@ -8,6 +9,8 @@ namespace MasterMind_Client.ViewModels.Services
 {
     public class DialogService : IDialogService
     {
+        private const string ImageFileFilter = "Images|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+
         public void ShowError(string message)
         {
             var modal = new ErrorNotificationModal();
@@ -26,6 +29,15 @@ namespace MasterMind_Client.ViewModels.Services
                     break;
                 case "HashError":
                     ShowError(Properties.Resources.ErrorNotification_Timeout);
+                    break;
+                case "InvalidImage":
+                    ShowError(Properties.Resources.ErrorNotification_InvalidImage);
+                    break;
+                case "ImageTooLarge":
+                    ShowError(Properties.Resources.ErrorNotification_ImageTooLarge);
+                    break;
+                case "ImageProcessingError":
+                    ShowError(Properties.Resources.ErrorNotification_AvatarNotSaved);
                     break;
                 default:
                     ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
@@ -94,6 +106,17 @@ namespace MasterMind_Client.ViewModels.Services
             var viewModel = new LogOutViewModel();
             modal.DataContext = viewModel;
             modal.Show();
+        }
+
+        public string PickImageFile()
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = ImageFileFilter,
+                CheckFileExists = true
+            };
+
+            return dialog.ShowDialog() == true ? dialog.FileName : string.Empty;
         }
 
         private static void Present(Window modal)

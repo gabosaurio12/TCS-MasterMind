@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\EntityFramework.6.5.2\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.5.2\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -344,6 +344,7 @@
     <Compile Include="Helpers\PasswordValidator.cs" />
     <Compile Include="Helpers\AvatarImageCompressor.cs" />
     <Compile Include="Helpers\AvatarCompressionException.cs" />
+    <Compile Include="Helpers\AvatarLoader.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />

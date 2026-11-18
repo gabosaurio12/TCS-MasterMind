@@ -1,30 +1,50 @@
 using log4net;
+using MasterMind_Client.AvatarService;
 using MasterMind_Client.Enums;
+using MasterMind_Client.Helpers;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
+using System.IO;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MasterMind_Client.ViewModels.Pages
 {
     public class UpdateProfilePageViewModel : ViewModelBase
     {
+        private const string ProfilePageUri = "Pages/ProfilePage.xaml";
+        private const int MaximumSourceBytes = 10485760;
+        private const int RegexTimeoutMilliseconds = 500;
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(UpdateProfilePageViewModel));
 
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
+        private readonly PlayerServiceClient playerService = new PlayerServiceClient();
+
         private string username;
         private string email;
+        private ImageSource avatarPreview;
+        private byte[] pendingAvatarBytes = Array.Empty<byte>();
+        private bool isSaving;
 
         public UpdateProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
             this.navigationService = navigationService;
             this.dialogService = dialogService;
-            SaveCommand = new RelayCommand(_ => Save());
-            CancelCommand = new RelayCommand(_ => NavigateTo("Pages/ProfilePage.xaml"));
+            SaveCommand = new RelayCommand(async _ => await SaveAsync(), _ => !isSaving);
+            CancelCommand = new RelayCommand(_ => NavigateTo(ProfilePageUri));
+            ChooseAvatarCommand = new RelayCommand(_ => ChooseAvatar(), _ => !isSaving);
             username = CurrentPlayer.Instance.Username;
             email = CurrentPlayer.Instance.Email;
+            avatarPreview = CurrentPlayer.Instance.Avatar ?? AvatarLoader.GetDefaultAvatar();
+            _ = LoadCurrentAvatarAsync();
         }
 
         public string Username
@@ -39,6 +59,12 @@ namespace MasterMind_Client.ViewModels.Pages
             set { SetProperty(ref this.email, value); }
         }
 
+        public ImageSource AvatarPreview
+        {
+            get { return this.avatarPreview; }
+            private set { SetProperty(ref this.avatarPreview, value); }
+        }
+
         public string BestTimeText { get; } = "";
 
         public string LeastTriesText { get; } = "";
@@ -47,72 +73,272 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public RelayCommand CancelCommand { get; }
 
-        private readonly INavigationService navigationService;
-        private readonly IDialogService dialogService;
-        private readonly PlayerServiceClient playerService = new PlayerServiceClient();
+        public RelayCommand ChooseAvatarCommand { get; }
 
-        private void Save()
+        private async Task LoadCurrentAvatarAsync()
         {
-            if (ValidateInput())
+            var current = await AvatarLoader.GetCurrentPlayerAvatarAsync();
+
+            if (pendingAvatarBytes.Length == 0)
             {
-                try
-                {
-
-                    var player = playerService.GetPlayerByUsername(CurrentPlayer.Instance.Username);
-                    player.Username = username;
-                    player.Email = email;
-                    var result = playerService.UpdatePlayer(player);
-                    if (result.Equals(ServerMessages.EmailTaken.ToString()))
-                    {
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
-
-                    }
-                    else if (result.Equals(ServerMessages.UsernameTaken.ToString()))
-                    {
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
-                    }
-                    else if (result.Equals(ServerMessages.Success.ToString()))
-                    {
-                        dialogService.ShowSuccess(Properties.Resources.SuccessNotification_PlayerUpdated);
-                        CurrentPlayer.Instance.SetCurrentPlayer(player);
-                    }
-                }
-                catch (FaultException<RoomService.ErrorMessage> faultException)
-                {
-                    logger.WarnFormat("The server rejected the room creation: {0}", faultException.Detail.Message);
-                    dialogService.ShowServerError(faultException.Detail.Message);
-                }
-                catch (FaultException faultException)
-                {
-                    logger.Error("Server fault during room creation", faultException);
-                    dialogService.ShowServerError(faultException.Message);
-                }
-                catch (CommunicationException communicationException)
-                {
-                    logger.Error("Communication failure during room creation", communicationException);
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
-                }
-
-                NavigateTo("Pages/ProfilePage.xaml");
+                AvatarPreview = current;
             }
+        }
+
+        private void ChooseAvatar()
+        {
+            var filePath = dialogService.PickImageFile();
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
+            try
+            {
+                if (new FileInfo(filePath).Length > MaximumSourceBytes)
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_ImageTooLarge);
+                    return;
+                }
+
+                pendingAvatarBytes = AvatarImageCompressor.Compress(File.ReadAllBytes(filePath));
+                AvatarPreview = CreatePreview(pendingAvatarBytes);
+            }
+            catch (AvatarCompressionException ex)
+            {
+                ReportInvalidImage(ex);
+            }
+            catch (IOException ex)
+            {
+                ReportInvalidImage(ex);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                ReportInvalidImage(ex);
+            }
+        }
+
+        private void ReportInvalidImage(Exception ex)
+        {
+            logger.Warn("The selected avatar image could not be loaded.", ex);
+            dialogService.ShowError(Properties.Resources.ErrorNotification_InvalidImage);
+        }
+
+        private static BitmapImage CreatePreview(byte[] content)
+        {
+            var preview = new BitmapImage();
+
+            using (var stream = new MemoryStream(content))
+            {
+                preview.BeginInit();
+                preview.CacheOption = BitmapCacheOption.OnLoad;
+                preview.StreamSource = stream;
+                preview.EndInit();
+            }
+
+            preview.Freeze();
+
+            return preview;
+        }
+
+        private async Task SaveAsync()
+        {
+            if (!ValidateInput())
+            {
+                return;
+            }
+
+            SetSaving(true);
+
+            try
+            {
+                var profileSaved = await SaveProfileAsync();
+                var avatarSaved = await SaveAvatarAsync();
+
+                if (profileSaved && avatarSaved)
+                {
+                    NavigateTo(ProfilePageUri);
+                }
+            }
+            finally
+            {
+                SetSaving(false);
+            }
+        }
+
+        private void SetSaving(bool saving)
+        {
+            isSaving = saving;
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private bool HasProfileChanges()
+        {
+            return username != CurrentPlayer.Instance.Username || email != CurrentPlayer.Instance.Email;
+        }
+
+        private async Task<bool> SaveProfileAsync()
+        {
+            if (!HasProfileChanges())
+            {
+                return true;
+            }
+
+            try
+            {
+                var player = await playerService.GetPlayerByUsernameAsync(CurrentPlayer.Instance.Username);
+                player.Username = username;
+                player.Email = email;
+                var result = await playerService.UpdatePlayerAsync(player);
+
+                return HandleProfileResult(result, player);
+            }
+            catch (FaultException<PlayerService.ErrorMessage> ex)
+            {
+                logger.Warn("The server rejected the profile update: " + ex.Detail.Message, ex);
+                dialogService.ShowServerError(ex.Detail.Message);
+            }
+            catch (FaultException ex)
+            {
+                logger.Error("Server fault during profile update", ex);
+                dialogService.ShowServerError(ex.Message);
+            }
+            catch (CommunicationException ex)
+            {
+                logger.Error("Communication failure during profile update", ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+            catch (TimeoutException ex)
+            {
+                logger.Error("Timeout during profile update", ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+            }
+
+            return false;
+        }
+
+        private bool HandleProfileResult(string result, Player player)
+        {
+            if (result.Equals(ServerMessages.Success.ToString()))
+            {
+                CurrentPlayer.Instance.SetCurrentPlayer(player);
+                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_PlayerUpdated);
+
+                return true;
+            }
+
+            if (result.Equals(ServerMessages.EmailTaken.ToString()))
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
+            }
+            else if (result.Equals(ServerMessages.UsernameTaken.ToString()))
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
+            }
+            else
+            {
+                logger.WarnFormat("Unexpected profile update result: {0}", result);
+                dialogService.ShowServerError(result);
+            }
+
+            return false;
+        }
+
+        private async Task<bool> SaveAvatarAsync()
+        {
+            if (pendingAvatarBytes.Length == 0)
+            {
+                return true;
+            }
+
+            try
+            {
+                var fileName = await SendAvatarAsync(pendingAvatarBytes);
+                CompleteAvatarSave(fileName);
+
+                return true;
+            }
+            catch (FaultException<AvatarService.ErrorMessage> ex)
+            {
+                logger.Warn("The server rejected the avatar: " + ex.Detail.Message, ex);
+                dialogService.ShowServerError(ex.Detail.Message);
+            }
+            catch (FaultException ex)
+            {
+                logger.Error("Server fault while saving the avatar", ex);
+                dialogService.ShowServerError(ex.Message);
+            }
+            catch (CommunicationException ex)
+            {
+                logger.Error("Communication failure while saving the avatar", ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+            catch (TimeoutException ex)
+            {
+                logger.Error("Timeout while saving the avatar", ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+            }
+
+            return false;
+        }
+
+        private static async Task<string> SendAvatarAsync(byte[] content)
+        {
+            var avatarClient = new AvatarServiceClient();
+
+            try
+            {
+                return await avatarClient.SaveAvatarAsync(CurrentPlayer.Instance.Id, content);
+            }
+            finally
+            {
+                CloseClient(avatarClient);
+            }
+        }
+
+        private static void CloseClient(AvatarServiceClient avatarClient)
+        {
+            try
+            {
+                avatarClient.Close();
+            }
+            catch (CommunicationException ex)
+            {
+                logger.Warn("The avatar channel could not be closed cleanly.", ex);
+                avatarClient.Abort();
+            }
+            catch (TimeoutException ex)
+            {
+                logger.Warn("Timeout while closing the avatar channel.", ex);
+                avatarClient.Abort();
+            }
+        }
+
+        private void CompleteAvatarSave(string fileName)
+        {
+            pendingAvatarBytes = Array.Empty<byte>();
+            CurrentPlayer.Instance.SetAvatar(AvatarPreview, fileName);
+            dialogService.ShowSuccess(Properties.Resources.SuccessNotification_AvatarUpdated);
         }
 
         private bool ValidateInput()
         {
-            var isValid = true;
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Email))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
-                isValid = false;
+
+                return false;
             }
 
-            if (Regex.IsMatch(Username, @"\s", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
+            var timeout = TimeSpan.FromMilliseconds(RegexTimeoutMilliseconds);
+            if (Regex.IsMatch(Username, @"\s", RegexOptions.None, timeout))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_NoSpaces);
-                isValid = false;
+
+                return false;
             }
 
-            return isValid;
+            return true;
         }
 
         private void NavigateTo(string uri)

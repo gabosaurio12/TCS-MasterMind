@@ -259,6 +259,42 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El archivo seleccionado no es una imagen válida..
+        /// </summary>
+        public static string ErrorNotification_InvalidImage {
+            get {
+                return ResourceManager.GetString("ErrorNotification_InvalidImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La imagen es demasiado grande o no se pudo reducir a 100 KB..
+        /// </summary>
+        public static string ErrorNotification_ImageTooLarge {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ImageTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No se pudo guardar el avatar. Intenta de nuevo..
+        /// </summary>
+        public static string ErrorNotification_AvatarNotSaved {
+            get {
+                return ResourceManager.GetString("ErrorNotification_AvatarNotSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avatar actualizado correctamente..
+        /// </summary>
+        public static string SuccessNotification_AvatarUpdated {
+            get {
+                return ResourceManager.GetString("SuccessNotification_AvatarUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El servidor está desconectado. Intenta de nuevo más tarde..
         /// </summary>
         public static string ErrorNotification_ServerDisconnected {

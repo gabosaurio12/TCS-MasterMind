@@ -420,6 +420,18 @@
   <data name="ErrorNotification_RoomNameTaken" xml:space="preserve">
     <value>Ese nombre ya está en uso por otra sala, utiliza otro por favor</value>
   </data>
+  <data name="ErrorNotification_InvalidImage" xml:space="preserve">
+    <value>El archivo seleccionado no es una imagen válida.</value>
+  </data>
+  <data name="ErrorNotification_ImageTooLarge" xml:space="preserve">
+    <value>La imagen es demasiado grande o no se pudo reducir a 100 KB.</value>
+  </data>
+  <data name="ErrorNotification_AvatarNotSaved" xml:space="preserve">
+    <value>No se pudo guardar el avatar. Intenta de nuevo.</value>
+  </data>
+  <data name="SuccessNotification_AvatarUpdated" xml:space="preserve">
+    <value>Avatar actualizado correctamente.</value>
+  </data>
   <data name="ErrorNotification_ServerDisconnected" xml:space="preserve">
     <value>El servidor está desconectado. Intenta de nuevo más tarde.</value>
   </data>
