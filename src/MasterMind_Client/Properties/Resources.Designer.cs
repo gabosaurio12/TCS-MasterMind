@@ -142,6 +142,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hubo un error al tratar de unirte directamente a la sala, intenta unirte con este código:.
+        /// </summary>
+        public static string ErrorNotification_ErrorJoiningRoomGiveRoomCode {
+            get {
+                return ResourceManager.GetString("ErrorNotification_ErrorJoiningRoomGiveRoomCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hubo un error al eliminar al amigo. Intenta de nuevo más tarde..
         /// </summary>
         public static string ErrorNotification_ErrorRemovingFriend {

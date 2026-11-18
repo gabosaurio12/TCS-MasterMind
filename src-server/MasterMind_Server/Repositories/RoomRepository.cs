@@ -195,6 +195,22 @@ namespace MasterMind_Server.Repositories
             }
         }
 
+        public Room GetRoomByCode(string code)
+        {
+            try
+            {
+                var roomEntity = GetRoomEntityByCode(code);
+                return roomEntity == null
+                    ? new Room { RoomId = 0 }
+                    : RoomEntityToContract(roomEntity);
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw;
+            }
+        }
+
         public PlayerStatusChangeResult ChangePlayerStatus(Contracts.PlayerStatus status)
         {
             try
@@ -637,6 +653,25 @@ namespace MasterMind_Server.Repositories
                 .Include(room => room.Player)
                 .Include(room => room.Player1)
                 .FirstOrDefault(room => room.match_room_id == roomId);
+        }
+
+        private MatchRoom GetRoomEntityByCode(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+
+            var roomCode = code.Trim();
+            var roomEntity = context.MatchRoom
+                .Include(room => room.Player)
+                .Include(room => room.Player1)
+                .Include(room => room.GameModesCatalog)
+                .Include(room => room.DifficultiesCatalog)
+                .Include(room => room.PrivacyCatalog)
+                .FirstOrDefault(room => room.room_code == roomCode);
+
+            return roomEntity != null && !IsPublic(roomEntity) ? roomEntity : null;
         }
 
         private Room RoomEntityToContract(MatchRoom room)

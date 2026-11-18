@@ -56,7 +56,18 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     if (result.Status.Equals("Success"))
                     {
                         dialogService.ShowSuccess(Properties.Resources.SuccessNotification_MatchRoomCreatedSuccessfully);
-                        NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+
+                        var room = roomService.GetRoomByName(RoomName.Trim());
+                        if (room != null && room.RoomId > 0)
+                        {
+                            var uri = new Uri($"Pages/RoomsPages/RoomPage.xaml?roomId={room.RoomId}", UriKind.Relative);
+                            navigationService.Navigate(uri);
+                        } 
+                        else
+                        {
+                            dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
+                            NavigateTo("Pages/RoomsPages/RoomsPage.xaml");
+                        }
                     }
                     else if (result.Status.Equals("RoomNameTaken"))
                     {
@@ -67,19 +78,19 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                         dialogService.ShowError(Properties.Resources.ErrorNotification_UnexpectedError);
                     }
                 }
-                catch (FaultException<RoomService.ErrorMessage> faultException)
+                catch (FaultException<ErrorMessage> faultException)
                 {
-                    logger.WarnFormat("The server rejected the room creation: {0}", faultException.Detail.Message);
+                    logger.WarnFormat(faultException.Detail.Message);
                     dialogService.ShowServerError(faultException.Detail.Message);
                 }
                 catch (FaultException faultException)
                 {
-                    logger.Error("Server fault during room creation", faultException);
+                    logger.Error(faultException);
                     dialogService.ShowServerError(faultException.Message);
                 }
                 catch (CommunicationException communicationException)
                 {
-                    logger.Error("Communication failure during room creation", communicationException);
+                    logger.Error(communicationException);
                     dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
                 }
             }

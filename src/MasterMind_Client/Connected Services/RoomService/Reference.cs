@@ -321,6 +321,13 @@ namespace MasterMind_Client.RoomService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoomService/GetRoomById", ReplyAction="http://tempuri.org/IRoomService/GetRoomByIdResponse")]
         System.Threading.Tasks.Task<MasterMind_Client.RoomService.Room> GetRoomByIdAsync(int roomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoomService/GetRoomByCode", ReplyAction="http://tempuri.org/IRoomService/GetRoomByCodeResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.RoomService.ErrorMessage), Action="http://tempuri.org/IRoomService/GetRoomByCodeErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        MasterMind_Client.RoomService.Room GetRoomByCode(string code);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoomService/GetRoomByCode", ReplyAction="http://tempuri.org/IRoomService/GetRoomByCodeResponse")]
+        System.Threading.Tasks.Task<MasterMind_Client.RoomService.Room> GetRoomByCodeAsync(string code);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -396,6 +403,14 @@ namespace MasterMind_Client.RoomService {
         
         public System.Threading.Tasks.Task<MasterMind_Client.RoomService.Room> GetRoomByIdAsync(int roomId) {
             return base.Channel.GetRoomByIdAsync(roomId);
+        }
+        
+        public MasterMind_Client.RoomService.Room GetRoomByCode(string code) {
+            return base.Channel.GetRoomByCode(code);
+        }
+        
+        public System.Threading.Tasks.Task<MasterMind_Client.RoomService.Room> GetRoomByCodeAsync(string code) {
+            return base.Channel.GetRoomByCodeAsync(code);
         }
     }
 }

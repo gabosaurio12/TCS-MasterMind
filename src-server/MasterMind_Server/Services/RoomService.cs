@@ -109,6 +109,22 @@ namespace MasterMind_Server.Services
             }
         }
 
+        public Room GetRoomByCode(string code)
+        {
+            try
+            {
+                return roomRepository.GetRoomByCode(code);
+            }
+            catch (EntityException)
+            {
+                throw BuildDatabaseFault();
+            }
+            catch (DbUpdateException)
+            {
+                throw BuildDatabaseFault();
+            }
+        }
+
         private FaultException<ErrorMessage> BuildDatabaseFault()
         {
             clientMessage.Message = ErrorMessages.DataBaseError.ToString();

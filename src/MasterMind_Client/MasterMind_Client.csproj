@@ -282,6 +282,9 @@
     <Compile Include="Modals\ModalsUserControls\FriendUserControl.xaml.cs">
       <DependentUpon>FriendUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modals\PrivateRoomCodeModal.xaml.cs">
+      <DependentUpon>PrivateRoomCodeModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modals\VerificationCodeModal.xaml.cs">
       <DependentUpon>VerificationCodeModal.xaml</DependentUpon>
     </Compile>
@@ -346,6 +349,7 @@
     <Compile Include="ViewModels\Modals\FriendRequestsViewModel.cs" />
     <Compile Include="ViewModels\Modals\FriendsViewModel.cs" />
     <Compile Include="ViewModels\Modals\LogOutViewModel.cs" />
+    <Compile Include="ViewModels\Modals\PrivateRoomCodeViewModel.cs" />
     <Compile Include="ViewModels\Modals\SuccessNotificationViewModel.cs" />
     <Compile Include="ViewModels\Modals\VerificationCodeViewModel.cs" />
     <Compile Include="ViewModels\Pages\LoginPageViewModel.cs" />
@@ -393,6 +397,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modals\ModalsUserControls\FriendUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modals\PrivateRoomCodeModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
