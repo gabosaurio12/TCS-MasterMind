@@ -108,7 +108,7 @@ namespace MasterMind_Client.ViewModels.Modals
         private void AddRequest(FriendsService.Player requester)
         {
             var friendRequest = friendService.GetFriendRequest(CurrentPlayer.Instance.Id, requester.PlayerId);
-            var requestControl = new FriendRequestViewModel(requester.Username, friendRequest);
+            var requestControl = new FriendRequestViewModel(requester, friendRequest);
             requestControl.Accepted += OnRequestAccepted;
             requestControl.Rejected += OnRequestRejected;
             Requests.Add(requestControl);

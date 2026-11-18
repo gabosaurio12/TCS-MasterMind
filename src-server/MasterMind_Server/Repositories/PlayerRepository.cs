@@ -136,6 +136,22 @@ namespace MasterMind_Server.Repositories
             return RepositoriesMessages.PlayerNotFound.ToString();
         }
 
+        public string UpdateAvatarPath(int playerId, string fileName)
+        {
+            var player = GetPlayerById(playerId);
+
+            if (player == null)
+            {
+                return RepositoriesMessages.PlayerNotFound.ToString();
+            }
+
+            player.avatar_path = fileName;
+
+            Context.SaveChanges();
+
+            return RepositoriesMessages.Success.ToString();
+        }
+
         public string ReportPlayer(ReportDto report)
         {
             string result = "";

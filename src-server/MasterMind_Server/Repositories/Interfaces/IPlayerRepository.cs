@@ -22,6 +22,8 @@ namespace MasterMind_Server.Repositories.Interfaces
 
         string UpdatePassword(string username, string password);
 
+        string UpdateAvatarPath(int playerId, string fileName);
+
         string ReportPlayer(ReportDto report);
     }
 }
