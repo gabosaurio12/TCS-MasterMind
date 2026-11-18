@@ -1,4 +1,5 @@
-﻿using MasterMind_Server.Contracts;
+﻿using log4net;
+using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace MasterMind_Server.Services
 {
     internal class RoomService : IRoomService
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(RoomService));
         private readonly ErrorMessage clientMessage = new ErrorMessage();
         private readonly RoomRepository roomRepository = new RoomRepository();
 
@@ -19,12 +21,14 @@ namespace MasterMind_Server.Services
             {
                 return roomRepository.GetPublicRooms();
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
         }
@@ -35,12 +39,14 @@ namespace MasterMind_Server.Services
             {
                 return roomRepository.CreateRoom(room);
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
         }
@@ -51,12 +57,14 @@ namespace MasterMind_Server.Services
             {
                 return roomRepository.JoinRoom(room, username);
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
         }
@@ -67,12 +75,14 @@ namespace MasterMind_Server.Services
             {
                 return roomRepository.JoinRoomWithCode(room, username, code);
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
         }
@@ -83,12 +93,14 @@ namespace MasterMind_Server.Services
             {
                 return roomRepository.GetRoomByName(roomName);
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
         }
@@ -99,12 +111,32 @@ namespace MasterMind_Server.Services
             {
                 return roomRepository.GetRoomById(roomId);
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                logger.Error(ex);
+                throw BuildDatabaseFault();
+            }
+        }
+
+        public Room GetRoomByCode(string code)
+        {
+            try
+            {
+                return roomRepository.GetRoomByCode(code);
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw BuildDatabaseFault();
+            }
+            catch (DbUpdateException ex)
+            {
+                logger.Error(ex);
                 throw BuildDatabaseFault();
             }
         }

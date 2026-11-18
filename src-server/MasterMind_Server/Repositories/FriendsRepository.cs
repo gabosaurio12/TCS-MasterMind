@@ -1,56 +1,45 @@
-﻿using log4net;
-using MasterMind_Server.Data;
+﻿using MasterMind_Server.Data;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
 using System.Collections.Generic;
-using System.Data.Entity.Core;
 using System.Linq;
 
 namespace MasterMind_Server.Repositories
 {
     internal class FriendsRepository : IFriendsRepository
     {
-        private readonly ILog logger = LogManager.GetLogger(typeof(PlayerRepository));
         private readonly MasterMindEntities Context = new MasterMindEntities(true);
         private readonly PlayerRepository playerRepository = new PlayerRepository();
 
         public List<Contracts.Player> GetFriendships(int playerId)
         {
-            try
+            int acceptedStatusId = GetAcceptedStatusId();
+
+            List<Contracts.Player> friends = new List<Contracts.Player>();
+
+            if (acceptedStatusId > 0)
             {
-                int acceptedStatusId = GetAcceptedStatusId();
+                var friendships = Context.Friendship.Where(friendship => (
+                    friendship.requester_id == playerId ||
+                    friendship.addressee_id == playerId) &&
+                    friendship.status_id == acceptedStatusId)
+                    .ToList();
 
-                List<Contracts.Player> friends = new List<Contracts.Player>();
+                List<int> friendsIds = GetFriendsIds(friendships, playerId);
 
-                if (acceptedStatusId > 0)
+
+                foreach (var friendId in friendsIds)
                 {
-                    var friendships = Context.Friendship.Where(friendship => (
-                        friendship.requester_id == playerId ||
-                        friendship.addressee_id == playerId) &&
-                        friendship.status_id == acceptedStatusId)
-                        .ToList();
-
-                    List<int> friendsIds = GetFriendsIds(friendships, playerId);
-
-
-                    foreach (var friendId in friendsIds)
+                    var friend = playerRepository.GetPlayerById(friendId);
+                    if (friend != null)
                     {
-                        var friend = playerRepository.GetPlayerById(friendId);
-                        if (friend != null)
-                        {
 
-                            friends.Add(PlayerEntityToPlayerContract(friend));
-                        }
+                        friends.Add(PlayerEntityToPlayerContract(friend));
                     }
                 }
+            }
 
-                return friends;
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            return friends;
         }
 
         private int GetAcceptedStatusId()
@@ -99,29 +88,21 @@ namespace MasterMind_Server.Repositories
 
         public List<Contracts.Player> GetFriendRequests(int playerId)
         {
-            try
+            int pendingStatusId = GetPendingStatusId();
+
+            List<Contracts.Player> friends = new List<Contracts.Player>();
+
+            if (pendingStatusId > 0)
             {
-                int pendingStatusId = GetPendingStatusId();
+                var friendships = Context.Friendship.Where(friendship => friendship.addressee_id == playerId
+                && friendship.status_id == pendingStatusId).ToList();
 
-                List<Contracts.Player> friends = new List<Contracts.Player>();
+                List<int> friendsIds = GetFriendsIds(friendships, playerId);
 
-                if (pendingStatusId > 0)
-                {
-                    var friendships = Context.Friendship.Where(friendship => friendship.addressee_id == playerId
-                    && friendship.status_id == pendingStatusId).ToList();
-
-                    List<int> friendsIds = GetFriendsIds(friendships, playerId);
-
-                    friends = GetFriendshipsFromIds(friendsIds);
-                }
-
-                return friends;
+                friends = GetFriendshipsAsPlayersFromIds(friendsIds);
             }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+
+            return friends;
         }
 
         private static List<int> GetFriendsIds(List<Friendship> friendships, int playerId)
@@ -146,7 +127,7 @@ namespace MasterMind_Server.Repositories
             return friendsIds;
         }
 
-        private List<Contracts.Player> GetFriendshipsFromIds(List<int> friendsIds)
+        private List<Contracts.Player> GetFriendshipsAsPlayersFromIds(List<int> friendsIds)
         {
             List<Contracts.Player> friends = new List<Contracts.Player>();
 
@@ -170,268 +151,262 @@ namespace MasterMind_Server.Repositories
             return friends;
         }
 
-        public Contracts.Friendship GetFriendship(int addresseeId, int requesterId)
+        private List<Contracts.Friendship> GetFriendshipsFromEntities(List<Friendship> friendshipsEntities)
         {
-            try
-            {
-                int acceptedStatusId = GetAcceptedStatusId();
+            List<Contracts.Friendship> friendships = new List<Contracts.Friendship>();
 
-                var request = new Contracts.Friendship
+            foreach (var friendship in friendshipsEntities)
+            {
+                var friendShip = new Contracts.Friendship
                 {
-                    FriendshipId = 0
+                    FriendshipId = friendship.friendship_id,
+                    AddresseeUsername = playerRepository.GetPlayerById(friendship.addressee_id).username,
+                    RequesterUsername = playerRepository.GetPlayerById(friendship.requester_id).username,
+                    Status = FriendshipStatus.Accepted.ToString()
                 };
 
-                if (acceptedStatusId > 0)
-                {
-                    var requestEntity = Context.Friendship.FirstOrDefault(
-                                req => req.requester_id == requesterId &&
-                                req.addressee_id == addresseeId &&
-                                req.status_id == acceptedStatusId);
-
-                    if (requestEntity != null)
-                    {
-                        request = new Contracts.Friendship
-                        {
-                            FriendshipId = requestEntity.friendship_id,
-                            AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
-                            RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                            Status = FriendshipStatus.Accepted.ToString()
-                        };
-                    }
-                }
-
-                return request;
+                friendships.Add(friendShip);
             }
-            catch (EntityException ex)
+
+            return friendships;
+        }
+
+        public Contracts.Friendship GetFriendship(int addresseeId, int requesterId)
+        {
+            int acceptedStatusId = GetAcceptedStatusId();
+
+            var request = new Contracts.Friendship
             {
-                logger.Error(ex);
-                throw;
+                FriendshipId = 0
+            };
+
+            if (acceptedStatusId > 0)
+            {
+                var requestEntity = Context.Friendship.FirstOrDefault(
+                            req => (
+                            (req.requester_id == requesterId &&
+                            req.addressee_id == addresseeId) ||
+                            req.requester_id == addresseeId &&
+                            req.addressee_id == requesterId) &&
+                            req.status_id == acceptedStatusId);
+
+                if (requestEntity != null)
+                {
+                    request = new Contracts.Friendship
+                    {
+                        FriendshipId = requestEntity.friendship_id,
+                        AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                        RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
+                        Status = FriendshipStatus.Accepted.ToString()
+                    };
+                }
             }
+
+            return request;
         }
 
         public Contracts.Friendship GetFriendRequest(int addresseeId, int requesterId)
         {
-            try
+            int pendingStatusId = GetPendingStatusId();
+
+            var request = new Contracts.Friendship
             {
-                int pendingStatusId = GetPendingStatusId();
+                FriendshipId = 0
+            };
 
-                var request = new Contracts.Friendship
+            if (pendingStatusId > 0)
+            {
+                var requestEntity = Context.Friendship.FirstOrDefault(
+                            req => req.requester_id == requesterId &&
+                            req.addressee_id == addresseeId &&
+                            req.status_id == pendingStatusId);
+
+                if (requestEntity != null)
                 {
-                    FriendshipId = 0
-                };
-
-                if (pendingStatusId > 0)
-                {
-                    var requestEntity = Context.Friendship.FirstOrDefault(
-                                req => req.requester_id == requesterId &&
-                                req.addressee_id == addresseeId &&
-                                req.status_id == pendingStatusId);
-
-                    if (requestEntity != null)
+                    request = new Contracts.Friendship
                     {
-                        request = new Contracts.Friendship
-                        {
-                            FriendshipId = requestEntity.friendship_id,
-                            AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
-                            RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                            Status = FriendshipStatus.Pending.ToString()
-                        };
-                    }
+                        FriendshipId = requestEntity.friendship_id,
+                        AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                        RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
+                        Status = FriendshipStatus.Pending.ToString()
+                    };
                 }
+            }
 
-                return request;
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            return request;
         }
 
         public Contracts.Friendship GetFriendRequestById(int requestId)
         {
-            try
+            int pendingStatusId = GetPendingStatusId();
+
+            var request = new Contracts.Friendship
             {
-                int pendingStatusId = GetPendingStatusId();
+                FriendshipId = 0
+            };
 
-                var request = new Contracts.Friendship
+            if (pendingStatusId > 0)
+            {
+                var requestEntity = Context.Friendship.FirstOrDefault(
+                            req => req.friendship_id == requestId &&
+                            req.status_id == pendingStatusId);
+
+                if (requestEntity != null)
                 {
-                    FriendshipId = 0
-                };
-
-                if (pendingStatusId > 0)
-                {
-                    var requestEntity = Context.Friendship.FirstOrDefault(
-                                req => req.friendship_id == requestId &&
-                                req.status_id == pendingStatusId);
-
-                    if (requestEntity != null)
+                    request = new Contracts.Friendship
                     {
-                        request = new Contracts.Friendship
-                        {
-                            FriendshipId = requestEntity.friendship_id,
-                            AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
-                            RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
-                            Status = FriendshipStatus.Pending.ToString()
-                        };
-                    }
+                        FriendshipId = requestEntity.friendship_id,
+                        AddresseeUsername = playerRepository.GetPlayerById(requestEntity.addressee_id).username,
+                        RequesterUsername = playerRepository.GetPlayerById(requestEntity.requester_id).username,
+                        Status = FriendshipStatus.Pending.ToString()
+                    };
                 }
+            }
 
-                return request;
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            return request;
         }
 
         public string SendFriendRequest(int addresseeId, int requesterId)
         {
-            try
+            if (addresseeId == requesterId)
             {
-                if (addresseeId == requesterId)
+                return RepositoriesMessages.Error.ToString();
+            }
+
+            int pendingStatusId = GetPendingStatusId();
+            int acceptedStatusId = GetAcceptedStatusId();
+
+            if (pendingStatusId > 0 && acceptedStatusId > 0)
+            {
+                var existingRequest = Context.Friendship.FirstOrDefault(req =>
+                (req.requester_id == requesterId && req.addressee_id == addresseeId) ||
+                (req.requester_id == addresseeId && req.addressee_id == requesterId));
+
+                if (existingRequest != null)
                 {
+                    if (existingRequest.status_id == pendingStatusId)
+                    {
+                        return RepositoriesMessages.Pending.ToString();
+                    }
+
+                    if (existingRequest.status_id == acceptedStatusId)
+                    {
+                        return RepositoriesMessages.FriendshipAccepted.ToString();
+                    }
+
                     return RepositoriesMessages.Error.ToString();
                 }
 
-                int pendingStatusId = GetPendingStatusId();
-                int acceptedStatusId = GetAcceptedStatusId();
-
-                if (pendingStatusId > 0 && acceptedStatusId > 0)
+                Context.Friendship.Add(new Friendship
                 {
-                    var existingRequest = Context.Friendship.FirstOrDefault(req =>
-                    (req.requester_id == requesterId && req.addressee_id == addresseeId) ||
-                    (req.requester_id == addresseeId && req.addressee_id == requesterId));
+                    requester_id = requesterId,
+                    addressee_id = addresseeId,
+                    status_id = pendingStatusId
+                });
 
-                    if (existingRequest != null)
-                    {
-                        if (existingRequest.status_id == pendingStatusId)
-                        {
-                            return RepositoriesMessages.Pending.ToString();
-                        }
-
-                        if (existingRequest.status_id == acceptedStatusId)
-                        {
-                            return RepositoriesMessages.FriendshipAccepted.ToString();
-                        }
-
-                        return RepositoriesMessages.Error.ToString();
-                    }
-
-                    Context.Friendship.Add(new Friendship
-                    {
-                        requester_id = requesterId,
-                        addressee_id = addresseeId,
-                        status_id = pendingStatusId
-                    });
-
-                    Context.SaveChanges();
-                    return RepositoriesMessages.Success.ToString();
-                }
-
-                return RepositoriesMessages.Error.ToString();
+                Context.SaveChanges();
+                return RepositoriesMessages.Success.ToString();
             }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+
+            return RepositoriesMessages.Error.ToString();
         }
 
         public string AcceptFriendRequest(int requestId)
         {
-            try
-            {
-                int pendingStatusId = GetPendingStatusId();
-                int acceptedStatusId = GetAcceptedStatusId();
+            int pendingStatusId = GetPendingStatusId();
+            int acceptedStatusId = GetAcceptedStatusId();
 
-                if (pendingStatusId > 0 && acceptedStatusId > 0)
+            if (pendingStatusId > 0 && acceptedStatusId > 0)
+            {
+                var requestEntity = Context.Friendship.FirstOrDefault(req =>
+                                    req.friendship_id == requestId && req.status_id == pendingStatusId);
+
+                if (requestEntity != null)
                 {
-                    var requestEntity = Context.Friendship.FirstOrDefault(req =>
-                                        req.friendship_id == requestId && req.status_id == pendingStatusId);
-
-                    if (requestEntity != null)
-                    {
-                        requestEntity.status_id = acceptedStatusId;
-                        Context.SaveChanges();
-                        return RepositoriesMessages.Success.ToString();
-                    }
+                    requestEntity.status_id = acceptedStatusId;
+                    Context.SaveChanges();
+                    return RepositoriesMessages.Success.ToString();
                 }
+            }
 
-                return RepositoriesMessages.Error.ToString();
-            }
-            catch (EntityException ex)
+            return RepositoriesMessages.Error.ToString();
+        }
+
+        public string GetRequesterUsernameByRequestId(int requestId)
+        {
+            var requestEntity = Context.Friendship.FirstOrDefault(req => req.friendship_id == requestId);
+
+            if (requestEntity != null)
             {
-                logger.Error(ex);
-                throw;
+                var requester = playerRepository.GetPlayerById(requestEntity.requester_id);
+                if (requester != null)
+                {
+                    return requester.username;
+                }
             }
+
+            return string.Empty;
         }
 
         public string RejectFriendRequest(int requestId)
         {
-            try
-            {
-                int pendingStatusId = GetPendingStatusId();
+            int pendingStatusId = GetPendingStatusId();
 
-                if (pendingStatusId > 0)
+            if (pendingStatusId > 0)
+            {
+                var requestEntity = Context.Friendship.FirstOrDefault(req =>
+                req.friendship_id == requestId && req.status_id == pendingStatusId);
+
+                if (requestEntity != null)
                 {
-                    var requestEntity = Context.Friendship.FirstOrDefault(req =>
-                    req.friendship_id == requestId && req.status_id == pendingStatusId);
-
-                    if (requestEntity != null)
-                    {
-                        Context.Friendship.Remove(requestEntity);
-                        Context.SaveChanges();
-                        return RepositoriesMessages.Success.ToString();
-                    }
+                    Context.Friendship.Remove(requestEntity);
+                    Context.SaveChanges();
+                    return RepositoriesMessages.Success.ToString();
                 }
+            }
 
-                return RepositoriesMessages.Error.ToString();
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            return RepositoriesMessages.Error.ToString();
         }
 
         public string RemoveFriendship(string addresseeUsername, string requesterUsername)
         {
-            try
+            var addressee = playerRepository.GetPlayerByUsername(addresseeUsername);
+            var requester = playerRepository.GetPlayerByUsername(requesterUsername);
+
+            if (addressee == null || requester == null)
             {
-                var addressee = playerRepository.GetPlayerByUsername(addresseeUsername);
-                var requester = playerRepository.GetPlayerByUsername(requesterUsername);
-
-                if (addressee == null || requester == null)
-                {
-                    return RepositoriesMessages.PlayerNotFound.ToString();
-                }
-
-                int acceptedStatusId = GetAcceptedStatusId();
-
-                if (acceptedStatusId > 0)
-                {
-                    var friendshipEntity = Context.Friendship.FirstOrDefault(friendship =>
-                    ((friendship.requester_id == requester.player_id && friendship.addressee_id == addressee.player_id) ||
-                    (friendship.requester_id == addressee.player_id && friendship.addressee_id == requester.player_id)) &&
-                    friendship.status_id == acceptedStatusId);
-
-                    if (friendshipEntity != null)
-                    {
-                        Context.Friendship.Remove(friendshipEntity);
-                        Context.SaveChanges();
-                        return RepositoriesMessages.Success.ToString();
-                    }
-                }
-
-                return RepositoriesMessages.Error.ToString();
+                return RepositoriesMessages.PlayerNotFound.ToString();
             }
-            catch (EntityException ex)
+
+            int acceptedStatusId = GetAcceptedStatusId();
+
+            if (acceptedStatusId > 0)
             {
-                logger.Error(ex);
-                throw;
+                var friendshipEntity = Context.Friendship.FirstOrDefault(friendship =>
+                ((friendship.requester_id == requester.player_id && friendship.addressee_id == addressee.player_id) ||
+                (friendship.requester_id == addressee.player_id && friendship.addressee_id == requester.player_id)) &&
+                friendship.status_id == acceptedStatusId);
+
+                if (friendshipEntity != null)
+                {
+                    Context.Friendship.Remove(friendshipEntity);
+                    Context.SaveChanges();
+                    return RepositoriesMessages.Success.ToString();
+                }
             }
+
+            return RepositoriesMessages.Error.ToString();
+        }
+
+        public List<Contracts.Friendship> GetAllFriendshipsAndRequests(int playerId)
+        {
+            var friendshipsEntities = Context.Friendship.Where(
+                    friendship => friendship.addressee_id == playerId ||
+                    friendship.requester_id == playerId).ToList();
+
+            List<Contracts.Friendship> friendships = GetFriendshipsFromEntities(friendshipsEntities);
+
+            return friendships;
         }
     }
 }

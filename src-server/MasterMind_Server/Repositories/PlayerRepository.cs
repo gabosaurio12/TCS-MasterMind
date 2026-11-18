@@ -1,41 +1,30 @@
-﻿using log4net;
-using MasterMind_Server.Data;
+﻿using MasterMind_Server.Data;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
-using System.Data.Entity.Core;
 using System.Linq;
 
 namespace MasterMind_Server.Repositories
 {
     internal class PlayerRepository : IPlayerRepository
     {
-        private readonly ILog logger = LogManager.GetLogger(typeof(PlayerRepository));
         private readonly MasterMindEntities Context = new MasterMindEntities(true);
 
         public string CreatePlayer(Player player)
         {
-            try
+            var validationResult = ValidateData(player);
+
+            if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
             {
-                var validationResult = ValidateData(player);
+                player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
 
-                if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
-                {
-                    player.password = BCrypt.Net.BCrypt.HashPassword(player.password);
+                Context.Player.Add(player);
+                Context.SaveChanges();
 
-                    Context.Player.Add(player);
-                    Context.SaveChanges();
-
-                    validationResult = RepositoriesMessages.Success.ToString();
-                }
-
-                return validationResult;
+                validationResult = RepositoriesMessages.Success.ToString();
             }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+
+            return validationResult;
         }
 
         private string ValidateData(Player player)
@@ -68,96 +57,65 @@ namespace MasterMind_Server.Repositories
 
         public Player GetPlayerByUsername(string username)
         {
-            try
-            {
-                var player = Context.Player.FirstOrDefault(p => p.username == username);
+            var player = Context.Player.FirstOrDefault(p => p.username == username);
 
-                return player;
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            return player;
         }
 
         public Player GetPlayerById(int playerId)
         {
-            try
-            {
-                var player = Context.Player.FirstOrDefault(p => p.player_id == playerId);
+            var player = Context.Player.FirstOrDefault(p => p.player_id == playerId);
 
-                return player;
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            return player;
         }
 
         public PlayerRecordsDto GetPlayerRecords(string username)
         {
-            try
+            var player = GetPlayerByUsername(username);
+            if (player != null)
             {
-                var player = GetPlayerByUsername(username);
-                if (player != null)
+                var triesRecords = Context.PlayerTriesRecords
+                    .Where(tr => tr.player_id == player.player_id)
+                    .OrderBy(gr => gr.rank)
+                    .Select(gr => gr.rank)
+                    .ToArray();
+                var timeTrialRecords = Context.PlayerTimeTrialRecords
+                    .Where(gr => gr.player_id == player.player_id)
+                    .OrderBy(gr => gr.rank)
+                    .Select(gr => gr.rank)
+                    .ToArray();
+
+                return new PlayerRecordsDto
                 {
-                    var triesRecords = Context.PlayerTriesRecords
-                        .Where(tr => tr.player_id == player.player_id)
-                        .OrderBy(gr => gr.rank)
-                        .Select(gr => gr.rank)
-                        .ToArray();
-                    var timeTrialRecords = Context.PlayerTimeTrialRecords
-                        .Where(gr => gr.player_id == player.player_id)
-                        .OrderBy(gr => gr.rank)
-                        .Select(gr => gr.rank)
-                        .ToArray();
-
-                    return new PlayerRecordsDto
-                    {
-                        PlayerUsername = player.username,
-                        PlayerTriesRecords = triesRecords,
-                        PlayerTimeTrialRecords = timeTrialRecords
-                    };
-                }
-
-                return null;
+                    PlayerUsername = player.username,
+                    PlayerTriesRecords = triesRecords,
+                    PlayerTimeTrialRecords = timeTrialRecords
+                };
             }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+
+            return null;
         }
 
         public string UpdatePlayer(Player player)
         {
             var formerPlayer = GetPlayerById(player.player_id);
-            string validationResult = ValidateUpdateData(player, formerPlayer.player_id);
+            string validationResult;
 
             if (formerPlayer != null)
             {
+                validationResult = ValidateUpdateData(player, formerPlayer.player_id);
                 if (validationResult.Equals(RepositoriesMessages.ValidInfo.ToString()))
                 {
                     formerPlayer.username = player.username;
                     formerPlayer.email = player.email;
 
-                    try
-                    {
-                        Context.SaveChanges();
-                        return RepositoriesMessages.Success.ToString();
-                    }
-                    catch (EntityException ex)
-                    {
-                        logger.Error(ex);
-                        throw;
-                    }
+                    Context.SaveChanges();
+                    return RepositoriesMessages.Success.ToString();
                 }
-                else
-                {
-                    validationResult = RepositoriesMessages.PlayerNotFound.ToString();
-                }
+            }
+            else
+            {
+                validationResult = RepositoriesMessages.PlayerNotFound.ToString();
             }
 
             return validationResult;
@@ -165,25 +123,17 @@ namespace MasterMind_Server.Repositories
 
         public string UpdatePassword(string username, string password)
         {
-            try
+            var player = GetPlayerByUsername(username);
+            if (player != null)
             {
-                var player = GetPlayerByUsername(username);
-                if (player != null)
-                {
-                    player.password = BCrypt.Net.BCrypt.HashPassword(password);
+                player.password = BCrypt.Net.BCrypt.HashPassword(password);
 
-                    Context.SaveChanges();
+                Context.SaveChanges();
 
-                    return RepositoriesMessages.Success.ToString();
-                }
-
-                return RepositoriesMessages.PlayerNotFound.ToString();
+                return RepositoriesMessages.Success.ToString();
             }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+
+            return RepositoriesMessages.PlayerNotFound.ToString();
         }
 
         public string UpdateAvatarPath(int playerId, string fileName)
@@ -212,42 +162,34 @@ namespace MasterMind_Server.Repositories
 
         public string ReportPlayer(ReportDto report)
         {
-            try
+            string result = "";
+
+            var reportedPlayer = GetPlayerByUsername(report.ReportedPlayerUsername);
+            if (reportedPlayer != null)
             {
-                string result = "";
-
-                var reportedPlayer = GetPlayerByUsername(report.ReportedPlayerUsername);
-                if (reportedPlayer != null)
+                var reportedByPlayer = GetPlayerByUsername(report.ReportedByPlayerUsername);
+                if (reportedByPlayer != null)
                 {
-                    var reportedByPlayer = GetPlayerByUsername(report.ReportedByPlayerUsername);
-                    if (reportedByPlayer != null)
-                    {
-                        int[] playerIds = { reportedPlayer.player_id, reportedByPlayer.player_id };
-                        var reportEntity = MakePlayerReport(report, playerIds);
+                    int[] playerIds = { reportedPlayer.player_id, reportedByPlayer.player_id };
+                    var reportEntity = MakePlayerReport(report, playerIds);
 
-                        Context.PlayerReport.Add(reportEntity);
+                    Context.PlayerReport.Add(reportEntity);
 
-                        Context.SaveChanges();
+                    Context.SaveChanges();
 
-                        result = RepositoriesMessages.Success.ToString();
-                    }
-                    else
-                    {
-                        result = RepositoriesMessages.PlayerNotFound.ToString();
-                    }
+                    result = RepositoriesMessages.Success.ToString();
                 }
                 else
                 {
                     result = RepositoriesMessages.PlayerNotFound.ToString();
                 }
-
-                return result;
             }
-            catch (EntityException ex)
+            else
             {
-                logger.Error(ex);
-                throw;
+                result = RepositoriesMessages.PlayerNotFound.ToString();
             }
+
+            return result;
         }
 
         private PlayerReport MakePlayerReport(ReportDto report, int[] playerIds)
@@ -256,21 +198,14 @@ namespace MasterMind_Server.Repositories
             int inappropriateLanguageId;
             ReportReasonCatalog cheatingEntity;
             int cheatingId;
-            try
-            {
-                inappropriateLanguageEntity = Context.ReportReasonCatalog.FirstOrDefault(
+
+            inappropriateLanguageEntity = Context.ReportReasonCatalog.FirstOrDefault(
                     r => r.reason == ReportReason.InappropriateLanguage
                     .ToString());
 
-                cheatingEntity = Context.ReportReasonCatalog.FirstOrDefault(
-                    r => r.reason == ReportReason.Cheating
-                    .ToString());
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            cheatingEntity = Context.ReportReasonCatalog.FirstOrDefault(
+                r => r.reason == ReportReason.Cheating
+                .ToString());
 
             PlayerReport newReport = new PlayerReport();
 

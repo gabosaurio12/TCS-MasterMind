@@ -1,5 +1,4 @@
-﻿using log4net;
-using MasterMind_Server.Contracts;
+﻿using MasterMind_Server.Contracts;
 using MasterMind_Server.Data;
 using MasterMind_Server.Repositories.ClassHelpers;
 using MasterMind_Server.Repositories.Dtos;
@@ -23,221 +22,152 @@ namespace MasterMind_Server.Repositories
         private const int RoomCodeMaximum = 999999;
         private const int RoomCodeAttempts = 10;
         private const int MaxRoomNameLength = 100;
-        private readonly ILog logger = LogManager.GetLogger(typeof(RoomRepository));
         private readonly MasterMindEntities context = new MasterMindEntities(true);
         private readonly PlayerRepository playerRepository = new PlayerRepository();
 
         public List<Room> GetPublicRooms()
         {
-            try
+            var privacyId = FindPrivacyId(RoomPrivacy.Public);
+            if (!privacyId.HasValue)
             {
-                var privacyId = FindPrivacyId(RoomPrivacy.Public);
-                if (!privacyId.HasValue)
-                {
-                    return new List<Room>();
-                }
-
-                var rooms = context.MatchRoom
-                    .Include(room => room.Player)
-                    .Include(room => room.Player1)
-                    .Include(room => room.GameModesCatalog)
-                    .Include(room => room.DifficultiesCatalog)
-                    .Include(room => room.PrivacyCatalog)
-                    .Where(room => room.room_privacy_id == privacyId.Value)
-                    .ToList();
-
-                return rooms.Select(RoomEntityToContract).ToList();
+                return new List<Room>();
             }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+
+            var rooms = context.MatchRoom
+                .Include(room => room.Player)
+                .Include(room => room.Player1)
+                .Include(room => room.GameModesCatalog)
+                .Include(room => room.DifficultiesCatalog)
+                .Include(room => room.PrivacyCatalog)
+                .Where(room => room.room_privacy_id == privacyId.Value)
+                .ToList();
+
+            return rooms.Select(RoomEntityToContract).ToList();
         }
 
         public RoomCreationResult CreateRoom(Room room)
         {
-            try
+            var data = BuildRoomCreationData(room);
+            if (data == null)
             {
-                var data = BuildRoomCreationData(room);
-                if (data == null)
-                {
-                    return CreateEmptyRoomResult(RoomResult.Error);
-                }
-                return PersistRoom(data);
+                return CreateEmptyRoomResult(RoomResult.Error);
             }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
-            catch (DbUpdateException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            return PersistRoom(data);
         }
 
         public string JoinRoom(Room room, string username)
         {
-            try
+            if (room == null || string.IsNullOrWhiteSpace(room.Name))
             {
-                if (room == null || string.IsNullOrWhiteSpace(room.Name))
+                return RoomResult.Error.ToString();
+            }
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                var roomEntity = GetRoomEntityByName(room.Name);
+                var player = playerRepository.GetPlayerByUsername(username);
+                if (roomEntity == null || player == null || !IsPublic(roomEntity))
                 {
                     return RoomResult.Error.ToString();
                 }
 
-                using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+                var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
+                if (blockingResult != null)
                 {
-                    var roomEntity = GetRoomEntityByName(room.Name);
-                    var player = playerRepository.GetPlayerByUsername(username);
-                    if (roomEntity == null || player == null || !IsPublic(roomEntity))
-                    {
-                        return RoomResult.Error.ToString();
-                    }
-
-                    var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
-                    if (blockingResult != null)
-                    {
-                        return blockingResult;
-                    }
-
-                    SetPlayerTwo(roomEntity, player.player_id);
-                    context.SaveChanges();
-                    transaction.Commit();
-                    return RoomResult.Success.ToString();
+                    return blockingResult;
                 }
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
-            catch (DbUpdateException ex)
-            {
-                logger.Error(ex);
-                throw;
+
+                SetPlayerTwo(roomEntity, player.player_id);
+                context.SaveChanges();
+                transaction.Commit();
+                return RoomResult.Success.ToString();
             }
         }
 
         public string JoinRoomWithCode(Room room, string username, string code)
         {
-            try
+            if (room == null || string.IsNullOrWhiteSpace(room.Name))
             {
-                if (room == null || string.IsNullOrWhiteSpace(room.Name))
+                return RoomResult.Error.ToString();
+            }
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                var roomEntity = GetRoomEntityByName(room.Name);
+                var player = playerRepository.GetPlayerByUsername(username);
+                if (roomEntity == null || player == null || IsPublic(roomEntity))
                 {
                     return RoomResult.Error.ToString();
                 }
-                using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+                var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
+                if (blockingResult != null)
                 {
-                    var roomEntity = GetRoomEntityByName(room.Name);
-                    var player = playerRepository.GetPlayerByUsername(username);
-                    if (roomEntity == null || player == null || IsPublic(roomEntity))
-                    {
-                        return RoomResult.Error.ToString();
-                    }
-                    var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
-                    if (blockingResult != null)
-                    {
-                        return blockingResult;
-                    }
-                    if (!IsRoomCodeValid(roomEntity, code))
-                    {
-                        return RoomResult.WrongCode.ToString();
-                    }
-                    SetPlayerTwo(roomEntity, player.player_id);
-                    context.SaveChanges();
-                    transaction.Commit();
-                    return RoomResult.Success.ToString();
+                    return blockingResult;
                 }
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
-            catch (DbUpdateException ex)
-            {
-                logger.Error(ex);
-                throw;
+                if (!IsRoomCodeValid(roomEntity, code))
+                {
+                    return RoomResult.WrongCode.ToString();
+                }
+                SetPlayerTwo(roomEntity, player.player_id);
+                context.SaveChanges();
+                transaction.Commit();
+                return RoomResult.Success.ToString();
             }
         }
 
         public Room GetRoomByName(string roomName)
         {
-            try
-            {
-                var roomEntity = GetRoomEntityByName(roomName);
-                return roomEntity == null
-                    ? new Room { RoomId = 0 }
-                    : RoomEntityToContract(roomEntity);
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            var roomEntity = GetRoomEntityByName(roomName);
+            return roomEntity == null
+                ? new Room { RoomId = 0 }
+                : RoomEntityToContract(roomEntity);
         }
 
         public Room GetRoomById(int roomId)
         {
-            try
-            {
-                var roomEntity = GetRoomEntityById(roomId);
-                return roomEntity == null
-                    ? new Room { RoomId = 0 }
-                    : RoomEntityToContract(roomEntity);
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
+            var roomEntity = GetRoomEntityById(roomId);
+            return roomEntity == null
+                ? new Room { RoomId = 0 }
+                : RoomEntityToContract(roomEntity);
+        }
+
+        public Room GetRoomByCode(string code)
+        {
+            var roomEntity = GetRoomEntityByCode(code);
+            return roomEntity == null
+                ? new Room { RoomId = 0 }
+                : RoomEntityToContract(roomEntity);
         }
 
         public PlayerStatusChangeResult ChangePlayerStatus(Contracts.PlayerStatus status)
         {
-            try
+            var result = new PlayerStatusChangeResult { Status = RoomResult.Error.ToString() };
+            PlayerPossibleStatus newStatus;
+            if (status == null || !TryParsePlayerStatus(status.Status, out newStatus))
             {
-                var result = new PlayerStatusChangeResult { Status = RoomResult.Error.ToString() };
-                Enums.PlayerPossibleStatus newStatus;
-                if (status == null || !TryParsePlayerStatus(status.Status, out newStatus))
+                return result;
+            }
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                var room = GetRoomEntityById(status.RoomId);
+                var member = GetRoomMember(room, status.Username);
+                if (member == null)
                 {
                     return result;
                 }
 
-                using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+                result.Status = RoomResult.Success.ToString();
+                result.ChangedPlayer = BuildPlayerStatus(room, member, newStatus);
+                var changeContext = new StatusChangeContext
                 {
-                    var room = GetRoomEntityById(status.RoomId);
-                    var member = GetRoomMember(room, status.Username);
-                    if (member == null)
-                    {
-                        return result;
-                    }
-
-                    result.Status = RoomResult.Success.ToString();
-                    result.ChangedPlayer = BuildPlayerStatus(room, member, newStatus);
-                    var changeContext = new StatusChangeContext
-                    {
-                        Room = room,
-                        Member = member,
-                        NewStatus = newStatus,
-                        Result = result
-                    };
-                    ApplyStatusChange(changeContext);
-                    transaction.Commit();
-                    return result;
-                }
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
-                throw;
-            }
-            catch (DbUpdateException ex)
-            {
-                logger.Error(ex);
-                throw;
+                    Room = room,
+                    Member = member,
+                    NewStatus = newStatus,
+                    Result = result
+                };
+                ApplyStatusChange(changeContext);
+                transaction.Commit();
+                return result;
             }
         }
 
@@ -532,9 +462,9 @@ namespace MasterMind_Server.Repositories
             return null;
         }
 
-        private Contracts.PlayerStatus BuildPlayerStatus(MatchRoom room, RoomMember member, Enums.PlayerPossibleStatus status)
+        private PlayerStatus BuildPlayerStatus(MatchRoom room, RoomMember member, Enums.PlayerPossibleStatus status)
         {
-            return new Contracts.PlayerStatus
+            return new PlayerStatus
             {
                 RoomId = room.match_room_id,
                 Username = member.Username,
@@ -543,12 +473,12 @@ namespace MasterMind_Server.Repositories
             };
         }
 
-        private static bool TryParsePlayerStatus(string status, out Enums.PlayerPossibleStatus result)
+        private static bool TryParsePlayerStatus(string status, out PlayerPossibleStatus result)
         {
-            result = Enums.PlayerPossibleStatus.NotReady;
+            result = PlayerPossibleStatus.NotReady;
             return !string.IsNullOrWhiteSpace(status)
                 && Enum.TryParse(status.Trim(), true, out result)
-                && Enum.IsDefined(typeof(Enums.PlayerPossibleStatus), result);
+                && Enum.IsDefined(typeof(PlayerPossibleStatus), result);
         }
 
         private static RoomPrivacy? ParsePrivacy(string privacy)
@@ -637,6 +567,25 @@ namespace MasterMind_Server.Repositories
                 .Include(room => room.Player)
                 .Include(room => room.Player1)
                 .FirstOrDefault(room => room.match_room_id == roomId);
+        }
+
+        private MatchRoom GetRoomEntityByCode(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+
+            var roomCode = code.Trim();
+            var roomEntity = context.MatchRoom
+                .Include(room => room.Player)
+                .Include(room => room.Player1)
+                .Include(room => room.GameModesCatalog)
+                .Include(room => room.DifficultiesCatalog)
+                .Include(room => room.PrivacyCatalog)
+                .FirstOrDefault(room => room.room_code == roomCode);
+
+            return roomEntity != null && !IsPublic(roomEntity) ? roomEntity : null;
         }
 
         private Room RoomEntityToContract(MatchRoom room)

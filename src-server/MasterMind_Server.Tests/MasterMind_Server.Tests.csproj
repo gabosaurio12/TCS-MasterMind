@@ -97,12 +97,18 @@
     <Compile Include="TestSupport\TestDatabase.cs" />
     <Compile Include="TestSupport\LobbyServiceHost.cs" />
     <Compile Include="TestSupport\LobbyCallbackProbe.cs" />
+<<<<<<< HEAD
     <Compile Include="TestSupport\AvatarImageFactory.cs" />
     <Compile Include="TestSupport\AvatarServiceHost.cs" />
     <Compile Include="TestSupport\AvatarTestFiles.cs" />
     <Compile Include="TestSupport\StubPlayerRepository.cs" />
+=======
+    <Compile Include="TestSupport\FriendsServiceHost.cs" />
+    <Compile Include="TestSupport\FriendsCallbackProbe.cs" />
+>>>>>>> f2176d4a40e34399c96cbc7e7716b9456553aa34
     <Compile Include="PlayerServiceTests.cs" />
     <Compile Include="FriendsServiceTests.cs" />
+    <Compile Include="FriendsCallbackTests.cs" />
     <Compile Include="RoomServiceTests.cs" />
     <Compile Include="LobbyServiceTests.cs" />
     <Compile Include="CodeServiceTests.cs" />
