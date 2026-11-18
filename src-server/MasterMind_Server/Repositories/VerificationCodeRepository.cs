@@ -34,32 +34,25 @@ namespace MasterMind_Server.Repositories
         {
             string code = GenerateVerificationCode();
 
-            try
+            if (Context.VerificationCode.FirstOrDefault(vc => vc.verification_code.Equals(code)) == null)
             {
-                if (Context.VerificationCode.FirstOrDefault(vc => vc.verification_code.Equals(code)) == null)
+                var currentCode = Context.VerificationCode.FirstOrDefault(vc => vc.player_id == playerId);
+                if (currentCode != null)
                 {
-                    var currentCode = Context.VerificationCode.FirstOrDefault(vc => vc.player_id == playerId);
-                    if (currentCode != null)
-                    {
-                        Context.VerificationCode.Remove(currentCode);
-                        Context.SaveChanges();
-                    }
-
-                    Context.VerificationCode.Add(
-                        new VerificationCode
-                        {
-                            verification_code = code,
-                            player_id = playerId
-                        });
-
+                    Context.VerificationCode.Remove(currentCode);
                     Context.SaveChanges();
-
-                    return (true, code);
                 }
-            }
-            catch (EntityException ex)
-            {
-                logger.Error(ex);
+
+                Context.VerificationCode.Add(
+                    new VerificationCode
+                    {
+                        verification_code = code,
+                        player_id = playerId
+                    });
+
+                Context.SaveChanges();
+
+                return (true, code);
             }
 
             return (false, "");
@@ -67,28 +60,21 @@ namespace MasterMind_Server.Repositories
 
         public static bool AuthVerificationCode(string username, string code)
         {
-            try
+            var player = new PlayerRepository().GetPlayerByUsername(username);
+            if (player != null)
             {
-                var player = new PlayerRepository().GetPlayerByUsername(username);
-                if (player != null)
-                {
-                    var authCode = Context.VerificationCode.FirstOrDefault(
-                        verificationCode => verificationCode.verification_code == code
-                        && verificationCode.player_id == player.player_id);
+                var authCode = Context.VerificationCode.FirstOrDefault(
+                    verificationCode => verificationCode.verification_code == code
+                    && verificationCode.player_id == player.player_id);
 
-                    if (authCode != null)
-                    {
-                        Context.VerificationCode.Remove(authCode);
-                        Context.SaveChanges();
-                        return true;
-                    }
+                if (authCode != null)
+                {
+                    Context.VerificationCode.Remove(authCode);
+                    Context.SaveChanges();
+                    return true;
                 }
-                return false;
             }
-            catch (EntityException)
-            {
-                throw;
-            }
+            return false;
         }
     }
 }
