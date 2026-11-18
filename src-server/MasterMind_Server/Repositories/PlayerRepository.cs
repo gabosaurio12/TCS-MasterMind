@@ -150,10 +150,10 @@ namespace MasterMind_Server.Repositories
                         throw;
                     }
                 }
-                else
-                {
-                    validationResult = RepositoriesMessages.PlayerNotFound.ToString();
-                }
+            }
+            else
+            {
+                validationResult = RepositoriesMessages.PlayerNotFound.ToString();
             }
 
             return validationResult;
