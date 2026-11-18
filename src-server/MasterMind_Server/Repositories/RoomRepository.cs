@@ -48,9 +48,8 @@ namespace MasterMind_Server.Repositories
 
                 return rooms.Select(RoomEntityToContract).ToList();
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -66,14 +65,12 @@ namespace MasterMind_Server.Repositories
                 }
                 return PersistRoom(data);
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -108,14 +105,12 @@ namespace MasterMind_Server.Repositories
                     return RoomResult.Success.ToString();
                 }
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -151,14 +146,12 @@ namespace MasterMind_Server.Repositories
                     return RoomResult.Success.ToString();
                 }
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -172,9 +165,8 @@ namespace MasterMind_Server.Repositories
                     ? new Room { RoomId = 0 }
                     : RoomEntityToContract(roomEntity);
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -188,9 +180,8 @@ namespace MasterMind_Server.Repositories
                     ? new Room { RoomId = 0 }
                     : RoomEntityToContract(roomEntity);
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -204,9 +195,8 @@ namespace MasterMind_Server.Repositories
                     ? new Room { RoomId = 0 }
                     : RoomEntityToContract(roomEntity);
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
         }
@@ -216,7 +206,7 @@ namespace MasterMind_Server.Repositories
             try
             {
                 var result = new PlayerStatusChangeResult { Status = RoomResult.Error.ToString() };
-                Enums.PlayerPossibleStatus newStatus;
+                PlayerPossibleStatus newStatus;
                 if (status == null || !TryParsePlayerStatus(status.Status, out newStatus))
                 {
                     return result;
@@ -245,14 +235,12 @@ namespace MasterMind_Server.Repositories
                     return result;
                 }
             }
-            catch (EntityException ex)
+            catch (EntityException)
             {
-                logger.Error(ex);
                 throw;
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
-                logger.Error(ex);
                 throw;
             }
         }

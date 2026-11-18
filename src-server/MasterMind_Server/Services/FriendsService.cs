@@ -49,7 +49,7 @@ namespace MasterMind_Server.Services
             return RepositoriesMessages.Success.ToString().Equals(result, StringComparison.OrdinalIgnoreCase);
         }
 
-        private void NotifyFriendshipStatusChanged(string username)
+        private static void NotifyFriendshipStatusChanged(string username)
         {
             if (string.IsNullOrEmpty(username) || !friendsClientsByModal.TryGetValue(username, out var callback))
             {

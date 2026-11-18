@@ -22,8 +22,9 @@ namespace MasterMind_Server.Services
                 var authResult = VerificationCodeRepository.AuthVerificationCode(username, code);
                 return authResult;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 var clientMessage = new ErrorMessage
                 {
                     Message = ErrorMessages.DataBaseError.ToString()
