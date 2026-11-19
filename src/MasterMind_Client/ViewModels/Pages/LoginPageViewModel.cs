@@ -5,6 +5,7 @@ using MasterMind_Client.ViewModels.Services;
 using log4net;
 using System;
 using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace MasterMind_Client.ViewModels.Pages
 {
@@ -31,12 +32,12 @@ namespace MasterMind_Client.ViewModels.Pages
         {
             this.navigationService = navigationService;
             this.dialogService = dialogService;
-            LoginCommand = new RelayCommand(_ => Login());
+            LoginCommand = new RelayCommand(async _ => await Login());
             SignupCommand = new RelayCommand(_ => NavigateTo("Pages/SignupPage.xaml"));
             LanguageCommand = new RelayCommand(_ => ChangeLanguage());
         }
 
-        private void Login()
+        private async Task Login()
         {
             var player = new Player
             {
@@ -44,13 +45,14 @@ namespace MasterMind_Client.ViewModels.Pages
                 Password = Password
             };
 
-            if (ValidateFormsData(player))
+            if (await ValidateFormsData(player))
             {
                 dialogService.ShowVerificationCode(player.Username, OnVerificationSucceded);
+                dialogService.ShowSuccess(Properties.Resources.VerificationCodeModal_CodeSent);
             }
         }
 
-        private bool ValidateFormsData(Player player)
+        private async Task<bool> ValidateFormsData(Player player)
         {
             var isValid = true;
             if (string.IsNullOrWhiteSpace(player.Username) || string.IsNullOrWhiteSpace(player.Password))
@@ -62,7 +64,8 @@ namespace MasterMind_Client.ViewModels.Pages
             var service = new PlayerServiceClient();
             try
             {
-                if (!service.LoginPlayer(player.Username, player.Password))
+                var result = await service.LoginPlayerAsync(player.Username, player.Password);
+                if (!result)
                 {
                     dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCredentials);
                     isValid = false;

@@ -3,6 +3,10 @@
     internal enum ErrorMessages
     {
         DataBaseError,
-        HashError
+        HashError,
+        InvalidImage,
+        ImageTooLarge,
+        ImageProcessingError,
+        PlayerNotFound
     }
 }

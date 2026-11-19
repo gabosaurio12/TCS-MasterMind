@@ -1,17 +1,21 @@
+using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.Helpers;
-using System;
-using System.Windows.Media;
+using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace MasterMind_Client.ViewModels.UserControls
 {
     public class FriendViewModel : ViewModelBase
     {
-        public FriendViewModel(string username)
+        private ImageSource avatar = AvatarLoader.GetDefaultAvatar();
+
+        public ImageSource Avatar
         {
-            Username = username;
-            OnlineBrush = UtilsUI.OfflineGray;
-            RemoveCommand = new RelayCommand(_ => Removed?.Invoke(this, EventArgs.Empty));
+            get { return this.avatar; }
+            private set { SetProperty(ref this.avatar, value); }
         }
 
         public string Username { get; }
@@ -21,5 +25,19 @@ namespace MasterMind_Client.ViewModels.UserControls
         public RelayCommand RemoveCommand { get; }
 
         public event EventHandler Removed;
+
+        public FriendViewModel(string username)
+        {
+            Username = username;
+            OnlineBrush = UtilsUI.OfflineGray;
+            RemoveCommand = new RelayCommand(_ => Removed?.Invoke(this, EventArgs.Empty));
+            var player = new PlayerServiceClient().GetPlayerByUsername(username);
+            _ = LoadAvatarAsync(player);
+        }
+
+        private async Task LoadAvatarAsync(Player requester)
+        {
+            Avatar = await AvatarLoader.GetAvatarAsync(requester.PlayerId, requester.AvatarPath);
+        }
     }
 }

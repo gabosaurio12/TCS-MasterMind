@@ -22,6 +22,7 @@ namespace MasterMind_Client
         public string Username { get; private set; }
         public string Email { get; private set; }
         public ImageSource Avatar { get; private set; }
+        public string AvatarPath { get; private set; }
 
         private CurrentPlayer()
         {
@@ -32,6 +33,18 @@ namespace MasterMind_Client
             Id = player.PlayerId;
             Username = player.Username;
             Email = player.Email;
+            if (AvatarPath != player.AvatarPath)
+            {
+                Avatar = null;
+            }
+
+            AvatarPath = player.AvatarPath;
+        }
+
+        public void SetAvatar(ImageSource avatar, string avatarPath)
+        {
+            Avatar = avatar;
+            AvatarPath = avatarPath;
         }
     }
 }

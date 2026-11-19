@@ -8,6 +8,8 @@ namespace MasterMind_Server.Repositories.Interfaces
 
         List<Contracts.Player> GetFriendRequests(int playerId);
 
+        List<Contracts.Friendship> GetAllFriendshipsAndRequests(int playerId);
+
         Contracts.Friendship GetFriendship(int addresseeId, int requesterId);
 
         Contracts.Friendship GetFriendRequest(int addresseeId, int requesterId);

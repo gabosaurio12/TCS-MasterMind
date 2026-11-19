@@ -23,5 +23,7 @@ namespace MasterMind_Client.ViewModels.Services
         void ShowFriendRequests();
 
         void ShowLogOut();
+
+        string PickImageFile();
     }
 }

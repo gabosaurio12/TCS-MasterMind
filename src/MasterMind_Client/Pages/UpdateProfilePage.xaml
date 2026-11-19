@@ -33,15 +33,30 @@
                          Stroke="{StaticResource FrameMetalBrush}" StrokeThickness="12">
                     <Ellipse.Fill>
                         <ImageBrush x:Name="AvatarImg"
-                                    ImageSource="{StaticResource AvatarImage}"
+                                    ImageSource="{Binding AvatarPreview}"
                                     Stretch="UniformToFill" />
                     </Ellipse.Fill>
                 </Ellipse>
 
-                <Image x:Name="EditAvatarImg" Source="{StaticResource EditAvatarIconImage}"
-                       Width="130" Height="130" Stretch="Uniform"
-                       HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                       Margin="0,0,-65,-65" />
+                <Button x:Name="EditAvatarBtn" Command="{Binding ChooseAvatarCommand}"
+                        Width="130" Height="130" Padding="0" Cursor="Hand"
+                        HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Margin="0,0,-65,-65">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Image x:Name="EditAvatarImg" Source="{StaticResource EditAvatarIconImage}"
+                                   Stretch="Uniform" />
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="EditAvatarImg" Property="Opacity" Value="0.92" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="EditAvatarImg" Property="Opacity" Value="0.45" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">

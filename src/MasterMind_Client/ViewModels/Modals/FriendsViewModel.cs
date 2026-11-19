@@ -11,6 +11,7 @@ using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Modals
 {
+    [CallbackBehavior(UseSynchronizationContext = false)]
     public class FriendsViewModel : ModalViewModelBase, IFriendsServiceCallback
     {
 
@@ -26,6 +27,8 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private readonly FriendsServiceClient friendService;
 
+        private bool disposed;
+
         public FriendsViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
@@ -37,7 +40,7 @@ namespace MasterMind_Client.ViewModels.Modals
             CloseCommand = new RelayCommand(_ => RequestClose());
             FriendRequestsCommand = new RelayCommand(_ => OpenFriendRequests());
             LoadFriends();
-            RegisterFriendships();
+            Subscribe();
         }
 
         private void LoadFriends()
@@ -54,7 +57,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<ErrorMessage> faultException)
             {
-                logger.WarnFormat(faultException.Detail.Message);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
@@ -69,43 +72,15 @@ namespace MasterMind_Client.ViewModels.Modals
             }
         }
 
-        private void RegisterFriendships()
+        private void Subscribe()
         {
             try
             {
-                var friendRequests = friendService.GetFriendRequests(CurrentPlayer.Instance.Id);
-                foreach (var requester in friendRequests)
-                {
-                    var request = friendService.GetFriendRequest(
-                        CurrentPlayer.Instance.Id,
-                        requester.PlayerId);
-
-                    if (request.FriendshipId > 0)
-                    {
-                        friendService.RegisterFriendRequestsClient(
-                            request.FriendshipId,
-                            CurrentPlayer.Instance.Username);
-                    }
-                }
-
-                var frienships = friendService.GetFriendships(CurrentPlayer.Instance.Id);
-                foreach (var friend in frienships)
-                {
-                    var request = friendService.GetFriendship(
-                        CurrentPlayer.Instance.Id,
-                        friend.PlayerId);
-
-                    if (request.FriendshipId > 0)
-                    {
-                        friendService.RegisterFriendsClient(
-                        request.FriendshipId,
-                        CurrentPlayer.Instance.Username);
-                    }
-                }
+                friendService.Subscribe(CurrentPlayer.Instance.Username);
             }
             catch (FaultException<ErrorMessage> faultException)
             {
-                logger.WarnFormat(faultException.Detail.Message);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
@@ -126,9 +101,58 @@ namespace MasterMind_Client.ViewModels.Modals
             RequestClose();
         }
 
+        private void ClearFriends()
+        {
+            foreach (var friendVm in Friends)
+            {
+                friendVm.Removed -= OnFriendRemoved;
+            }
+
+            Friends.Clear();
+        }
+
         public void OnFriendshipStatusChanged()
         {
-            MessageBox.Show("Friendship status changed. Refreshing friends list.");
+            Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                if (disposed)
+                {
+                    return;
+                }
+
+                ClearFriends();
+                LoadFriends();
+            }));
+        }
+
+        public void Dispose()
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            disposed = true;
+            foreach (var friendVm in Friends)
+            {
+                friendVm.Removed -= OnFriendRemoved;
+            }
+
+            CloseChannel();
+        }
+
+        private void CloseChannel()
+        {
+            try
+            {
+                friendService.Unsubscribe(CurrentPlayer.Instance.Username);
+                friendService.Close();
+            }
+            catch (Exception ex) when (ex is CommunicationException || ex is TimeoutException)
+            {
+                logger.Error(ex);
+                friendService.Abort();
+            }
         }
 
         private void OnFriendRemoved(object sender, EventArgs e)
@@ -155,7 +179,7 @@ namespace MasterMind_Client.ViewModels.Modals
             }
             catch (FaultException<FriendsService.ErrorMessage> faultException)
             {
-                logger.WarnFormat(faultException.Detail.Message);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)

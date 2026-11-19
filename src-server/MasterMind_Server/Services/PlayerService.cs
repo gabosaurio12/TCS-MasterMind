@@ -37,8 +37,9 @@ namespace MasterMind_Server.Services
 
                 return result;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw new FaultException(ErrorMessages.DataBaseError.ToString());
             }
         }
@@ -86,15 +87,17 @@ namespace MasterMind_Server.Services
                         PlayerId = playerEntity.player_id,
                         Username = playerEntity.username,
                         Email = playerEntity.email,
-                        Password = playerEntity.password
+                        Password = playerEntity.password,
+                        AvatarPath = playerEntity.avatar_path
                     };
                     return player;
                 }
 
                 return player;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw new FaultException(ErrorMessages.DataBaseError.ToString());
             }
             
@@ -125,8 +128,9 @@ namespace MasterMind_Server.Services
 
                 return player;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw new FaultException(ErrorMessages.DataBaseError.ToString());
 
             }
@@ -147,8 +151,9 @@ namespace MasterMind_Server.Services
                 
                 return result;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw new FaultException(ErrorMessages.DataBaseError.ToString());
 
             }
@@ -174,8 +179,9 @@ namespace MasterMind_Server.Services
 
                 return playerRecords;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw new FaultException(ErrorMessages.DataBaseError.ToString());
 
             }
@@ -208,8 +214,9 @@ namespace MasterMind_Server.Services
             {
                 playerRepository.ReportPlayer(reportDto);
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
+                logger.Error(ex);
                 throw new FaultException(ErrorMessages.DataBaseError.ToString());
             }
         }

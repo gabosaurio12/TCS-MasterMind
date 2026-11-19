@@ -16,6 +16,7 @@ namespace MasterMind_Client.Modals
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+            (DataContext as IDisposable)?.Dispose();
             if (Owner != null)
             {
                 Owner.Activate();

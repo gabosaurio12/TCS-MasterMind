@@ -18,53 +18,44 @@ namespace MasterMind_Server.Repositories
         private const char CensorshipCharacter = '*';
         private static readonly string[] bannedWords = { "pendejo", "mierda", "fuck", "shit" };
         private static readonly Regex bannedWordsRegex = BuildBannedWordsRegex();
-        private readonly ILog logger = LogManager.GetLogger(typeof(LobbyRepository));
         private readonly MasterMindEntities context = new MasterMindEntities(true);
         private readonly IPlayerRepository playerRepository = new PlayerRepository();
 
         public ChatMessageResult SendMessage(ChatMessage message)
         {
-            try
+            if (!IsMessageValid(message))
             {
-                if (!IsMessageValid(message))
-                {
-                    return CreateResult(LobbyResult.Error, null);
-                }
-
-                var room = GetRoomEntity(message.RoomId);
-                var member = GetRoomMember(room, message.SenderUsername);
-                if (member == null)
-                {
-                    return CreateResult(LobbyResult.Error, null);
-                }
-
-                bool hasBannedWords;
-                var content = message.Message.Trim();
-                var censoredMessage = CensorMessage(content, out hasBannedWords);
-
-                if (hasBannedWords)
-                {
-                    ReportOffensiveMessage(room, member);
-                }
-
-                LobbyResult status;
-                if (hasBannedWords)
-                {
-                    status = LobbyResult.InappropriateVocabulary;
-
-                }
-                else
-                {
-                    status = LobbyResult.MessageSent;
-                }
-
-                return CreateResult(status, censoredMessage);
+                return CreateResult(LobbyResult.Error, null);
             }
-            catch (EntityException ex)
+
+            var room = GetRoomEntity(message.RoomId);
+            var member = GetRoomMember(room, message.SenderUsername);
+            if (member == null)
             {
-                logger.Error(ex);
-                throw;
+                return CreateResult(LobbyResult.Error, null);
             }
+
+            bool hasBannedWords;
+            var content = message.Message.Trim();
+            var censoredMessage = CensorMessage(content, out hasBannedWords);
+
+            if (hasBannedWords)
+            {
+                ReportOffensiveMessage(room, member);
+            }
+
+            LobbyResult status;
+            if (hasBannedWords)
+            {
+                status = LobbyResult.InappropriateVocabulary;
+
+            }
+            else
+            {
+                status = LobbyResult.MessageSent;
+            }
+
+            return CreateResult(status, censoredMessage);
         }
 
         private static bool IsMessageValid(ChatMessage message)
