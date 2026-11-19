@@ -1,3 +1,4 @@
+using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.FriendsService;
 using MasterMind_Client.Helpers;
 using MasterMind_Client.ViewModels.Base;

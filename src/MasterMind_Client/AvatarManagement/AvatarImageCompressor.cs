@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace MasterMind_Client.Helpers
+namespace MasterMind_Client.AvatarManagement
 {
     public static class AvatarImageCompressor
     {
@@ -22,7 +22,7 @@ namespace MasterMind_Client.Helpers
         {
             if (sourceContent == null || sourceContent.Length == 0)
             {
-                throw new AvatarCompressionException("The selected image is empty.");
+                throw new Exception("The selected image is empty.");
             }
 
             try
@@ -32,14 +32,10 @@ namespace MasterMind_Client.Helpers
 
                 return EncodeWithinLimit(frame, targetSize);
             }
-            catch (AvatarCompressionException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
-                logger.Warn("The selected file is not a readable image.", ex);
-                throw new AvatarCompressionException("The selected file is not a valid image.");
+                logger.Error(ex);
+                throw new Exception("The selected file is not a valid image.");
             }
         }
 
@@ -54,7 +50,7 @@ namespace MasterMind_Client.Helpers
 
                 if (decoder.Frames.Count == 0)
                 {
-                    throw new AvatarCompressionException("The selected file has no readable frames.");
+                    throw new Exception("The selected file has no readable frames.");
                 }
 
                 return decoder.Frames[0];
@@ -84,8 +80,7 @@ namespace MasterMind_Client.Helpers
                 currentSize = reducedSize;
             }
 
-            logger.Error("The avatar could not be compressed below the maximum allowed size.");
-            throw new AvatarCompressionException("The image could not be compressed below 100 KB.");
+            throw new Exception("The image could not be compressed below 100 KB.");
         }
 
         private static byte[] EncodeWithFallingQuality(BitmapFrame frame, Size targetSize)
@@ -109,8 +104,10 @@ namespace MasterMind_Client.Helpers
 
         private static byte[] EncodeJpeg(BitmapFrame frame, Size targetSize, int quality)
         {
-            var encoder = new JpegBitmapEncoder();
-            encoder.QualityLevel = quality;
+            var encoder = new JpegBitmapEncoder
+            {
+                QualityLevel = quality
+            };
 
             using (var stream = new MemoryStream())
             {

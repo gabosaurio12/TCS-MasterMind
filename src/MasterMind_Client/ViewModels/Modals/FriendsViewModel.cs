@@ -7,7 +7,6 @@ using MasterMind_Client.ViewModels.UserControls;
 using System;
 using System.Collections.ObjectModel;
 using System.ServiceModel;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Modals
