@@ -345,9 +345,8 @@
     </Compile>
     <Compile Include="Helpers\UtilsUI.cs" />
     <Compile Include="Helpers\PasswordValidator.cs" />
-    <Compile Include="Helpers\AvatarImageCompressor.cs" />
-    <Compile Include="Helpers\AvatarCompressionException.cs" />
-    <Compile Include="Helpers\AvatarLoader.cs" />
+    <Compile Include="AvatarManagement\AvatarImageCompressor.cs" />
+    <Compile Include="AvatarManagement\AvatarLoader.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />

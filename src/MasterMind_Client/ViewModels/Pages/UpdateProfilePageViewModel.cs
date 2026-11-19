@@ -1,7 +1,7 @@
 using log4net;
 using MasterMind_Client.AvatarService;
 using MasterMind_Client.Enums;
-using MasterMind_Client.Helpers;
+using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
@@ -104,15 +104,15 @@ namespace MasterMind_Client.ViewModels.Pages
                 pendingAvatarBytes = AvatarImageCompressor.Compress(File.ReadAllBytes(filePath));
                 AvatarPreview = CreatePreview(pendingAvatarBytes);
             }
-            catch (AvatarCompressionException ex)
-            {
-                ReportInvalidImage(ex);
-            }
             catch (IOException ex)
             {
                 ReportInvalidImage(ex);
             }
             catch (UnauthorizedAccessException ex)
+            {
+                ReportInvalidImage(ex);
+            }
+            catch (Exception ex)
             {
                 ReportInvalidImage(ex);
             }

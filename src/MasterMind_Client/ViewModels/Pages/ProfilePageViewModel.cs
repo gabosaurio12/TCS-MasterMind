@@ -1,4 +1,4 @@
-using MasterMind_Client.Helpers;
+using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;

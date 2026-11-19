@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace MasterMind_Client.Helpers
+namespace MasterMind_Client.AvatarManagement
 {
     public static class AvatarLoader
     {
@@ -53,35 +53,40 @@ namespace MasterMind_Client.Helpers
         private static async Task<ImageSource> RequestAvatarAsync(int playerId)
         {
             var avatarClient = new AvatarServiceClient();
+            var avatarImage = GetDefaultAvatar();
 
             try
             {
                 var image = await avatarClient.GetAvatarAsync(playerId);
 
-                return image.Content.Length == 0 ? null : CreateImage(image.Content);
+                if (image.Content.Length > 0)
+                {
+                    avatarImage = CreateImage(image.Content);
+                }
+
             }
             catch (FaultException ex)
             {
-                logger.Warn("The server could not return the avatar.", ex);
+                logger.Error(ex);
             }
             catch (CommunicationException ex)
             {
-                logger.Error("Communication failure while loading the avatar.", ex);
+                logger.Error(ex);
             }
             catch (TimeoutException ex)
             {
-                logger.Error("Timeout while loading the avatar.", ex);
+                logger.Warn(ex);
             }
             catch (NotSupportedException ex)
             {
-                logger.Warn("The avatar returned by the server is not a valid image.", ex);
+                logger.Warn(ex);
             }
             finally
             {
                 CloseClient(avatarClient);
             }
 
-            return null;
+            return avatarImage;
         }
 
         private static BitmapImage CreateImage(byte[] content)
@@ -109,12 +114,12 @@ namespace MasterMind_Client.Helpers
             }
             catch (CommunicationException ex)
             {
-                logger.Warn("The avatar channel could not be closed cleanly.", ex);
+                logger.Error(ex);
                 avatarClient.Abort();
             }
             catch (TimeoutException ex)
             {
-                logger.Warn("Timeout while closing the avatar channel.", ex);
+                logger.Warn(ex);
                 avatarClient.Abort();
             }
         }
