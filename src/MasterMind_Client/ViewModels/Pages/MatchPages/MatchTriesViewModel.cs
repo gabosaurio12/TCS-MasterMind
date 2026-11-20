@@ -24,19 +24,32 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         private readonly int roomId;
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
-        private readonly MatchServiceClient matchService = new MatchServiceClient();
+        private readonly MatchCallbackHandler callbackHandler = new MatchCallbackHandler();
+        private readonly MatchServiceClient matchService;
         private readonly RoomServiceClient roomService = new RoomServiceClient();
 
         private int remainingTries;
         private int currentRowIndex;
         private bool isSending;
         private bool isFinished;
+        private bool isRoundClosed;
+        private bool isSubscribed;
+        private bool disposed;
+        private bool isWaitingForOpponent;
+        private RoundResult pendingResult;
+        private IReadOnlyList<PinColour> lastCode;
         private PaletteColourViewModel selectedColour;
 
         public int RemainingTries
         {
             get => remainingTries;
             private set => SetProperty(ref remainingTries, value);
+        }
+
+        public bool IsWaitingForOpponent
+        {
+            get => isWaitingForOpponent;
+            private set => SetProperty(ref isWaitingForOpponent, value);
         }
 
         public ObservableCollection<MatchRowViewModel> TriesRows { get; } =
@@ -54,6 +67,12 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
             this.navigationService = navigationService;
             this.dialogService = dialogService;
             roomId = RouteQuery.GetInt(uri, "roomId");
+            
+            matchService = new MatchServiceClient(new InstanceContext(callbackHandler));
+
+            callbackHandler.OpponentFinished += OnOpponentFinished;
+            callbackHandler.RoundResolved += OnRoundResolved;
+            callbackHandler.OpponentAbandoned += OnOpponentAbandoned;
 
             CreateBoard();
             CreatePalette();
@@ -69,11 +88,19 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
                 return;
             }
 
-            await LoadRemainingTriesAsync();
+            if (await SubscribeAsync())
+            {
+                await LoadRemainingTriesAsync();
+            }
         }
 
         public void Dispose()
         {
+            disposed = true;
+            callbackHandler.OpponentFinished -= OnOpponentFinished;
+            callbackHandler.RoundResolved -= OnRoundResolved;
+            callbackHandler.OpponentAbandoned -= OnOpponentAbandoned;
+            Unsubscribe();
             CloseClient(matchService);
             CloseClient(roomService);
         }
@@ -125,6 +152,50 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         private bool CanSubmitTry()
         {
             return RemainingTries > 0 && !isSending && !isFinished && CurrentRow.IsComplete;
+        }
+
+        private async Task<bool> SubscribeAsync()
+        {
+            try
+            {
+                await matchService.SubscribeAsync(CurrentPlayer.Instance.Username);
+                isSubscribed = true;
+            }
+            catch (FaultException<MatchService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat(faultException.Detail.Message);
+                LeaveAfterError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error(faultException);
+                LeaveAfterError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error(communicationException);
+                LeaveAfterError(string.Empty);
+            }
+
+            return isSubscribed;
+        }
+
+        private void Unsubscribe()
+        {
+            if (!isSubscribed)
+            {
+                return;
+            }
+
+            try
+            {
+                matchService.Unsubscribe(CurrentPlayer.Instance.Username);
+            }
+            catch (Exception exception) when (exception is CommunicationException
+                || exception is TimeoutException)
+            {
+                logger.Warn(exception);
+            }
         }
 
         private async Task LoadRemainingTriesAsync()
@@ -241,14 +312,86 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
 
         private void FinishWon(IReadOnlyList<PinColour> code)
         {
-            isFinished = true;
-            dialogService.ShowYouWon(code, ReturnToRoom);
+            lastCode = code;
+            FinishLocally();
         }
 
         private void FinishLost()
         {
+            FinishLocally();
+        }
+
+        private void FinishLocally()
+        {
             isFinished = true;
-            dialogService.ShowGameOver(ReturnToRoom);
+            if (isRoundClosed)
+            {
+                return;
+            }
+
+            if (pendingResult != null)
+            {
+                ShowResult(pendingResult);
+                return;
+            }
+
+            IsWaitingForOpponent = true;
+        }
+
+        private void OnOpponentFinished(object sender, OpponentProgress progress)
+        {
+            logger.InfoFormat("Opponent {0} finished (solved: {1}, tries: {2})",
+                progress.Username, progress.Solved, progress.TriesUsed);
+        }
+
+        private void OnRoundResolved(object sender, RoundResult result)
+        {
+            if (disposed || isRoundClosed)
+            {
+                return;
+            }
+
+            if (!isFinished)
+            {
+                pendingResult = result;
+                return;
+            }
+
+            ShowResult(result);
+        }
+
+        private void OnOpponentAbandoned(object sender, string username)
+        {
+            if (disposed || isRoundClosed)
+            {
+                return;
+            }
+
+            CloseRound();
+            dialogService.ShowSuccess(Properties.Resources.MatchTries_OpponentAbandoned, ReturnToRoom);
+        }
+
+        private void CloseRound()
+        {
+            isRoundClosed = true;
+            isFinished = true;
+            IsWaitingForOpponent = false;
+        }
+
+        private void ShowResult(RoundResult result)
+        {
+            CloseRound();
+            string winner = result.WinnerUsername;
+            if (string.Equals(winner, CurrentPlayer.Instance.Username, StringComparison.OrdinalIgnoreCase))
+            {
+                dialogService.ShowYouWon(lastCode, ReturnToRoom);
+                return;
+            }
+
+            string title = string.IsNullOrEmpty(winner)
+                ? Properties.Resources.MatchTries_RoundTie
+                : Properties.Resources.MatchTries_RoundLost;
+            dialogService.ShowGameOver(title, ReturnToRoom);
         }
 
         private void ReturnToRoom()

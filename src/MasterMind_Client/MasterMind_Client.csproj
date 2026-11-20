@@ -53,7 +53,9 @@
     <Compile Include="ViewModels\Pages\MatchPages\MatchClueSlotViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchPinSlotViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchRowViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchCallbackHandler.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchRules.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\NoOpMatchCallback.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchTriesViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\PaletteColourViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\PinColour.cs" />

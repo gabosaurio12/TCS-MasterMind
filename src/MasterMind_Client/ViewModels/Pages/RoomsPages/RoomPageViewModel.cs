@@ -5,6 +5,7 @@ using MasterMind_Client.MatchService;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
+using MasterMind_Client.ViewModels.Pages.MatchPages;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
 using System;
@@ -115,7 +116,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private DispatcherTimer countdownTimer;
 
         private readonly RoomServiceClient roomService = new RoomServiceClient();
-        private readonly MatchServiceClient matchService = new MatchServiceClient();
+        private readonly MatchServiceClient matchService =
+            new MatchServiceClient(new InstanceContext(new NoOpMatchCallback()));
         private readonly LobbyServiceClient lobbyService;
 
         public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)

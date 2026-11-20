@@ -28,7 +28,7 @@ namespace MasterMind_Client.ViewModels.Services
 
         void ShowYouWon(IReadOnlyList<PinColour> secretCode, Action continued);
 
-        void ShowGameOver(Action continued);
+        void ShowGameOver(string title, Action continued);
 
         string PickImageFile();
     }

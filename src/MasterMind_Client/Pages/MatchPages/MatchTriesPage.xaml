@@ -34,6 +34,10 @@
                     </Grid>
                 </StackPanel>
             </Border>
+            <Label x:Name="WaitingForOpponentLbl" Content="{x:Static p:Resources.MatchTries_WaitingForOpponent}"
+                   Visibility="{Binding IsWaitingForOpponent, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   FontFamily="{StaticResource Elite}" FontSize="32" Foreground="{DynamicResource CreamBrush}"
+                   HorizontalAlignment="Center" Margin="0,20,0,0"/>
         </StackPanel>
 
         <!-- Center: Deciphering Machine & Board -->

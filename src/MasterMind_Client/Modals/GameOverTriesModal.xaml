@@ -13,7 +13,7 @@
 
     <Grid>
         <Viewbox VerticalAlignment="Top" StretchDirection="DownOnly" Margin="100,56,100,0" Height="60">
-            <Label x:Name="ModalTitleLbl" Content="{x:Static p:Resources.GameOverTriesModal_Title}"
+            <Label x:Name="ModalTitleLbl" Content="{Binding Title}"
                    FontFamily="{StaticResource Elite}" Foreground="{StaticResource CreamBrush}"
                    FontSize="40" />
         </Viewbox>

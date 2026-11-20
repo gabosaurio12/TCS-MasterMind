@@ -471,4 +471,16 @@
   <data name="MatchTries_PinColours" xml:space="preserve">
     <value>Colores</value>
   </data>
+  <data name="MatchTries_WaitingForOpponent" xml:space="preserve">
+    <value>Esperando al rival...</value>
+  </data>
+  <data name="MatchTries_RoundTie" xml:space="preserve">
+    <value>Empate</value>
+  </data>
+  <data name="MatchTries_RoundLost" xml:space="preserve">
+    <value>Tu rival ganó la ronda</value>
+  </data>
+  <data name="MatchTries_OpponentAbandoned" xml:space="preserve">
+    <value>Tu rival abandonó la partida. ¡Ganas por defecto!</value>
+  </data>
 </root>

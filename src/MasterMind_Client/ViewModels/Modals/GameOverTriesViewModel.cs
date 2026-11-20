@@ -4,10 +4,13 @@ namespace MasterMind_Client.ViewModels.Modals
 {
     public class GameOverTriesViewModel : ModalViewModelBase
     {
-        public GameOverTriesViewModel()
+        public GameOverTriesViewModel(string title)
         {
+            Title = title;
             ContinueCommand = new RelayCommand(_ => RequestClose());
         }
+
+        public string Title { get; }
 
         public RelayCommand ContinueCommand { get; }
     }

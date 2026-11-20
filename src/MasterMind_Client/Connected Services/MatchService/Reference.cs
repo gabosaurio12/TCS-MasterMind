@@ -164,8 +164,146 @@ namespace MasterMind_Client.MatchService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="OpponentProgress", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts")]
+    [System.SerializableAttribute()]
+    public partial class OpponentProgress : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool SolvedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TriesUsedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Solved {
+            get {
+                return this.SolvedField;
+            }
+            set {
+                if ((this.SolvedField.Equals(value) != true)) {
+                    this.SolvedField = value;
+                    this.RaisePropertyChanged("Solved");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TriesUsed {
+            get {
+                return this.TriesUsedField;
+            }
+            set {
+                if ((this.TriesUsedField.Equals(value) != true)) {
+                    this.TriesUsedField = value;
+                    this.RaisePropertyChanged("TriesUsed");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Username {
+            get {
+                return this.UsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
+                    this.UsernameField = value;
+                    this.RaisePropertyChanged("Username");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RoundResult", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts")]
+    [System.SerializableAttribute()]
+    public partial class RoundResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MasterMind_Client.MatchService.OpponentProgress[] PlayersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string WinnerUsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterMind_Client.MatchService.OpponentProgress[] Players {
+            get {
+                return this.PlayersField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PlayersField, value) != true)) {
+                    this.PlayersField = value;
+                    this.RaisePropertyChanged("Players");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string WinnerUsername {
+            get {
+                return this.WinnerUsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WinnerUsernameField, value) != true)) {
+                    this.WinnerUsernameField = value;
+                    this.RaisePropertyChanged("WinnerUsername");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="MatchService.IMatchService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="MatchService.IMatchService", CallbackContract=typeof(MasterMind_Client.MatchService.IMatchServiceCallback))]
     public interface IMatchService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/UpdateCode", ReplyAction="http://tempuri.org/IMatchService/UpdateCodeResponse")]
@@ -181,6 +319,33 @@ namespace MasterMind_Client.MatchService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/ValidateTry", ReplyAction="http://tempuri.org/IMatchService/ValidateTryResponse")]
         System.Threading.Tasks.Task<MasterMind_Client.MatchService.Clues> ValidateTryAsync(string username, MasterMind_Client.MatchService.CodeTry codeTry);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/Subscribe", ReplyAction="http://tempuri.org/IMatchService/SubscribeResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.MatchService.ErrorMessage), Action="http://tempuri.org/IMatchService/SubscribeErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void Subscribe(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/Subscribe", ReplyAction="http://tempuri.org/IMatchService/SubscribeResponse")]
+        System.Threading.Tasks.Task SubscribeAsync(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/Unsubscribe", ReplyAction="http://tempuri.org/IMatchService/UnsubscribeResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.MatchService.ErrorMessage), Action="http://tempuri.org/IMatchService/UnsubscribeErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void Unsubscribe(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/Unsubscribe", ReplyAction="http://tempuri.org/IMatchService/UnsubscribeResponse")]
+        System.Threading.Tasks.Task UnsubscribeAsync(string username);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IMatchServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMatchService/OnOpponentFinishedCallback")]
+        void OnOpponentFinishedCallback(MasterMind_Client.MatchService.OpponentProgress progress);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMatchService/OnRoundResolvedCallback")]
+        void OnRoundResolvedCallback(MasterMind_Client.MatchService.RoundResult result);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMatchService/OnOpponentAbandonedCallback")]
+        void OnOpponentAbandonedCallback(string username);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -189,25 +354,26 @@ namespace MasterMind_Client.MatchService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class MatchServiceClient : System.ServiceModel.ClientBase<MasterMind_Client.MatchService.IMatchService>, MasterMind_Client.MatchService.IMatchService {
+    public partial class MatchServiceClient : System.ServiceModel.DuplexClientBase<MasterMind_Client.MatchService.IMatchService>, MasterMind_Client.MatchService.IMatchService {
         
-        public MatchServiceClient() {
+        public MatchServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public MatchServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public MatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public MatchServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public MatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public MatchServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public MatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public MatchServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public MatchServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public string UpdateCode(string username) {
@@ -224,6 +390,22 @@ namespace MasterMind_Client.MatchService {
         
         public System.Threading.Tasks.Task<MasterMind_Client.MatchService.Clues> ValidateTryAsync(string username, MasterMind_Client.MatchService.CodeTry codeTry) {
             return base.Channel.ValidateTryAsync(username, codeTry);
+        }
+        
+        public void Subscribe(string username) {
+            base.Channel.Subscribe(username);
+        }
+        
+        public System.Threading.Tasks.Task SubscribeAsync(string username) {
+            return base.Channel.SubscribeAsync(username);
+        }
+        
+        public void Unsubscribe(string username) {
+            base.Channel.Unsubscribe(username);
+        }
+        
+        public System.Threading.Tasks.Task UnsubscribeAsync(string username) {
+            return base.Channel.UnsubscribeAsync(username);
         }
     }
 }

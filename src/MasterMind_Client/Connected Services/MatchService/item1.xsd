@@ -14,4 +14,25 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Clues" nillable="true" type="tns:Clues" />
+  <xs:complexType name="OpponentProgress">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Solved" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TriesUsed" type="xs:int" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OpponentProgress" nillable="true" type="tns:OpponentProgress" />
+  <xs:complexType name="RoundResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Players" nillable="true" type="tns:ArrayOfOpponentProgress" />
+      <xs:element minOccurs="0" name="WinnerUsername" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RoundResult" nillable="true" type="tns:RoundResult" />
+  <xs:complexType name="ArrayOfOpponentProgress">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OpponentProgress" nillable="true" type="tns:OpponentProgress" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOpponentProgress" nillable="true" type="tns:ArrayOfOpponentProgress" />
 </xs:schema>

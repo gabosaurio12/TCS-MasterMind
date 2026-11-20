@@ -56,6 +56,33 @@
   <wsdl:message name="IMatchService_ValidateTry_ErrorMessageFault_FaultMessage">
     <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q2:ErrorMessage" />
   </wsdl:message>
+  <wsdl:message name="IMatchService_Subscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Subscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Subscribe_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q3:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Unsubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unsubscribe" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Unsubscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Unsubscribe_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q4:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_OnOpponentFinishedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnOpponentFinishedCallback" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_OnRoundResolvedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnRoundResolvedCallback" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_OnOpponentAbandonedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnOpponentAbandonedCallback" />
+  </wsdl:message>
   <wsdl:portType name="IMatchService">
     <wsdl:operation name="UpdateCode">
       <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/UpdateCode" message="tns:IMatchService_UpdateCode_InputMessage" />
@@ -66,6 +93,25 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/ValidateTry" message="tns:IMatchService_ValidateTry_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/ValidateTryResponse" message="tns:IMatchService_ValidateTry_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IMatchService/ValidateTryErrorMessageFault" name="ErrorMessageFault" message="tns:IMatchService_ValidateTry_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Subscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/Subscribe" message="tns:IMatchService_Subscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/SubscribeResponse" message="tns:IMatchService_Subscribe_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMatchService/SubscribeErrorMessageFault" name="ErrorMessageFault" message="tns:IMatchService_Subscribe_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/Unsubscribe" message="tns:IMatchService_Unsubscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/UnsubscribeResponse" message="tns:IMatchService_Unsubscribe_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMatchService/UnsubscribeErrorMessageFault" name="ErrorMessageFault" message="tns:IMatchService_Unsubscribe_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentFinishedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/OnOpponentFinishedCallback" message="tns:IMatchService_OnOpponentFinishedCallback_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnRoundResolvedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/OnRoundResolvedCallback" message="tns:IMatchService_OnRoundResolvedCallback_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentAbandonedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/OnOpponentAbandonedCallback" message="tns:IMatchService_OnOpponentAbandonedCallback_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IMatchService" type="tns:IMatchService">
@@ -94,6 +140,48 @@
       <wsdl:fault name="ErrorMessageFault">
         <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/Unsubscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentFinishedCallback">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/OnOpponentFinishedCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnRoundResolvedCallback">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/OnRoundResolvedCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentAbandonedCallback">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/OnOpponentAbandonedCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="MatchService">

@@ -601,6 +601,42 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Esperando al rival....
+        /// </summary>
+        public static string MatchTries_WaitingForOpponent {
+            get {
+                return ResourceManager.GetString("MatchTries_WaitingForOpponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empate.
+        /// </summary>
+        public static string MatchTries_RoundTie {
+            get {
+                return ResourceManager.GetString("MatchTries_RoundTie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tu rival ganó la ronda.
+        /// </summary>
+        public static string MatchTries_RoundLost {
+            get {
+                return ResourceManager.GetString("MatchTries_RoundLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tu rival abandonó la partida. ¡Ganas por defecto!.
+        /// </summary>
+        public static string MatchTries_OpponentAbandoned {
+            get {
+                return ResourceManager.GetString("MatchTries_OpponentAbandoned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Intentos restantes:.
         /// </summary>
         public static string MatchTries_RemainingTries {

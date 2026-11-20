@@ -135,10 +135,10 @@ namespace MasterMind_Client.ViewModels.Services
             modal.Show();
         }
 
-        public void ShowGameOver(Action continued)
+        public void ShowGameOver(string title, Action continued)
         {
             var modal = new GameOverTriesModal();
-            var viewModel = new GameOverTriesViewModel();
+            var viewModel = new GameOverTriesViewModel(title);
             modal.DataContext = viewModel;
             viewModel.CloseRequested += (sender, e) => modal.Close();
             modal.Closed += (sender, e) => continued?.Invoke();
