@@ -233,24 +233,6 @@
     <Compile Include="Contracts\IMatchService.cs" />
     <Compile Include="Contracts\IPlayerService.cs" />
     <Compile Include="Contracts\IRoomService.cs" />
-    <Compile Include="Data\ClueColorsCatalog.cs">
-      <DependentUpon>MasterMindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\CodeColorsCatalog.cs">
-      <DependentUpon>MasterMindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\CorrectPositionAndColors.cs">
-      <DependentUpon>MasterMindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\CorrectPositionAndColorsClue.cs">
-      <DependentUpon>MasterMindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\DecipherTry.cs">
-      <DependentUpon>MasterMindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\DecipherTryCode.cs">
-      <DependentUpon>MasterMindModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\DifficultiesCatalog.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
@@ -284,9 +266,6 @@
     <Compile Include="Data\MatchRoom.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\MatchRoomSecretCode.cs">
-      <DependentUpon>MasterMindModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Player.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
@@ -317,6 +296,9 @@
     <Compile Include="Data\RoundsTriesResults.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\SecretCode.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\TimeTrialConfig.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
@@ -333,12 +315,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClassHelpers\RoomCreationData.cs" />
     <Compile Include="Repositories\ClassHelpers\RoomMember.cs" />
+    <Compile Include="Repositories\ClassHelpers\MatchParticipation.cs" />
+    <Compile Include="Repositories\ClassHelpers\SecretCodeRow.cs" />
     <Compile Include="Repositories\ClassHelpers\StatusChangeContext.cs" />
     <Compile Include="Repositories\Dtos\ChatMessageResult.cs" />
     <Compile Include="Repositories\Dtos\PlayerRecordsDto.cs" />
     <Compile Include="Repositories\Dtos\PlayerStatusChangeResult.cs" />
     <Compile Include="Repositories\Dtos\ReportDto.cs" />
     <Compile Include="Repositories\Dtos\RoomMemberDto.cs" />
+    <Compile Include="Repositories\Enums\ClueType.cs" />
+    <Compile Include="Repositories\Enums\Colours.cs" />
     <Compile Include="Repositories\Enums\FriendshipStatus.cs" />
     <Compile Include="Repositories\Enums\LobbyResult.cs" />
     <Compile Include="Repositories\Enums\PlayerPossibleStatus.cs" />
@@ -349,18 +335,24 @@
     <Compile Include="Repositories\FriendsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IFriendsRepository.cs" />
     <Compile Include="Repositories\Interfaces\ILobbyRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IMatchRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPlayerRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRoomRepository.cs" />
     <Compile Include="Repositories\LobbyRepository.cs" />
+    <Compile Include="Repositories\MatchRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Repositories\RoomRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
-    <Compile Include="Services\ClassHelpers\AvatarImageProcessor.cs" />
-    <Compile Include="Services\ClassHelpers\AvatarStorage.cs" />
+    <Compile Include="Services\AvatarHelpers\AvatarImageProcessor.cs" />
+    <Compile Include="Services\AvatarHelpers\AvatarStorage.cs" />
     <Compile Include="Services\AvatarService.cs" />
     <Compile Include="Services\CodeService.cs" />
     <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\LobbyService.cs" />
+    <Compile Include="Services\MatchHelpers\ClueCalculator.cs" />
+    <Compile Include="Services\MatchHelpers\MatchCallbackRegistry.cs" />
+    <Compile Include="Services\MatchHelpers\SecretCodeGenerator.cs" />
+    <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RoomService.cs" />
   </ItemGroup>
@@ -383,6 +375,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Data\MasterMindModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -394,10 +387,6 @@
       <DependentUpon>MasterMindModel.edmx</DependentUpon>
       <LastGenOutput>MasterMindModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Avatars\" />
-    <Folder Include="Logs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

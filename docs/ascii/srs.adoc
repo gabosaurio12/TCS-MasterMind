@@ -59,7 +59,7 @@ RF-04: El juego deberá permitir a los jugadores cambiar su contraseña después
 
 RF-05: El juego deberá permitir a los jugadores personalizar su perfil, incluyendo la selección de un avatar y la actualización de su información personal.
 
-RF-06: El juego deberá contar con roaming para que otros jugadores puedan ver el avatar del jugador en el chat y en la lista de amigos, incluso si el jugador no está conectado.
+RF-06: El juego deberá permitir a los jugadores ver el avatar de otro jugador en el lobby y en la lista de amigos, incluso si el jugador no está conectado.
 
 RF-07: El juego deberá permitir a los jugadores jugar como invitados sin necesidad de registrarse.
 
@@ -67,7 +67,7 @@ RF-08: El juego deberá permitir a los jugadores invitar a sus amigos a unirse a
 
 RF-09: El juego deberá permitir a los jugadores ver su lista de amigos y su estado de conexión (en línea o fuera de línea).
 
-RF-10: El juego deberá permitir expulsar a los jugadores de la partida en caso de que acumulen un total de 5 reportes por uso de lenguaje inapropiado.
+RF-10: El juego no deberá permitir a los jugadores con 5 o más reportes por uso de lenguaje inapropiado unirse a una partida.
 
 RF-11: El juego deberá proporcionar un lobby donde los jugadores puedan reunirse antes de iniciar la partida.
 
@@ -91,7 +91,7 @@ RF-20: El juego deberá generar el _código secreto_ de manera aleatoria al inic
 
 RF-21: El juego deberá permitir a los jugadores realizar intentos para adivinar el _código secreto_ y proporcionar retroalimentación sobre la exactitud de sus intentos.
 
-RF-22: El juego deberá finalizar la partida cuando un jugador adivine correctamente el _código secreto_, se le acabe el tiempo o cuando se alcance un número máximo de intentos.
+RF-22: El juego deberá finalizar la partida cuando un jugador gane tres rondas porque adivinó correctamente el _código secreto_, se desconectó su rival, se le acabe el tiempo o cuando alcanzó un número máximo de intentos.
 
 RF-23: El juego deberá mostrar un mensaje de victoria al jugador que gane tres rondas y finalizar la partida, mostrando los resultados finales y actualizando la tabla de records si corresponde.
 
@@ -105,7 +105,7 @@ RNF-02: El juego debe soportar un mínimo de 2 partidas simultáneas sin degrada
 
 RNF-03: El juego debe responder a las acciones del usuario en menos de 2 segundos en condiciones normales de operación.
 
-RNF-04: El juego debe almacenar la información de los jugadores, incluyendo nombre de usuario, correo electrónico, contraseña (encriptada), avatar y lista de amigos.
+RNF-04: El juego debe almacenar la información de los jugadores, incluyendo nombre de usuario, correo electrónico, contraseña (hasheada), avatar y lista de amigos.
 
 RNF-05: El juego debe almacenar el historial de partidas de cada usuario, incluyendo resultados y records de juego.
 

@@ -1,6 +1,8 @@
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
+using MasterMind_Client.ViewModels.Pages.MatchPages;
 using System;
+using System.Collections.Generic;
 
 namespace MasterMind_Client.ViewModels.Services
 {
@@ -23,6 +25,10 @@ namespace MasterMind_Client.ViewModels.Services
         void ShowFriendRequests();
 
         void ShowLogOut();
+
+        void ShowYouWon(IReadOnlyList<PinColour> secretCode, Action continued);
+
+        void ShowGameOver(string title, Action continued);
 
         string PickImageFile();
     }

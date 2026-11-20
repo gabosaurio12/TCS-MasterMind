@@ -9,12 +9,9 @@
 --      IDs (documentado aquí para lectura del script, no se re-insertan):
 --        RequestStatusCatalog: 1=Pending, 2=Accepted, 3=Rejected
 --        ReportReasonCatalog:  1=InappropriateLanguage, 2=Cheating
---        ClueColorsCatalog:    1=Black, 2=White
 --        GameModesCatalog:     1=TimeTrial, 2=Tries
 --        PrivacyCatalog:       1=Public, 2=Private
 --        DifficultiesCatalog:  1=Easy, 2=Normal, 3=Hard, 4=Enigma
---        CodeColorsCatalog:    1=Blue, 2=Green, 3=Red, 4=Yellow,
---                               5=Orange, 6=White
 -- =====================================================================
 
 USE MasterMind;
@@ -79,19 +76,14 @@ VALUES
 GO
 
 -- ---------------------------------------------------------------------
--- 5. MatchRoomSecretCode  (12 registros)
---    Códigos secretos posicionales. Sala 2 incluye un color repetido
---    (Red, Red) para probar que el modelo permite duplicados dentro
---    del mismo código, tal como en el juego original.
+-- 5. SecretCode  (3 registros)
+--    Un codigo por sala (1:1). Sala 2 incluye un color repetido (Red, Red).
 -- ---------------------------------------------------------------------
-INSERT INTO [MatchRoomSecretCode] ([match_room_id], [position], [color_id])
+INSERT INTO [SecretCode] ([match_room_id], [first_color], [second_color], [third_color], [fourth_color])
 VALUES
-  -- Sala 1: Blue, Green, Red, Yellow
-  (1, 1, 1), (1, 2, 2), (1, 3, 3), (1, 4, 4),
-  -- Sala 2: Red, Red, Blue, White  (color repetido)
-  (2, 1, 3), (2, 2, 3), (2, 3, 1), (2, 4, 6),
-  -- Sala 3: Yellow, Orange, Green, Blue
-  (3, 1, 4), (3, 2, 5), (3, 3, 2), (3, 4, 1);
+  (1, 'Blue', 'Green', 'Red', 'Yellow'),
+  (2, 'Red', 'Red', 'Blue', 'White'),
+  (3, 'Yellow', 'Orange', 'Green', 'Blue');
 GO
 
 -- ---------------------------------------------------------------------
@@ -110,7 +102,7 @@ GO
 -- 7. GameInvitation  (4 registros)
 --    Cubre los 3 estados. La invitación #3 queda en Pending para
 --    representar una sala ya creada pero cuya partida aún no arranca
---    (por eso Sala 3 no tendrá DecipherTry más adelante).
+--    (Sala 3 queda sin iniciar).
 -- ---------------------------------------------------------------------
 INSERT INTO [GameInvitation] ([requester_id], [addressee_id], [match_room_id], [status_id])
 VALUES
@@ -140,75 +132,6 @@ GO
 --    Esperado tras este DELETE: Dario.number_of_reports = 1.
 -- ---------------------------------------------------------------------
 DELETE FROM [PlayerReport] WHERE [report_id] = 2;
-GO
-
--- Verificación opcional de los triggers (comentado; descomentar para probar):
--- SELECT player_id, username, number_of_reports FROM [Player] WHERE player_id IN (4, 6);
--- Resultado esperado: Dario (4) = 1, Fabian (6) = 1
-
--- ---------------------------------------------------------------------
--- 10. DecipherTry  (6 registros)
---     Sala 1 y 2 tienen intentos (partida jugada). Sala 3 NO tiene
---     intentos porque su invitación sigue Pending (paso 7).
--- ---------------------------------------------------------------------
-INSERT INTO [DecipherTry] ([match_room_id], [player_id], [attempt_number])
-VALUES
-  (1, 1, 1), -- id=1: Ana, intento 1
-  (1, 1, 2), -- id=2: Ana, intento 2 (acierto total)
-  (1, 2, 1), -- id=3: Beto, intento 1
-  (2, 3, 1), -- id=4: Caro, intento 1
-  (2, 4, 1), -- id=5: Dario, intento 1
-  (2, 4, 2); -- id=6: Dario, intento 2 (acierto total)
-GO
-
--- ---------------------------------------------------------------------
--- 11. DecipherTryCode  (24 registros)
---     Incluye un caso de acierto exacto (try 2 y try 6, idénticos al
---     código secreto de su sala) y casos parciales/sin acierto.
--- ---------------------------------------------------------------------
-INSERT INTO [DecipherTryCode] ([decipher_try_id], [position], [color_id])
-VALUES
-  -- try 1 (Ana, parcial): Red, Green, Blue, Yellow
-  (1, 1, 3), (1, 2, 2), (1, 3, 1), (1, 4, 4),
-  -- try 2 (Ana, acierto exacto = secreto Sala 1: Blue,Green,Red,Yellow)
-  (2, 1, 1), (2, 2, 2), (2, 3, 3), (2, 4, 4),
-  -- try 3 (Beto, todo desplazado): Green, Blue, Yellow, Red
-  (3, 1, 2), (3, 2, 1), (3, 3, 4), (3, 4, 3),
-  -- try 4 (Caro, parcial): White, Red, Blue, Red
-  (4, 1, 6), (4, 2, 3), (4, 3, 1), (4, 4, 3),
-  -- try 5 (Dario, parcial): Red, Blue, Red, White
-  (5, 1, 3), (5, 2, 1), (5, 3, 3), (5, 4, 6),
-  -- try 6 (Dario, acierto exacto = secreto Sala 2: Red,Red,Blue,White)
-  (6, 1, 3), (6, 2, 3), (6, 3, 1), (6, 4, 6);
-GO
-
--- ---------------------------------------------------------------------
--- 12. CorrectPositionAndColors  (6 registros)
---     Una fila por intento evaluado (todos los de este set de prueba).
--- ---------------------------------------------------------------------
-INSERT INTO [CorrectPositionAndColors] ([decipher_try_id])
-VALUES (1), (2), (3), (4), (5), (6);
-GO
-
--- ---------------------------------------------------------------------
--- 13. CorrectPositionAndColorsClue  (24 registros)
---     Pistas Black/White por intento. try 2 y try 6 muestran el caso
---     de acierto total (4 Black, 0 White).
--- ---------------------------------------------------------------------
-INSERT INTO [CorrectPositionAndColorsClue] ([correct_position_and_colors_id], [position], [clue_color_id])
-VALUES
-  -- try 1: 2 Black, 2 White
-  (1, 1, 1), (1, 2, 1), (1, 3, 2), (1, 4, 2),
-  -- try 2: acierto total -> 4 Black
-  (2, 1, 1), (2, 2, 1), (2, 3, 1), (2, 4, 1),
-  -- try 3: ningún color en su posición -> 0 Black, 4 White
-  (3, 1, 2), (3, 2, 2), (3, 3, 2), (3, 4, 2),
-  -- try 4: 2 Black, 2 White
-  (4, 1, 1), (4, 2, 1), (4, 3, 2), (4, 4, 2),
-  -- try 5: 2 Black, 2 White
-  (5, 1, 1), (5, 2, 1), (5, 3, 2), (5, 4, 2),
-  -- try 6: acierto total -> 4 Black
-  (6, 1, 1), (6, 2, 1), (6, 3, 1), (6, 4, 1);
 GO
 
 -- ---------------------------------------------------------------------

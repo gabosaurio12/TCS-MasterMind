@@ -74,41 +74,6 @@ CREATE TABLE [PlayerTriesRecords] (
 )
 GO
 
-CREATE TABLE [DecipherTry] (
-  [decipher_try_id] int PRIMARY KEY IDENTITY(1, 1),
-  [match_room_id] int NOT NULL,
-  [player_id] int NOT NULL,
-  [attempt_number] int
-)
-GO
-
-CREATE TABLE [DecipherTryCode] (
-  [decipher_try_id] int NOT NULL,
-  [position] int,
-  [color_id] int NOT NULL,
-  PRIMARY KEY ([decipher_try_id], [position])
-)
-GO
-
-CREATE TABLE [CorrectPositionAndColors] (
-  [decipher_try_id] int PRIMARY KEY
-)
-GO
-
-CREATE TABLE [CorrectPositionAndColorsClue] (
-  [correct_position_and_colors_id] int NOT NULL,
-  [position] int,
-  [clue_color_id] int NOT NULL,
-  PRIMARY KEY ([correct_position_and_colors_id], [position])
-)
-GO
-
-CREATE TABLE [ClueColorsCatalog] (
-  [clue_color_id] int PRIMARY KEY IDENTITY(1, 1),
-  [color] nvarchar(255) UNIQUE NOT NULL
-)
-GO
-
 CREATE TABLE [GameModesCatalog] (
   [gamemode_id] int PRIMARY KEY IDENTITY(1, 1),
   [gamemode] nvarchar(255) UNIQUE NOT NULL
@@ -136,6 +101,8 @@ CREATE TABLE [MatchRoom] (
   [player_two_id] int,
   [player_one_status] tinyint NOT NULL DEFAULT 0,
   [player_two_status] tinyint NOT NULL DEFAULT 0,
+  [player_one_tries] int NOT NULL DEFAULT 0,
+  [player_two_tries] int NOT NULL DEFAULT 0,
   [room_privacy_id] int NOT NULL,
   [room_code] nvarchar(255)
 )
@@ -152,18 +119,17 @@ CREATE TABLE [TriesConfig] (
   [max_of_tries] int
 )
 GO
-
-CREATE TABLE [CodeColorsCatalog] (
-  [code_color_id] int PRIMARY KEY IDENTITY(1, 1),
-  [color] nvarchar(255) UNIQUE NOT NULL
-)
-GO
-
-CREATE TABLE [MatchRoomSecretCode] (
-  [position] int,
-  [match_room_id] int NOT NULL,
-  [color_id] int NOT NULL,
-  PRIMARY KEY ([match_room_id], [position])
+CREATE TABLE [SecretCode] (
+  [match_room_id] int PRIMARY KEY,
+  [first_color] nvarchar(10) NOT NULL,
+  [second_color] nvarchar(10) NOT NULL,
+  [third_color] nvarchar(10) NOT NULL,
+  [fourth_color] nvarchar(10) NOT NULL,
+  CONSTRAINT [CK_SecretCode_Colors] CHECK (
+    [first_color] IN ('Blue', 'Green', 'Red', 'Yellow', 'Orange', 'White')
+    AND [second_color] IN ('Blue', 'Green', 'Red', 'Yellow', 'Orange', 'White')
+    AND [third_color] IN ('Blue', 'Green', 'Red', 'Yellow', 'Orange', 'White')
+    AND [fourth_color] IN ('Blue', 'Green', 'Red', 'Yellow', 'Orange', 'White'))
 )
 GO
 
@@ -263,27 +229,6 @@ GO
 ALTER TABLE [PlayerTriesRecords] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id])
 GO
 
-ALTER TABLE [DecipherTry] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
-GO
-
-ALTER TABLE [DecipherTry] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id])
-GO
-
-ALTER TABLE [DecipherTryCode] ADD FOREIGN KEY ([decipher_try_id]) REFERENCES [DecipherTry] ([decipher_try_id]) ON DELETE CASCADE
-GO
-
-ALTER TABLE [DecipherTryCode] ADD FOREIGN KEY ([color_id]) REFERENCES [CodeColorsCatalog] ([code_color_id])
-GO
-
-ALTER TABLE [CorrectPositionAndColors] ADD FOREIGN KEY ([decipher_try_id]) REFERENCES [DecipherTry] ([decipher_try_id]) ON DELETE CASCADE
-GO
-
-ALTER TABLE [CorrectPositionAndColorsClue] ADD FOREIGN KEY ([correct_position_and_colors_id]) REFERENCES [CorrectPositionAndColors] ([decipher_try_id]) ON DELETE CASCADE
-GO
-
-ALTER TABLE [CorrectPositionAndColorsClue] ADD FOREIGN KEY ([clue_color_id]) REFERENCES [ClueColorsCatalog] ([clue_color_id])
-GO
-
 ALTER TABLE [MatchRoom] ADD FOREIGN KEY ([gamemode_id]) REFERENCES [GameModesCatalog] ([gamemode_id])
 GO
 
@@ -305,10 +250,7 @@ GO
 ALTER TABLE [TriesConfig] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
-ALTER TABLE [MatchRoomSecretCode] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
-GO
-
-ALTER TABLE [MatchRoomSecretCode] ADD FOREIGN KEY ([color_id]) REFERENCES [CodeColorsCatalog] ([code_color_id])
+ALTER TABLE [SecretCode] ADD FOREIGN KEY ([match_room_id]) REFERENCES [MatchRoom] ([match_room_id]) ON DELETE CASCADE
 GO
 
 ALTER TABLE [PlayerInMatch] ADD FOREIGN KEY ([player_id]) REFERENCES [Player] ([player_id])
@@ -354,22 +296,8 @@ VALUES
   ('Hard'),
   ('Enigma');
 GO
-INSERT INTO [ClueColorsCatalog] ([color])
-VALUES
-  ('Black'),
-  ('White');
-GO
 INSERT INTO [GameModesCatalog] ([gamemode])
 VALUES
   ('TimeTrial'),
   ('Tries');
-GO
-INSERT INTO [CodeColorsCatalog] ([color])
-VALUES
-  ('Blue'),
-  ('Green'),
-  ('Red'),
-  ('Yellow'),
-  ('Orange'),
-  ('White');
 GO

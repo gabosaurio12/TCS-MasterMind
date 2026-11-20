@@ -17,7 +17,6 @@ namespace MasterMind_Server.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Player()
         {
-            this.DecipherTry = new HashSet<DecipherTry>();
             this.Friendship = new HashSet<Friendship>();
             this.Friendship1 = new HashSet<Friendship>();
             this.GameInvitation = new HashSet<GameInvitation>();
@@ -40,8 +39,6 @@ namespace MasterMind_Server.Data
         public string avatar_path { get; set; }
         public Nullable<byte> is_online { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DecipherTry> DecipherTry { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Friendship> Friendship { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -38,6 +38,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\MatchService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ClueKindToImageConverter.cs" />
+    <Compile Include="Helpers\MatchColourMapper.cs" />
+    <Compile Include="Helpers\PinColourToImageConverter.cs" />
+    <Compile Include="Helpers\RouteQuery.cs" />
+    <Compile Include="ViewModels\Modals\GameOverTriesViewModel.cs" />
+    <Compile Include="ViewModels\Modals\YouWonTriesViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\ClueColour.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchClueSlotViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchPinSlotViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchRowViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchScoreViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchCallbackHandler.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchRules.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\NoOpMatchCallback.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTriesViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\PaletteColourViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\PinColour.cs" />
     <Reference Include="BCrypt-Net-Next, Version=4.2.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>packages\BCrypt.Net-Next.4.2.0\lib\net472\BCrypt-Net-Next.dll</HintPath>
     </Reference>
@@ -231,6 +253,21 @@
     <Reference Include="XAMLMarkupExtensions, Version=2.1.3.0, Culture=neutral, PublicKeyToken=c726e0262981a1eb, processorArchitecture=MSIL">
       <HintPath>packages\XAMLMarkupExtensions.2.1.3\lib\net472\XAMLMarkupExtensions.dll</HintPath>
     </Reference>
+    <Resource Include="Assets\Backgrounds\Match_Background.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\Counter.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\DecipheringMachine_Empty_WithoutOk.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\Ok_Button.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\PinColours.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\BluePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\RedPin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\YellowPin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\GreenPin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\WhitePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\OrangePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\ColourPin_Empty.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\CluePin_Empty.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\WhiteCluePin.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\BlackCluePin.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -278,6 +315,12 @@
     <Compile Include="Modals\FriendsModal.xaml.cs">
       <DependentUpon>FriendsModal.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modals\GameOverTriesModal.xaml.cs">
+      <DependentUpon>GameOverTriesModal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modals\YouWonTriesModal.xaml.cs">
+      <DependentUpon>YouWonTriesModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modals\LogOutModal.xaml.cs">
       <DependentUpon>LogOutModal.xaml</DependentUpon>
     </Compile>
@@ -293,17 +336,8 @@
     <Compile Include="Modals\VerificationCodeModal.xaml.cs">
       <DependentUpon>VerificationCodeModal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MatchPages\TriesMatchPage.xaml.cs">
-      <DependentUpon>TriesMatchPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MatchPages\UserControls\BoardUserControl.xaml.cs">
-      <DependentUpon>BoardUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MatchPages\UserControls\CodeTryUserControl.xaml.cs">
-      <DependentUpon>CodeTryUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\MatchPages\UserControls\PinsUserControl.xaml.cs">
-      <DependentUpon>PinsUserControl.xaml</DependentUpon>
+    <Compile Include="Pages\MatchPages\MatchTriesPage.xaml.cs">
+      <DependentUpon>MatchTriesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PagesUserControls\MatchRoomUserControl.xaml.cs">
       <DependentUpon>MatchRoomUserControl.xaml</DependentUpon>
@@ -395,6 +429,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modals\GameOverTriesModal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modals\YouWonTriesModal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Modals\LogOutModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -427,19 +469,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MatchPages\TriesMatchPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MatchPages\UserControls\BoardUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MatchPages\UserControls\CodeTryUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\MatchPages\UserControls\PinsUserControl.xaml">
+    <Page Include="Pages\MatchPages\MatchTriesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -537,6 +567,7 @@
     <Resource Include="Assets\Backgrounds\Friends_Background.png" />
     <Resource Include="Assets\Backgrounds\LogOutModal_Background.png" />
     <Resource Include="Assets\Backgrounds\VerificationCodeModal_Background.png" />
+    <Resource Include="Assets\Backgrounds\EndGame_Background.png" />
     <Resource Include="Assets\Elements\Blue_Button.png" />
     <Resource Include="Assets\Elements\Green_Button.png" />
     <Resource Include="Assets\Elements\Grey_Button.png" />
@@ -597,6 +628,25 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LobbyService\LobbyService.wsdl" />
+    <None Include="Connected Services\MatchService\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MatchService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MatchService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MatchService\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MatchService\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MatchService\MasterMind_Client.MatchService.Clues.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\MatchService\MatchService.wsdl" />
     <None Include="Connected Services\PlayerService\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -750,8 +800,24 @@
     <WCFMetadataStorage Include="Connected Services\AvatarService\" />
     <WCFMetadataStorage Include="Connected Services\FriendsService\" />
     <WCFMetadataStorage Include="Connected Services\LobbyService\" />
+    <WCFMetadataStorage Include="Connected Services\MatchService\" />
     <WCFMetadataStorage Include="Connected Services\PlayerService\" />
     <WCFMetadataStorage Include="Connected Services\RoomService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MatchService\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MatchService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MatchService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MatchService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

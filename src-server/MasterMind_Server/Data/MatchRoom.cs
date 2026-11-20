@@ -17,10 +17,8 @@ namespace MasterMind_Server.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MatchRoom()
         {
-            this.DecipherTry = new HashSet<DecipherTry>();
             this.GameInvitation = new HashSet<GameInvitation>();
             this.MatchResults = new HashSet<MatchResults>();
-            this.MatchRoomSecretCode = new HashSet<MatchRoomSecretCode>();
         }
     
         public int match_room_id { get; set; }
@@ -31,22 +29,21 @@ namespace MasterMind_Server.Data
         public Nullable<int> player_two_id { get; set; }
         public byte player_one_status { get; set; }
         public byte player_two_status { get; set; }
+        public int player_one_tries { get; set; }
+        public int player_two_tries { get; set; }
         public int room_privacy_id { get; set; }
         public string room_code { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DecipherTry> DecipherTry { get; set; }
         public virtual DifficultiesCatalog DifficultiesCatalog { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GameInvitation> GameInvitation { get; set; }
         public virtual GameModesCatalog GameModesCatalog { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MatchResults> MatchResults { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MatchRoomSecretCode> MatchRoomSecretCode { get; set; }
         public virtual Player Player { get; set; }
         public virtual Player Player1 { get; set; }
         public virtual PrivacyCatalog PrivacyCatalog { get; set; }
+        public virtual SecretCode SecretCode { get; set; }
         public virtual TimeTrialConfig TimeTrialConfig { get; set; }
         public virtual TriesConfig TriesConfig { get; set; }
     }
