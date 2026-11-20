@@ -4,7 +4,7 @@ using System.ServiceModel;
 
 namespace MasterMind_Server.Contracts
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IMatchCallbackService))]
     public interface IMatchService
     {
         [OperationContract]
@@ -14,6 +14,14 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         Clues ValidateTry(string username, CodeTry codeTry);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        void Subscribe(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        void Unsubscribe(string username);
     }
 
     [DataContract]

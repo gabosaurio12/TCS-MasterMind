@@ -2,6 +2,7 @@
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Repositories.ClassHelpers;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
 using MasterMind_Server.Services.MatchHelpers;
@@ -36,6 +37,49 @@ namespace MasterMind_Server.Services
                 throw BuildFault(ErrorMessages.DataBaseError);
             }
             catch (DbUpdateException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(ErrorMessages.DataBaseError);
+            }
+            catch (SqlException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(ErrorMessages.DataBaseError);
+            }
+        }
+
+        public void Subscribe(string username)
+        {
+            var callback = OperationContext.Current?.GetCallbackChannel<IMatchCallbackService>();
+            if (callback == null || string.IsNullOrWhiteSpace(username))
+            {
+                return;
+            }
+
+            MatchCallbackRegistry.Subscribe(username, callback);
+            var channel = OperationContext.Current.Channel;
+            channel.Closed += (sender, e) => MatchCallbackRegistry.Unsubscribe(username, callback);
+            channel.Faulted += (sender, e) => MatchCallbackRegistry.Unsubscribe(username, callback);
+        }
+
+        public void Unsubscribe(string username)
+        {
+            var callback = OperationContext.Current?.GetCallbackChannel<IMatchCallbackService>();
+            if (callback == null || string.IsNullOrWhiteSpace(username))
+            {
+                return;
+            }
+
+            MatchCallbackRegistry.Unsubscribe(username, callback);
+            try
+            {
+                NotifyAbandonment(username);
+            }
+            catch (InvalidOperationException ex)
+            {
+                logger.Warn(ex);
+            }
+            catch (EntityException ex)
             {
                 logger.Error(ex);
                 throw BuildFault(ErrorMessages.DataBaseError);
@@ -94,6 +138,7 @@ namespace MasterMind_Server.Services
             }
 
             matchRepository.SaveSecretCode(participation.RoomId, SecretCodeGenerator.Generate());
+            MatchCallbackRegistry.OpenRound(participation.RoomId);
             return RepositoriesMessages.Success.ToString();
         }
 
@@ -108,7 +153,42 @@ namespace MasterMind_Server.Services
             }
 
             var clues = ClueCalculator.Calculate(secretCode, guess);
-            return new Clues { CluesResult = clues, IsCorrect = ClueCalculator.IsExactMatch(clues) };
+            bool isCorrect = ClueCalculator.IsExactMatch(clues);
+            ReportProgress(participation, username, isCorrect);
+            return new Clues { CluesResult = clues, IsCorrect = isCorrect };
+        }
+
+        private static void ReportProgress(MatchParticipation participation, string username, bool isCorrect)
+        {
+            int triesUsed = MatchCallbackRegistry.CountTry(participation.RoomId, username);
+            bool outOfTries = participation.MaxTries.HasValue && triesUsed >= participation.MaxTries.Value;
+            if (triesUsed == 0 || !(isCorrect || outOfTries))
+            {
+                return;
+            }
+
+            var progress = new OpponentProgress { Username = username, Solved = isCorrect, TriesUsed = triesUsed };
+            var result = MatchCallbackRegistry.RecordFinish(participation.RoomId, progress);
+            if (result == null)
+            {
+                MatchCallbackRegistry.Notify(
+                    participation.OpponentUsername, callback => callback.OnOpponentFinishedCallback(progress));
+                return;
+            }
+
+            MatchCallbackRegistry.Notify(username, callback => callback.OnRoundResolvedCallback(result));
+            MatchCallbackRegistry.Notify(
+                participation.OpponentUsername, callback => callback.OnRoundResolvedCallback(result));
+        }
+
+        private void NotifyAbandonment(string username)
+        {
+            var participation = matchRepository.GetParticipation(username);
+            if (MatchCallbackRegistry.TryAbandonRound(participation.RoomId))
+            {
+                MatchCallbackRegistry.Notify(
+                    participation.OpponentUsername, callback => callback.OnOpponentAbandonedCallback(username));
+            }
         }
 
         private static string[] ValidateGuess(CodeTry codeTry)

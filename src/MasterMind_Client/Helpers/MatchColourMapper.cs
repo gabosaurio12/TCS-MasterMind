@@ -15,16 +15,16 @@ namespace MasterMind_Client.Helpers
             return new CodeTry { Code = code.Select(colour => colour.ToString()).ToArray() };
         }
 
-        public static ClueKind ToClueKind(string clue)
+        public static ClueColour ToClueKind(string clue)
         {
             switch (clue)
             {
                 case BlackClue:
-                    return ClueKind.Black;
+                    return ClueColour.Black;
                 case WhiteClue:
-                    return ClueKind.White;
+                    return ClueColour.White;
                 default:
-                    return ClueKind.None;
+                    return ClueColour.None;
             }
         }
     }

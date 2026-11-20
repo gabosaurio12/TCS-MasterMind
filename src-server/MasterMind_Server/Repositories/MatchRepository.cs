@@ -32,6 +32,7 @@ namespace MasterMind_Server.Repositories
             {
                 RoomId = room.match_room_id,
                 IsPlayerOne = room.player_one_id == player.player_id,
+                OpponentUsername = GetOpponentUsername(room, player.player_id),
                 PlayerOneStatus = room.player_one_status,
                 PlayerTwoStatus = room.player_two_status,
                 MaxTries = room.TriesConfig?.max_of_tries
@@ -101,6 +102,15 @@ namespace MasterMind_Server.Repositories
 
                 return result;
             }
+        }
+
+        private string GetOpponentUsername(MatchRoom room, int playerId)
+        {
+            int? opponentId = room.player_one_id == playerId ? room.player_two_id : room.player_one_id;
+            return context.Player.AsNoTracking()
+                .Where(p => p.player_id == opponentId)
+                .Select(p => p.username)
+                .FirstOrDefault();
         }
 
         private static void IncrementTries(MatchRoom room, bool isPlayerOne)

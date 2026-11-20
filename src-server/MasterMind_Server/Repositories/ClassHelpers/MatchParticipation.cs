@@ -8,6 +8,8 @@ namespace MasterMind_Server.Repositories.ClassHelpers
 
         public bool IsPlayerOne { get; set; }
 
+        public string OpponentUsername { get; set; }
+
         public byte PlayerOneStatus { get; set; }
 
         public byte PlayerTwoStatus { get; set; }

@@ -9,15 +9,16 @@ namespace MasterMind_Client.Helpers
     public class ClueKindToImageConverter : IValueConverter
     {
         private const string ClueImageSuffix = "CluePinImage";
+        private const string EmptyClueKey = "CluePinEmptyImage";
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ClueKind kind && kind != ClueKind.None)
+            if (value is ClueColour kind && kind != ClueColour.None)
             {
                 return Application.Current.TryFindResource(kind + ClueImageSuffix);
             }
 
-            return null;
+            return Application.Current.TryFindResource(EmptyClueKey);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

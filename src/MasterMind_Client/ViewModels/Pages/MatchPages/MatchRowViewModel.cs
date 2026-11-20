@@ -57,7 +57,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
 
             foreach (var slot in ClueSlots)
             {
-                slot.Kind = ClueKind.None;
+                slot.Kind = ClueColour.None;
             }
         }
     }

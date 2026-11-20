@@ -350,6 +350,7 @@
     <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\LobbyService.cs" />
     <Compile Include="Services\MatchHelpers\ClueCalculator.cs" />
+    <Compile Include="Services\MatchHelpers\MatchCallbackRegistry.cs" />
     <Compile Include="Services\MatchHelpers\SecretCodeGenerator.cs" />
     <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\PlayerService.cs" />

@@ -1,6 +1,6 @@
 namespace MasterMind_Client.ViewModels.Pages.MatchPages
 {
-    public enum ClueKind
+    public enum ClueColour
     {
         None,
         White,

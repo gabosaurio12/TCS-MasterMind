@@ -33,18 +33,6 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         private bool isFinished;
         private PaletteColourViewModel selectedColour;
 
-        public MatchTriesViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
-        {
-            this.navigationService = navigationService;
-            this.dialogService = dialogService;
-            roomId = RouteQuery.GetInt(uri, "roomId");
-
-            CreateBoard();
-            CreatePalette();
-            SelectColourCommand = new RelayCommand(parameter => SelectColour(parameter as PaletteColourViewModel));
-            TryCommand = new RelayCommand(async _ => await SubmitTryAsync(), _ => CanSubmitTry());
-        }
-
         public int RemainingTries
         {
             get => remainingTries;
@@ -60,6 +48,18 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         public ICommand SelectColourCommand { get; }
 
         public ICommand TryCommand { get; }
+
+        public MatchTriesViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
+        {
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
+            roomId = RouteQuery.GetInt(uri, "roomId");
+
+            CreateBoard();
+            CreatePalette();
+            SelectColourCommand = new RelayCommand(parameter => SelectColour(parameter as PaletteColourViewModel));
+            TryCommand = new RelayCommand(async _ => await SubmitTryAsync(), _ => CanSubmitTry());
+        }
 
         public async Task InitializeAsync()
         {
@@ -100,17 +100,15 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
 
         private void SelectColour(PaletteColourViewModel colour)
         {
-            if (colour == null)
+            if (colour != null)
             {
-                return;
-            }
+                foreach (var entry in PaletteColours)
+                {
+                    entry.IsSelected = entry == colour;
+                }
 
-            foreach (var entry in PaletteColours)
-            {
-                entry.IsSelected = entry == colour;
+                selectedColour = colour;
             }
-
-            selectedColour = colour;
         }
 
         private void PlacePin(MatchPinSlotViewModel slot)
@@ -138,17 +136,17 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
             }
             catch (FaultException<RoomService.ErrorMessage> faultException)
             {
-                logger.WarnFormat("The server rejected the room lookup: {0}", faultException.Detail.Message);
+                logger.WarnFormat(faultException.Detail.Message);
                 LeaveAfterError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
-                logger.Error("Server fault during room lookup", faultException);
+                logger.Error(faultException);
                 LeaveAfterError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
-                logger.Error("Communication failure during room lookup", communicationException);
+                logger.Error(communicationException);
                 LeaveAfterError(string.Empty);
             }
         }
@@ -178,17 +176,17 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
             }
             catch (FaultException<MatchService.ErrorMessage> faultException)
             {
-                logger.WarnFormat("The server rejected the try: {0}", faultException.Detail.Message);
+                logger.WarnFormat(faultException.Detail.Message);
                 HandleFault(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
-                logger.Error("Server fault while validating a try", faultException);
+                logger.Error(faultException);
                 dialogService.ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
-                logger.Error("Communication failure while validating a try", communicationException);
+                logger.Error(communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
         }
@@ -277,12 +275,12 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
             }
             catch (CommunicationException communicationException)
             {
-                logger.Warn("Could not close a WCF client gracefully", communicationException);
+                logger.Warn(communicationException);
                 client.Abort();
             }
             catch (TimeoutException timeoutException)
             {
-                logger.Warn("Timeout while closing a WCF client", timeoutException);
+                logger.Warn(timeoutException);
                 client.Abort();
             }
         }

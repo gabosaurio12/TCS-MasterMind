@@ -1,14 +1,41 @@
-﻿using System.ServiceModel;
+﻿using System.Runtime.Serialization;
+using System.ServiceModel;
 
 namespace MasterMind_Server.Contracts
 {
-    [ServiceContract(CallbackContract = typeof(IMatchCallbackService))]
+    [ServiceContract]
     interface IMatchCallbackService
     {
         [OperationContract(IsOneWay = true)]
-        void OnSumAPointCallback(string username);
+        void OnOpponentFinishedCallback(OpponentProgress progress);
 
         [OperationContract(IsOneWay = true)]
-        void OnSetWinnerCallback(string username);
+        void OnRoundResolvedCallback(RoundResult result);
+
+        [OperationContract(IsOneWay = true)]
+        void OnOpponentAbandonedCallback(string username);
+    }
+
+    [DataContract]
+    public class OpponentProgress
+    {
+        [DataMember]
+        public string Username { get; set; }
+
+        [DataMember]
+        public bool Solved { get; set; }
+
+        [DataMember]
+        public int TriesUsed { get; set; }
+    }
+
+    [DataContract]
+    public class RoundResult
+    {
+        [DataMember]
+        public string WinnerUsername { get; set; }
+
+        [DataMember]
+        public OpponentProgress[] Players { get; set; }
     }
 }

@@ -4,9 +4,9 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
 {
     public class MatchClueSlotViewModel : ViewModelBase
     {
-        private ClueKind kind;
+        private ClueColour kind;
 
-        public ClueKind Kind
+        public ClueColour Kind
         {
             get => kind;
             set => SetProperty(ref kind, value);

@@ -167,6 +167,15 @@ namespace MasterMind_Server.Tests.TestSupport
             }
         }
 
+        public static string[] GetSecretCode(int roomId)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                var secret = context.SecretCode.First(code => code.match_room_id == roomId);
+                return new[] { secret.first_color, secret.second_color, secret.third_color, secret.fourth_color };
+            }
+        }
+
         public static bool DoesPlayerExist(string username)
         {
             using (var context = new MasterMindEntities(true))

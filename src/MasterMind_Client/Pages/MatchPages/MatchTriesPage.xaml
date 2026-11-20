@@ -62,7 +62,7 @@
             </Button>
 
             <!-- Tries Rows Container -->
-            <ItemsControl ItemsSource="{Binding TriesRows}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,90,0,0">
+            <ItemsControl ItemsSource="{Binding TriesRows}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="45,150,0,0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid Height="95" Width="720" Margin="0,7,0,7">
@@ -71,7 +71,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Clue Pins (4 small slots) -->
+                            <!-- Clue Pins (4 slots) -->
                             <ItemsControl Grid.Column="0" ItemsSource="{Binding ClueSlots}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -80,7 +80,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Width="20" Height="20" Margin="5" Background="Transparent">
+                                        <Border Width="45" Height="45" Margin="5" Background="Transparent">
                                             <Image Source="{Binding Kind, Converter={StaticResource ClueKindToImage}}" Stretch="Uniform"/>
                                         </Border>
                                     </DataTemplate>
@@ -136,7 +136,7 @@
                                         <ControlTemplate TargetType="Button">
                                             <Grid>
                                                 <Image Source="{Binding Colour, Converter={StaticResource PinColourToImage}}" Stretch="Uniform"/>
-                                                <Border BorderBrush="{StaticResource CreamBrush}" BorderThickness="4" CornerRadius="50" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                <Border BorderBrush="{StaticResource MetalBrush}" BorderThickness="4" CornerRadius="50" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                             </Grid>
                                         </ControlTemplate>
                                     </Button.Template>

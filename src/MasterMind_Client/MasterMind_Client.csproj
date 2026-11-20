@@ -49,7 +49,7 @@
     <Compile Include="Helpers\RouteQuery.cs" />
     <Compile Include="ViewModels\Modals\GameOverTriesViewModel.cs" />
     <Compile Include="ViewModels\Modals\YouWonTriesViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\ClueKind.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\ClueColour.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchClueSlotViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchPinSlotViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchRowViewModel.cs" />

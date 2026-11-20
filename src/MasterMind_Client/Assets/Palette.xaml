@@ -115,6 +115,7 @@
     <!-- Ink on metal or olive panel (titles and labels) -->
     <SolidColorBrush x:Key="CreamBrush" Color="#F2E3BE" />
     <SolidColorBrush x:Key="CreamMutedBrush" Color="#CBB98C" />
+    <SolidColorBrush x:Key="MetalBrush" Color="#D1D1D1" />
 
     <!-- Panels -->
     <SolidColorBrush x:Key="PanelOliveBrush" Color="#2B3127" />
