@@ -637,6 +637,33 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tu rival ganó la partida.
+        /// </summary>
+        public static string MatchTries_MatchLost {
+            get {
+                return ResourceManager.GetString("MatchTries_MatchLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tú.
+        /// </summary>
+        public static string MatchTries_You {
+            get {
+                return ResourceManager.GetString("MatchTries_You", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rival.
+        /// </summary>
+        public static string MatchTries_Opponent {
+            get {
+                return ResourceManager.GetString("MatchTries_Opponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Intentos restantes:.
         /// </summary>
         public static string MatchTries_RemainingTries {

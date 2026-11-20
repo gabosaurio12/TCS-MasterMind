@@ -14,6 +14,22 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <helpers:PinColourToImageConverter x:Key="PinColourToImage" />
         <helpers:ClueKindToImageConverter x:Key="ClueKindToImage" />
+        <Style x:Key="ScoreLightStyle" TargetType="Ellipse">
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Margin" Value="8,0" />
+            <Setter Property="Fill" Value="{DynamicResource InkMutedBrush}" />
+            <Setter Property="Stroke" Value="{DynamicResource InkBrush}" />
+            <Setter Property="StrokeThickness" Value="3" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding}" Value="True">
+                    <Setter Property="Fill" Value="{DynamicResource CreamBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="ScoreLightTemplate">
+            <Ellipse Style="{StaticResource ScoreLightStyle}" />
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -32,6 +48,26 @@
                         <Image Source="{DynamicResource CounterImage}" Stretch="Fill"/>
                         <TextBlock x:Name="RemainingTriesTxt" Text="{Binding RemainingTries}" FontFamily="{StaticResource Elite}" FontSize="48" Foreground="{DynamicResource InkBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
+                </StackPanel>
+            </Border>
+            <Border Background="{DynamicResource BgLeftPanelGreenBrush}" CornerRadius="15" Padding="20" Width="360" Margin="0,20,0,0" BorderBrush="{StaticResource InkBrush}" BorderThickness="4">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Label Content="{x:Static p:Resources.MatchTries_You}" FontFamily="{StaticResource Elite}" FontSize="30" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center"/>
+                    <ItemsControl x:Name="OwnScoreList" ItemsSource="{Binding Score.OwnLights}" ItemTemplate="{StaticResource ScoreLightTemplate}" HorizontalAlignment="Center">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <Label Content="{x:Static p:Resources.MatchTries_Opponent}" FontFamily="{StaticResource Elite}" FontSize="30" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center"/>
+                    <ItemsControl x:Name="OpponentScoreList" ItemsSource="{Binding Score.OpponentLights}" ItemTemplate="{StaticResource ScoreLightTemplate}" HorizontalAlignment="Center">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </StackPanel>
             </Border>
             <Label x:Name="WaitingForOpponentLbl" Content="{x:Static p:Resources.MatchTries_WaitingForOpponent}"

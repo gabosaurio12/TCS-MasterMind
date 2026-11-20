@@ -53,6 +53,7 @@
     <Compile Include="ViewModels\Pages\MatchPages\MatchClueSlotViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchPinSlotViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchRowViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchScoreViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchCallbackHandler.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchRules.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\NoOpMatchCallback.cs" />

@@ -3,6 +3,7 @@ using MasterMind_Server.Contracts;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 
 namespace MasterMind_Server.Services.MatchHelpers
@@ -17,6 +18,9 @@ namespace MasterMind_Server.Services.MatchHelpers
         private static readonly ConcurrentDictionary<int, RoundState> roundsByRoom =
             new ConcurrentDictionary<int, RoundState>();
 
+        private static readonly ConcurrentDictionary<int, MatchState> matchesByRoom =
+            new ConcurrentDictionary<int, MatchState>();
+
         public static void Subscribe(string username, IMatchCallbackService callback)
         {
             callbacksByUser[username] = callback;
@@ -26,6 +30,16 @@ namespace MasterMind_Server.Services.MatchHelpers
         {
             ((ICollection<KeyValuePair<string, IMatchCallbackService>>)callbacksByUser)
                 .Remove(new KeyValuePair<string, IMatchCallbackService>(username, callback));
+        }
+
+        public static void StartMatch(int roomId)
+        {
+            matchesByRoom[roomId] = new MatchState();
+        }
+
+        public static void ApplyRoundOutcome(int roomId, RoundResult result)
+        {
+            matchesByRoom.GetOrAdd(roomId, key => new MatchState()).Apply(result);
         }
 
         public static void OpenRound(int roomId)
@@ -69,6 +83,46 @@ namespace MasterMind_Server.Services.MatchHelpers
             {
                 logger.WarnFormat("Match callback for {0} failed: {1}", username, ex.Message);
                 Unsubscribe(username, callback);
+            }
+        }
+
+        private class MatchState
+        {
+            private const int PointsToWinMatch = 3;
+
+            private readonly object sync = new object();
+            private readonly Dictionary<string, int> pointsByUser =
+                new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            private int roundNumber = 1;
+
+            public void Apply(RoundResult result)
+            {
+                lock (sync)
+                {
+                    result.RoundNumber = roundNumber;
+                    if (!string.IsNullOrEmpty(result.WinnerUsername))
+                    {
+                        AwardPoint(result.WinnerUsername);
+                    }
+
+                    result.Scores = result.Players.Select(BuildScore).ToArray();
+                    result.IsMatchOver = result.Scores.Any(score => score.Points >= PointsToWinMatch);
+                }
+            }
+
+            private void AwardPoint(string username)
+            {
+                int points;
+                pointsByUser.TryGetValue(username, out points);
+                pointsByUser[username] = points + 1;
+                roundNumber++;
+            }
+
+            private PlayerScore BuildScore(OpponentProgress player)
+            {
+                int points;
+                pointsByUser.TryGetValue(player.Username, out points);
+                return new PlayerScore { Username = player.Username, Points = points };
             }
         }
 

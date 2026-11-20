@@ -29,6 +29,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         private readonly RoomServiceClient roomService = new RoomServiceClient();
 
         private int remainingTries;
+        private int maxTries;
         private int currentRowIndex;
         private bool isSending;
         private bool isFinished;
@@ -51,6 +52,8 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
             get => isWaitingForOpponent;
             private set => SetProperty(ref isWaitingForOpponent, value);
         }
+
+        public MatchScoreViewModel Score { get; } = new MatchScoreViewModel();
 
         public ObservableCollection<MatchRowViewModel> TriesRows { get; } =
             new ObservableCollection<MatchRowViewModel>();
@@ -203,7 +206,8 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
             try
             {
                 var room = await roomService.GetRoomByIdAsync(roomId);
-                RemainingTries = MatchRules.GetMaxTries(room?.Difficulty);
+                maxTries = MatchRules.GetMaxTries(room?.Difficulty);
+                RemainingTries = maxTries;
             }
             catch (FaultException<RoomService.ErrorMessage> faultException)
             {
@@ -381,17 +385,49 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         private void ShowResult(RoundResult result)
         {
             CloseRound();
-            string winner = result.WinnerUsername;
-            if (string.Equals(winner, CurrentPlayer.Instance.Username, StringComparison.OrdinalIgnoreCase))
+            string ownUsername = CurrentPlayer.Instance.Username;
+            Score.Update(result.Scores, ownUsername);
+            Action continued = result.IsMatchOver ? (Action)ReturnToRoom : StartNextRound;
+            if (string.Equals(result.WinnerUsername, ownUsername, StringComparison.OrdinalIgnoreCase))
             {
-                dialogService.ShowYouWon(lastCode, ReturnToRoom);
+                dialogService.ShowYouWon(lastCode, continued);
                 return;
             }
 
-            string title = string.IsNullOrEmpty(winner)
-                ? Properties.Resources.MatchTries_RoundTie
+            dialogService.ShowGameOver(BuildLossTitle(result), continued);
+        }
+
+        private static string BuildLossTitle(RoundResult result)
+        {
+            if (string.IsNullOrEmpty(result.WinnerUsername))
+            {
+                return Properties.Resources.MatchTries_RoundTie;
+            }
+
+            return result.IsMatchOver
+                ? Properties.Resources.MatchTries_MatchLost
                 : Properties.Resources.MatchTries_RoundLost;
-            dialogService.ShowGameOver(title, ReturnToRoom);
+        }
+
+        private void StartNextRound()
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            foreach (var row in TriesRows)
+            {
+                row.Clear();
+            }
+
+            currentRowIndex = 0;
+            pendingResult = null;
+            lastCode = null;
+            isRoundClosed = false;
+            isFinished = false;
+            RemainingTries = maxTries;
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void ReturnToRoom()

@@ -14,6 +14,8 @@ namespace MasterMind_Server.Tests
     [NonParallelizable]
     public class MatchCallbackTests
     {
+        private const int PointsToWinMatch = 3;
+
         private static readonly TimeSpan NoCallbackTimeout = TimeSpan.FromMilliseconds(800);
 
         private MatchServiceHost host;
@@ -133,14 +135,72 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
-        public void TestUnsubscribeResolvedRoundDoesNotNotifyOpponent()
+        public void TestUnsubscribeResolvedMatchDoesNotNotifyOpponent()
         {
-            firstClient.Service.ValidateTry(firstPlayer.username, BuildCorrectTry());
-            secondClient.Service.ValidateTry(secondPlayer.username, BuildCorrectTry());
+            PlayRoundsWonByFirst(PointsToWinMatch);
 
             firstClient.Service.Unsubscribe(firstPlayer.username);
 
             Assert.That(secondProbe.WaitForOpponentAbandoned(NoCallbackTimeout), Is.False);
+        }
+
+        [Test]
+        public void TestUnsubscribeAfterTieNotifiesOpponentAbandoned()
+        {
+            PlayTie();
+
+            firstClient.Service.Unsubscribe(firstPlayer.username);
+
+            Assert.That(secondProbe.WaitForOpponentAbandoned(TestDataFactory.CallbackTimeout), Is.True);
+        }
+
+        [Test]
+        public void TestValidateTryRoundWonAddsPointToWinner()
+        {
+            PlayRoundsWonByFirst(1);
+
+            Assert.That(PointsOf(firstProbe.LastResult, firstPlayer.username), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestValidateTryRoundWonKeepsMatchOpen()
+        {
+            PlayRoundsWonByFirst(PointsToWinMatch - 1);
+
+            Assert.That(firstProbe.LastResult.IsMatchOver, Is.False);
+        }
+
+        [Test]
+        public void TestValidateTryRoundWonOpensNextRoundWithNewSecret()
+        {
+            PlayRoundsWonByFirst(1);
+
+            Assert.DoesNotThrow(() => firstClient.Service.ValidateTry(firstPlayer.username, BuildWrongTry()));
+        }
+
+        [Test]
+        public void TestValidateTryThirdRoundWonEndsMatch()
+        {
+            PlayRoundsWonByFirst(PointsToWinMatch);
+
+            Assert.That(firstProbe.LastResult.IsMatchOver, Is.True);
+        }
+
+        [Test]
+        public void TestValidateTryTieDoesNotConsumeRound()
+        {
+            PlayTie();
+            PlayTie();
+
+            Assert.That(firstProbe.LastResult.RoundNumber, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestValidateTryTieAwardsNoPoint()
+        {
+            PlayTie();
+
+            Assert.That(PointsOf(firstProbe.LastResult, firstPlayer.username), Is.EqualTo(0));
         }
 
         [Test]
@@ -149,6 +209,31 @@ namespace MasterMind_Server.Tests
             firstClient.Dispose();
 
             Assert.That(secondProbe.WaitForOpponentAbandoned(NoCallbackTimeout), Is.False);
+        }
+
+        private void PlayRoundsWonByFirst(int rounds)
+        {
+            for (int round = 0; round < rounds; round++)
+            {
+                firstProbe.ResetRoundResolved();
+                firstClient.Service.ValidateTry(firstPlayer.username, BuildCorrectTry());
+                secondClient.Service.ValidateTry(secondPlayer.username, BuildWrongTry());
+                secondClient.Service.ValidateTry(secondPlayer.username, BuildCorrectTry());
+                firstProbe.WaitForRoundResolved(TestDataFactory.CallbackTimeout);
+            }
+        }
+
+        private void PlayTie()
+        {
+            firstProbe.ResetRoundResolved();
+            firstClient.Service.ValidateTry(firstPlayer.username, BuildCorrectTry());
+            secondClient.Service.ValidateTry(secondPlayer.username, BuildCorrectTry());
+            firstProbe.WaitForRoundResolved(TestDataFactory.CallbackTimeout);
+        }
+
+        private static int PointsOf(RoundResult result, string username)
+        {
+            return result.Scores.Single(score => score.Username == username).Points;
         }
 
         private Room CreateReadyRoom()

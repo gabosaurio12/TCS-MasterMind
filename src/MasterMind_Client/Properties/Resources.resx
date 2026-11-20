@@ -483,4 +483,13 @@
   <data name="MatchTries_OpponentAbandoned" xml:space="preserve">
     <value>Tu rival abandonó la partida. ¡Ganas por defecto!</value>
   </data>
+  <data name="MatchTries_MatchLost" xml:space="preserve">
+    <value>Tu rival ganó la partida</value>
+  </data>
+  <data name="MatchTries_You" xml:space="preserve">
+    <value>Tú</value>
+  </data>
+  <data name="MatchTries_Opponent" xml:space="preserve">
+    <value>Rival</value>
+  </data>
 </root>

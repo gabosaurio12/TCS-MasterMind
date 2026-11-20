@@ -37,5 +37,24 @@ namespace MasterMind_Server.Contracts
 
         [DataMember]
         public OpponentProgress[] Players { get; set; }
+
+        [DataMember]
+        public int RoundNumber { get; set; }
+
+        [DataMember]
+        public PlayerScore[] Scores { get; set; }
+
+        [DataMember]
+        public bool IsMatchOver { get; set; }
+    }
+
+    [DataContract]
+    public class PlayerScore
+    {
+        [DataMember]
+        public string Username { get; set; }
+
+        [DataMember]
+        public int Points { get; set; }
     }
 }

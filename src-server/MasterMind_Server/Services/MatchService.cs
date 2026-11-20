@@ -138,6 +138,7 @@ namespace MasterMind_Server.Services
             }
 
             matchRepository.SaveSecretCode(participation.RoomId, SecretCodeGenerator.Generate());
+            MatchCallbackRegistry.StartMatch(participation.RoomId);
             MatchCallbackRegistry.OpenRound(participation.RoomId);
             return RepositoriesMessages.Success.ToString();
         }
@@ -158,7 +159,7 @@ namespace MasterMind_Server.Services
             return new Clues { CluesResult = clues, IsCorrect = isCorrect };
         }
 
-        private static void ReportProgress(MatchParticipation participation, string username, bool isCorrect)
+        private void ReportProgress(MatchParticipation participation, string username, bool isCorrect)
         {
             int triesUsed = MatchCallbackRegistry.CountTry(participation.RoomId, username);
             bool outOfTries = participation.MaxTries.HasValue && triesUsed >= participation.MaxTries.Value;
@@ -174,6 +175,18 @@ namespace MasterMind_Server.Services
                 MatchCallbackRegistry.Notify(
                     participation.OpponentUsername, callback => callback.OnOpponentFinishedCallback(progress));
                 return;
+            }
+
+            ResolveRound(participation, username, result);
+        }
+
+        private void ResolveRound(MatchParticipation participation, string username, RoundResult result)
+        {
+            MatchCallbackRegistry.ApplyRoundOutcome(participation.RoomId, result);
+            if (!result.IsMatchOver)
+            {
+                matchRepository.SaveSecretCode(participation.RoomId, SecretCodeGenerator.Generate());
+                MatchCallbackRegistry.OpenRound(participation.RoomId);
             }
 
             MatchCallbackRegistry.Notify(username, callback => callback.OnRoundResolvedCallback(result));

@@ -251,7 +251,16 @@ namespace MasterMind_Client.MatchService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsMatchOverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private MasterMind_Client.MatchService.OpponentProgress[] PlayersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RoundNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MasterMind_Client.MatchService.PlayerScore[] ScoresField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string WinnerUsernameField;
@@ -263,6 +272,19 @@ namespace MasterMind_Client.MatchService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsMatchOver {
+            get {
+                return this.IsMatchOverField;
+            }
+            set {
+                if ((this.IsMatchOverField.Equals(value) != true)) {
+                    this.IsMatchOverField = value;
+                    this.RaisePropertyChanged("IsMatchOver");
+                }
             }
         }
         
@@ -280,6 +302,32 @@ namespace MasterMind_Client.MatchService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RoundNumber {
+            get {
+                return this.RoundNumberField;
+            }
+            set {
+                if ((this.RoundNumberField.Equals(value) != true)) {
+                    this.RoundNumberField = value;
+                    this.RaisePropertyChanged("RoundNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterMind_Client.MatchService.PlayerScore[] Scores {
+            get {
+                return this.ScoresField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ScoresField, value) != true)) {
+                    this.ScoresField = value;
+                    this.RaisePropertyChanged("Scores");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string WinnerUsername {
             get {
                 return this.WinnerUsernameField;
@@ -288,6 +336,67 @@ namespace MasterMind_Client.MatchService {
                 if ((object.ReferenceEquals(this.WinnerUsernameField, value) != true)) {
                     this.WinnerUsernameField = value;
                     this.RaisePropertyChanged("WinnerUsername");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerScore", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts")]
+    [System.SerializableAttribute()]
+    public partial class PlayerScore : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PointsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Points {
+            get {
+                return this.PointsField;
+            }
+            set {
+                if ((this.PointsField.Equals(value) != true)) {
+                    this.PointsField = value;
+                    this.RaisePropertyChanged("Points");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Username {
+            get {
+                return this.UsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
+                    this.UsernameField = value;
+                    this.RaisePropertyChanged("Username");
                 }
             }
         }

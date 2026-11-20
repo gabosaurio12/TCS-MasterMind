@@ -4,6 +4,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
     {
         public const int CodeLength = 4;
         public const int BoardRowCount = 6;
+        public const int PointsToWinMatch = 3;
 
         private const int EasyMaxTries = 10;
         private const int NormalMaxTries = 8;

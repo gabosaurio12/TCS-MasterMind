@@ -36,6 +36,11 @@ namespace MasterMind_Server.Tests.TestSupport
             abandonedEvent.Set();
         }
 
+        public void ResetRoundResolved()
+        {
+            resolvedEvent.Reset();
+        }
+
         public bool WaitForOpponentFinished(TimeSpan timeout)
         {
             return finishedEvent.Wait(timeout);
