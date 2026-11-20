@@ -5,12 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MasterMind_Client.Pages.MatchPages"
       xmlns:p="clr-namespace:MasterMind_Client.Properties"
+      xmlns:helpers="clr-namespace:MasterMind_Client.Helpers"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="MatchTriesPage" Background="{DynamicResource BgMatchBrush}">
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <helpers:PinColourToImageConverter x:Key="PinColourToImage" />
+        <helpers:ClueKindToImageConverter x:Key="ClueKindToImage" />
     </Page.Resources>
 
     <Grid>
@@ -22,12 +25,12 @@
 
         <!-- Left panel: Remaining tries -->
         <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-            <Border Background="{DynamicResource BgLeftPanelGreenBrush}" CornerRadius="15" Padding="20" Width="360" Height="220" BorderBrush="#3B2F1E" BorderThickness="4">
+            <Border Background="{DynamicResource BgLeftPanelGreenBrush}" CornerRadius="15" Padding="20" Width="360" Height="220" BorderBrush="{StaticResource InkBrush}" BorderThickness="4">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Label Content="{x:Static p:Resources.MatchTries_RemainingTries}" FontFamily="{StaticResource Elite}" FontSize="36" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center"/>
+                    <Label x:Name="RemainingTriesLbl" Content="{x:Static p:Resources.MatchTries_RemainingTries}" FontFamily="{StaticResource Elite}" FontSize="36" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center"/>
                     <Grid Width="160" Height="90" Margin="0,15,0,0">
                         <Image Source="{DynamicResource CounterImage}" Stretch="Fill"/>
-                        <TextBlock Text="{Binding RemainingTriesText}" FontFamily="{StaticResource Elite}" FontSize="48" Foreground="{DynamicResource InkBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="RemainingTriesTxt" Text="{Binding RemainingTries}" FontFamily="{StaticResource Elite}" FontSize="48" Foreground="{DynamicResource InkBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </StackPanel>
             </Border>
@@ -39,7 +42,16 @@
             <Image Source="{DynamicResource DecipheringMachineWithoutOkImage}" Stretch="Fill" Margin="0,-39,0,-62"/>
 
             <!-- OK Button (Interactive) -->
-            <Button Command="{Binding TryCommand}" Width="120" Height="120" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,66,147,0" Cursor="Hand">
+            <Button x:Name="TryBtn" Command="{Binding TryCommand}" Width="120" Height="120" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,66,147,0" Cursor="Hand">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Grid>
@@ -69,7 +81,7 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border Width="20" Height="20" Margin="5" Background="Transparent">
-                                            <Image Source="{Binding ClueImageSource}" Stretch="Uniform"/>
+                                            <Image Source="{Binding Kind, Converter={StaticResource ClueKindToImage}}" Stretch="Uniform"/>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -90,7 +102,7 @@
                                                 <ControlTemplate TargetType="Button">
                                                     <Grid>
                                                         <Image Source="{DynamicResource ColourPinEmptyImage}" Stretch="Uniform"/>
-                                                        <Image Source="{Binding PinImageSource}" Stretch="Uniform" Margin="4"/>
+                                                        <Image Source="{Binding Colour, Converter={StaticResource PinColourToImage}}" Stretch="Uniform" Margin="4"/>
                                                     </Grid>
                                                 </ControlTemplate>
                                             </Button.Template>
@@ -104,89 +116,34 @@
             </ItemsControl>
         </Grid>
 
+
         <!-- Right panel: Pin Colours -->
         <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-            <Border Background="{DynamicResource BgLeftPanelGreenBrush}" CornerRadius="15" Padding="15" Width="280" Height="780" BorderBrush="#3B2F1E" BorderThickness="4">
+            <Border Background="{DynamicResource BgLeftPanelGreenBrush}" CornerRadius="15" Padding="15" Width="280" Height="780" BorderBrush="{StaticResource InkBrush}" BorderThickness="4">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="{x:Static p:Resources.MatchTries_PinColours}" FontFamily="{StaticResource Elite}" FontSize="28" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-                        <!-- Blue Pin Button -->
-                        <Button Command="{Binding SelectColorCommand}" CommandParameter="Blue" Width="95" Height="95" Margin="0,10" Background="Transparent" BorderThickness="0" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid>
-                                        <Image Source="{DynamicResource BluePinImage}" Stretch="Uniform"/>
-                                        <Border BorderBrush="#F2E3BE" BorderThickness="4" CornerRadius="50" Visibility="{Binding DataContext.IsBlueSelected, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
 
-                        <!-- Red Pin Button -->
-                        <Button Command="{Binding SelectColorCommand}" CommandParameter="Red" Width="95" Height="95" Margin="0,10" Background="Transparent" BorderThickness="0" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid>
-                                        <Image Source="{DynamicResource RedPinImage}" Stretch="Uniform"/>
-                                        <Border BorderBrush="#F2E3BE" BorderThickness="4" CornerRadius="50" Visibility="{Binding DataContext.IsRedSelected, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-
-                        <!-- Yellow Pin Button -->
-                        <Button Command="{Binding SelectColorCommand}" CommandParameter="Yellow" Width="95" Height="95" Margin="0,10" Background="Transparent" BorderThickness="0" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid>
-                                        <Image Source="{DynamicResource YellowPinImage}" Stretch="Uniform"/>
-                                        <Border BorderBrush="#F2E3BE" BorderThickness="4" CornerRadius="50" Visibility="{Binding DataContext.IsYellowSelected, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-
-                        <!-- Green Pin Button -->
-                        <Button Command="{Binding SelectColorCommand}" CommandParameter="Green" Width="95" Height="95" Margin="0,10" Background="Transparent" BorderThickness="0" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid>
-                                        <Image Source="{DynamicResource GreenPinImage}" Stretch="Uniform"/>
-                                        <Border BorderBrush="#F2E3BE" BorderThickness="4" CornerRadius="50" Visibility="{Binding DataContext.IsGreenSelected, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-
-                        <!-- White Pin Button -->
-                        <Button Command="{Binding SelectColorCommand}" CommandParameter="White" Width="95" Height="95" Margin="0,10" Background="Transparent" BorderThickness="0" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid>
-                                        <Image Source="{DynamicResource WhitePinImage}" Stretch="Uniform"/>
-                                        <Border BorderBrush="#F2E3BE" BorderThickness="4" CornerRadius="50" Visibility="{Binding DataContext.IsWhiteSelected, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-
-                        <!-- Orange Pin Button -->
-                        <Button Command="{Binding SelectColorCommand}" CommandParameter="Orange" Width="95" Height="95" Margin="0,10" Background="Transparent" BorderThickness="0" Cursor="Hand">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid>
-                                        <Image Source="{DynamicResource OrangePinImage}" Stretch="Uniform"/>
-                                        <Border BorderBrush="#F2E3BE" BorderThickness="4" CornerRadius="50" Visibility="{Binding DataContext.IsOrangeSelected, RelativeSource={RelativeSource AncestorType=Page}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
+                    <ItemsControl x:Name="PinColoursList" Grid.Row="1" ItemsSource="{Binding PaletteColours}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.SelectColourCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding}" Width="95" Height="95" Margin="0,10" Background="Transparent" BorderThickness="0" Cursor="Hand">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid>
+                                                <Image Source="{Binding Colour, Converter={StaticResource PinColourToImage}}" Stretch="Uniform"/>
+                                                <Border BorderBrush="{StaticResource CreamBrush}" BorderThickness="4" CornerRadius="50" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </Grid>
             </Border>
         </StackPanel>

@@ -1,5 +1,7 @@
 using log4net;
+using MasterMind_Client.Helpers;
 using MasterMind_Client.LobbyService;
+using MasterMind_Client.MatchService;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
@@ -7,7 +9,6 @@ using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
 using System;
 using System.ServiceModel;
-using System.Web;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -114,6 +115,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private DispatcherTimer countdownTimer;
 
         private readonly RoomServiceClient roomService = new RoomServiceClient();
+        private readonly MatchServiceClient matchService = new MatchServiceClient();
         private readonly LobbyServiceClient lobbyService;
 
         public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
@@ -220,7 +222,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private void InitializeFromUri(Uri uri)
         {
-            int roomId = GetRoomIdFromQuery(uri);
+            int roomId = RouteQuery.GetInt(uri, "roomId");
             if (roomId == 0)
             {
                 NavigateTo(RoomsPageRoute);
@@ -276,36 +278,6 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             };
 
             lobbyService.ChangePlayerStatusAsync(playerStatus);
-        }
-
-        private static int GetRoomIdFromQuery(Uri uri)
-        {
-            string queryString = uri.IsAbsoluteUri
-                ? uri.Query
-                : GetQueryFromRelativeUri(uri);
-
-            var query = HttpUtility.ParseQueryString(queryString);
-            if (int.TryParse(query["roomId"], out int roomId))
-            {
-                return roomId;
-            }
-
-            return 0;
-        }
-
-        private static string GetQueryFromRelativeUri(Uri uri)
-        {
-            string original = uri.OriginalString;
-            int queryIndex = original.IndexOf('?');
-
-            string queryString = string.Empty;
-
-            if (queryIndex >= 0)
-            {
-                queryString = original.Substring(queryIndex);
-            }
-
-            return queryString;
         }
 
         private void SetPlayers(Room room)
@@ -516,7 +488,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             {
                 countdownTimer.Stop();
                 IsCountdownActive = false;
-                NavigateToGamePage();
+                StartMatch();
             }
         }
 
@@ -537,15 +509,49 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             CountdownTime = CountdownDuration;
         }
 
-        private void NavigateToGamePage()
+        private void StartMatch()
         {
-            navigationService.Navigate(new Uri("Pages/MatchPages/MatchTriesPage.xaml", UriKind.Relative));
+            bool isPlayerOne = CurrentPlayer.Instance.Username.Equals(PlayerOne?.Username);
+            if (isPlayerOne && !PrepareSecretCode())
+            {
+                SetUnready();
+                return;
+            }
+
+            NavigateTo($"Pages/MatchPages/MatchTriesPage.xaml?roomId={currentRoomId}");
+        }
+
+        private bool PrepareSecretCode()
+        {
+            try
+            {
+                matchService.UpdateCode(CurrentPlayer.Instance.Username);
+                return true;
+            }
+            catch (FaultException<MatchService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the secret code creation: {0}", faultException.Detail.Message);
+                ShowServerError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault while creating the secret code", faultException);
+                ShowServerError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure while creating the secret code", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+
+            return false;
         }
 
         public void Dispose()
         {
             countdownTimer.Stop();
             countdownTimer.Tick -= CountdownTimer_Tick;
+            matchService.Abort();
         }
 
     }

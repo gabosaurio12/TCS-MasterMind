@@ -1,4 +1,5 @@
 using MasterMind_Client.ViewModels.Pages.MatchPages;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,7 +13,27 @@ namespace MasterMind_Client.Pages.MatchPages
         public MatchTriesPage()
         {
             InitializeComponent();
-            DataContext = new MatchTriesViewModel();
+            Loaded += MatchTriesPage_Loaded;
+            Unloaded += MatchTriesPage_Unloaded;
+        }
+
+        private async void MatchTriesPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var uri = NavigationService?.CurrentSource;
+            if (uri == null || DataContext != null)
+            {
+                return;
+            }
+
+            var viewModel = new MatchTriesViewModel(uri, AppServices.NavigationService, AppServices.DialogService);
+            DataContext = viewModel;
+            await viewModel.InitializeAsync();
+        }
+
+        private void MatchTriesPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            (DataContext as IDisposable)?.Dispose();
+            DataContext = null;
         }
     }
 }

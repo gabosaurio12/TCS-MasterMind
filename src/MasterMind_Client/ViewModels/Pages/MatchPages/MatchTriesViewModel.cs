@@ -1,194 +1,289 @@
+using log4net;
+using MasterMind_Client.Helpers;
+using MasterMind_Client.MatchService;
+using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
+using MasterMind_Client.ViewModels.Services;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MasterMind_Client.ViewModels.Pages.MatchPages
 {
-    public class MatchTriesViewModel : ViewModelBase
+    public class MatchTriesViewModel : ViewModelBase, IDisposable
     {
-        private string remainingTriesText = "12";
-        private string selectedColor = "Blue";
+        private const string RoomsPageRoute = "Pages/RoomsPages/RoomsPage.xaml";
+        private const string TriesExhaustedResult = "TriesExhausted";
 
-        public string RemainingTriesText
+        private static readonly ILog logger = LogManager.GetLogger(typeof(MatchTriesViewModel));
+
+        private readonly int roomId;
+        private readonly INavigationService navigationService;
+        private readonly IDialogService dialogService;
+        private readonly MatchServiceClient matchService = new MatchServiceClient();
+        private readonly RoomServiceClient roomService = new RoomServiceClient();
+
+        private int remainingTries;
+        private int currentRowIndex;
+        private bool isSending;
+        private bool isFinished;
+        private PaletteColourViewModel selectedColour;
+
+        public MatchTriesViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
         {
-            get => remainingTriesText;
-            set => SetProperty(ref remainingTriesText, value);
+            this.navigationService = navigationService;
+            this.dialogService = dialogService;
+            roomId = RouteQuery.GetInt(uri, "roomId");
+
+            CreateBoard();
+            CreatePalette();
+            SelectColourCommand = new RelayCommand(parameter => SelectColour(parameter as PaletteColourViewModel));
+            TryCommand = new RelayCommand(async _ => await SubmitTryAsync(), _ => CanSubmitTry());
         }
 
-        public string SelectedColor
+        public int RemainingTries
         {
-            get => selectedColor;
-            set
-            {
-                if (!Equals(selectedColor, value))
-                {
-                    selectedColor = value;
-                    SetProperty(ref selectedColor, value);
-                    OnPropertyChanged(nameof(IsBlueSelected));
-                    OnPropertyChanged(nameof(IsRedSelected));
-                    OnPropertyChanged(nameof(IsYellowSelected));
-                    OnPropertyChanged(nameof(IsGreenSelected));
-                    OnPropertyChanged(nameof(IsWhiteSelected));
-                    OnPropertyChanged(nameof(IsOrangeSelected));
-                }
-            }
+            get => remainingTries;
+            private set => SetProperty(ref remainingTries, value);
         }
 
-        public bool IsBlueSelected => SelectedColor == "Blue";
-        public bool IsRedSelected => SelectedColor == "Red";
-        public bool IsYellowSelected => SelectedColor == "Yellow";
-        public bool IsGreenSelected => SelectedColor == "Green";
-        public bool IsWhiteSelected => SelectedColor == "White";
-        public bool IsOrangeSelected => SelectedColor == "Orange";
+        public ObservableCollection<MatchRowViewModel> TriesRows { get; } =
+            new ObservableCollection<MatchRowViewModel>();
 
-        public ObservableCollection<MatchRowViewModel> TriesRows { get; } = new ObservableCollection<MatchRowViewModel>();
+        public ObservableCollection<PaletteColourViewModel> PaletteColours { get; } =
+            new ObservableCollection<PaletteColourViewModel>();
 
-        public ICommand SelectColorCommand { get; }
+        public ICommand SelectColourCommand { get; }
+
         public ICommand TryCommand { get; }
 
-        public MatchTriesViewModel()
+        public async Task InitializeAsync()
         {
-            SelectColorCommand = new RelayCommand(param => {
-                if (param is string color)
-                {
-                    SelectedColor = color;
-                }
-            });
-
-            TryCommand = new RelayCommand(_ => {
-                // Placeholder action for submitting a try
-            });
-
-            for (int i = 0; i < 6; i++)
+            if (roomId == 0)
             {
-                TriesRows.Add(new MatchRowViewModel(this));
+                NavigateTo(RoomsPageRoute);
+                return;
+            }
+
+            await LoadRemainingTriesAsync();
+        }
+
+        public void Dispose()
+        {
+            CloseClient(matchService);
+            CloseClient(roomService);
+        }
+
+        private MatchRowViewModel CurrentRow => TriesRows[currentRowIndex];
+
+        private void CreateBoard()
+        {
+            for (int index = 0; index < MatchRules.BoardRowCount; index++)
+            {
+                TriesRows.Add(new MatchRowViewModel(PlacePin));
             }
         }
 
-        public void PlacePin(MatchPinSlotViewModel slot)
+        private void CreatePalette()
         {
-            if (slot != null)
+            foreach (PinColour colour in Enum.GetValues(typeof(PinColour)))
             {
-                slot.PinColor = SelectedColor;
+                PaletteColours.Add(new PaletteColourViewModel(colour));
+            }
+
+            SelectColour(PaletteColours.First());
+        }
+
+        private void SelectColour(PaletteColourViewModel colour)
+        {
+            if (colour == null)
+            {
+                return;
+            }
+
+            foreach (var entry in PaletteColours)
+            {
+                entry.IsSelected = entry == colour;
+            }
+
+            selectedColour = colour;
+        }
+
+        private void PlacePin(MatchPinSlotViewModel slot)
+        {
+            if (isFinished || !CurrentRow.PinSlots.Contains(slot))
+            {
+                return;
+            }
+
+            slot.Colour = selectedColour.Colour;
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private bool CanSubmitTry()
+        {
+            return RemainingTries > 0 && !isSending && !isFinished && CurrentRow.IsComplete;
+        }
+
+        private async Task LoadRemainingTriesAsync()
+        {
+            try
+            {
+                var room = await roomService.GetRoomByIdAsync(roomId);
+                RemainingTries = MatchRules.GetMaxTries(room?.Difficulty);
+            }
+            catch (FaultException<RoomService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the room lookup: {0}", faultException.Detail.Message);
+                LeaveAfterError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault during room lookup", faultException);
+                LeaveAfterError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure during room lookup", communicationException);
+                LeaveAfterError(string.Empty);
             }
         }
 
-        private void OnPropertyChanged(string propertyName)
+        private async Task SubmitTryAsync()
         {
-            SetProperty(ref selectedColor, selectedColor, propertyName);
-        }
-    }
+            isSending = true;
 
-    public class MatchRowViewModel : ViewModelBase
-    {
-        private readonly MatchTriesViewModel parentViewModel;
-
-        public ObservableCollection<MatchPinSlotViewModel> PinSlots { get; } = new ObservableCollection<MatchPinSlotViewModel>();
-        public ObservableCollection<MatchClueSlotViewModel> ClueSlots { get; } = new ObservableCollection<MatchClueSlotViewModel>();
-
-        public MatchRowViewModel(MatchTriesViewModel parent)
-        {
-            parentViewModel = parent;
-            for (int i = 0; i < 4; i++)
+            try
             {
-                PinSlots.Add(new MatchPinSlotViewModel(parentViewModel));
+                await RequestTryAsync(CurrentRow.GetCode());
             }
-            for (int i = 0; i < 4; i++)
+            finally
             {
-                ClueSlots.Add(new MatchClueSlotViewModel());
-            }
-        }
-    }
-
-    public class MatchPinSlotViewModel : ViewModelBase
-    {
-        private readonly MatchTriesViewModel parentViewModel;
-        private string pinColor = string.Empty;
-
-        public string PinColor
-        {
-            get => pinColor;
-            set
-            {
-                if (!Equals(pinColor, value))
-                {
-                    pinColor = value;
-                    SetProperty(ref pinColor, value);
-                    SetProperty(ref pinColor, value, nameof(HasPin));
-                    SetProperty(ref pinColor, value, nameof(PinImageSource));
-                }
+                isSending = false;
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 
-        public bool HasPin => !string.IsNullOrEmpty(PinColor);
-
-        public object PinImageSource
+        private async Task RequestTryAsync(IReadOnlyList<PinColour> code)
         {
-            get
+            try
             {
-                switch (PinColor)
-                {
-                    case "Blue":
-                        return App.Current.Resources["BluePinImage"];
-                    case "Red":
-                        return App.Current.Resources["RedPinImage"];
-                    case "Yellow":
-                        return App.Current.Resources["YellowPinImage"];
-                    case "Green":
-                        return App.Current.Resources["GreenPinImage"];
-                    case "White":
-                        return App.Current.Resources["WhitePinImage"];
-                    case "Orange":
-                        return App.Current.Resources["OrangePinImage"];
-                    default:
-                        return null;
-                }
+                var clues = await matchService.ValidateTryAsync(
+                    CurrentPlayer.Instance.Username, MatchColourMapper.ToCodeTry(code));
+                HandleClues(clues, code);
+            }
+            catch (FaultException<MatchService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the try: {0}", faultException.Detail.Message);
+                HandleFault(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault while validating a try", faultException);
+                dialogService.ShowServerError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure while validating a try", communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
         }
 
-        public ICommand PlacePinCommand { get; }
-
-        public MatchPinSlotViewModel(MatchTriesViewModel parent)
+        private void HandleClues(Clues clues, IReadOnlyList<PinColour> code)
         {
-            parentViewModel = parent;
-            PlacePinCommand = new RelayCommand(_ => parentViewModel.PlacePin(this));
-        }
-    }
+            CurrentRow.ApplyClues(clues.CluesResult);
 
-    public class MatchClueSlotViewModel : ViewModelBase
-    {
-        private string clueType = string.Empty;
-
-        public string ClueType
-        {
-            get => clueType;
-            set
+            if (clues.IsCorrect)
             {
-                if (!Equals(clueType, value))
-                {
-                    clueType = value;
-                    SetProperty(ref clueType, value);
-                    SetProperty(ref clueType, value, nameof(HasClue));
-                    SetProperty(ref clueType, value, nameof(ClueImageSource));
-                }
+                FinishWon(code);
+                return;
             }
+
+            RemainingTries--;
+            if (RemainingTries == 0)
+            {
+                FinishLost();
+                return;
+            }
+
+            AdvanceRow();
         }
 
-        public bool HasClue => !string.IsNullOrEmpty(ClueType);
-
-        public object ClueImageSource
+        private void HandleFault(string errorDetail)
         {
-            get
+            if (errorDetail == TriesExhaustedResult)
             {
-                switch (ClueType)
-                {
-                    case "White":
-                        return App.Current.Resources["WhiteCluePinImage"];
-                    case "Black":
-                        return App.Current.Resources["BlackCluePinImage"];
-                    default:
-                        return null;
-                }
+                FinishLost();
+                return;
+            }
+
+            dialogService.ShowServerError(errorDetail);
+        }
+
+        private void AdvanceRow()
+        {
+            if (currentRowIndex < TriesRows.Count - 1)
+            {
+                currentRowIndex++;
+                return;
+            }
+
+            TriesRows[0].CopyFrom(CurrentRow);
+            foreach (var row in TriesRows.Skip(1))
+            {
+                row.Clear();
+            }
+
+            currentRowIndex = 1;
+        }
+
+        private void FinishWon(IReadOnlyList<PinColour> code)
+        {
+            isFinished = true;
+            dialogService.ShowYouWon(code, ReturnToRoom);
+        }
+
+        private void FinishLost()
+        {
+            isFinished = true;
+            dialogService.ShowGameOver(ReturnToRoom);
+        }
+
+        private void ReturnToRoom()
+        {
+            NavigateTo($"Pages/RoomsPages/RoomPage.xaml?roomId={roomId}");
+        }
+
+        private void LeaveAfterError(string errorDetail)
+        {
+            dialogService.ShowServerError(errorDetail);
+            NavigateTo(RoomsPageRoute);
+        }
+
+        private void NavigateTo(string route)
+        {
+            navigationService.Navigate(new Uri(route, UriKind.Relative));
+        }
+
+        private static void CloseClient(ICommunicationObject client)
+        {
+            try
+            {
+                client.Close();
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Warn("Could not close a WCF client gracefully", communicationException);
+                client.Abort();
+            }
+            catch (TimeoutException timeoutException)
+            {
+                logger.Warn("Timeout while closing a WCF client", timeoutException);
+                client.Abort();
             }
         }
     }

@@ -25,19 +25,12 @@ namespace MasterMind_Server.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ClueColorsCatalog> ClueColorsCatalog { get; set; }
-        public virtual DbSet<CodeColorsCatalog> CodeColorsCatalog { get; set; }
-        public virtual DbSet<CorrectPositionAndColors> CorrectPositionAndColors { get; set; }
-        public virtual DbSet<CorrectPositionAndColorsClue> CorrectPositionAndColorsClue { get; set; }
-        public virtual DbSet<DecipherTry> DecipherTry { get; set; }
-        public virtual DbSet<DecipherTryCode> DecipherTryCode { get; set; }
         public virtual DbSet<DifficultiesCatalog> DifficultiesCatalog { get; set; }
         public virtual DbSet<Friendship> Friendship { get; set; }
         public virtual DbSet<GameInvitation> GameInvitation { get; set; }
         public virtual DbSet<GameModesCatalog> GameModesCatalog { get; set; }
         public virtual DbSet<MatchResults> MatchResults { get; set; }
         public virtual DbSet<MatchRoom> MatchRoom { get; set; }
-        public virtual DbSet<MatchRoomSecretCode> MatchRoomSecretCode { get; set; }
         public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<PlayerInMatch> PlayerInMatch { get; set; }
         public virtual DbSet<PlayerReport> PlayerReport { get; set; }
@@ -48,6 +41,7 @@ namespace MasterMind_Server.Data
         public virtual DbSet<RequestStatusCatalog> RequestStatusCatalog { get; set; }
         public virtual DbSet<RoundsTimeResults> RoundsTimeResults { get; set; }
         public virtual DbSet<RoundsTriesResults> RoundsTriesResults { get; set; }
+        public virtual DbSet<SecretCode> SecretCode { get; set; }
         public virtual DbSet<TimeTrialConfig> TimeTrialConfig { get; set; }
         public virtual DbSet<TriesConfig> TriesConfig { get; set; }
         public virtual DbSet<VerificationCode> VerificationCode { get; set; }

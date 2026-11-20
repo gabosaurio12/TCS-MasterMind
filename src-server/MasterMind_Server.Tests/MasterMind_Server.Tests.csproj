@@ -110,6 +110,9 @@
     <Compile Include="LobbyServiceTests.cs" />
     <Compile Include="CodeServiceTests.cs" />
     <Compile Include="AvatarServiceTests.cs" />
+    <Compile Include="ClueCalculatorTests.cs" />
+    <Compile Include="MatchServiceTests.cs" />
+    <Compile Include="SecretCodeGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

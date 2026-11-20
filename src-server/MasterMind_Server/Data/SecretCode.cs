@@ -12,13 +12,14 @@ namespace MasterMind_Server.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DecipherTryCode
+    public partial class SecretCode
     {
-        public int decipher_try_id { get; set; }
-        public int position { get; set; }
-        public int color_id { get; set; }
+        public int match_room_id { get; set; }
+        public string first_color { get; set; }
+        public string second_color { get; set; }
+        public string third_color { get; set; }
+        public string fourth_color { get; set; }
     
-        public virtual CodeColorsCatalog CodeColorsCatalog { get; set; }
-        public virtual DecipherTry DecipherTry { get; set; }
+        public virtual MatchRoom MatchRoom { get; set; }
     }
 }

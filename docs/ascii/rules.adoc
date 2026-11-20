@@ -39,9 +39,9 @@ Los colores posibles son:
 
 Los jugadores deberán ir probando combinaciones de colores para descifrar el _Código Secreto_. Tras cada intento, se revelarán los colores acertados y los colores y posiciones acertados:
 
-* Se mostrará el color blanco por cada color y posición acertadas
+* Se mostrará el color negro por cada color y posición acertadas
 
-* Se mostrará el color negro por cada color acertado
+* Se mostrará el color blanco por cada color acertado en una posición incorrecta
 
 Mediante estas pistas los jugadores deben adivinar el código e ir ajustando sus códigos.
 

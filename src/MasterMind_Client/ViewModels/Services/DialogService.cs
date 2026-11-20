@@ -2,8 +2,10 @@ using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Modals;
+using MasterMind_Client.ViewModels.Pages.MatchPages;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Services
@@ -120,6 +122,26 @@ namespace MasterMind_Client.ViewModels.Services
             var modal = new LogOutModal();
             var viewModel = new LogOutViewModel();
             modal.DataContext = viewModel;
+            modal.Show();
+        }
+
+        public void ShowYouWon(IReadOnlyList<PinColour> secretCode, Action continued)
+        {
+            var modal = new YouWonTriesModal();
+            var viewModel = new YouWonTriesViewModel(secretCode);
+            modal.DataContext = viewModel;
+            viewModel.CloseRequested += (sender, e) => modal.Close();
+            modal.Closed += (sender, e) => continued?.Invoke();
+            modal.Show();
+        }
+
+        public void ShowGameOver(Action continued)
+        {
+            var modal = new GameOverTriesModal();
+            var viewModel = new GameOverTriesViewModel();
+            modal.DataContext = viewModel;
+            viewModel.CloseRequested += (sender, e) => modal.Close();
+            modal.Closed += (sender, e) => continued?.Invoke();
             modal.Show();
         }
 
