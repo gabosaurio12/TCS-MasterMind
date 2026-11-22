@@ -375,6 +375,9 @@
   <data name="RoomPage_Unready" xml:space="preserve">
     <value>Unready</value>
   </data>
+  <data name="RoomPage_GameStarting" xml:space="preserve">
+    <value>Starting in {0}s</value>
+  </data>
   <data name="LoginPage_RememberLogin" xml:space="preserve">
     <value>Remember Login?</value>
   </data>
@@ -461,5 +464,32 @@
   </data>
   <data name="ErrorNotification_ErrorJoiningRoomGiveRoomCode" xml:space="preserve">
     <value>There was an error while joining the room, try joining with this code:</value>
+  </data>
+  <data name="MatchTries_RemainingTries" xml:space="preserve">
+    <value>Remaining tries:</value>
+  </data>
+  <data name="MatchTries_PinColours" xml:space="preserve">
+    <value>Pin Colours</value>
+  </data>
+  <data name="MatchTries_WaitingForOpponent" xml:space="preserve">
+    <value>Waiting for the opponent...</value>
+  </data>
+  <data name="MatchTries_RoundTie" xml:space="preserve">
+    <value>Tie</value>
+  </data>
+  <data name="MatchTries_RoundLost" xml:space="preserve">
+    <value>Your opponent won the round</value>
+  </data>
+  <data name="MatchTries_OpponentAbandoned" xml:space="preserve">
+    <value>Your opponent left the match. You win by default!</value>
+  </data>
+  <data name="MatchTries_MatchLost" xml:space="preserve">
+    <value>Your opponent won the match</value>
+  </data>
+  <data name="MatchTries_You" xml:space="preserve">
+    <value>You</value>
+  </data>
+  <data name="MatchTries_Opponent" xml:space="preserve">
+    <value>Opponent</value>
   </data>
 </root>

@@ -62,28 +62,6 @@ namespace MasterMind_Server.Tests.TestSupport
                    OR player_one_id IN (SELECT player_id FROM #TestPlayers)
                    OR player_two_id IN (SELECT player_id FROM #TestPlayers);
 
-                DELETE FROM dbo.CorrectPositionAndColorsClue
-                WHERE correct_position_and_colors_id IN (
-                    SELECT decipher_try_id FROM dbo.DecipherTry
-                    WHERE match_room_id IN (SELECT match_room_id FROM #TestRooms)
-                       OR player_id IN (SELECT player_id FROM #TestPlayers));
-
-                DELETE FROM dbo.DecipherTryCode
-                WHERE decipher_try_id IN (
-                    SELECT decipher_try_id FROM dbo.DecipherTry
-                    WHERE match_room_id IN (SELECT match_room_id FROM #TestRooms)
-                       OR player_id IN (SELECT player_id FROM #TestPlayers));
-
-                DELETE FROM dbo.CorrectPositionAndColors
-                WHERE decipher_try_id IN (
-                    SELECT decipher_try_id FROM dbo.DecipherTry
-                    WHERE match_room_id IN (SELECT match_room_id FROM #TestRooms)
-                       OR player_id IN (SELECT player_id FROM #TestPlayers));
-
-                DELETE FROM dbo.DecipherTry
-                WHERE match_room_id IN (SELECT match_room_id FROM #TestRooms)
-                   OR player_id IN (SELECT player_id FROM #TestPlayers);
-
                 DELETE FROM dbo.GameInvitation
                 WHERE requester_id IN (SELECT player_id FROM #TestPlayers)
                    OR addressee_id IN (SELECT player_id FROM #TestPlayers)
@@ -117,7 +95,7 @@ namespace MasterMind_Server.Tests.TestSupport
                 DELETE FROM dbo.TriesConfig
                 WHERE match_room_id IN (SELECT match_room_id FROM #TestRooms);
 
-                DELETE FROM dbo.MatchRoomSecretCode
+                DELETE FROM dbo.SecretCode
                 WHERE match_room_id IN (SELECT match_room_id FROM #TestRooms);
 
                 DELETE FROM dbo.PlayerReport
@@ -186,6 +164,15 @@ namespace MasterMind_Server.Tests.TestSupport
                     .Where(room => room.match_room_id == roomId)
                     .Select(room => room.player_two_id)
                     .FirstOrDefault();
+            }
+        }
+
+        public static string[] GetSecretCode(int roomId)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                var secret = context.SecretCode.First(code => code.match_room_id == roomId);
+                return new[] { secret.first_color, secret.second_color, secret.third_color, secret.fourth_color };
             }
         }
 

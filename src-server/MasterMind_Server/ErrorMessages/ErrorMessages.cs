@@ -7,6 +7,14 @@
         InvalidImage,
         ImageTooLarge,
         ImageProcessingError,
-        PlayerNotFound
+        PlayerNotFound,
+        RoomNotFound,
+        NotPlayerOne,
+        PlayersNotReady,
+        MatchNotStarted,
+        InvalidCode,
+        TriesExhausted,
+        PlayerNotInRoom,
+        SecretCodeNotFound
     }
 }

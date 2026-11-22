@@ -592,6 +592,87 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colores.
+        /// </summary>
+        public static string MatchTries_PinColours {
+            get {
+                return ResourceManager.GetString("MatchTries_PinColours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Esperando al rival....
+        /// </summary>
+        public static string MatchTries_WaitingForOpponent {
+            get {
+                return ResourceManager.GetString("MatchTries_WaitingForOpponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empate.
+        /// </summary>
+        public static string MatchTries_RoundTie {
+            get {
+                return ResourceManager.GetString("MatchTries_RoundTie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tu rival ganó la ronda.
+        /// </summary>
+        public static string MatchTries_RoundLost {
+            get {
+                return ResourceManager.GetString("MatchTries_RoundLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tu rival abandonó la partida. ¡Ganas por defecto!.
+        /// </summary>
+        public static string MatchTries_OpponentAbandoned {
+            get {
+                return ResourceManager.GetString("MatchTries_OpponentAbandoned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tu rival ganó la partida.
+        /// </summary>
+        public static string MatchTries_MatchLost {
+            get {
+                return ResourceManager.GetString("MatchTries_MatchLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tú.
+        /// </summary>
+        public static string MatchTries_You {
+            get {
+                return ResourceManager.GetString("MatchTries_You", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rival.
+        /// </summary>
+        public static string MatchTries_Opponent {
+            get {
+                return ResourceManager.GetString("MatchTries_Opponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intentos restantes:.
+        /// </summary>
+        public static string MatchTries_RemainingTries {
+            get {
+                return ResourceManager.GetString("MatchTries_RemainingTries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Escribe tu nueva contraseña.
         /// </summary>
         public static string NewPasswordModal_Title {
@@ -741,6 +822,15 @@ namespace MasterMind_Client.Properties {
         public static string RoomPage_EmptySlot {
             get {
                 return ResourceManager.GetString("RoomPage_EmptySlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Falta {0}s para comenzar.
+        /// </summary>
+        public static string RoomPage_GameStarting {
+            get {
+                return ResourceManager.GetString("RoomPage_GameStarting", resourceCulture);
             }
         }
         

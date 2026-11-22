@@ -10,6 +10,9 @@
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="{x:Static p:Resources.RoomsPage_Title}"
       Background="{StaticResource BgRoomsBrush}">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
 
     <Grid>
         <!-- Title -->
@@ -31,6 +34,14 @@
                    Style="{StaticResource MetalFieldLbl}"
                    FontFamily="{StaticResource Elite}" FontSize="44"
                    VerticalAlignment="Top" Height="74" Margin="0,44,0,0" />
+
+            <!-- Countdown overlay for game start -->
+            <Label x:Name="CountdownLbl" Content="{Binding CountdownText}"
+                   Visibility="{Binding IsCountdownActive, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Style="{StaticResource MetalFieldLbl}"
+                   FontFamily="{StaticResource Elite}" FontSize="36"
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   Margin="0,120,0,0" Height="80" />
 
             <ScrollViewer x:Name="ChatScroll" Margin="84,134,84,180"
                           VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch">

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="MatchService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IMatchService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8094/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8094/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" />
+      <xsd:import schemaLocation="http://localhost:8094/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8094/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
+      <xsd:import schemaLocation="http://localhost:8094/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMatchService_UpdateCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCode" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_UpdateCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_UpdateCode_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q1:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_ValidateTry_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateTry" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_ValidateTry_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateTryResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_ValidateTry_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q2:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Subscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Subscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Subscribe_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q3:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Unsubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unsubscribe" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Unsubscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_Unsubscribe_ErrorMessageFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions" name="detail" element="q4:ErrorMessage" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_OnOpponentFinishedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnOpponentFinishedCallback" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_OnRoundResolvedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnRoundResolvedCallback" />
+  </wsdl:message>
+  <wsdl:message name="IMatchService_OnOpponentAbandonedCallback_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnOpponentAbandonedCallback" />
+  </wsdl:message>
+  <wsdl:portType name="IMatchService">
+    <wsdl:operation name="UpdateCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/UpdateCode" message="tns:IMatchService_UpdateCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/UpdateCodeResponse" message="tns:IMatchService_UpdateCode_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMatchService/UpdateCodeErrorMessageFault" name="ErrorMessageFault" message="tns:IMatchService_UpdateCode_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateTry">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/ValidateTry" message="tns:IMatchService_ValidateTry_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/ValidateTryResponse" message="tns:IMatchService_ValidateTry_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMatchService/ValidateTryErrorMessageFault" name="ErrorMessageFault" message="tns:IMatchService_ValidateTry_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Subscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/Subscribe" message="tns:IMatchService_Subscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/SubscribeResponse" message="tns:IMatchService_Subscribe_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMatchService/SubscribeErrorMessageFault" name="ErrorMessageFault" message="tns:IMatchService_Subscribe_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMatchService/Unsubscribe" message="tns:IMatchService_Unsubscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/UnsubscribeResponse" message="tns:IMatchService_Unsubscribe_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IMatchService/UnsubscribeErrorMessageFault" name="ErrorMessageFault" message="tns:IMatchService_Unsubscribe_ErrorMessageFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentFinishedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/OnOpponentFinishedCallback" message="tns:IMatchService_OnOpponentFinishedCallback_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnRoundResolvedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/OnRoundResolvedCallback" message="tns:IMatchService_OnRoundResolvedCallback_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentAbandonedCallback">
+      <wsdl:output wsaw:Action="http://tempuri.org/IMatchService/OnOpponentAbandonedCallback" message="tns:IMatchService_OnOpponentAbandonedCallback_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IMatchService" type="tns:IMatchService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IMatchService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="UpdateCode">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/UpdateCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateTry">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/ValidateTry" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/Unsubscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ErrorMessageFault">
+        <soap12:fault use="literal" name="ErrorMessageFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentFinishedCallback">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/OnOpponentFinishedCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnRoundResolvedCallback">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/OnRoundResolvedCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnOpponentAbandonedCallback">
+      <soap12:operation soapAction="http://tempuri.org/IMatchService/OnOpponentAbandonedCallback" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MatchService">
+    <wsdl:port name="NetTcpBinding_IMatchService" binding="tns:NetTcpBinding_IMatchService">
+      <soap12:address location="net.tcp://localhost:8095/MasterMindService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8095/MasterMindService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>GABOSAURIO-DESK\WinterOS</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

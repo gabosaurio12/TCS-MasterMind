@@ -103,6 +103,8 @@
     <Compile Include="TestSupport\StubPlayerRepository.cs" />
     <Compile Include="TestSupport\FriendsServiceHost.cs" />
     <Compile Include="TestSupport\FriendsCallbackProbe.cs" />
+    <Compile Include="TestSupport\MatchServiceHost.cs" />
+    <Compile Include="TestSupport\MatchCallbackProbe.cs" />
     <Compile Include="PlayerServiceTests.cs" />
     <Compile Include="FriendsServiceTests.cs" />
     <Compile Include="FriendsCallbackTests.cs" />
@@ -110,6 +112,10 @@
     <Compile Include="LobbyServiceTests.cs" />
     <Compile Include="CodeServiceTests.cs" />
     <Compile Include="AvatarServiceTests.cs" />
+    <Compile Include="ClueCalculatorTests.cs" />
+    <Compile Include="MatchServiceTests.cs" />
+    <Compile Include="MatchCallbackTests.cs" />
+    <Compile Include="SecretCodeGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
