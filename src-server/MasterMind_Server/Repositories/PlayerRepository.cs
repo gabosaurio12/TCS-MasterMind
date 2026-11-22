@@ -2,12 +2,16 @@
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
+using System;
+using System.Data;
 using System.Linq;
 
 namespace MasterMind_Server.Repositories
 {
     internal class PlayerRepository : IPlayerRepository
     {
+        private const int NoReasonId = 0;
+
         private readonly MasterMindEntities Context = new MasterMindEntities(true);
 
         public string CreatePlayer(Player player)
@@ -154,80 +158,65 @@ namespace MasterMind_Server.Repositories
 
         public string ReportPlayer(ReportDto report)
         {
-            string result = "";
-
             var reportedPlayer = GetPlayerByUsername(report.ReportedPlayerUsername);
-            if (reportedPlayer != null)
+            var reportedByPlayer = GetPlayerByUsername(report.ReportedByPlayerUsername);
+
+            if (reportedPlayer == null || reportedByPlayer == null)
             {
-                var reportedByPlayer = GetPlayerByUsername(report.ReportedByPlayerUsername);
-                if (reportedByPlayer != null)
-                {
-                    int[] playerIds = { reportedPlayer.player_id, reportedByPlayer.player_id };
-                    var reportEntity = MakePlayerReport(report, playerIds);
-
-                    Context.PlayerReport.Add(reportEntity);
-
-                    Context.SaveChanges();
-
-                    result = RepositoriesMessages.Success.ToString();
-                }
-                else
-                {
-                    result = RepositoriesMessages.PlayerNotFound.ToString();
-                }
-            }
-            else
-            {
-                result = RepositoriesMessages.PlayerNotFound.ToString();
+                return RepositoriesMessages.PlayerNotFound.ToString();
             }
 
-            return result;
+            if (reportedPlayer.player_id == reportedByPlayer.player_id)
+            {
+                return RepositoriesMessages.SelfReport.ToString();
+            }
+
+            var reasonId = GetReportReasonId(report.Reason);
+
+            if (reasonId == NoReasonId)
+            {
+                return RepositoriesMessages.InvalidReportReason.ToString();
+            }
+
+            return SaveReport(reportedPlayer.player_id, reportedByPlayer.player_id, reasonId);
         }
 
-        private PlayerReport MakePlayerReport(ReportDto report, int[] playerIds)
+        private int GetReportReasonId(string reason)
         {
-            ReportReasonCatalog inappropriateLanguageEntity;
-            int inappropriateLanguageId;
-            ReportReasonCatalog cheatingEntity;
-            int cheatingId;
-
-            inappropriateLanguageEntity = Context.ReportReasonCatalog.FirstOrDefault(
-                    r => r.reason == ReportReason.InappropriateLanguage
-                    .ToString());
-
-            cheatingEntity = Context.ReportReasonCatalog.FirstOrDefault(
-                r => r.reason == ReportReason.Cheating
-                .ToString());
-
-            PlayerReport newReport = new PlayerReport();
-
-            if (inappropriateLanguageEntity != null && cheatingEntity != null)
+            if (!Enum.GetNames(typeof(ReportReason)).Contains(reason))
             {
-                inappropriateLanguageId = inappropriateLanguageEntity.report_reason_id;
-                cheatingId = cheatingEntity.report_reason_id;
-                if (inappropriateLanguageId > 0 && cheatingId > 0)
-                {
-                    int reasonId;
-
-                    if (report.Reason == ReportReason.InappropriateLanguage.ToString())
-                    {
-                        reasonId = inappropriateLanguageId;
-                    }
-                    else
-                    {
-                        reasonId = cheatingId;
-                    }
-
-                    newReport = new PlayerReport
-                    {
-                        reported_player_id = playerIds[0],
-                        reported_by_player_id = playerIds[1],
-                        reason_id = reasonId
-                    };
-                }
+                return NoReasonId;
             }
 
-            return newReport;
+            var reasonEntity = Context.ReportReasonCatalog.FirstOrDefault(r => r.reason == reason);
+
+            return reasonEntity?.report_reason_id ?? NoReasonId;
+        }
+
+        private string SaveReport(int reportedPlayerId, int reportedByPlayerId, int reasonId)
+        {
+            using (var transaction = Context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                var alreadyReported = Context.PlayerReport.Any(
+                    r => r.reported_player_id == reportedPlayerId && r.reported_by_player_id == reportedByPlayerId
+                    && r.reason_id == reasonId);
+
+                if (alreadyReported)
+                {
+                    return RepositoriesMessages.AlreadyReported.ToString();
+                }
+
+                Context.PlayerReport.Add(new PlayerReport
+                {
+                    reported_player_id = reportedPlayerId,
+                    reported_by_player_id = reportedByPlayerId,
+                    reason_id = reasonId
+                });
+                Context.SaveChanges();
+                transaction.Commit();
+
+                return RepositoriesMessages.Success.ToString();
+            }
         }
     }
 }

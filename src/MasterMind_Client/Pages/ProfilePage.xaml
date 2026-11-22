@@ -133,8 +133,23 @@
                 </StackPanel>
             </StackPanel>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal"
-                        HorizontalAlignment="Center" Margin="0,0,0,44">
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,44">
+
+            <ComboBox x:Name="ReportReasonList" Style="{StaticResource MetalComboBox}"
+                      Width="600" Height="80" Margin="0,0,0,16"
+                      HorizontalAlignment="Left"
+                      FontFamily="{StaticResource Elite}" FontSize="28"
+                      ItemsSource="{Binding ReportReasons}"
+                      SelectedValuePath="Key"
+                      SelectedValue="{Binding SelectedReason, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Value}" Foreground="{StaticResource CreamBrush}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <StackPanel Orientation="Horizontal">
 
                 <Viewbox Stretch="UniformToFill" MaxHeight="71">
                     <TextBox x:Name="ReportUsernameTxt" Style="{StaticResource LongMetalTextBox}"
@@ -143,12 +158,14 @@
                              Foreground="{StaticResource InkMutedBrush}"
                              Text="{Binding ReportedPlayer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              GotFocus="ReportUsernameTxt_GotFocus"
-                             LostFocus="ReportUsernameTxt_LostFocus" />
+                             LostFocus="ReportUsernameTxt_LostFocus"
+                             TextChanged="ReportUsernameTxt_TextChanged" />
                 </Viewbox>
 
                 <Button x:Name="ReportBtn" Style="{StaticResource MetalButtonReport}"
                         Width="71" Height="71" Padding="0" Margin="16,0,0,0"
                         Command="{Binding ReportCommand}" />
+            </StackPanel>
             </StackPanel>
 
             <Button x:Name="BackBtn" Grid.Row="3" Style="{StaticResource MetalButtonRed}"

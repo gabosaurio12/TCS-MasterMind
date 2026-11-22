@@ -2,8 +2,11 @@ using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
+using log4net;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -11,8 +14,18 @@ namespace MasterMind_Client.ViewModels.Pages
 {
     public class ProfilePageViewModel : ViewModelBase
     {
+        private const string InappropriateLanguageReason = "InappropriateLanguage";
+        private const string CheatingReason = "Cheating";
+
+        private static readonly ILog logger = LogManager.GetLogger(typeof(ProfilePageViewModel));
 
         private ImageSource avatar = AvatarLoader.GetDefaultAvatar();
+
+        private string reportedPlayer;
+
+        private string selectedReason = InappropriateLanguageReason;
+
+        private bool isReporting;
 
         public string Username { get; }
 
@@ -24,7 +37,24 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public string Email { get; }
 
-        public string ReportedPlayer { get; set; }
+        public string ReportedPlayer
+        {
+            get { return this.reportedPlayer; }
+            set { SetProperty(ref this.reportedPlayer, value); }
+        }
+
+        public string SelectedReason
+        {
+            get { return this.selectedReason; }
+            set { SetProperty(ref this.selectedReason, value); }
+        }
+
+        public IReadOnlyList<KeyValuePair<string, string>> ReportReasons { get; } = new[]
+        {
+            new KeyValuePair<string, string>(
+                InappropriateLanguageReason, Properties.Resources.ProfilePage_ReportReasonInappropriateLanguage),
+            new KeyValuePair<string, string>(CheatingReason, Properties.Resources.ProfilePage_ReportReasonCheating)
+        };
 
         public ObservableCollection<string> BestTimes { get; }
         public ObservableCollection<string> LeastTries { get; }
@@ -49,7 +79,7 @@ namespace MasterMind_Client.ViewModels.Pages
             this.dialogService = dialogService;
             UpdateCommand = new RelayCommand(_ => NavigateTo("Pages/UpdateProfilePage.xaml"));
             BackCommand = new RelayCommand(_ => NavigateTo("Pages/MainPage.xaml"));
-            ReportCommand = new RelayCommand(_ => ReportPlayer());
+            ReportCommand = new RelayCommand(async _ => await ReportPlayerAsync(), _ => !isReporting);
             ChangePasswordCommand = new RelayCommand(_ => ChangePassword());
             Username = CurrentPlayer.Instance.Username;
             Email = CurrentPlayer.Instance.Email;
@@ -85,27 +115,103 @@ namespace MasterMind_Client.ViewModels.Pages
             }
         }
 
-        private void ReportPlayer()
+        private async Task ReportPlayerAsync()
         {
-            var reportedPlayer = playerService.GetPlayerByUsername(ReportedPlayer);
-            var report = new Report
-            {
-                ReportedPlayerUsername = Username,
-                ReportedByPlayerUsername = CurrentPlayer.Instance.Username,
-                Reason = "Cheating"
-            };
+            var reportedUsername = (ReportedPlayer ?? string.Empty).Trim();
 
-            //*** TO DO ***//
-            /*
-            var result = playerService.ReportPlayer(report);
-            if (result)
+            if (!IsReportTargetValid(reportedUsername))
             {
-                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_PlayerReported);
+                return;
             }
-            else
+
+            SetReporting(true);
+
+            try
             {
+                await playerService.ReportPlayerAsync(BuildReport(reportedUsername));
+                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_PlayerReported);
+                ReportedPlayer = Properties.Resources.ProfilePage_ReportPlayer;
+            }
+            catch (FaultException<ErrorMessage> ex)
+            {
+                logger.Warn(ex);
+                ShowReportError(ex.Detail.Message);
+            }
+            catch (FaultException ex)
+            {
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_PlayerReportedError);
-            }*/
+            }
+            catch (CommunicationException ex)
+            {
+                logger.Error(ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+            catch (TimeoutException ex)
+            {
+                logger.Error(ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+            }
+            finally
+            {
+                SetReporting(false);
+            }
+        }
+
+        private bool IsReportTargetValid(string reportedUsername)
+        {
+            if (reportedUsername.Length == 0
+                || reportedUsername.Equals(Properties.Resources.ProfilePage_ReportPlayer.Trim()))
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_WhiteInput);
+                return false;
+            }
+
+            if (reportedUsername.Equals(Username, StringComparison.OrdinalIgnoreCase))
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_SelfReport);
+                return false;
+            }
+
+            return true;
+        }
+
+        private Report BuildReport(string reportedUsername)
+        {
+            return new Report
+            {
+                ReportedPlayerUsername = reportedUsername,
+                ReportedByPlayerUsername = Username,
+                Reason = SelectedReason
+            };
+        }
+
+        private void ShowReportError(string detailMessage)
+        {
+            switch (detailMessage)
+            {
+                case "PlayerNotFound":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameNotFound);
+                    break;
+                case "SelfReport":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_SelfReport);
+                    break;
+                case "AlreadyReported":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_AlreadyReported);
+                    break;
+                case "DataBaseError":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                    break;
+                default:
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_PlayerReportedError);
+                    break;
+            }
+        }
+
+        private void SetReporting(bool reporting)
+        {
+            isReporting = reporting;
+            System.Windows.Input.CommandManager.InvalidateRequerySuggested();
         }
 
         private void ChangePassword()

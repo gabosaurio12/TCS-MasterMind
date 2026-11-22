@@ -412,13 +412,13 @@
     <value>The username you search doesn't exists</value>
   </data>
   <data name="SuccessNotification_PlayerReported" xml:space="preserve">
-    <value>The player has been eliminated... Reported successfully!</value>
+    <value>The player was reported successfully!</value>
   </data>
   <data name="SuccessNotification_PasswordChanged" xml:space="preserve">
     <value>Your password was changed successfully!</value>
   </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
-    <value>There was an unexpected error while eliminating... Reporting the player. We are sorry.</value>
+    <value>There was an unexpected error while reporting the player. We are sorry.</value>
   </data>
   <data name="ErrorNotification_RoomNameTaken" xml:space="preserve">
     <value>That name is already being used for another Room, use a different one please</value>
@@ -491,5 +491,17 @@
   </data>
   <data name="MatchTries_Opponent" xml:space="preserve">
     <value>Opponent</value>
+  </data>
+  <data name="ErrorNotification_SelfReport" xml:space="preserve">
+    <value>You can't report yourself</value>
+  </data>
+  <data name="ErrorNotification_AlreadyReported" xml:space="preserve">
+    <value>You already reported this player</value>
+  </data>
+  <data name="ProfilePage_ReportReasonInappropriateLanguage" xml:space="preserve">
+    <value>Inappropriate language</value>
+  </data>
+  <data name="ProfilePage_ReportReasonCheating" xml:space="preserve">
+    <value>Cheating</value>
   </data>
 </root>

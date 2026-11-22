@@ -770,6 +770,8 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Resource Include="Assets\Elements\TextBox_Long.png" />
+    <Resource Include="Assets\Elements\ComboBox_MainBox.png" />
+    <Resource Include="Assets\Elements\ComboBox_Options.png" />
     <Resource Include="Assets\Elements\Blue_Button_Medium.png" />
     <Resource Include="Assets\Elements\Green_Button_Medium.png" />
     <Resource Include="Assets\Elements\Red_Button_Medium.png" />
@@ -814,6 +816,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Elements\ComboBox_MainBox_Long.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

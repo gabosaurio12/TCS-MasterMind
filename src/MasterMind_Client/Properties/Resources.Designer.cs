@@ -1184,5 +1184,41 @@ namespace MasterMind_Client.Properties {
                 return ResourceManager.GetString("YouWonTriesModal_SecretCode", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to No puedes reportarte a ti mismo.
+        /// </summary>
+        public static string ErrorNotification_SelfReport {
+            get {
+                return ResourceManager.GetString("ErrorNotification_SelfReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ya reportaste a este jugador.
+        /// </summary>
+        public static string ErrorNotification_AlreadyReported {
+            get {
+                return ResourceManager.GetString("ErrorNotification_AlreadyReported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lenguaje inapropiado.
+        /// </summary>
+        public static string ProfilePage_ReportReasonInappropriateLanguage {
+            get {
+                return ResourceManager.GetString("ProfilePage_ReportReasonInappropriateLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trampas.
+        /// </summary>
+        public static string ProfilePage_ReportReasonCheating {
+            get {
+                return ResourceManager.GetString("ProfilePage_ReportReasonCheating", resourceCulture);
+            }
+        }
+        
     }
 }

@@ -17,6 +17,16 @@
     <BitmapImage x:Key="LongFieldImage" UriSource="/Assets/Elements/TextBox_Long.png" />
     <BitmapImage x:Key="CodeFieldImage" UriSource="/Assets/Elements/CodeTextBox.png" />
     <BitmapImage x:Key="BtnLanguageImage" UriSource="/Assets/Elements/Language_Button.png" />
+    <BitmapImage x:Key="ComboBoxMainBoxImage" UriSource="/Assets/Elements/ComboBox_MainBox.png" />
+    <BitmapImage x:Key="ComboBoxMainBoxLongImage" UriSource="/Assets/Elements/ComboBox_MainBox_Long.png" />
+    <BitmapImage x:Key="ComboBoxOptionsImage" UriSource="/Assets/Elements/ComboBox_Options.png" />
+
+    <CroppedBitmap x:Key="ComboBoxMainLeftSource" Source="{StaticResource ComboBoxMainBoxLongImage}"
+                   SourceRect="0,0,400,312" />
+    <CroppedBitmap x:Key="ComboBoxMainMiddleSource" Source="{StaticResource ComboBoxMainBoxLongImage}"
+                   SourceRect="400,0,1600,312" />
+    <CroppedBitmap x:Key="ComboBoxMainRightSource" Source="{StaticResource ComboBoxMainBoxLongImage}"
+                   SourceRect="2000,0,400,312" />
     <BitmapImage x:Key="BtnEasyImage" UriSource="/Assets/Elements/Blue_Difficulty_Button.png" />
     <BitmapImage x:Key="BtnNormalImage" UriSource="/Assets/Elements/Yellow_Difficulty_Button.png" />
     <BitmapImage x:Key="BtnHardImage" UriSource="/Assets/Elements/Orange_Difficulty_Button.png" />
