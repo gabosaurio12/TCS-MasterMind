@@ -198,7 +198,8 @@ namespace MasterMind_Server.Repositories
             using (var transaction = Context.Database.BeginTransaction(IsolationLevel.Serializable))
             {
                 var alreadyReported = Context.PlayerReport.Any(
-                    r => r.reported_player_id == reportedPlayerId && r.reported_by_player_id == reportedByPlayerId);
+                    r => r.reported_player_id == reportedPlayerId && r.reported_by_player_id == reportedByPlayerId
+                    && r.reason_id == reasonId);
 
                 if (alreadyReported)
                 {

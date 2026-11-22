@@ -135,12 +135,19 @@
 
             <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,44">
 
-            <ComboBox x:Name="ReportReasonList" Width="600" Height="50" Margin="0,0,0,16"
+            <ComboBox x:Name="ReportReasonList" Style="{StaticResource MetalComboBox}"
+                      Width="600" Height="80" Margin="0,0,0,16"
                       HorizontalAlignment="Left"
                       FontFamily="{StaticResource Elite}" FontSize="28"
                       ItemsSource="{Binding ReportReasons}"
-                      DisplayMemberPath="Value" SelectedValuePath="Key"
-                      SelectedValue="{Binding SelectedReason, Mode=TwoWay}" />
+                      SelectedValuePath="Key"
+                      SelectedValue="{Binding SelectedReason, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Value}" Foreground="{StaticResource CreamBrush}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <StackPanel Orientation="Horizontal">
 

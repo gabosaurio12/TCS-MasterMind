@@ -132,24 +132,24 @@ namespace MasterMind_Client.ViewModels.Pages
                 dialogService.ShowSuccess(Properties.Resources.SuccessNotification_PlayerReported);
                 ReportedPlayer = Properties.Resources.ProfilePage_ReportPlayer;
             }
-            catch (FaultException<PlayerService.ErrorMessage> ex)
+            catch (FaultException<ErrorMessage> ex)
             {
-                logger.Warn("The server rejected the report: " + ex.Detail.Message, ex);
+                logger.Warn(ex);
                 ShowReportError(ex.Detail.Message);
             }
             catch (FaultException ex)
             {
-                logger.Error("Server fault while reporting a player", ex);
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_PlayerReportedError);
             }
             catch (CommunicationException ex)
             {
-                logger.Error("Communication failure while reporting a player", ex);
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
             catch (TimeoutException ex)
             {
-                logger.Error("Timeout while reporting a player", ex);
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
             }
             finally
