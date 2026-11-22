@@ -17,6 +17,10 @@ namespace MasterMind_Server.Contracts
 
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
+        int GetMaxTries(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
         void Subscribe(string username);
 
         [OperationContract]

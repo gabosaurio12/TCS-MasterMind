@@ -1,6 +1,6 @@
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
-using MasterMind_Client.ViewModels.Pages.MatchPages;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
 using System;
 using System.Collections.Generic;
 

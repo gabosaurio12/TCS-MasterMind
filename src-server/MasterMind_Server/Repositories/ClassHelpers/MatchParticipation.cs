@@ -14,7 +14,7 @@ namespace MasterMind_Server.Repositories.ClassHelpers
 
         public byte PlayerTwoStatus { get; set; }
 
-        public int? MaxTries { get; set; }
+        public int MaxTries { get; set; }
 
         public bool AreBothReady
         {

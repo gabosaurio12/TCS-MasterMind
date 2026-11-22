@@ -1,4 +1,4 @@
-using MasterMind_Client.ViewModels.Pages.MatchPages;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries;
 using System;
 using System.Windows;
 using System.Windows.Controls;

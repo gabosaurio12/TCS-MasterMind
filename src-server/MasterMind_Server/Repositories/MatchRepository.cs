@@ -2,6 +2,7 @@
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories.ClassHelpers;
 using MasterMind_Server.Repositories.Interfaces;
+using MasterMind_Server.Services.MatchHelpers;
 using System;
 using System.Data;
 using System.Data.Entity;
@@ -21,7 +22,7 @@ namespace MasterMind_Server.Repositories
                 throw new InvalidOperationException(ErrorMessages.PlayerNotFound.ToString());
             }
 
-            var room = context.MatchRoom.AsNoTracking().Include(r => r.TriesConfig).FirstOrDefault(
+            var room = context.MatchRoom.AsNoTracking().Include(r => r.DifficultiesCatalog).FirstOrDefault(
                 r => r.player_one_id == player.player_id || r.player_two_id == player.player_id);
             if (room == null)
             {
@@ -35,7 +36,7 @@ namespace MasterMind_Server.Repositories
                 OpponentUsername = GetOpponentUsername(room, player.player_id),
                 PlayerOneStatus = room.player_one_status,
                 PlayerTwoStatus = room.player_two_status,
-                MaxTries = room.TriesConfig?.max_of_tries
+                MaxTries = TriesRules.GetMaxTries(room.DifficultiesCatalog?.difficulty)
             };
         }
 
@@ -92,7 +93,7 @@ namespace MasterMind_Server.Repositories
                 var room = context.MatchRoom.First(r => r.match_room_id == participation.RoomId);
                 context.Entry(room).Reload();
                 var tries = participation.IsPlayerOne ? room.player_one_tries : room.player_two_tries;
-                if (!participation.MaxTries.HasValue || tries < participation.MaxTries.Value)
+                if (tries < participation.MaxTries)
                 {
                     IncrementTries(room, participation.IsPlayerOne);
                     context.SaveChanges();

@@ -43,7 +43,7 @@
         <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
             <Border Background="{DynamicResource BgLeftPanelGreenBrush}" CornerRadius="15" Padding="20" Width="360" Height="220" BorderBrush="{StaticResource InkBrush}" BorderThickness="4">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Label x:Name="RemainingTriesLbl" Content="{x:Static p:Resources.MatchTries_RemainingTries}" FontFamily="{StaticResource Elite}" FontSize="36" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center"/>
+                    <Label x:Name="RemainingTriesLbl" Content="{x:Static p:Resources.MatchTries_RemainingTries}" FontFamily="{StaticResource Elite}" FontSize="30" Foreground="{DynamicResource CreamBrush}" HorizontalAlignment="Center"/>
                     <Grid Width="160" Height="90" Margin="0,15,0,0">
                         <Image Source="{DynamicResource CounterImage}" Stretch="Fill"/>
                         <TextBlock x:Name="RemainingTriesTxt" Text="{Binding RemainingTries}" FontFamily="{StaticResource Elite}" FontSize="48" Foreground="{DynamicResource InkBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>

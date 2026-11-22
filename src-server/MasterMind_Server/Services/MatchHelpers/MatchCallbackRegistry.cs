@@ -3,7 +3,6 @@ using MasterMind_Server.Contracts;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
 
 namespace MasterMind_Server.Services.MatchHelpers
@@ -62,7 +61,7 @@ namespace MasterMind_Server.Services.MatchHelpers
         public static RoundResult RecordFinish(int roomId, OpponentProgress progress)
         {
             RoundState round;
-            return roundsByRoom.TryGetValue(roomId, out round) ? round.Finish(progress) : null;
+            return roundsByRoom.TryGetValue(roomId, out round) ? round.Finish(progress) : RoundState.CreatePendingResult();
         }
 
         public static void Notify(string username, Action<IMatchCallbackService> notify)
@@ -83,125 +82,6 @@ namespace MasterMind_Server.Services.MatchHelpers
             {
                 logger.WarnFormat("Match callback for {0} failed: {1}", username, ex.Message);
                 Unsubscribe(username, callback);
-            }
-        }
-
-        private class MatchState
-        {
-            private const int PointsToWinMatch = 3;
-
-            private readonly object sync = new object();
-            private readonly Dictionary<string, int> pointsByUser =
-                new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-            private int roundNumber = 1;
-
-            public void Apply(RoundResult result)
-            {
-                lock (sync)
-                {
-                    result.RoundNumber = roundNumber;
-                    if (!string.IsNullOrEmpty(result.WinnerUsername))
-                    {
-                        AwardPoint(result.WinnerUsername);
-                    }
-
-                    result.Scores = result.Players.Select(BuildScore).ToArray();
-                    result.IsMatchOver = result.Scores.Any(score => score.Points >= PointsToWinMatch);
-                }
-            }
-
-            private void AwardPoint(string username)
-            {
-                int points;
-                pointsByUser.TryGetValue(username, out points);
-                pointsByUser[username] = points + 1;
-                roundNumber++;
-            }
-
-            private PlayerScore BuildScore(OpponentProgress player)
-            {
-                int points;
-                pointsByUser.TryGetValue(player.Username, out points);
-                return new PlayerScore { Username = player.Username, Points = points };
-            }
-        }
-
-        private class RoundState
-        {
-            private const int PlayersPerRound = 2;
-
-            private readonly object sync = new object();
-            private readonly Dictionary<string, int> triesByUser =
-                new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-            private readonly Dictionary<string, OpponentProgress> finishedByUser =
-                new Dictionary<string, OpponentProgress>(StringComparer.OrdinalIgnoreCase);
-
-            public bool IsResolved { get; private set; }
-
-            public int CountTry(string username)
-            {
-                lock (sync)
-                {
-                    if (finishedByUser.ContainsKey(username))
-                    {
-                        return 0;
-                    }
-
-                    int tries;
-                    triesByUser.TryGetValue(username, out tries);
-                    triesByUser[username] = tries + 1;
-                    return tries + 1;
-                }
-            }
-
-            public RoundResult Finish(OpponentProgress progress)
-            {
-                lock (sync)
-                {
-                    finishedByUser[progress.Username] = progress;
-                    if (finishedByUser.Count < PlayersPerRound || IsResolved)
-                    {
-                        return null;
-                    }
-
-                    IsResolved = true;
-                    return BuildResult();
-                }
-            }
-
-            private RoundResult BuildResult()
-            {
-                var players = new List<OpponentProgress>(finishedByUser.Values).ToArray();
-                return new RoundResult
-                {
-                    WinnerUsername = DetermineWinner(players[0], players[1]),
-                    Players = players
-                };
-            }
-
-            private static string DetermineWinner(OpponentProgress first, OpponentProgress second)
-            {
-                if (first.Solved && second.Solved)
-                {
-                    return DetermineFasterWinner(first, second);
-                }
-
-                if (first.Solved || second.Solved)
-                {
-                    return first.Solved ? first.Username : second.Username;
-                }
-
-                return null;
-            }
-
-            private static string DetermineFasterWinner(OpponentProgress first, OpponentProgress second)
-            {
-                if (first.TriesUsed == second.TriesUsed)
-                {
-                    return null;
-                }
-
-                return first.TriesUsed < second.TriesUsed ? first.Username : second.Username;
             }
         }
     }

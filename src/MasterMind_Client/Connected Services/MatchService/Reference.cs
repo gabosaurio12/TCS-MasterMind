@@ -429,6 +429,13 @@ namespace MasterMind_Client.MatchService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/ValidateTry", ReplyAction="http://tempuri.org/IMatchService/ValidateTryResponse")]
         System.Threading.Tasks.Task<MasterMind_Client.MatchService.Clues> ValidateTryAsync(string username, MasterMind_Client.MatchService.CodeTry codeTry);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/GetMaxTries", ReplyAction="http://tempuri.org/IMatchService/GetMaxTriesResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.MatchService.ErrorMessage), Action="http://tempuri.org/IMatchService/GetMaxTriesErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        int GetMaxTries(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/GetMaxTries", ReplyAction="http://tempuri.org/IMatchService/GetMaxTriesResponse")]
+        System.Threading.Tasks.Task<int> GetMaxTriesAsync(string username);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/Subscribe", ReplyAction="http://tempuri.org/IMatchService/SubscribeResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.MatchService.ErrorMessage), Action="http://tempuri.org/IMatchService/SubscribeErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
         void Subscribe(string username);
@@ -499,6 +506,14 @@ namespace MasterMind_Client.MatchService {
         
         public System.Threading.Tasks.Task<MasterMind_Client.MatchService.Clues> ValidateTryAsync(string username, MasterMind_Client.MatchService.CodeTry codeTry) {
             return base.Channel.ValidateTryAsync(username, codeTry);
+        }
+        
+        public int GetMaxTries(string username) {
+            return base.Channel.GetMaxTries(username);
+        }
+        
+        public System.Threading.Tasks.Task<int> GetMaxTriesAsync(string username) {
+            return base.Channel.GetMaxTriesAsync(username);
         }
         
         public void Subscribe(string username) {

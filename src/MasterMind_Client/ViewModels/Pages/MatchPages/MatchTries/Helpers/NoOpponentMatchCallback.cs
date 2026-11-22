@@ -1,10 +1,10 @@
 using MasterMind_Client.MatchService;
 using System.ServiceModel;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
 {
     [CallbackBehavior(UseSynchronizationContext = false)]
-    public class NoOpMatchCallback : IMatchServiceCallback
+    public class NoOpponentMatchCallback : IMatchServiceCallback
     {
         public void OnOpponentFinishedCallback(OpponentProgress progress)
         {

@@ -1,11 +1,7 @@
-namespace MasterMind_Client.ViewModels.Pages.MatchPages
+namespace MasterMind_Server.Services.MatchHelpers
 {
-    public static class MatchRules
+    internal static class TriesRules
     {
-        public const int CodeLength = 4;
-        public const int BoardRowCount = 6;
-        public const int PointsToWinMatch = 3;
-
         private const int EasyMaxTries = 10;
         private const int NormalMaxTries = 8;
         private const int HardMaxTries = 5;
@@ -15,14 +11,14 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         {
             switch (difficulty)
             {
-                case "Normal":
-                    return NormalMaxTries;
+                case "Easy":
+                    return EasyMaxTries;
                 case "Hard":
                     return HardMaxTries;
                 case "Enigma":
                     return EnigmaMaxTries;
                 default:
-                    return EasyMaxTries;
+                    return NormalMaxTries;
             }
         }
     }

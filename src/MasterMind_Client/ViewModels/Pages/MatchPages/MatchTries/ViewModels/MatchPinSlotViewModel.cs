@@ -1,8 +1,9 @@
 using MasterMind_Client.ViewModels.Base;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
 using System;
 using System.Windows.Input;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.ViewModels
 {
     public class MatchPinSlotViewModel : ViewModelBase
     {

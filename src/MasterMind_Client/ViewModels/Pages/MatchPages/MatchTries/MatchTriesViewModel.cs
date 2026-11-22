@@ -1,8 +1,9 @@
 using log4net;
 using MasterMind_Client.Helpers;
 using MasterMind_Client.MatchService;
-using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.ViewModels;
 using MasterMind_Client.ViewModels.Services;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
 {
     public class MatchTriesViewModel : ViewModelBase, IDisposable
     {
@@ -26,7 +27,6 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         private readonly IDialogService dialogService;
         private readonly MatchCallbackHandler callbackHandler = new MatchCallbackHandler();
         private readonly MatchServiceClient matchService;
-        private readonly RoomServiceClient roomService = new RoomServiceClient();
 
         private int remainingTries;
         private int maxTries;
@@ -105,7 +105,6 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
             callbackHandler.OpponentAbandoned -= OnOpponentAbandoned;
             Unsubscribe();
             CloseClient(matchService);
-            CloseClient(roomService);
         }
 
         private MatchRowViewModel CurrentRow => TriesRows[currentRowIndex];
@@ -205,11 +204,10 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages
         {
             try
             {
-                var room = await roomService.GetRoomByIdAsync(roomId);
-                maxTries = MatchRules.GetMaxTries(room?.Difficulty);
+                maxTries = await matchService.GetMaxTriesAsync(CurrentPlayer.Instance.Username);
                 RemainingTries = maxTries;
             }
-            catch (FaultException<RoomService.ErrorMessage> faultException)
+            catch (FaultException<ErrorMessage> faultException)
             {
                 logger.WarnFormat(faultException.Detail.Message);
                 LeaveAfterError(faultException.Detail.Message);

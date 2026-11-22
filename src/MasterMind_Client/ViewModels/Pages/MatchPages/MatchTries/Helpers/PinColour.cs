@@ -1,4 +1,4 @@
-namespace MasterMind_Client.ViewModels.Pages.MatchPages
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
 {
     public enum PinColour
     {

@@ -2,7 +2,7 @@ using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Modals;
-using MasterMind_Client.ViewModels.Pages.MatchPages;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

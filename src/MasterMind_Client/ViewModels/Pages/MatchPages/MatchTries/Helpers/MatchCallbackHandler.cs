@@ -3,7 +3,7 @@ using System;
 using System.ServiceModel;
 using System.Windows;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
 {
     [CallbackBehavior(UseSynchronizationContext = false)]
     public class MatchCallbackHandler : IMatchServiceCallback

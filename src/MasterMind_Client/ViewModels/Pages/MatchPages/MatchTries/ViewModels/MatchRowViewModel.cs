@@ -1,11 +1,12 @@
 using MasterMind_Client.Helpers;
 using MasterMind_Client.ViewModels.Base;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.ViewModels
 {
     public class MatchRowViewModel : ViewModelBase
     {

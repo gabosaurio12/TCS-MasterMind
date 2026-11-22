@@ -1,5 +1,5 @@
 using MasterMind_Client.ViewModels.Base;
-using MasterMind_Client.ViewModels.Pages.MatchPages;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
 using System.Collections.Generic;
 
 namespace MasterMind_Client.ViewModels.Modals

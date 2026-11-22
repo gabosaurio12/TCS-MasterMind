@@ -49,17 +49,17 @@
     <Compile Include="Helpers\RouteQuery.cs" />
     <Compile Include="ViewModels\Modals\GameOverTriesViewModel.cs" />
     <Compile Include="ViewModels\Modals\YouWonTriesViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\ClueColour.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchClueSlotViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchPinSlotViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchRowViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchScoreViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchCallbackHandler.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchRules.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\NoOpMatchCallback.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTriesViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\PaletteColourViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\PinColour.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\ClueColour.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchClueSlotViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchPinSlotViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchRowViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchScoreViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\MatchCallbackHandler.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\MatchRules.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\NoOpponentMatchCallback.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\MatchTriesViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\PaletteColourViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\PinColour.cs" />
     <Reference Include="BCrypt-Net-Next, Version=4.2.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>packages\BCrypt.Net-Next.4.2.0\lib\net472\BCrypt-Net-Next.dll</HintPath>
     </Reference>
@@ -557,7 +557,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Assets\Fonts\Aladin-Regular.ttf" />
     <Resource Include="Assets\DefaultAvatar.png" />
     <Resource Include="Assets\Backgrounds\LeftPanel_Dark.png" />
     <Resource Include="Assets\Backgrounds\LeftPanel_Green.png" />
@@ -582,9 +581,6 @@
     <Resource Include="Assets\Elements\Rooms_Container.png" />
     <Resource Include="Assets\Elements\Private_Room.png" />
     <Resource Include="Assets\Elements\Public_Room.png" />
-    <None Include=".env">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Resource Include="Assets\Fonts\SpecialElite-Regular.ttf" />
     <None Include="Connected Services\CodeService\CodeService.wsdl" />
     <None Include="Connected Services\CodeService\item.xsd">

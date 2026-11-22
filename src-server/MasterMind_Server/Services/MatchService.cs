@@ -48,6 +48,29 @@ namespace MasterMind_Server.Services
             }
         }
 
+        public int GetMaxTries(string username)
+        {
+            try
+            {
+                return matchRepository.GetParticipation(username).MaxTries;
+            }
+            catch (InvalidOperationException ex)
+            {
+                logger.Warn(ex);
+                throw BuildFault(ParseReason(ex.Message));
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(ErrorMessages.DataBaseError);
+            }
+            catch (SqlException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(ErrorMessages.DataBaseError);
+            }
+        }
+
         public void Subscribe(string username)
         {
             var callback = OperationContext.Current?.GetCallbackChannel<IMatchCallbackService>();
@@ -162,7 +185,7 @@ namespace MasterMind_Server.Services
         private void ReportProgress(MatchParticipation participation, string username, bool isCorrect)
         {
             int triesUsed = MatchCallbackRegistry.CountTry(participation.RoomId, username);
-            bool outOfTries = participation.MaxTries.HasValue && triesUsed >= participation.MaxTries.Value;
+            bool outOfTries = triesUsed >= participation.MaxTries;
             if (triesUsed == 0 || !(isCorrect || outOfTries))
             {
                 return;
@@ -170,7 +193,7 @@ namespace MasterMind_Server.Services
 
             var progress = new OpponentProgress { Username = username, Solved = isCorrect, TriesUsed = triesUsed };
             var result = MatchCallbackRegistry.RecordFinish(participation.RoomId, progress);
-            if (result == null)
+            if (RoundState.IsPending(result))
             {
                 MatchCallbackRegistry.Notify(
                     participation.OpponentUsername, callback => callback.OnOpponentFinishedCallback(progress));

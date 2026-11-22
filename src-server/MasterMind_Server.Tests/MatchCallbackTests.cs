@@ -2,6 +2,7 @@
 using MasterMind_Server.Data;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Services;
+using MasterMind_Server.Services.MatchHelpers;
 using MasterMind_Server.Tests.TestSupport;
 using NUnit.Framework;
 using System;
@@ -14,7 +15,7 @@ namespace MasterMind_Server.Tests
     [NonParallelizable]
     public class MatchCallbackTests
     {
-        private const int PointsToWinMatch = 3;
+        private const int PointsToWinMatch = 2;
 
         private static readonly TimeSpan NoCallbackTimeout = TimeSpan.FromMilliseconds(800);
 
@@ -179,7 +180,7 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
-        public void TestValidateTryThirdRoundWonEndsMatch()
+        public void TestValidateTryLastPointRoundWonEndsMatch()
         {
             PlayRoundsWonByFirst(PointsToWinMatch);
 
@@ -201,6 +202,43 @@ namespace MasterMind_Server.Tests
             PlayTie();
 
             Assert.That(PointsOf(firstProbe.LastResult, firstPlayer.username), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TestValidateTryOutOfTriesFirstThenOpponentSolvesResolvesRound()
+        {
+            int maxTries = TriesRules.GetMaxTries(TestDataFactory.DefaultDifficulty);
+            for (int attempt = 0; attempt < maxTries; attempt++)
+            {
+                firstClient.Service.ValidateTry(firstPlayer.username, BuildWrongTry());
+            }
+
+            secondClient.Service.ValidateTry(secondPlayer.username, BuildCorrectTry());
+
+            Assert.That(secondProbe.WaitForRoundResolved(TestDataFactory.CallbackTimeout), Is.True);
+        }
+
+        [Test]
+        public void TestValidateTryOutOfTriesFirstThenOpponentSolvesOpponentWins()
+        {
+            int maxTries = TriesRules.GetMaxTries(TestDataFactory.DefaultDifficulty);
+            for (int attempt = 0; attempt < maxTries; attempt++)
+            {
+                firstClient.Service.ValidateTry(firstPlayer.username, BuildWrongTry());
+            }
+
+            secondClient.Service.ValidateTry(secondPlayer.username, BuildCorrectTry());
+            firstProbe.WaitForRoundResolved(TestDataFactory.CallbackTimeout);
+
+            Assert.That(firstProbe.LastResult.WinnerUsername, Is.EqualTo(secondPlayer.username));
+        }
+
+        [Test]
+        public void TestGetMaxTriesRoomWithoutTriesConfigReturnsDifficultyLimit()
+        {
+            int maxTries = firstClient.Service.GetMaxTries(firstPlayer.username);
+
+            Assert.That(maxTries, Is.EqualTo(TriesRules.GetMaxTries(TestDataFactory.DefaultDifficulty)));
         }
 
         [Test]
