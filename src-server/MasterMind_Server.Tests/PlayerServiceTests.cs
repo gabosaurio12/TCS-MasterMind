@@ -1,5 +1,6 @@
 ﻿using MasterMind_Server.Contracts;
 using MasterMind_Server.Data;
+using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Services;
 using MasterMind_Server.Tests.TestSupport;
@@ -273,19 +274,85 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
-        public void TestReportPlayerUnknownReportedUserDoesNotCreateReport()
+        public void TestReportPlayerUnknownReportedUserThrowsPlayerNotFound()
         {
             PlayerEntity reporter = TestDataFactory.CreatePlayer();
-            Report report = new Report
-            {
-                ReportedPlayerUsername = TestDataFactory.CreateUniqueUsername(),
-                ReportedByPlayerUsername = reporter.username,
-                Reason = ReportReason.Cheating.ToString()
-            };
+            Report report = BuildReport(TestDataFactory.CreateUniqueUsername(), reporter.username, "Cheating");
 
+            AssertReportFault(report, ErrorMessages.PlayerNotFound);
+        }
+
+        [Test]
+        public void TestReportPlayerUnknownReporterThrowsPlayerNotFound()
+        {
+            PlayerEntity reportedPlayer = TestDataFactory.CreatePlayer();
+            Report report = BuildReport(reportedPlayer.username, TestDataFactory.CreateUniqueUsername(), "Cheating");
+
+            AssertReportFault(report, ErrorMessages.PlayerNotFound);
+        }
+
+        [Test]
+        public void TestReportPlayerSelfReportThrowsSelfReport()
+        {
+            PlayerEntity player = TestDataFactory.CreatePlayer();
+            Report report = BuildReport(player.username, player.username, "Cheating");
+
+            AssertReportFault(report, ErrorMessages.SelfReport);
+        }
+
+        [Test]
+        public void TestReportPlayerInvalidReasonThrowsInvalidReportReason()
+        {
+            PlayerEntity reportedPlayer = TestDataFactory.CreatePlayer();
+            PlayerEntity reporter = TestDataFactory.CreatePlayer();
+            Report report = BuildReport(reportedPlayer.username, reporter.username, "Spam");
+
+            AssertReportFault(report, ErrorMessages.InvalidReportReason);
+        }
+
+        [Test]
+        public void TestReportPlayerNullReasonThrowsInvalidReportReason()
+        {
+            PlayerEntity reportedPlayer = TestDataFactory.CreatePlayer();
+            PlayerEntity reporter = TestDataFactory.CreatePlayer();
+            Report report = BuildReport(reportedPlayer.username, reporter.username, null);
+
+            AssertReportFault(report, ErrorMessages.InvalidReportReason);
+        }
+
+        [Test]
+        public void TestReportPlayerNullReportThrowsInvalidReportReason()
+        {
+            AssertReportFault(null, ErrorMessages.InvalidReportReason);
+        }
+
+        [Test]
+        public void TestReportPlayerDuplicateThrowsAlreadyReported()
+        {
+            PlayerEntity reportedPlayer = TestDataFactory.CreatePlayer();
+            PlayerEntity reporter = TestDataFactory.CreatePlayer();
+            Report report = BuildReport(reportedPlayer.username, reporter.username, "Cheating");
             playerService.ReportPlayer(report);
 
-            Assert.That(TestDatabase.DoesReportExist(report.ReportedPlayerUsername), Is.False);
+            AssertReportFault(report, ErrorMessages.AlreadyReported);
+        }
+
+        private static Report BuildReport(string reportedUsername, string reporterUsername, string reason)
+        {
+            return new Report
+            {
+                ReportedPlayerUsername = reportedUsername,
+                ReportedByPlayerUsername = reporterUsername,
+                Reason = reason
+            };
+        }
+
+        private void AssertReportFault(Report report, ErrorMessages expectedMessage)
+        {
+            Assert.That(
+                () => playerService.ReportPlayer(report),
+                Throws.TypeOf<FaultException<ErrorMessage>>()
+                    .With.Property("Detail").Property("Message").EqualTo(expectedMessage.ToString()));
         }
     }
 }

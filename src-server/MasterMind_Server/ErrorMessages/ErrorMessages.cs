@@ -15,6 +15,9 @@
         InvalidCode,
         TriesExhausted,
         PlayerNotInRoom,
-        SecretCodeNotFound
+        SecretCodeNotFound,
+        SelfReport,
+        InvalidReportReason,
+        AlreadyReported
     }
 }

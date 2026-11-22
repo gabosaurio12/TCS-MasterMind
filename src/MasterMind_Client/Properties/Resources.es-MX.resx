@@ -412,13 +412,13 @@
     <value>El nombre de usuario buscado no existe</value>
   </data>
   <data name="SuccessNotification_PlayerReported" xml:space="preserve">
-    <value>¡El jugador fue eliminado... Reportado con éxito!</value>
+    <value>¡El jugador fue reportado con éxito!</value>
   </data>
   <data name="SuccessNotification_PasswordChanged" xml:space="preserve">
     <value>¡Tu contraseña fue cambiada con éxito!</value>
   </data>
   <data name="ErrorNotification_PlayerReportedError" xml:space="preserve">
-    <value>Hubo un error inesperado al eliminar... Reportar al jugador. Lo sentimos.</value>
+    <value>Hubo un error inesperado al reportar al jugador. Lo sentimos.</value>
   </data>
   <data name="ErrorNotification_RoomNameTaken" xml:space="preserve">
     <value>Ese nombre ya está en uso por otra sala, utiliza otro por favor</value>
@@ -491,5 +491,17 @@
   </data>
   <data name="MatchTries_Opponent" xml:space="preserve">
     <value>Rival</value>
+  </data>
+  <data name="ErrorNotification_SelfReport" xml:space="preserve">
+    <value>No puedes reportarte a ti mismo</value>
+  </data>
+  <data name="ErrorNotification_AlreadyReported" xml:space="preserve">
+    <value>Ya reportaste a este jugador</value>
+  </data>
+  <data name="ProfilePage_ReportReasonInappropriateLanguage" xml:space="preserve">
+    <value>Lenguaje inapropiado</value>
+  </data>
+  <data name="ProfilePage_ReportReasonCheating" xml:space="preserve">
+    <value>Trampas</value>
   </data>
 </root>

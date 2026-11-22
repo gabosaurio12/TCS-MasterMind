@@ -11,6 +11,9 @@
         PlayerNotFound,
         DatabaseError,
         Pending,
-        FriendshipAccepted
+        FriendshipAccepted,
+        SelfReport,
+        InvalidReportReason,
+        AlreadyReported
     }
 }

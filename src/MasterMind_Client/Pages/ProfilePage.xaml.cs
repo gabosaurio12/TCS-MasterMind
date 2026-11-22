@@ -36,6 +36,13 @@ namespace MasterMind_Client.Pages
             }
         }
 
+        private void ReportUsernameTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var isPlaceholder = ReportUsernameTxt.Text.Equals(Properties.Resources.ProfilePage_ReportPlayer.Trim());
+            var brushKey = isPlaceholder ? "InkMutedBrush" : "InkBrush";
+            ReportUsernameTxt.Foreground = (Brush)Application.Current.Resources[brushKey];
+        }
+
         private void ChangePasswordLink_Click(object sender, RoutedEventArgs e)
         {
             ((ProfilePageViewModel)DataContext).ChangePasswordCommand.Execute(null);

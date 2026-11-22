@@ -78,10 +78,17 @@ namespace MasterMind_Server.Repositories
 
         private void ReportOffensiveMessage(MatchRoom room, RoomMemberDto member)
         {
+            var opponentUsername = GetOtherMemberUsername(room, member);
+
+            if (opponentUsername == null)
+            {
+                return;
+            }
+
             var report = new ReportDto
             {
                 ReportedPlayerUsername = member.Username,
-                ReportedByPlayerUsername = GetOtherMemberUsername(room, member),
+                ReportedByPlayerUsername = opponentUsername,
                 Reason = ReportReason.InappropriateLanguage.ToString()
             };
 
@@ -95,7 +102,7 @@ namespace MasterMind_Server.Repositories
                 return room.Player?.username;
             }
 
-            return room.Player1?.username ?? member.Username;
+            return room.Player1?.username;
         }
 
         private RoomMemberDto GetRoomMember(MatchRoom room, string username)

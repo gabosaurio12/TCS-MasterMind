@@ -203,6 +203,11 @@ namespace MasterMind_Server.Services
 
         public void ReportPlayer(Report report)
         {
+            if (report == null)
+            {
+                throw BuildFault(ErrorMessages.InvalidReportReason);
+            }
+
             var reportDto = new ReportDto
             {
                 ReportedPlayerUsername = report.ReportedPlayerUsername,
@@ -212,13 +217,50 @@ namespace MasterMind_Server.Services
 
             try
             {
-                playerRepository.ReportPlayer(reportDto);
+                var result = playerRepository.ReportPlayer(reportDto);
+                ThrowIfReportRejected(result);
             }
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw new FaultException(ErrorMessages.DataBaseError.ToString());
+                throw BuildFault(ErrorMessages.DataBaseError);
             }
+        }
+
+        private static void ThrowIfReportRejected(string result)
+        {
+            if (result == RepositoriesMessages.Success.ToString())
+            {
+                return;
+            }
+
+            var reason = ErrorMessages.DataBaseError;
+
+            if (result == RepositoriesMessages.PlayerNotFound.ToString())
+            {
+                reason = ErrorMessages.PlayerNotFound;
+            }
+            else if (result == RepositoriesMessages.SelfReport.ToString())
+            {
+                reason = ErrorMessages.SelfReport;
+            }
+            else if (result == RepositoriesMessages.InvalidReportReason.ToString())
+            {
+                reason = ErrorMessages.InvalidReportReason;
+            }
+            else if (result == RepositoriesMessages.AlreadyReported.ToString())
+            {
+                reason = ErrorMessages.AlreadyReported;
+            }
+
+            throw BuildFault(reason);
+        }
+
+        private static FaultException<ErrorMessage> BuildFault(ErrorMessages reason)
+        {
+            var clientMessage = new ErrorMessage { Message = reason.ToString() };
+
+            return new FaultException<ErrorMessage>(clientMessage);
         }
     }
 }
