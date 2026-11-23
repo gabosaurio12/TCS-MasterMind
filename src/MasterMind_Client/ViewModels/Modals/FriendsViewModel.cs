@@ -1,3 +1,4 @@
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.Enums;
 using MasterMind_Client.FriendsService;
@@ -34,7 +35,7 @@ namespace MasterMind_Client.ViewModels.Modals
             this.dialogService = dialogService;
 
             InstanceContext instanceContext = new InstanceContext(this);
-            friendService = new FriendsServiceClient(instanceContext);
+            friendService = ServiceClientFactory.CreateFriendsClient(instanceContext);
 
             Friends = new ObservableCollection<FriendViewModel>();
             CloseCommand = new RelayCommand(_ => RequestClose());

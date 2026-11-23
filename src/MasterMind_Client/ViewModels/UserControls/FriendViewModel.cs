@@ -5,6 +5,7 @@ using MasterMind_Client.ViewModels.Base;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using MasterMind_Client.ServerEndpoints;
 
 namespace MasterMind_Client.ViewModels.UserControls
 {
@@ -31,7 +32,7 @@ namespace MasterMind_Client.ViewModels.UserControls
             Username = username;
             OnlineBrush = UtilsUI.OfflineGray;
             RemoveCommand = new RelayCommand(_ => Removed?.Invoke(this, EventArgs.Empty));
-            var player = new PlayerServiceClient().GetPlayerByUsername(username);
+            var player = ServiceClientFactory.CreatePlayerClient().GetPlayerByUsername(username);
             _ = LoadAvatarAsync(player);
         }
 

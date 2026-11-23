@@ -1,3 +1,4 @@
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.Helpers;
 using MasterMind_Client.LobbyService;
@@ -115,9 +116,9 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private string countdownText = string.Empty;
         private DispatcherTimer countdownTimer;
 
-        private readonly RoomServiceClient roomService = new RoomServiceClient();
+        private readonly RoomServiceClient roomService = ServiceClientFactory.CreateRoomClient();
         private readonly MatchServiceClient matchService =
-            new MatchServiceClient(new InstanceContext(new NoOpponentMatchCallback()));
+            ServiceClientFactory.CreateMatchClient(new InstanceContext(new NoOpponentMatchCallback()));
         private readonly LobbyServiceClient lobbyService;
 
         public RoomPageViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
@@ -126,7 +127,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             this.dialogService = dialogService;
 
             InstanceContext instanceContext = new InstanceContext(this);
-            lobbyService = new LobbyServiceClient(instanceContext);
+            lobbyService = ServiceClientFactory.CreateLobbyClient(instanceContext);
 
             ReadyCommand = new RelayCommand(_ => { SetReady(); MaybeStartCountdown(); });
             UnreadyCommand = new RelayCommand(_ => { SetUnready(); StopCountdown(); });
@@ -331,7 +332,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
             try
             {
-                var playerService = new PlayerServiceClient();
+                var playerService = ServiceClientFactory.CreatePlayerClient();
                 var opponent = playerService.GetPlayerByUsername(username);
 
                 return opponent == null
@@ -451,7 +452,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                var freshRoomService = new RoomServiceClient();
+                var freshRoomService = ServiceClientFactory.CreateRoomClient();
                 var room = freshRoomService.GetRoomById(status.RoomId);
 
                 if (room != null)

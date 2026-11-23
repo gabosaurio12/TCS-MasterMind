@@ -1,5 +1,6 @@
 using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.PlayerService;
+using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using log4net;
@@ -71,7 +72,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private readonly IDialogService dialogService;
 
-        private readonly PlayerServiceClient playerService = new PlayerServiceClient();
+        private readonly PlayerServiceClient playerService = ServiceClientFactory.CreatePlayerClient();
 
         public ProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {

@@ -1,3 +1,4 @@
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.Enums;
 using MasterMind_Client.FriendsService;
@@ -31,7 +32,7 @@ namespace MasterMind_Client.ViewModels.Modals
             this.dialogService = dialogService;
 
             InstanceContext instanceContext = new InstanceContext(this);
-            friendService = new FriendsServiceClient(instanceContext);
+            friendService = ServiceClientFactory.CreateFriendsClient(instanceContext);
 
             Requests = new ObservableCollection<FriendRequestViewModel>();
             SendCommand = new RelayCommand(_ => SendFriendRequest());
@@ -134,7 +135,7 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private void SendFriendRequest()
         {
-            var playerService = new PlayerServiceClient();
+            var playerService = ServiceClientFactory.CreatePlayerClient();
             var username = AddresseeUsername.Trim();
             var addressee = playerService.GetPlayerByUsername(username);
             if (addressee.PlayerId > 0)

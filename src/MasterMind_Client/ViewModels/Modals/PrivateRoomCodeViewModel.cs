@@ -1,4 +1,5 @@
 ﻿using MasterMind_Client.RoomService;
+using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using log4net;
@@ -100,7 +101,7 @@ namespace MasterMind_Client.ViewModels.Modals
         public PrivateRoomCodeViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
-            roomService = new RoomServiceClient();
+            roomService = ServiceClientFactory.CreateRoomClient();
             username = CurrentPlayer.Instance.Username;
             JoinCommand = new RelayCommand(_ => Join(), _ => CanJoin());
             CancelCommand = new RelayCommand(_ => RequestClose());

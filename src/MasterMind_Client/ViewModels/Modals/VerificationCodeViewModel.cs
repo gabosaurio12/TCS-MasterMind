@@ -1,5 +1,6 @@
 using MasterMind_Client.CodeService;
 using MasterMind_Client.PlayerService;
+using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using System;
@@ -36,7 +37,7 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private void ResendCode()
         {
-            var playerService = new PlayerServiceClient();
+            var playerService = ServiceClientFactory.CreatePlayerClient();
             var player = playerService.GetPlayerByUsername(username);
             if (player == null)
             {
@@ -44,7 +45,7 @@ namespace MasterMind_Client.ViewModels.Modals
                 return;
             }
 
-            var codeService = new CodeServiceClient();
+            var codeService = ServiceClientFactory.CreateCodeClient();
             codeService.SendVerificationCode(player.PlayerId);
             dialogService.ShowSuccess(Properties.Resources.VerificationCodeModal_CodeResent);
         }
@@ -52,11 +53,11 @@ namespace MasterMind_Client.ViewModels.Modals
         private void Continue()
         {
             string code = string.Concat(CodeDigit0, CodeDigit1, CodeDigit2, CodeDigit3, CodeDigit4);
-            var service = new CodeServiceClient();
+            var service = ServiceClientFactory.CreateCodeClient();
             var result = service.AuthVerificationCode(username, code);
             if (result)
             {
-                var playerService = new PlayerServiceClient();
+                var playerService = ServiceClientFactory.CreatePlayerClient();
                 var player = playerService.GetPlayerByUsername(username);
                 if (player != null)
                 {

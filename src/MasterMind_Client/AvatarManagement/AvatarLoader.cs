@@ -1,3 +1,4 @@
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.AvatarService;
 using System;
@@ -52,7 +53,7 @@ namespace MasterMind_Client.AvatarManagement
 
         private static async Task<ImageSource> RequestAvatarAsync(int playerId)
         {
-            var avatarClient = new AvatarServiceClient();
+            var avatarClient = ServiceClientFactory.CreateAvatarClient();
             var avatarImage = GetDefaultAvatar();
 
             try
