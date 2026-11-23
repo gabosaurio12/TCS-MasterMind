@@ -138,7 +138,7 @@ namespace MasterMind_Server.Repositories
                 : RoomEntityToContract(roomEntity);
         }
 
-        public PlayerStatusChangeResult ChangePlayerStatus(Contracts.PlayerStatus status)
+        public PlayerStatusChangeResult ChangePlayerStatus(PlayerStatus status)
         {
             var result = new PlayerStatusChangeResult { Status = RoomResult.Error.ToString() };
             PlayerPossibleStatus newStatus;
@@ -200,13 +200,14 @@ namespace MasterMind_Server.Repositories
 
         private void ApplyStatusChange(StatusChangeContext context)
         {
-            if (context.NewStatus == Enums.PlayerPossibleStatus.Escaped)
+            if (context.NewStatus == PlayerPossibleStatus.Escaped)
             {
                 ApplyEscape(context);
-                return;
             }
-
-            SavePlayerStatus(context.Room, context.Member.IsPlayerOne, context.NewStatus);
+            else
+            {
+                SavePlayerStatus(context.Room, context.Member.IsPlayerOne, context.NewStatus);
+            }
         }
 
         private void ApplyEscape(StatusChangeContext changeContext)
@@ -214,7 +215,7 @@ namespace MasterMind_Server.Repositories
             changeContext.Result.EscapedPlayer = BuildPlayerStatus(
                 changeContext.Room,
                 changeContext.Member,
-                Enums.PlayerPossibleStatus.Escaped);
+                PlayerPossibleStatus.Escaped);
 
             if (changeContext.Member.IsPlayerOne && !changeContext.Room.player_two_id.HasValue)
             {
@@ -257,7 +258,7 @@ namespace MasterMind_Server.Repositories
         private static void ClearPlayerTwo(MatchRoom room)
         {
             room.player_two_id = null;
-            room.player_two_status = (byte)Enums.PlayerPossibleStatus.NotReady;
+            room.player_two_status = (byte)PlayerPossibleStatus.NotReady;
         }
 
         private void SavePlayerStatus(MatchRoom room, bool isPlayerOne, Enums.PlayerPossibleStatus status)
@@ -563,10 +564,7 @@ namespace MasterMind_Server.Repositories
 
         private MatchRoom GetRoomEntityById(int roomId)
         {
-            return context.MatchRoom
-                .Include(room => room.Player)
-                .Include(room => room.Player1)
-                .FirstOrDefault(room => room.match_room_id == roomId);
+            return context.MatchRoom.AsNoTracking().FirstOrDefault(room => room.match_room_id == roomId);
         }
 
         private MatchRoom GetRoomEntityByCode(string code)
