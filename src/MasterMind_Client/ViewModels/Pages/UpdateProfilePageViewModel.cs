@@ -144,27 +144,25 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private async Task SaveAsync()
         {
-            if (!ValidateInput())
+            if (ValidateInput())
             {
-                return;
-            }
+                SetSaving(true);
 
-            SetSaving(true);
-
-            try
-            {
-                var profileSaved = await SaveProfileAsync();
-                var avatarSaved = await SaveAvatarAsync();
-
-                if (profileSaved && avatarSaved)
+                try
                 {
-                    NavigateTo(ProfilePageUri);
+                    var profileSaved = await SaveProfileAsync();
+                    var avatarSaved = await SaveAvatarAsync();
+
+                    if (profileSaved && avatarSaved)
+                    {
+                        NavigateTo(ProfilePageUri);
+                    }
                 }
-            }
-            finally
-            {
-                SetSaving(false);
-            }
+                finally
+                {
+                    SetSaving(false);
+                }
+            }            
         }
 
         private void SetSaving(bool saving)
@@ -266,17 +264,17 @@ namespace MasterMind_Client.ViewModels.Pages
             }
             catch (FaultException ex)
             {
-                logger.Error("Server fault while saving the avatar", ex);
+                logger.Error(ex);
                 dialogService.ShowServerError(ex.Message);
             }
             catch (CommunicationException ex)
             {
-                logger.Error("Communication failure while saving the avatar", ex);
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
             catch (TimeoutException ex)
             {
-                logger.Error("Timeout while saving the avatar", ex);
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
             }
 
@@ -305,18 +303,19 @@ namespace MasterMind_Client.ViewModels.Pages
             }
             catch (CommunicationException ex)
             {
-                logger.Warn("The avatar channel could not be closed cleanly.", ex);
+                logger.Warn(ex);
                 avatarClient.Abort();
             }
             catch (TimeoutException ex)
             {
-                logger.Warn("Timeout while closing the avatar channel.", ex);
+                logger.Warn(ex);
                 avatarClient.Abort();
             }
         }
 
         private void CompleteAvatarSave(string fileName)
         {
+            AvatarCache.Save(AvatarZone.Own, fileName, pendingAvatarBytes);
             pendingAvatarBytes = Array.Empty<byte>();
             CurrentPlayer.Instance.SetAvatar(AvatarPreview, fileName);
             dialogService.ShowSuccess(Properties.Resources.SuccessNotification_AvatarUpdated);

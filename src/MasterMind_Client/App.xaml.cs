@@ -1,4 +1,5 @@
-﻿using MasterMind_Client.ServerEndpoints;
+﻿using MasterMind_Client.AvatarManagement;
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using log4net.Config;
 using log4net.Repository.Hierarchy;
@@ -26,6 +27,7 @@ namespace MasterMind_Client
             CultureInfo.DefaultThreadCurrentUICulture = cultureToUse;
 
             XmlConfigurator.Configure();
+            AvatarCache.DeleteOrphanSessions();
 
             AppServices.NavigationService = new NavigationServiceAdapter();
             AppServices.DialogService = new DialogService();
@@ -65,6 +67,12 @@ namespace MasterMind_Client
             }
 
             mainWindow.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            AvatarCache.ClearSession();
+            base.OnExit(e);
         }
 
         private static CultureInfo DetermineStartupCulture()
