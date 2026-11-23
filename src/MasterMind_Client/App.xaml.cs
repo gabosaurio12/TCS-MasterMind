@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using MasterMind_Client.ServerEndpoints;
+using log4net;
 using log4net.Config;
 using log4net.Repository.Hierarchy;
 using MasterMind_Client.PlayerService;
@@ -36,7 +37,7 @@ namespace MasterMind_Client
             {
                 try
                 {
-                    var savedPlayer = new PlayerServiceClient().GetPlayerByUsername(
+                    var savedPlayer = ServiceClientFactory.CreatePlayerClient().GetPlayerByUsername(
                     MasterMind_Client.Properties.Settings.Default.SavedUsername);
 
                     if (savedPlayer != null)

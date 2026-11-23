@@ -47,6 +47,7 @@
     <Compile Include="Helpers\MatchColourMapper.cs" />
     <Compile Include="Helpers\PinColourToImageConverter.cs" />
     <Compile Include="Helpers\RouteQuery.cs" />
+    <Compile Include="ServerEndpoints\ServiceClientFactory.cs" />
     <Compile Include="ViewModels\Modals\GameOverTriesViewModel.cs" />
     <Compile Include="ViewModels\Modals\YouWonTriesViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\ClueColour.cs" />
@@ -707,6 +708,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".env" Condition="Exists('.env')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include=".env.example" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

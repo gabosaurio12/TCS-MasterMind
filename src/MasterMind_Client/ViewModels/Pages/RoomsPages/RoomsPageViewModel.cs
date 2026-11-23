@@ -1,4 +1,5 @@
 using MasterMind_Client.RoomService;
+using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
@@ -27,7 +28,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private MatchRoomViewModel _selectedRoom;
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
-        private readonly RoomServiceClient roomService = new RoomServiceClient();
+        private readonly RoomServiceClient roomService = ServiceClientFactory.CreateRoomClient();
 
         public RoomsPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {

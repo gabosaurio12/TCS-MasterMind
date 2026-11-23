@@ -1,3 +1,4 @@
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.AvatarService;
 using MasterMind_Client.Enums;
@@ -26,7 +27,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
-        private readonly PlayerServiceClient playerService = new PlayerServiceClient();
+        private readonly PlayerServiceClient playerService = ServiceClientFactory.CreatePlayerClient();
 
         private string username;
         private string email;
@@ -284,7 +285,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private static async Task<string> SendAvatarAsync(byte[] content)
         {
-            var avatarClient = new AvatarServiceClient();
+            var avatarClient = ServiceClientFactory.CreateAvatarClient();
 
             try
             {

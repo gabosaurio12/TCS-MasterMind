@@ -1,3 +1,4 @@
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
@@ -28,7 +29,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
 
-        private readonly RoomServiceClient roomService = new RoomServiceClient();
+        private readonly RoomServiceClient roomService = ServiceClientFactory.CreateRoomClient();
 
         public CreateRoomPageViewModel(INavigationService navigationService, IDialogService dialogService)
         {

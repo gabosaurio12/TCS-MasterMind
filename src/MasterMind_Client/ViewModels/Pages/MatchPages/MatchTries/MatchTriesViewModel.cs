@@ -1,3 +1,4 @@
+using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.Helpers;
 using MasterMind_Client.MatchService;
@@ -71,7 +72,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
             this.dialogService = dialogService;
             roomId = RouteQuery.GetInt(uri, "roomId");
             
-            matchService = new MatchServiceClient(new InstanceContext(callbackHandler));
+            matchService = ServiceClientFactory.CreateMatchClient(new InstanceContext(callbackHandler));
 
             callbackHandler.OpponentFinished += OnOpponentFinished;
             callbackHandler.RoundResolved += OnRoundResolved;

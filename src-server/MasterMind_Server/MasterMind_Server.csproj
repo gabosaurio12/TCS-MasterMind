@@ -347,6 +347,8 @@
     <Compile Include="Services\AvatarHelpers\AvatarStorage.cs" />
     <Compile Include="Services\AvatarService.cs" />
     <Compile Include="Services\CodeService.cs" />
+    <Compile Include="Services\Network\ServerAddressProvider.cs" />
+    <Compile Include="Services\Network\ServicePorts.cs" />
     <Compile Include="Services\FriendsService.cs" />
     <Compile Include="Services\LobbyService.cs" />
     <Compile Include="Services\MatchHelpers\ClueCalculator.cs" />

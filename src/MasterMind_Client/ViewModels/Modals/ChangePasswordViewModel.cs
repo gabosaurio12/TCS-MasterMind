@@ -1,6 +1,7 @@
 ﻿using MasterMind_Client.CodeService;
 using MasterMind_Client.Helpers;
 using MasterMind_Client.PlayerService;
+using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using log4net;
@@ -29,8 +30,8 @@ namespace MasterMind_Client.ViewModels.Modals
         public ChangePasswordViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
-            playerService = new PlayerServiceClient();
-            codeService = new CodeServiceClient();
+            playerService = ServiceClientFactory.CreatePlayerClient();
+            codeService = ServiceClientFactory.CreateCodeClient();
             username = CurrentPlayer.Instance.Username;
             SaveCommand = new RelayCommand(_ => Save(), _ => !isSaving);
             CancelCommand = new RelayCommand(_ => RequestClose());

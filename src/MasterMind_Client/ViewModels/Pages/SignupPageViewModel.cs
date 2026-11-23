@@ -1,5 +1,6 @@
 using MasterMind_Client.Helpers;
 using MasterMind_Client.PlayerService;
+using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using log4net;
@@ -80,7 +81,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
             try
             {
-                var service = new PlayerServiceClient();
+                var service = ServiceClientFactory.CreatePlayerClient();
                 var result = service.RegisterPlayer(player);
                 switch (result)
                 {
@@ -139,7 +140,7 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private void OnVerificationSucceded(Player verifiedPlayer)
         {
-            var player = new PlayerServiceClient().GetPlayerById(verifiedPlayer.PlayerId);
+            var player = ServiceClientFactory.CreatePlayerClient().GetPlayerById(verifiedPlayer.PlayerId);
             CurrentPlayer.Instance.SetCurrentPlayer(player);
 
             Properties.Settings.Default.RememberLogin = false;
