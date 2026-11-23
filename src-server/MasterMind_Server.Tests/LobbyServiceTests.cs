@@ -215,6 +215,41 @@ namespace MasterMind_Server.Tests
             Assert.That(result.RoomId, Is.EqualTo(0));
         }
 
+        [Test]
+        public void TestEscapePlayerOneClearsPlayerTwoSlot()
+        {
+            firstClient.Service.ChangePlayerStatus(
+                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Escaped));
+
+            int? result = TestDatabase.GetRoomPlayerTwoId(room.RoomId);
+
+            Assert.That(result, Is.Null);
+        }
+
+        [Test]
+        public void TestEscapePlayerOneDeliversPromotedPlayerAsNotReady()
+        {
+            RegisterBothClients();
+            secondClient.Service.ChangePlayerStatus(
+                BuildStatus(secondPlayer.username, Repositories.Enums.PlayerPossibleStatus.Ready));
+            firstClient.Service.ChangePlayerStatus(
+                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Escaped));
+            secondProbe.WaitForStatusChange(TestDataFactory.CallbackTimeout);
+
+            Assert.That(secondProbe.LastStatusChange.Status, Is.EqualTo("NotReady"));
+        }
+
+        [Test]
+        public void TestEscapePlayerOneRoomByIdReturnsPromotedUsername()
+        {
+            firstClient.Service.ChangePlayerStatus(
+                BuildStatus(firstPlayer.username, Repositories.Enums.PlayerPossibleStatus.Escaped));
+
+            Room result = new RoomService().GetRoomById(room.RoomId);
+
+            Assert.That(result.PlayerOneUsername, Is.EqualTo(secondPlayer.username));
+        }
+
         private Room CreatePublicRoom(params PlayerEntity[] players)
         {
             RoomService roomService = new RoomService();

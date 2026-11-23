@@ -22,32 +22,35 @@ namespace MasterMind_Server.Repositories
         private const int RoomCodeMaximum = 999999;
         private const int RoomCodeAttempts = 10;
         private const int MaxRoomNameLength = 100;
-        private readonly MasterMindEntities context = new MasterMindEntities(true);
         private readonly PlayerRepository playerRepository = new PlayerRepository();
 
         public List<Room> GetPublicRooms()
         {
-            var privacyId = FindPrivacyId(RoomPrivacy.Public);
-            if (!privacyId.HasValue)
+            using (var dbContext = new MasterMindEntities(true))
             {
-                return new List<Room>();
+                var privacyId = FindPrivacyId(dbContext, RoomPrivacy.Public);
+                if (!privacyId.HasValue)
+                {
+                    return new List<Room>();
+                }
+
+                var rooms = RoomsWithDetails(dbContext)
+                    .AsNoTracking()
+                    .Where(room => room.room_privacy_id == privacyId.Value)
+                    .ToList();
+
+                return rooms.Select(RoomEntityToContract).ToList();
             }
-
-            var rooms = context.MatchRoom
-                .Include(room => room.Player)
-                .Include(room => room.Player1)
-                .Include(room => room.GameModesCatalog)
-                .Include(room => room.DifficultiesCatalog)
-                .Include(room => room.PrivacyCatalog)
-                .Where(room => room.room_privacy_id == privacyId.Value)
-                .ToList();
-
-            return rooms.Select(RoomEntityToContract).ToList();
         }
 
         public RoomCreationResult CreateRoom(Room room)
         {
-            var data = BuildRoomCreationData(room);
+            RoomCreationData data;
+            using (var dbContext = new MasterMindEntities(true))
+            {
+                data = BuildRoomCreationData(dbContext, room);
+            }
+
             if (data == null)
             {
                 return CreateEmptyRoomResult(RoomResult.Error);
@@ -62,9 +65,10 @@ namespace MasterMind_Server.Repositories
                 return RoomResult.Error.ToString();
             }
 
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            using (var dbContext = new MasterMindEntities(true))
+            using (var transaction = dbContext.Database.BeginTransaction(IsolationLevel.Serializable))
             {
-                var roomEntity = GetRoomEntityByName(room.Name);
+                var roomEntity = GetRoomEntityByName(dbContext, room.Name, true);
                 var player = playerRepository.GetPlayerByUsername(username);
                 if (roomEntity == null || player == null || !IsPublic(roomEntity))
                 {
@@ -78,7 +82,7 @@ namespace MasterMind_Server.Repositories
                 }
 
                 SetPlayerTwo(roomEntity, player.player_id);
-                context.SaveChanges();
+                dbContext.SaveChanges();
                 transaction.Commit();
                 return RoomResult.Success.ToString();
             }
@@ -90,9 +94,10 @@ namespace MasterMind_Server.Repositories
             {
                 return RoomResult.Error.ToString();
             }
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            using (var dbContext = new MasterMindEntities(true))
+            using (var transaction = dbContext.Database.BeginTransaction(IsolationLevel.Serializable))
             {
-                var roomEntity = GetRoomEntityByName(room.Name);
+                var roomEntity = GetRoomEntityByName(dbContext, room.Name, true);
                 var player = playerRepository.GetPlayerByUsername(username);
                 if (roomEntity == null || player == null || IsPublic(roomEntity))
                 {
@@ -108,7 +113,7 @@ namespace MasterMind_Server.Repositories
                     return RoomResult.WrongCode.ToString();
                 }
                 SetPlayerTwo(roomEntity, player.player_id);
-                context.SaveChanges();
+                dbContext.SaveChanges();
                 transaction.Commit();
                 return RoomResult.Success.ToString();
             }
@@ -116,26 +121,35 @@ namespace MasterMind_Server.Repositories
 
         public Room GetRoomByName(string roomName)
         {
-            var roomEntity = GetRoomEntityByName(roomName);
-            return roomEntity == null
-                ? new Room { RoomId = 0 }
-                : RoomEntityToContract(roomEntity);
+            using (var dbContext = new MasterMindEntities(true))
+            {
+                var roomEntity = GetRoomEntityByName(dbContext, roomName, false);
+                return roomEntity == null
+                    ? new Room { RoomId = 0 }
+                    : RoomEntityToContract(roomEntity);
+            }
         }
 
         public Room GetRoomById(int roomId)
         {
-            var roomEntity = GetRoomEntityById(roomId);
-            return roomEntity == null
-                ? new Room { RoomId = 0 }
-                : RoomEntityToContract(roomEntity);
+            using (var dbContext = new MasterMindEntities(true))
+            {
+                var roomEntity = GetRoomEntityById(dbContext, roomId, false);
+                return roomEntity == null
+                    ? new Room { RoomId = 0 }
+                    : RoomEntityToContract(roomEntity);
+            }
         }
 
         public Room GetRoomByCode(string code)
         {
-            var roomEntity = GetRoomEntityByCode(code);
-            return roomEntity == null
-                ? new Room { RoomId = 0 }
-                : RoomEntityToContract(roomEntity);
+            using (var dbContext = new MasterMindEntities(true))
+            {
+                var roomEntity = GetRoomEntityByCode(dbContext, code);
+                return roomEntity == null
+                    ? new Room { RoomId = 0 }
+                    : RoomEntityToContract(roomEntity);
+            }
         }
 
         public PlayerStatusChangeResult ChangePlayerStatus(PlayerStatus status)
@@ -147,9 +161,10 @@ namespace MasterMind_Server.Repositories
                 return result;
             }
 
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            using (var dbContext = new MasterMindEntities(true))
+            using (var transaction = dbContext.Database.BeginTransaction(IsolationLevel.Serializable))
             {
-                var room = GetRoomEntityById(status.RoomId);
+                var room = GetRoomEntityById(dbContext, status.RoomId, true);
                 var member = GetRoomMember(room, status.Username);
                 if (member == null)
                 {
@@ -160,6 +175,7 @@ namespace MasterMind_Server.Repositories
                 result.ChangedPlayer = BuildPlayerStatus(room, member, newStatus);
                 var changeContext = new StatusChangeContext
                 {
+                    Db = dbContext,
                     Room = room,
                     Member = member,
                     NewStatus = newStatus,
@@ -173,21 +189,22 @@ namespace MasterMind_Server.Repositories
 
         private RoomCreationResult PersistRoom(RoomCreationData data)
         {
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            using (var dbContext = new MasterMindEntities(true))
+            using (var transaction = dbContext.Database.BeginTransaction(IsolationLevel.Serializable))
             {
-                if (context.MatchRoom.Any(room => room.match_room_name == data.RoomName))
+                if (dbContext.MatchRoom.Any(room => room.match_room_name == data.RoomName))
                 {
                     return CreateEmptyRoomResult(RoomResult.RoomNameTaken);
                 }
 
-                var roomEntity = BuildRoomEntity(data);
+                var roomEntity = BuildRoomEntity(dbContext, data);
                 if (data.Privacy == RoomPrivacy.Private && roomEntity.room_code == null)
                 {
                     return CreateEmptyRoomResult(RoomResult.Error);
                 }
 
-                context.MatchRoom.Add(roomEntity);
-                context.SaveChanges();
+                dbContext.MatchRoom.Add(roomEntity);
+                dbContext.SaveChanges();
                 transaction.Commit();
 
                 return new RoomCreationResult
@@ -206,7 +223,7 @@ namespace MasterMind_Server.Repositories
             }
             else
             {
-                SavePlayerStatus(context.Room, context.Member.IsPlayerOne, context.NewStatus);
+                SavePlayerStatus(context);
             }
         }
 
@@ -219,7 +236,7 @@ namespace MasterMind_Server.Repositories
 
             if (changeContext.Member.IsPlayerOne && !changeContext.Room.player_two_id.HasValue)
             {
-                DeleteRoom(changeContext.Room);
+                DeleteRoom(changeContext.Db, changeContext.Room);
                 changeContext.Result.RoomDeleted = true;
                 return;
             }
@@ -233,13 +250,13 @@ namespace MasterMind_Server.Repositories
                 ClearPlayerTwo(changeContext.Room);
             }
 
-            context.SaveChanges();
+            changeContext.Db.SaveChanges();
         }
 
         private void PromotePlayerTwo(MatchRoom room, PlayerStatusChangeResult result)
         {
             var promotedUsername = room.Player1.username;
-            var promotedStatus = room.player_two_status;
+            var promotedStatus = (byte)Enums.PlayerPossibleStatus.NotReady;
 
             room.player_one_id = room.player_two_id.Value;
             room.player_one_status = promotedStatus;
@@ -261,31 +278,32 @@ namespace MasterMind_Server.Repositories
             room.player_two_status = (byte)PlayerPossibleStatus.NotReady;
         }
 
-        private void SavePlayerStatus(MatchRoom room, bool isPlayerOne, Enums.PlayerPossibleStatus status)
+        private static void SavePlayerStatus(StatusChangeContext changeContext)
         {
-            if (isPlayerOne)
+            var status = (byte)changeContext.NewStatus;
+            if (changeContext.Member.IsPlayerOne)
             {
-                room.player_one_status = (byte)status;
+                changeContext.Room.player_one_status = status;
             }
             else
             {
-                room.player_two_status = (byte)status;
+                changeContext.Room.player_two_status = status;
             }
 
-            context.SaveChanges();
+            changeContext.Db.SaveChanges();
         }
 
-        private void DeleteRoom(MatchRoom room)
+        private void DeleteRoom(MasterMindEntities dbContext, MatchRoom room)
         {
-            var playerInMatchIds = GetPlayerByUsernameInMatchIds(room.match_room_id);
-            context.MatchRoom.Remove(room);
-            context.SaveChanges();
-            DeleteOrphanedPlayerInMatch(playerInMatchIds);
+            var playerInMatchIds = GetPlayerByUsernameInMatchIds(dbContext, room.match_room_id);
+            dbContext.MatchRoom.Remove(room);
+            dbContext.SaveChanges();
+            DeleteOrphanedPlayerInMatch(dbContext, playerInMatchIds);
         }
 
-        private List<int> GetPlayerByUsernameInMatchIds(int roomId)
+        private List<int> GetPlayerByUsernameInMatchIds(MasterMindEntities dbContext, int roomId)
         {
-            var results = context.MatchResults
+            var results = dbContext.MatchResults
                 .Where(result => result.match_room_id == roomId)
                 .Select(result => new { result.player_one_results_id, result.player_two_results_id })
                 .ToList();
@@ -296,29 +314,29 @@ namespace MasterMind_Server.Repositories
                 .ToList();
         }
 
-        private void DeleteOrphanedPlayerInMatch(List<int> playerInMatchIds)
+        private void DeleteOrphanedPlayerInMatch(MasterMindEntities dbContext, List<int> playerInMatchIds)
         {
             if (playerInMatchIds.Count == 0)
             {
                 return;
             }
 
-            var referencedIds = GetReferencedPlayerInMatchIds(playerInMatchIds);
+            var referencedIds = GetReferencedPlayerInMatchIds(dbContext, playerInMatchIds);
             var orphanedIds = playerInMatchIds.Except(referencedIds).ToList();
             if (orphanedIds.Count == 0)
             {
                 return;
             }
 
-            var orphanedPlayers = context.PlayerInMatch
+            var orphanedPlayers = dbContext.PlayerInMatch
                 .Where(player => orphanedIds.Contains(player.player_in_match_id));
-            context.PlayerInMatch.RemoveRange(orphanedPlayers);
-            context.SaveChanges();
+            dbContext.PlayerInMatch.RemoveRange(orphanedPlayers);
+            dbContext.SaveChanges();
         }
 
-        private List<int> GetReferencedPlayerInMatchIds(List<int> playerInMatchIds)
+        private List<int> GetReferencedPlayerInMatchIds(MasterMindEntities dbContext, List<int> playerInMatchIds)
         {
-            var results = context.MatchResults
+            var results = dbContext.MatchResults
                 .Where(result => playerInMatchIds.Contains(result.player_one_results_id)
                     || playerInMatchIds.Contains(result.player_two_results_id))
                 .Select(result => new { result.player_one_results_id, result.player_two_results_id })
@@ -330,7 +348,7 @@ namespace MasterMind_Server.Repositories
                 .ToList();
         }
 
-        private RoomCreationData BuildRoomCreationData(Room room)
+        private RoomCreationData BuildRoomCreationData(MasterMindEntities dbContext, Room room)
         {
             if (room == null || string.IsNullOrWhiteSpace(room.Name))
             {
@@ -347,10 +365,10 @@ namespace MasterMind_Server.Repositories
                 return creationData;
             }
 
-            int? privacyId = FindPrivacyId(privacy.Value);
+            int? privacyId = FindPrivacyId(dbContext, privacy.Value);
 
-            var gamemodeId = FindGameModeId(room.Gamemode);
-            var difficultyId = FindDifficultyId(room.Difficulty);
+            var gamemodeId = FindGameModeId(dbContext, room.Gamemode);
+            var difficultyId = FindDifficultyId(dbContext, room.Difficulty);
             var player = playerRepository.GetPlayerByUsername(room.PlayerOneUsername);
 
             creationData = new RoomCreationData
@@ -387,7 +405,7 @@ namespace MasterMind_Server.Repositories
             return isValid;
         }
 
-        private MatchRoom BuildRoomEntity(RoomCreationData data)
+        private MatchRoom BuildRoomEntity(MasterMindEntities dbContext, RoomCreationData data)
         {
             return new MatchRoom
             {
@@ -398,7 +416,7 @@ namespace MasterMind_Server.Repositories
                 player_one_status = (byte)Enums.PlayerPossibleStatus.NotReady,
                 player_two_status = (byte)Enums.PlayerPossibleStatus.NotReady,
                 room_privacy_id = data.PrivacyId,
-                room_code = GenerateRoomCode()
+                room_code = GenerateRoomCode(dbContext)
             };
         }
 
@@ -495,9 +513,9 @@ namespace MasterMind_Server.Repositories
             return null;
         }
 
-        private int? FindPrivacyId(RoomPrivacy privacy)
+        private int? FindPrivacyId(MasterMindEntities dbContext, RoomPrivacy privacy)
         {
-            var catalog = context.PrivacyCatalog
+            var catalog = dbContext.PrivacyCatalog
                 .FirstOrDefault(entity => entity.privacy == privacy.ToString());
 
             int id = 0;
@@ -509,14 +527,14 @@ namespace MasterMind_Server.Repositories
             return id;
         }
 
-        private int? FindGameModeId(string gamemode)
+        private int? FindGameModeId(MasterMindEntities dbContext, string gamemode)
         {
             if (string.IsNullOrWhiteSpace(gamemode))
             {
                 return null;
             }
 
-            var catalog = context.GameModesCatalog
+            var catalog = dbContext.GameModesCatalog
                 .FirstOrDefault(entity => entity.gamemode == gamemode.Trim());
 
             int id;
@@ -533,19 +551,35 @@ namespace MasterMind_Server.Repositories
             return id;
         }
 
-        private int? FindDifficultyId(string difficulty)
+        private int? FindDifficultyId(MasterMindEntities dbContext, string difficulty)
         {
             if (string.IsNullOrWhiteSpace(difficulty))
             {
                 return null;
             }
 
-            var catalog = context.DifficultiesCatalog
+            var catalog = dbContext.DifficultiesCatalog
                 .FirstOrDefault(entity => entity.difficulty == difficulty.Trim());
             return catalog?.difficulty_id;
         }
 
-        private MatchRoom GetRoomEntityByName(string roomName)
+        private static IQueryable<MatchRoom> RoomsWithDetails(MasterMindEntities dbContext)
+        {
+            return dbContext.MatchRoom
+                .Include(room => room.Player)
+                .Include(room => room.Player1)
+                .Include(room => room.GameModesCatalog)
+                .Include(room => room.DifficultiesCatalog)
+                .Include(room => room.PrivacyCatalog);
+        }
+
+        private static IQueryable<MatchRoom> RoomsForQuery(MasterMindEntities dbContext, bool forUpdate)
+        {
+            var rooms = RoomsWithDetails(dbContext);
+            return forUpdate ? rooms : rooms.AsNoTracking();
+        }
+
+        private static MatchRoom GetRoomEntityByName(MasterMindEntities dbContext, string roomName, bool forUpdate)
         {
             if (string.IsNullOrWhiteSpace(roomName))
             {
@@ -553,21 +587,15 @@ namespace MasterMind_Server.Repositories
             }
 
             var name = roomName.Trim();
-            return context.MatchRoom
-                .Include(room => room.Player)
-                .Include(room => room.Player1)
-                .Include(room => room.GameModesCatalog)
-                .Include(room => room.DifficultiesCatalog)
-                .Include(room => room.PrivacyCatalog)
-                .FirstOrDefault(room => room.match_room_name == name);
+            return RoomsForQuery(dbContext, forUpdate).FirstOrDefault(room => room.match_room_name == name);
         }
 
-        private MatchRoom GetRoomEntityById(int roomId)
+        private static MatchRoom GetRoomEntityById(MasterMindEntities dbContext, int roomId, bool forUpdate)
         {
-            return context.MatchRoom.AsNoTracking().FirstOrDefault(room => room.match_room_id == roomId);
+            return RoomsForQuery(dbContext, forUpdate).FirstOrDefault(room => room.match_room_id == roomId);
         }
 
-        private MatchRoom GetRoomEntityByCode(string code)
+        private static MatchRoom GetRoomEntityByCode(MasterMindEntities dbContext, string code)
         {
             if (string.IsNullOrWhiteSpace(code))
             {
@@ -575,13 +603,7 @@ namespace MasterMind_Server.Repositories
             }
 
             var roomCode = code.Trim();
-            var roomEntity = context.MatchRoom
-                .Include(room => room.Player)
-                .Include(room => room.Player1)
-                .Include(room => room.GameModesCatalog)
-                .Include(room => room.DifficultiesCatalog)
-                .Include(room => room.PrivacyCatalog)
-                .FirstOrDefault(room => room.room_code == roomCode);
+            var roomEntity = RoomsForQuery(dbContext, false).FirstOrDefault(room => room.room_code == roomCode);
 
             return roomEntity != null && !IsPublic(roomEntity) ? roomEntity : null;
         }
@@ -610,12 +632,12 @@ namespace MasterMind_Server.Repositories
             };
         }
 
-        private string GenerateRoomCode()
+        private static string GenerateRoomCode(MasterMindEntities dbContext)
         {
             for (var attempt = 0; attempt < RoomCodeAttempts; attempt++)
             {
                 var code = BuildRandomRoomCode();
-                if (!context.MatchRoom.Any(room => room.room_code == code))
+                if (!dbContext.MatchRoom.Any(room => room.room_code == code))
                 {
                     return code;
                 }
