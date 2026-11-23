@@ -1,3 +1,4 @@
+using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.Helpers;
@@ -315,7 +316,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             var currentPlayer = CurrentPlayer.Instance;
 
-            return new PlayerSlotViewModel(currentPlayer.Username, currentPlayer.Id, currentPlayer.AvatarPath);
+            return new PlayerSlotViewModel(currentPlayer.Username, AvatarLoader.GetCurrentPlayerAvatarAsync());
         }
 
         private static PlayerSlotViewModel CreateEmptySlot()

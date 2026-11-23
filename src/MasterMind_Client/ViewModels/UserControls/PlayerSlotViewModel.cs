@@ -17,6 +17,11 @@ namespace MasterMind_Client.ViewModels.UserControls
             _ = LoadAvatarAsync(playerId, avatarPath);
         }
 
+        public PlayerSlotViewModel(string username, Task<ImageSource> avatarTask) : this(username)
+        {
+            _ = ApplyAvatarAsync(avatarTask);
+        }
+
         public string Username { get; }
 
         public ImageSource Avatar
@@ -43,6 +48,11 @@ namespace MasterMind_Client.ViewModels.UserControls
         public void SetNotReady()
         {
             IsReady = false;
+        }
+
+        private async Task ApplyAvatarAsync(Task<ImageSource> avatarTask)
+        {
+            Avatar = await avatarTask;
         }
 
         private async Task LoadAvatarAsync(int playerId, string avatarPath)

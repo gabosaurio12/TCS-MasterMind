@@ -31,7 +31,7 @@ namespace MasterMind_Client.AvatarManagement
                 return currentPlayer.Avatar;
             }
 
-            var avatar = await GetAvatarAsync(currentPlayer.Id, currentPlayer.AvatarPath);
+            var avatar = await LoadAsync(currentPlayer.Id, currentPlayer.AvatarPath, AvatarZone.Own);
 
             if (avatar != GetDefaultAvatar())
             {
@@ -41,30 +41,45 @@ namespace MasterMind_Client.AvatarManagement
             return avatar;
         }
 
-        public static async Task<ImageSource> GetAvatarAsync(int playerId, string avatarPath)
+        public static Task<ImageSource> GetAvatarAsync(int playerId, string avatarPath)
+        {
+            return LoadAsync(playerId, avatarPath, AvatarZone.Temp);
+        }
+
+        private static async Task<ImageSource> LoadAsync(int playerId, string avatarPath, AvatarZone zone)
         {
             if (string.IsNullOrEmpty(avatarPath))
             {
                 return GetDefaultAvatar();
             }
 
-            return await RequestAvatarAsync(playerId) ?? GetDefaultAvatar();
+            if (TryCreateImage(AvatarCache.TryRead(zone, avatarPath), out var cachedAvatar))
+            {
+                return cachedAvatar;
+            }
+
+            AvatarCache.Delete(zone, avatarPath);
+            var content = await RequestContentAsync(playerId);
+
+            if (!TryCreateImage(content, out var avatar))
+            {
+                return GetDefaultAvatar();
+            }
+
+            AvatarCache.Save(zone, avatarPath, content);
+
+            return avatar;
         }
 
-        private static async Task<ImageSource> RequestAvatarAsync(int playerId)
+        private static async Task<byte[]> RequestContentAsync(int playerId)
         {
             var avatarClient = ServiceClientFactory.CreateAvatarClient();
-            var avatarImage = GetDefaultAvatar();
+            var content = Array.Empty<byte>();
 
             try
             {
                 var image = await avatarClient.GetAvatarAsync(playerId);
-
-                if (image.Content.Length > 0)
-                {
-                    avatarImage = CreateImage(image.Content);
-                }
-
+                content = image.Content;
             }
             catch (FaultException ex)
             {
@@ -78,7 +93,7 @@ namespace MasterMind_Client.AvatarManagement
             {
                 logger.Warn(ex);
             }
-            catch (NotSupportedException ex)
+            catch (InvalidOperationException ex)
             {
                 logger.Warn(ex);
             }
@@ -87,7 +102,30 @@ namespace MasterMind_Client.AvatarManagement
                 CloseClient(avatarClient);
             }
 
-            return avatarImage;
+            return content;
+        }
+
+        private static bool TryCreateImage(byte[] content, out ImageSource image)
+        {
+            image = null;
+
+            if (content.Length == 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                image = CreateImage(content);
+
+                return true;
+            }
+            catch (NotSupportedException ex)
+            {
+                logger.Warn(ex);
+
+                return false;
+            }
         }
 
         private static BitmapImage CreateImage(byte[] content)

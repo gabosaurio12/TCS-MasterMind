@@ -381,6 +381,8 @@
     <Compile Include="Helpers\UtilsUI.cs" />
     <Compile Include="Helpers\PasswordValidator.cs" />
     <Compile Include="AvatarManagement\AvatarImageCompressor.cs" />
+    <Compile Include="AvatarManagement\AvatarCache.cs" />
+    <Compile Include="AvatarManagement\AvatarZone.cs" />
     <Compile Include="AvatarManagement\AvatarLoader.cs" />
     <Compile Include="AppServices.cs" />
     <Compile Include="ViewModels\Base\ModalViewModelBase.cs" />
@@ -713,22 +715,6 @@
     </None>
     <None Include=".env.example" />
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Avatars\Link con fondo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\MasterMindLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\DecodingMachine.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Avatars\MasterChief.jpg" />
-    <Resource Include="Images\Avatars\Patronus HD.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Avatars\Link.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Elements\DecipheringMachine.png" />
