@@ -18,6 +18,7 @@
         SecretCodeNotFound,
         SelfReport,
         InvalidReportReason,
-        AlreadyReported
+        AlreadyReported,
+        VerificationCodeExpired
     }
 }

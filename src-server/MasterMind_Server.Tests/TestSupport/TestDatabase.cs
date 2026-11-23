@@ -145,6 +145,16 @@ namespace MasterMind_Server.Tests.TestSupport
             }
         }
 
+        public static void AgeVerificationCode(int playerId, TimeSpan age)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                var code = context.VerificationCode.First(vc => vc.player_id == playerId);
+                code.created_at = DateTime.UtcNow - age;
+                context.SaveChanges();
+            }
+        }
+
         public static int? GetRoomPlayerOneId(int roomId)
         {
             using (var context = new MasterMindEntities(true))

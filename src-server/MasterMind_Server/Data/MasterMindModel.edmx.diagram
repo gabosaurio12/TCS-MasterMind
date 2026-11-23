@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="53c6f9ecce874bdfbce2374a66d8a2be" Name="Diagram1">
+      <Diagram DiagramId="53c6f9ecce874bdfbce2374a66d8a2be" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="MasterMindModel.DifficultiesCatalog" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MasterMindModel.Friendship" Width="1.5" PointX="3" PointY="17.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MasterMindModel.GameInvitation" Width="1.5" PointX="6" PointY="17.75" IsExpanded="true" />

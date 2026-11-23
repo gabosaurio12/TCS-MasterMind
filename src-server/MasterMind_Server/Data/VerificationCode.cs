@@ -17,6 +17,7 @@ namespace MasterMind_Server.Data
         public int verification_code_id { get; set; }
         public string verification_code { get; set; }
         public int player_id { get; set; }
+        public System.DateTime created_at { get; set; }
     
         public virtual Player Player { get; set; }
     }

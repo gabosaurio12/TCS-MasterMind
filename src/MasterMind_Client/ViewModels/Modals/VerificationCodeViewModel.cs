@@ -3,7 +3,9 @@ using MasterMind_Client.PlayerService;
 using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
+using log4net;
 using System;
+using System.ServiceModel;
 
 namespace MasterMind_Client.ViewModels.Modals
 {
@@ -32,6 +34,8 @@ namespace MasterMind_Client.ViewModels.Modals
         public string CodeDigit3 { get; set; }
         public string CodeDigit4 { get; set; }
 
+        private const string ExpiredCodeFault = "VerificationCodeExpired";
+        private static readonly ILog logger = LogManager.GetLogger(typeof(VerificationCodeViewModel));
         private readonly string username;
         private readonly IDialogService dialogService;
 
@@ -53,22 +57,50 @@ namespace MasterMind_Client.ViewModels.Modals
         private void Continue()
         {
             string code = string.Concat(CodeDigit0, CodeDigit1, CodeDigit2, CodeDigit3, CodeDigit4);
-            var service = ServiceClientFactory.CreateCodeClient();
-            var result = service.AuthVerificationCode(username, code);
-            if (result)
+            try
             {
-                var playerService = ServiceClientFactory.CreatePlayerClient();
-                var player = playerService.GetPlayerByUsername(username);
-                if (player != null)
+                var service = ServiceClientFactory.CreateCodeClient();
+                if (service.AuthVerificationCode(username, code))
                 {
-                    VerificationSucceded?.Invoke(this, player);
+                    CompleteVerification();
                 }
-                RequestClose();
+                else
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCode);
+                }
             }
-            else
+            catch (FaultException<CodeService.ErrorMessage> faultException)
             {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCode);
+                logger.Warn(faultException);
+                dialogService.ShowError(GetFaultMessage(faultException.Detail.Message));
             }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error(communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+            }
+        }
+
+        private static string GetFaultMessage(string detail)
+        {
+            switch (detail)
+            {
+                case ExpiredCodeFault:
+                    return Properties.Resources.ErrorNotification_CodeExpired;
+                default:
+                    return Properties.Resources.ErrorNotification_DatabaseError;
+            }
+        }
+
+        private void CompleteVerification()
+        {
+            var playerService = ServiceClientFactory.CreatePlayerClient();
+            var player = playerService.GetPlayerByUsername(username);
+            if (player != null)
+            {
+                VerificationSucceded?.Invoke(this, player);
+            }
+            RequestClose();
         }
     }
 }

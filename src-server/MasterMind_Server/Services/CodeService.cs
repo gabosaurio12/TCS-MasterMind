@@ -22,6 +22,11 @@ namespace MasterMind_Server.Services
                 var authResult = VerificationCodeRepository.AuthVerificationCode(username, code);
                 return authResult;
             }
+            catch (InvalidOperationException ex)
+            {
+                logger.Warn(ex);
+                throw new FaultException<ErrorMessage>(new ErrorMessage { Message = ex.Message });
+            }
             catch (EntityException ex)
             {
                 logger.Error(ex);
@@ -38,16 +43,12 @@ namespace MasterMind_Server.Services
         {
             try
             {
-                var result = VerificationCodeRepository.CreateVerificationCode(playerId);
+                string code = VerificationCodeRepository.CreateVerificationCode(playerId);
+                string email = new PlayerRepository().GetPlayerById(playerId).email;
 
-                if (result.Item1)
+                if (!String.IsNullOrWhiteSpace(email))
                 {
-                    string email = new PlayerRepository().GetPlayerById(playerId).email;
-
-                    if (!String.IsNullOrWhiteSpace(email))
-                    {
-                        SendEmail(email, result.Item2);
-                    }
+                    SendEmail(email, code);
                 }
             }
             catch (EntityException ex)
