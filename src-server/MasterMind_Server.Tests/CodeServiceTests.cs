@@ -1,6 +1,9 @@
-﻿using MasterMind_Server.Services;
+﻿using MasterMind_Server.Exceptions;
+using MasterMind_Server.Services;
 using MasterMind_Server.Tests.TestSupport;
 using NUnit.Framework;
+using System;
+using System.ServiceModel;
 using PlayerEntity = MasterMind_Server.Data.Player;
 
 namespace MasterMind_Server.Tests
@@ -9,6 +12,9 @@ namespace MasterMind_Server.Tests
     [NonParallelizable]
     public class CodeServiceTests
     {
+        private static readonly TimeSpan ExpiredAge = TimeSpan.FromMinutes(11);
+        private static readonly TimeSpan ValidAge = TimeSpan.FromMinutes(9);
+
         private CodeService codeService;
         private PlayerEntity player;
 
@@ -97,6 +103,68 @@ namespace MasterMind_Server.Tests
             bool result = codeService.AuthVerificationCode(player.username, code);
 
             Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void TestAuthVerificationCodeExpiredThrowsFault()
+        {
+            codeService.SendVerificationCode(player.player_id);
+            string code = TestDatabase.GetVerificationCode(player.player_id);
+            TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
+
+            Assert.Throws<FaultException<ErrorMessage>>(
+                () => codeService.AuthVerificationCode(player.username, code));
+        }
+
+        [Test]
+        public void TestAuthVerificationCodeExpiredFaultMessage()
+        {
+            codeService.SendVerificationCode(player.player_id);
+            string code = TestDatabase.GetVerificationCode(player.player_id);
+            TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
+
+            var exception = Assert.Throws<FaultException<ErrorMessage>>(
+                () => codeService.AuthVerificationCode(player.username, code));
+
+            Assert.That(exception.Detail.Message, Is.EqualTo(ErrorMessages.VerificationCodeExpired.ToString()));
+        }
+
+        [Test]
+        public void TestAuthVerificationCodeExpiredRemovesRow()
+        {
+            codeService.SendVerificationCode(player.player_id);
+            string code = TestDatabase.GetVerificationCode(player.player_id);
+            TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
+
+            Assert.Throws<FaultException<ErrorMessage>>(
+                () => codeService.AuthVerificationCode(player.username, code));
+
+            Assert.That(TestDatabase.DoesVerificationCodeExist(player.player_id), Is.False);
+        }
+
+        [Test]
+        public void TestAuthVerificationCodeBeforeLimitReturnsTrue()
+        {
+            codeService.SendVerificationCode(player.player_id);
+            string code = TestDatabase.GetVerificationCode(player.player_id);
+            TestDatabase.AgeVerificationCode(player.player_id, ValidAge);
+
+            bool result = codeService.AuthVerificationCode(player.username, code);
+
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void TestSendVerificationCodeResetsCreatedAt()
+        {
+            codeService.SendVerificationCode(player.player_id);
+            TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
+            codeService.SendVerificationCode(player.player_id);
+            string code = TestDatabase.GetVerificationCode(player.player_id);
+
+            bool result = codeService.AuthVerificationCode(player.username, code);
+
+            Assert.That(result, Is.True);
         }
     }
 }

@@ -15,7 +15,8 @@ GO
 CREATE TABLE [VerificationCode] (
   [verification_code_id] int PRIMARY KEY IDENTITY(1, 1),
   [verification_code] nvarchar(255),
-  [player_id] int UNIQUE NOT NULL
+  [player_id] int UNIQUE NOT NULL,
+  [created_at] datetime2 NOT NULL CONSTRAINT [DF_VerificationCode_created_at] DEFAULT SYSUTCDATETIME()
 )
 GO
 

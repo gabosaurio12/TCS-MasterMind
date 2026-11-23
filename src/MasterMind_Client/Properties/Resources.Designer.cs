@@ -367,6 +367,15 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El código de verificación ha caducado, solicita uno nuevo..
+        /// </summary>
+        public static string ErrorNotification_CodeExpired {
+            get {
+                return ResourceManager.GetString("ErrorNotification_CodeExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El código de verificación ingresado es incorrecto, intenta de nuevo..
         /// </summary>
         public static string ErrorNotification_WrongCode {

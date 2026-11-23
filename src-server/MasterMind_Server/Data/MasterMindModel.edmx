@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MasterMindModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MasterMindModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DifficultiesCatalog">
           <Key>
             <PropertyRef Name="difficulty_id" />
@@ -183,6 +183,7 @@
           <Property Name="verification_code_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="verification_code" Type="nvarchar" MaxLength="255" />
           <Property Name="player_id" Type="int" Nullable="false" />
+          <Property Name="created_at" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <Association Name="FK__Friendshi__addre__160F4887">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
@@ -652,8 +653,7 @@
             <End Role="VerificationCode" EntitySet="VerificationCode" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MasterMindModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -889,6 +889,7 @@
           <Property Name="verification_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="player_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Player" Relationship="Self.FK__Verificat__playe__14270015" FromRole="VerificationCode" ToRole="Player" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="7" />
         </EntityType>
         <Association Name="FK__MatchRoom__diffi__2180FB33">
           <End Role="DifficultiesCatalog" Type="Self.DifficultiesCatalog" Multiplicity="1" />
@@ -1557,6 +1558,7 @@
           <EntitySetMapping Name="VerificationCode">
             <EntityTypeMapping TypeName="MasterMindModel.VerificationCode">
               <MappingFragment StoreEntitySet="VerificationCode">
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="verification_code_id" ColumnName="verification_code_id" />
                 <ScalarProperty Name="verification_code" ColumnName="verification_code" />
                 <ScalarProperty Name="player_id" ColumnName="player_id" />

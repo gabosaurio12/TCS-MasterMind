@@ -222,6 +222,9 @@
   <data name="VerificationCodeModal_CodeResent" xml:space="preserve">
     <value>A new verification code was sent to your email</value>
   </data>
+  <data name="ErrorNotification_CodeExpired" xml:space="preserve">
+    <value>The verification code has expired, request a new one.</value>
+  </data>
   <data name="ErrorNotification_WrongCode" xml:space="preserve">
     <value>The verification code you typed is wrong, try again.</value>
   </data>
