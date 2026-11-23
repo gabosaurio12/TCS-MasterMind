@@ -6,6 +6,8 @@ namespace MasterMind_Server.Repositories.ClassHelpers
 {
     internal class StatusChangeContext
     {
+        public MasterMindEntities Db { get; set; }
+
         public MatchRoom Room { get; set; }
 
         public RoomMember Member { get; set; }
