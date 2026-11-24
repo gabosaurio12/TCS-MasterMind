@@ -15,6 +15,9 @@ namespace MasterMind_Client.ViewModels.Services
     {
         private const string ImageFileFilter = "Images|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
 
+        private const double ModalDesignHeight = 857;
+        private const double ModalDesignWidth = 628;
+
         private static readonly ILog logger = LogManager.GetLogger(typeof(DialogService));
 
         private static readonly Dictionary<string, Func<string>> serverErrorMessages =
@@ -165,8 +168,22 @@ namespace MasterMind_Client.ViewModels.Services
 
         private static void Present(Window modal)
         {
+            FitToWorkArea(modal);
             modal.Owner = Application.Current.MainWindow;
             modal.Show();
+        }
+
+        private static void FitToWorkArea(Window modal)
+        {
+            double availableHeight = SystemParameters.WorkArea.Height;
+
+            if (availableHeight >= ModalDesignHeight)
+            {
+                return;
+            }
+
+            modal.Height = availableHeight;
+            modal.Width = availableHeight * ModalDesignWidth / ModalDesignHeight;
         }
     }
 }
