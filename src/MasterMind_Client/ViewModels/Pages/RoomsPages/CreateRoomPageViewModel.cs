@@ -1,4 +1,4 @@
-using MasterMind_Client.ServerEndpoints;
+﻿using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
@@ -101,6 +101,10 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             else if (result.Status.Equals("RoomNameTaken"))
             {
                 dialogService.ShowError(Properties.Resources.ErrorNotification_RoomNameTaken);
+            }
+            else if (result.Status.Equals("PlayerBlocked"))
+            {
+                dialogService.ShowError(Properties.Resources.ErrorNotification_PlayerBlocked);
             }
             else
             {

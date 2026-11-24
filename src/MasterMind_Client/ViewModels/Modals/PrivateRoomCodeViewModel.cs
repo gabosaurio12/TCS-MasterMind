@@ -4,6 +4,7 @@ using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
 using log4net;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Windows.Input;
@@ -16,6 +17,15 @@ namespace MasterMind_Client.ViewModels.Modals
         private const string SuccessResult = "Success";
         private const string RoomIsFullResult = "RoomIsFull";
         private const string WrongCodeResult = "WrongCode";
+        private const string PlayerBlockedResult = "PlayerBlocked";
+
+        private static readonly Dictionary<string, Func<string>> JoinErrorMessages =
+            new Dictionary<string, Func<string>>
+            {
+                { RoomIsFullResult, () => Properties.Resources.ErrorNotification_RoomFull },
+                { WrongCodeResult, () => Properties.Resources.ErrorNotification_WrongCode },
+                { PlayerBlockedResult, () => Properties.Resources.ErrorNotification_PlayerBlocked }
+            };
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(PrivateRoomCodeViewModel));
 
@@ -166,23 +176,16 @@ namespace MasterMind_Client.ViewModels.Modals
             if (string.Equals(result, SuccessResult))
             {
                 RoomJoined?.Invoke(this, room);
-                return;
             }
-
-            if (string.Equals(result, RoomIsFullResult))
+            else if (JoinErrorMessages.TryGetValue(result ?? string.Empty, out var getMessage))
             {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_RoomFull);
-                return;
+                dialogService.ShowError(getMessage());
             }
-
-            if (string.Equals(result, WrongCodeResult))
+            else
             {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_WrongCode);
-                return;
+                logger.WarnFormat(result);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
             }
-
-            logger.WarnFormat(result);
-            dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
         }
 
         private string BuildCode()

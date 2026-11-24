@@ -6,6 +6,7 @@
         Error,
         RoomNameTaken,
         RoomIsFull,
-        WrongCode
+        WrongCode,
+        PlayerBlocked
     }
 }

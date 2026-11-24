@@ -1,4 +1,5 @@
 ﻿using MasterMind_Server.Data;
+using MasterMind_Server.Repositories.ClassHelpers;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
@@ -193,6 +194,13 @@ namespace MasterMind_Server.Repositories
             return reasonEntity?.report_reason_id ?? NoReasonId;
         }
 
+        private void BlockIfLimitReached(int reportedPlayerId)
+        {
+            var reportedPlayer = Context.Player.First(p => p.player_id == reportedPlayerId);
+            Context.Entry(reportedPlayer).Reload();
+            ReportBlockPolicy.StartBlockIfLimitReached(Context, reportedPlayer);
+        }
+
         private string SaveReport(int reportedPlayerId, int reportedByPlayerId, int reasonId)
         {
             using (var transaction = Context.Database.BeginTransaction(IsolationLevel.Serializable))
@@ -213,6 +221,7 @@ namespace MasterMind_Server.Repositories
                     reason_id = reasonId
                 });
                 Context.SaveChanges();
+                BlockIfLimitReached(reportedPlayerId);
                 transaction.Commit();
 
                 return RepositoriesMessages.Success.ToString();

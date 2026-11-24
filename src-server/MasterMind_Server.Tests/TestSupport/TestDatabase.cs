@@ -220,6 +220,41 @@ namespace MasterMind_Server.Tests.TestSupport
             }
         }
 
+        public static void SeedReports(int reportedPlayerId, int reporterId, int count)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                var reasonId = context.ReportReasonCatalog.First().report_reason_id;
+                for (int index = 0; index < count; index++)
+                {
+                    context.PlayerReport.Add(new PlayerReport
+                    {
+                        reported_player_id = reportedPlayerId,
+                        reported_by_player_id = reporterId,
+                        reason_id = reasonId
+                    });
+                }
+                context.SaveChanges();
+            }
+        }
+
+        public static void SetBlockedUntil(int playerId, DateTime? blockedUntil)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                context.Player.First(p => p.player_id == playerId).blocked_until = blockedUntil;
+                context.SaveChanges();
+            }
+        }
+
+        public static int CountReportsAgainst(int playerId)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                return context.PlayerReport.Count(report => report.reported_player_id == playerId);
+            }
+        }
+
         public static Data.Player CreatePlayer(string username, string email, string password)
         {
             var repository = new PlayerRepository();

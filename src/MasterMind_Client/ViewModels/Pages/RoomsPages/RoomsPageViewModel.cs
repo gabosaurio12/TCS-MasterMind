@@ -1,4 +1,4 @@
-using MasterMind_Client.RoomService;
+﻿using MasterMind_Client.RoomService;
 using MasterMind_Client.ServerEndpoints;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Services;
@@ -125,6 +125,10 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             if (result.Equals("RoomIsFull"))
             {
                 errorMessage = Properties.Resources.ErrorNotification_RoomFull;
+            }
+            else if (result.Equals("PlayerBlocked"))
+            {
+                errorMessage = Properties.Resources.ErrorNotification_PlayerBlocked;
             }
             else
             {

@@ -408,6 +408,9 @@
   <data name="ErrorNotification_RoomFull" xml:space="preserve">
     <value>The room is full, you can't join</value>
   </data>
+  <data name="ErrorNotification_PlayerBlocked" xml:space="preserve">
+    <value>Your account has too many reports and you cannot join matches for one hour. You can join again once that time has passed.</value>
+  </data>
   <data name="RoomPage_EmptySlot" xml:space="preserve">
     <value>Empty</value>
   </data>

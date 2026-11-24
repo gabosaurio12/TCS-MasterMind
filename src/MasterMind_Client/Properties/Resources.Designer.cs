@@ -250,7 +250,16 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to La sala está llena, no puedes unirte.
+        ///   Looks up a localized string similar to Tu cuenta tiene demasiados reportes y no puedes unirte a partidas por una hora.
+        /// </summary>
+        public static string ErrorNotification_PlayerBlocked {
+            get {
+                return ResourceManager.GetString("ErrorNotification_PlayerBlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a La sala está llena, no puedes unirte.
         /// </summary>
         public static string ErrorNotification_RoomFull {
             get {
