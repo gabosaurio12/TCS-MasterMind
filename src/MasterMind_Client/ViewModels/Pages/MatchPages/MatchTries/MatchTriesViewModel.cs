@@ -3,6 +3,7 @@ using log4net;
 using MasterMind_Client.Helpers;
 using MasterMind_Client.MatchService;
 using MasterMind_Client.ViewModels.Base;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers;
 using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
 using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.ViewModels;
 using MasterMind_Client.ViewModels.Services;
@@ -38,6 +39,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
         private bool isSubscribed;
         private bool disposed;
         private bool isWaitingForOpponent;
+        private bool isMenuOpen;
         private RoundResult pendingResult;
         private IReadOnlyList<PinColour> lastCode;
         private PaletteColourViewModel selectedColour;
@@ -54,6 +56,12 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
             private set => SetProperty(ref isWaitingForOpponent, value);
         }
 
+        public bool IsMenuOpen
+        {
+            get => isMenuOpen;
+            private set => SetProperty(ref isMenuOpen, value);
+        }
+
         public MatchScoreViewModel Score { get; } = new MatchScoreViewModel();
 
         public ObservableCollection<MatchRowViewModel> TriesRows { get; } =
@@ -65,6 +73,8 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
         public ICommand SelectColourCommand { get; }
 
         public ICommand TryCommand { get; }
+
+        public ICommand OpenMenuCommand { get; }
 
         public MatchTriesViewModel(Uri uri, INavigationService navigationService, IDialogService dialogService)
         {
@@ -82,6 +92,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
             CreatePalette();
             SelectColourCommand = new RelayCommand(parameter => SelectColour(parameter as PaletteColourViewModel));
             TryCommand = new RelayCommand(async _ => await SubmitTryAsync(), _ => CanSubmitTry());
+            OpenMenuCommand = new RelayCommand(_ => OpenMenu());
         }
 
         public async Task InitializeAsync()
@@ -128,9 +139,33 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
             SelectColour(PaletteColours.First());
         }
 
+        private void OpenMenu()
+        {
+            if (disposed || IsMenuOpen)
+            {
+                return;
+            }
+
+            IsMenuOpen = dialogService.ShowMatchMenu(ExitMatchAsync, CloseMenu);
+        }
+
+        private void CloseMenu()
+        {
+            IsMenuOpen = false;
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private async Task ExitMatchAsync()
+        {
+            CloseRound();
+            Unsubscribe();
+            await new RoomEscapeNotifier(dialogService).NotifyAsync(roomId);
+            NavigateTo(RoomsPageRoute);
+        }
+
         private void SelectColour(PaletteColourViewModel colour)
         {
-            if (colour != null)
+            if (colour != null && !IsMenuOpen)
             {
                 foreach (var entry in PaletteColours)
                 {
@@ -143,7 +178,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
 
         private void PlacePin(MatchPinSlotViewModel slot)
         {
-            if (isFinished || !CurrentRow.PinSlots.Contains(slot))
+            if (isFinished || IsMenuOpen || !CurrentRow.PinSlots.Contains(slot))
             {
                 return;
             }
@@ -154,7 +189,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
 
         private bool CanSubmitTry()
         {
-            return RemainingTries > 0 && !isSending && !isFinished && CurrentRow.IsComplete;
+            return RemainingTries > 0 && !isSending && !isFinished && !IsMenuOpen && CurrentRow.IsComplete;
         }
 
         private async Task<bool> SubscribeAsync()
@@ -190,6 +225,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
                 return;
             }
 
+            isSubscribed = false;
             try
             {
                 matchService.Unsubscribe(CurrentPlayer.Instance.Username);
@@ -371,6 +407,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
             }
 
             CloseRound();
+            dialogService.CloseMatchMenu();
             dialogService.ShowSuccess(Properties.Resources.MatchTries_OpponentAbandoned, ReturnToRoom);
         }
 

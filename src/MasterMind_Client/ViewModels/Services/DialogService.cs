@@ -7,6 +7,8 @@ using log4net;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MasterMind_Client.ViewModels.Services
@@ -153,6 +155,33 @@ namespace MasterMind_Client.ViewModels.Services
             viewModel.CloseRequested += (sender, e) => modal.Close();
             modal.Closed += (sender, e) => continued?.Invoke();
             modal.Show();
+        }
+
+        public bool ShowMatchMenu(Func<Task> exitConfirmed, Action menuClosed)
+        {
+            if (HasOpenModal())
+            {
+                return false;
+            }
+
+            var modal = new MatchMenuModal();
+            var viewModel = new MatchMenuViewModel(exitConfirmed);
+            modal.DataContext = viewModel;
+            viewModel.CloseRequested += (sender, e) => modal.Close();
+            modal.Closed += (sender, e) => menuClosed?.Invoke();
+            Present(modal);
+            return true;
+        }
+
+        public void CloseMatchMenu()
+        {
+            Application.Current.Windows.OfType<MatchMenuModal>().FirstOrDefault()?.Close();
+        }
+
+        private static bool HasOpenModal()
+        {
+            return Application.Current.Windows.OfType<Window>()
+                .Any(window => window != Application.Current.MainWindow && window.IsVisible);
         }
 
         public string PickImageFile()
