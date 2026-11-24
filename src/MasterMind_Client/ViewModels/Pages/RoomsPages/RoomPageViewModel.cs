@@ -172,29 +172,12 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             catch (FaultException<LobbyService.ErrorMessage> faultException)
             {
                 logger.WarnFormat("The server rejected the chat message: {0}", faultException.Detail.Message);
-                ShowServerError(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (CommunicationException communicationException)
             {
                 logger.Error("Communication failure while sending a chat message", communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_MessageNotSent);
-            }
-        }
-
-        private void ShowServerError(string errorDetail)
-        {
-            switch (errorDetail)
-            {
-                case "DataBaseError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
-                    break;
-                case "HashError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
-                    break;
-                default:
-                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
-                    break;
             }
         }
 
@@ -253,13 +236,13 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             catch (FaultException<RoomService.ErrorMessage> faultException)
             {
                 logger.WarnFormat("The server rejected the room lookup: {0}", faultException.Detail.Message);
-                ShowServerError(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
                 NavigateTo(RoomsPageRoute);
             }
             catch (FaultException faultException)
             {
                 logger.Error("Server fault during room lookup", faultException);
-                ShowServerError(faultException.Message);
+                dialogService.ShowServerError(faultException.Message);
                 NavigateTo(RoomsPageRoute);
             }
             catch (CommunicationException communicationException)
@@ -343,12 +326,12 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             catch (FaultException<PlayerService.ErrorMessage> faultException)
             {
                 logger.WarnFormat("The server rejected the player lookup: {0}", faultException.Detail.Message);
-                ShowServerError(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
                 logger.Error("Server fault during player lookup", faultException);
-                ShowServerError(faultException.Message);
+                dialogService.ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
@@ -535,12 +518,12 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             catch (FaultException<MatchService.ErrorMessage> faultException)
             {
                 logger.WarnFormat("The server rejected the secret code creation: {0}", faultException.Detail.Message);
-                ShowServerError(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
                 logger.Error("Server fault while creating the secret code", faultException);
-                ShowServerError(faultException.Message);
+                dialogService.ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {

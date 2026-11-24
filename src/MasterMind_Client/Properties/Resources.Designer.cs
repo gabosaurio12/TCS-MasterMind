@@ -313,6 +313,33 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El servidor de base de datos no está disponible. Intenta más tarde..
+        /// </summary>
+        public static string ErrorNotification_DbServerError {
+            get {
+                return ResourceManager.GetString("ErrorNotification_DbServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No se pudo enviar el código de verificación a tu correo. Usa la opción de reenviar el código..
+        /// </summary>
+        public static string ErrorNotification_SendEmailError {
+            get {
+                return ResourceManager.GetString("ErrorNotification_SendEmailError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El servidor de correo no está disponible, por lo que no se pudo enviar el código de verificación..
+        /// </summary>
+        public static string ErrorNotification_SmtpServerError {
+            get {
+                return ResourceManager.GetString("ErrorNotification_SmtpServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Se agotó el tiempo de espera. Intenta de nuevo..
         /// </summary>
         public static string ErrorNotification_Timeout {

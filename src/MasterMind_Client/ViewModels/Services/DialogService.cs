@@ -3,6 +3,7 @@ using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Modals;
 using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
+using log4net;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,22 @@ namespace MasterMind_Client.ViewModels.Services
     public class DialogService : IDialogService
     {
         private const string ImageFileFilter = "Images|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+
+        private static readonly ILog logger = LogManager.GetLogger(typeof(DialogService));
+
+        private static readonly Dictionary<string, Func<string>> serverErrorMessages =
+            new Dictionary<string, Func<string>>
+            {
+                { "DataBaseError", () => Properties.Resources.ErrorNotification_DatabaseError },
+                { "DbServerError", () => Properties.Resources.ErrorNotification_DbServerError },
+                { "SendEmailError", () => Properties.Resources.ErrorNotification_SendEmailError },
+                { "SmtpServerError", () => Properties.Resources.ErrorNotification_SmtpServerError },
+                { "HashError", () => Properties.Resources.ErrorNotification_Timeout },
+                { "VerificationCodeExpired", () => Properties.Resources.ErrorNotification_CodeExpired },
+                { "InvalidImage", () => Properties.Resources.ErrorNotification_InvalidImage },
+                { "ImageTooLarge", () => Properties.Resources.ErrorNotification_ImageTooLarge },
+                { "ImageProcessingError", () => Properties.Resources.ErrorNotification_AvatarNotSaved }
+            };
 
         public void ShowError(string message)
         {
@@ -25,26 +42,16 @@ namespace MasterMind_Client.ViewModels.Services
 
         public void ShowServerError(string detailMessage)
         {
-            switch (detailMessage)
+            Func<string> messageProvider;
+
+            if (detailMessage != null && serverErrorMessages.TryGetValue(detailMessage, out messageProvider))
             {
-                case "DataBaseError":
-                    ShowError(Properties.Resources.ErrorNotification_DatabaseError);
-                    break;
-                case "HashError":
-                    ShowError(Properties.Resources.ErrorNotification_Timeout);
-                    break;
-                case "InvalidImage":
-                    ShowError(Properties.Resources.ErrorNotification_InvalidImage);
-                    break;
-                case "ImageTooLarge":
-                    ShowError(Properties.Resources.ErrorNotification_ImageTooLarge);
-                    break;
-                case "ImageProcessingError":
-                    ShowError(Properties.Resources.ErrorNotification_AvatarNotSaved);
-                    break;
-                default:
-                    ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
-                    break;
+                ShowError(messageProvider());
+            }
+            else
+            {
+                logger.WarnFormat("Unknown server error: {0}", detailMessage);
+                ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
         }
 

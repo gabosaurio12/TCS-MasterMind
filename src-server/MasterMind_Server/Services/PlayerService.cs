@@ -3,6 +3,7 @@ using log4net;
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Services.ErrorHelpers;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using System.Data.Entity.Core;
@@ -30,9 +31,7 @@ namespace MasterMind_Server.Services
 
                 if (result.Equals(RepositoriesMessages.Success.ToString()))
                 {
-                    var playerRegistered = GetPlayerByUsername(playerEntity.username);
-                    var authService = new CodeService();
-                    authService.SendVerificationCode(playerRegistered.PlayerId);
+                    return SendRegistrationCode(playerEntity.username);
                 }
 
                 return result;
@@ -40,8 +39,31 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw new FaultException(ErrorMessages.DataBaseError.ToString());
+                throw new FaultException(DbFaultClassifier.Classify(ex).ToString());
             }
+        }
+
+        private string SendRegistrationCode(string username)
+        {
+            var playerRegistered = GetPlayerByUsername(username);
+
+            try
+            {
+                new CodeService().SendVerificationCode(playerRegistered.PlayerId);
+            }
+            catch (FaultException<ErrorMessage> ex) when (IsEmailFault(ex.Detail.Message))
+            {
+                logger.Warn("The account was created but the verification code could not be emailed.", ex);
+                return RepositoriesMessages.SuccessEmailFailed.ToString();
+            }
+
+            return RepositoriesMessages.Success.ToString();
+        }
+
+        private static bool IsEmailFault(string message)
+        {
+            return message == ErrorMessages.SendEmailError.ToString()
+                || message == ErrorMessages.SmtpServerError.ToString();
         }
 
         public bool LoginPlayer(string username, string password)
@@ -98,7 +120,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw new FaultException(ErrorMessages.DataBaseError.ToString());
+                throw new FaultException(DbFaultClassifier.Classify(ex).ToString());
             }
             
         }
@@ -132,7 +154,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw new FaultException(ErrorMessages.DataBaseError.ToString());
+                throw new FaultException(DbFaultClassifier.Classify(ex).ToString());
 
             }
         }
@@ -155,7 +177,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw new FaultException(ErrorMessages.DataBaseError.ToString());
+                throw new FaultException(DbFaultClassifier.Classify(ex).ToString());
 
             }
         }
@@ -183,7 +205,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw new FaultException(ErrorMessages.DataBaseError.ToString());
+                throw new FaultException(DbFaultClassifier.Classify(ex).ToString());
 
             }
         }
@@ -196,9 +218,9 @@ namespace MasterMind_Server.Services
 
                 return result;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
-                throw new FaultException(ErrorMessages.DataBaseError.ToString());
+                throw new FaultException(DbFaultClassifier.Classify(ex).ToString());
             }
         }
 
@@ -224,7 +246,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildFault(ErrorMessages.DataBaseError);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
             }
         }
 

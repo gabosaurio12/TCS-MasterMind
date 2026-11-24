@@ -174,16 +174,7 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private void ShowServerError(string errorDetail)
         {
-            switch (errorDetail)
-            {
-                case "DataBaseError":
-                    ShowError(Properties.Resources.ErrorNotification_DatabaseError);
-                    break;
-                default:
-                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
-                    ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
-                    break;
-            }
+            Application.Current.Dispatcher.BeginInvoke((Action)(() => dialogService.ShowServerError(errorDetail)));
         }
 
         private void ShowError(string message)

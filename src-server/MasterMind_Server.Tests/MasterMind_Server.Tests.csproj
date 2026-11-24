@@ -111,6 +111,7 @@
     <Compile Include="RoomServiceTests.cs" />
     <Compile Include="LobbyServiceTests.cs" />
     <Compile Include="CodeServiceTests.cs" />
+    <Compile Include="DbFaultClassifierTests.cs" />
     <Compile Include="AvatarServiceTests.cs" />
     <Compile Include="ClueCalculatorTests.cs" />
     <Compile Include="MatchServiceTests.cs" />

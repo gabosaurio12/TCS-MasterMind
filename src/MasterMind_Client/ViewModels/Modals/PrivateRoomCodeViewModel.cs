@@ -147,12 +147,12 @@ namespace MasterMind_Client.ViewModels.Modals
             catch (FaultException<ErrorMessage> faultException)
             {
                 logger.WarnFormat(faultException.Detail.Message);
-                ShowServerError(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
                 logger.Error(faultException);
-                ShowServerError(faultException.Message);
+                dialogService.ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
@@ -183,23 +183,6 @@ namespace MasterMind_Client.ViewModels.Modals
 
             logger.WarnFormat(result);
             dialogService.ShowError(Properties.Resources.ErrorNotification_ErrorJoiningMatchRoom);
-        }
-
-        private void ShowServerError(string errorDetail)
-        {
-            switch (errorDetail)
-            {
-                case "DataBaseError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
-                    break;
-                case "HashError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
-                    break;
-                default:
-                    logger.WarnFormat(errorDetail);
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
-                    break;
-            }
         }
 
         private string BuildCode()
