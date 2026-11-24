@@ -166,8 +166,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                     Message = message
                 };
 
-                string result = lobbyService.SendMessage(chatMessage);
-                HandleSendMessageResult(result, message);
+                var result = lobbyService.SendMessage(chatMessage);
+                HandleSendMessageResult(result);
             }
             catch (FaultException<LobbyService.ErrorMessage> faultException)
             {
@@ -181,16 +181,17 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             }
         }
 
-        private void HandleSendMessageResult(string result, string message)
+        private void HandleSendMessageResult(ChatMessageResult result)
         {
-            switch (result)
+            switch (result.Status)
             {
                 case MessageSentResult:
-                    AppendChatMessage(CurrentPlayer.Instance.Username, message);
+                    AppendChatMessage(CurrentPlayer.Instance.Username, result.Message);
                     MessageText = string.Empty;
                     break;
                 case InappropriateVocabularyResult:
-                    AppendChatMessage(CurrentPlayer.Instance.Username, message);
+                    AppendChatMessage(CurrentPlayer.Instance.Username, result.Message);
+                    MessageText = string.Empty;
                     dialogService.ShowError(Properties.Resources.ErrorNotification_InappropriateVocabulary);
                     break;
                 default:
