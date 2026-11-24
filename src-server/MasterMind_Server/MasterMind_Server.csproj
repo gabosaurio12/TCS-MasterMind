@@ -314,6 +314,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClassHelpers\RoomCreationData.cs" />
+    <Compile Include="Repositories\ClassHelpers\ReportBlockPolicy.cs" />
     <Compile Include="Repositories\ClassHelpers\RoomMember.cs" />
     <Compile Include="Repositories\ClassHelpers\MatchParticipation.cs" />
     <Compile Include="Repositories\ClassHelpers\SecretCodeRow.cs" />

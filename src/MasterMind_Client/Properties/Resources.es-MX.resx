@@ -408,6 +408,9 @@
   <data name="ErrorNotification_RoomFull" xml:space="preserve">
     <value>La sala está llena, no puedes unirte</value>
   </data>
+  <data name="ErrorNotification_PlayerBlocked" xml:space="preserve">
+    <value>Tu cuenta tiene demasiados reportes y no puedes unirte a partidas por una hora. Podrás volver a unirte cuando pase ese tiempo.</value>
+  </data>
   <data name="RoomPage_EmptySlot" xml:space="preserve">
     <value>Vacío</value>
   </data>

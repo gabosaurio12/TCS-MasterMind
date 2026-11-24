@@ -3,6 +3,7 @@ using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Services;
 using MasterMind_Server.Tests.TestSupport;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using PlayerEntity = MasterMind_Server.Data.Player;
 
@@ -12,6 +13,7 @@ namespace MasterMind_Server.Tests
     [NonParallelizable]
     public class RoomServiceTests
     {
+        private const int MaxReports = 5;
         private RoomService roomService;
         private PlayerEntity roomOwner;
 
@@ -244,6 +246,102 @@ namespace MasterMind_Server.Tests
             Room result = roomService.GetRoomByCode("000000");
 
             Assert.That(result.RoomId, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TestJoinRoomFiveReportsReturnsPlayerBlocked()
+        {
+            Room room = BuildRoom(roomOwner, TestDataFactory.PublicPrivacy);
+            roomService.CreateRoom(room);
+            PlayerEntity reportedPlayer = CreateReportedPlayer(MaxReports);
+
+            string result = roomService.JoinRoom(room, reportedPlayer.username);
+
+            Assert.That(result, Is.EqualTo(RoomResult.PlayerBlocked.ToString()));
+        }
+
+        [Test]
+        public void TestJoinRoomFourReportsReturnsSuccess()
+        {
+            Room room = BuildRoom(roomOwner, TestDataFactory.PublicPrivacy);
+            roomService.CreateRoom(room);
+            PlayerEntity reportedPlayer = CreateReportedPlayer(MaxReports - 1);
+
+            string result = roomService.JoinRoom(room, reportedPlayer.username);
+
+            Assert.That(result, Is.EqualTo(RoomResult.Success.ToString()));
+        }
+
+        [Test]
+        public void TestJoinRoomWithCodeFiveReportsReturnsPlayerBlocked()
+        {
+            Room room = BuildRoom(roomOwner, TestDataFactory.PrivatePrivacy);
+            RoomCreationResult createdRoom = roomService.CreateRoom(room);
+            PlayerEntity reportedPlayer = CreateReportedPlayer(MaxReports);
+
+            string result = roomService.JoinRoomWithCode(
+                room,
+                reportedPlayer.username,
+                createdRoom.Room.RoomCode);
+
+            Assert.That(result, Is.EqualTo(RoomResult.PlayerBlocked.ToString()));
+        }
+
+        [Test]
+        public void TestCreateRoomFiveReportsReturnsPlayerBlocked()
+        {
+            PlayerEntity reportedPlayer = CreateReportedPlayer(MaxReports);
+            Room room = BuildRoom(reportedPlayer, TestDataFactory.PublicPrivacy);
+
+            RoomCreationResult result = roomService.CreateRoom(room);
+
+            Assert.That(result.Status, Is.EqualTo(RoomResult.PlayerBlocked.ToString()));
+        }
+
+        [Test]
+        public void TestJoinRoomBlockExpiredReturnsSuccess()
+        {
+            Room room = BuildRoom(roomOwner, TestDataFactory.PublicPrivacy);
+            roomService.CreateRoom(room);
+            PlayerEntity reportedPlayer = CreateReportedPlayer(MaxReports);
+            TestDatabase.SetBlockedUntil(reportedPlayer.player_id, DateTime.UtcNow.AddMinutes(-1));
+
+            string result = roomService.JoinRoom(room, reportedPlayer.username);
+
+            Assert.That(result, Is.EqualTo(RoomResult.Success.ToString()));
+        }
+
+        [Test]
+        public void TestJoinRoomBlockExpiredDeletesReports()
+        {
+            Room room = BuildRoom(roomOwner, TestDataFactory.PublicPrivacy);
+            roomService.CreateRoom(room);
+            PlayerEntity reportedPlayer = CreateReportedPlayer(MaxReports);
+            TestDatabase.SetBlockedUntil(reportedPlayer.player_id, DateTime.UtcNow.AddMinutes(-1));
+
+            roomService.JoinRoom(room, reportedPlayer.username);
+
+            Assert.That(TestDatabase.CountReportsAgainst(reportedPlayer.player_id), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TestJoinRoomBlockedMemberReturnsSuccess()
+        {
+            Room room = BuildRoom(roomOwner, TestDataFactory.PublicPrivacy);
+            roomService.CreateRoom(room);
+            TestDatabase.SeedReports(roomOwner.player_id, TestDataFactory.CreatePlayer().player_id, MaxReports);
+
+            string result = roomService.JoinRoom(room, roomOwner.username);
+
+            Assert.That(result, Is.EqualTo(RoomResult.Success.ToString()));
+        }
+
+        private PlayerEntity CreateReportedPlayer(int reportCount)
+        {
+            PlayerEntity reportedPlayer = TestDataFactory.CreatePlayer();
+            PlayerEntity reporter = TestDataFactory.CreatePlayer();
+            TestDatabase.SeedReports(reportedPlayer.player_id, reporter.player_id, reportCount);
+            return reportedPlayer;
         }
 
         private Room BuildRoom(PlayerEntity owner, string privacy)

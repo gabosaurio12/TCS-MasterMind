@@ -38,6 +38,7 @@ namespace MasterMind_Server.Data
         public string password { get; set; }
         public string avatar_path { get; set; }
         public Nullable<byte> is_online { get; set; }
+        public Nullable<System.DateTime> blocked_until { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Friendship> Friendship { get; set; }

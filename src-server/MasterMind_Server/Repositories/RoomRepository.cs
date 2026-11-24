@@ -46,6 +46,11 @@ namespace MasterMind_Server.Repositories
             RoomCreationData data;
             using (var dbContext = new MasterMindEntities(true))
             {
+                if (IsCreatorBlocked(dbContext, room))
+                {
+                    return CreateEmptyRoomResult(RoomResult.PlayerBlocked);
+                }
+
                 data = BuildRoomCreationData(dbContext, room);
             }
 
@@ -54,6 +59,12 @@ namespace MasterMind_Server.Repositories
                 return CreateEmptyRoomResult(RoomResult.Error);
             }
             return PersistRoom(data);
+        }
+
+        private bool IsCreatorBlocked(MasterMindEntities dbContext, Room room)
+        {
+            var player = playerRepository.GetPlayerByUsername(room?.PlayerOneUsername);
+            return player != null && ReportBlockPolicy.IsBlocked(dbContext, player.player_id);
         }
 
         public string JoinRoom(Room room, string username)
@@ -73,9 +84,10 @@ namespace MasterMind_Server.Repositories
                     return RoomResult.Error.ToString();
                 }
 
-                var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
+                var blockingResult = GetJoinBlockingResult(dbContext, roomEntity, player.player_id);
                 if (blockingResult != null)
                 {
+                    transaction.Commit();
                     return blockingResult;
                 }
 
@@ -101,9 +113,10 @@ namespace MasterMind_Server.Repositories
                 {
                     return RoomResult.Error.ToString();
                 }
-                var blockingResult = GetJoinBlockingResult(roomEntity, player.player_id);
+                var blockingResult = GetJoinBlockingResult(dbContext, roomEntity, player.player_id);
                 if (blockingResult != null)
                 {
+                    transaction.Commit();
                     return blockingResult;
                 }
                 if (!IsRoomCodeValid(roomEntity, code))
@@ -418,11 +431,16 @@ namespace MasterMind_Server.Repositories
             };
         }
 
-        private static string GetJoinBlockingResult(MatchRoom room, int playerId)
+        private static string GetJoinBlockingResult(MasterMindEntities dbContext, MatchRoom room, int playerId)
         {
             if (IsMember(room, playerId))
             {
                 return RoomResult.Success.ToString();
+            }
+
+            if (ReportBlockPolicy.IsBlocked(dbContext, playerId))
+            {
+                return RoomResult.PlayerBlocked.ToString();
             }
 
             if (room.player_two_id.HasValue)

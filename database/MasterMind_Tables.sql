@@ -8,7 +8,8 @@ CREATE TABLE [Player] (
   [username] nvarchar(255) NOT NULL UNIQUE,
   [password] nvarchar(255) NOT NULL,
   [avatar_path] nvarchar(500),
-  [is_online] tinyint
+  [is_online] tinyint,
+  [blocked_until] datetime2
 )
 GO
 
