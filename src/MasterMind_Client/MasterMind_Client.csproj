@@ -50,6 +50,8 @@
     <Compile Include="ServerEndpoints\ServiceClientFactory.cs" />
     <Compile Include="ViewModels\Modals\GameOverTriesViewModel.cs" />
     <Compile Include="ViewModels\Modals\YouWonTriesViewModel.cs" />
+    <Compile Include="ViewModels\Modals\MatchMenuViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\RoomEscapeNotifier.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\ClueColour.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchClueSlotViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchPinSlotViewModel.cs" />
@@ -319,6 +321,9 @@
     <Compile Include="Modals\GameOverTriesModal.xaml.cs">
       <DependentUpon>GameOverTriesModal.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modals\MatchMenuModal.xaml.cs">
+      <DependentUpon>MatchMenuModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modals\YouWonTriesModal.xaml.cs">
       <DependentUpon>YouWonTriesModal.xaml</DependentUpon>
     </Compile>
@@ -437,6 +442,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Modals\YouWonTriesModal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modals\MatchMenuModal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -568,6 +577,7 @@
     <Resource Include="Assets\Backgrounds\SuccessNotificationModal_Background.png" />
     <Resource Include="Assets\Backgrounds\Friends_Background.png" />
     <Resource Include="Assets\Backgrounds\LogOutModal_Background.png" />
+    <Resource Include="Assets\Backgrounds\MatchMenu_Background.png" />
     <Resource Include="Assets\Backgrounds\VerificationCodeModal_Background.png" />
     <Resource Include="Assets\Backgrounds\EndGame_Background.png" />
     <Resource Include="Assets\Elements\Blue_Button.png" />

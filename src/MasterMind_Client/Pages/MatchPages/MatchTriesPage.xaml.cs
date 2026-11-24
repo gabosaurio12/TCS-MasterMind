@@ -19,6 +19,7 @@ namespace MasterMind_Client.Pages.MatchPages
 
         private async void MatchTriesPage_Loaded(object sender, RoutedEventArgs e)
         {
+            Focus();
             var uri = NavigationService?.CurrentSource;
             if (uri == null || DataContext != null)
             {

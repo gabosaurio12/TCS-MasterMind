@@ -49,6 +49,8 @@
                 ImageSource="/Assets/Backgrounds/LogOutModal_Background.png" />
     <ImageBrush x:Key="ModalVerificationBgBrush"
                 ImageSource="/Assets/Backgrounds/VerificationCodeModal_Background.png" />
+    <ImageBrush x:Key="ModalMatchMenuBgBrush"
+                ImageSource="/Assets/Backgrounds/MatchMenu_Background.png" />
     <ImageBrush x:Key="ModalEndGameBgBrush"
                 ImageSource="/Assets/Backgrounds/EndGame_Background.png" />
 

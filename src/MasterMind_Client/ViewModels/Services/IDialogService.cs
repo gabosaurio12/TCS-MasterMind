@@ -3,6 +3,7 @@ using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MasterMind_Client.ViewModels.Services
 {
@@ -29,6 +30,10 @@ namespace MasterMind_Client.ViewModels.Services
         void ShowYouWon(IReadOnlyList<PinColour> secretCode, Action continued);
 
         void ShowGameOver(string title, Action continued);
+
+        bool ShowMatchMenu(Func<Task> exitConfirmed, Action menuClosed);
+
+        void CloseMatchMenu();
 
         string PickImageFile();
     }

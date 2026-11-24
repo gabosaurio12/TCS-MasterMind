@@ -907,6 +907,42 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menú.
+        /// </summary>
+        public static string MatchMenu_Title {
+            get {
+                return ResourceManager.GetString("MatchMenu_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Música: ON.
+        /// </summary>
+        public static string MatchMenu_Music {
+            get {
+                return ResourceManager.GetString("MatchMenu_Music", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continuar.
+        /// </summary>
+        public static string MatchMenu_Resume {
+            get {
+                return ResourceManager.GetString("MatchMenu_Resume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salir del juego.
+        /// </summary>
+        public static string MatchMenu_ExitGame {
+            get {
+                return ResourceManager.GetString("MatchMenu_ExitGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancelar.
         /// </summary>
         public static string RoomPage_Unready {

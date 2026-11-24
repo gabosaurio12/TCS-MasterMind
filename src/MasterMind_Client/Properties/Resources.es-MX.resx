@@ -519,4 +519,16 @@
   <data name="ErrorNotification_SmtpServerError" xml:space="preserve">
     <value>El servidor de correo no está disponible, por lo que no se pudo enviar el código de verificación.</value>
   </data>
+  <data name="MatchMenu_Title" xml:space="preserve">
+    <value>Menú</value>
+  </data>
+  <data name="MatchMenu_Music" xml:space="preserve">
+    <value>Música: ON</value>
+  </data>
+  <data name="MatchMenu_Resume" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="MatchMenu_ExitGame" xml:space="preserve">
+    <value>Salir del juego</value>
+  </data>
 </root>
