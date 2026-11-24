@@ -1,4 +1,5 @@
 ﻿using MasterMind_Server.Exceptions;
+using MasterMind_Server.Repositories.Dtos;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
@@ -9,7 +10,7 @@ namespace MasterMind_Server.Contracts
     {
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
-        string SendMessage(ChatMessage message);
+        ChatMessageResult SendMessage(ChatMessage message);
 
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]

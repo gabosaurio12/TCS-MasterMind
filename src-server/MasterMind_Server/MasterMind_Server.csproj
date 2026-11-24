@@ -319,6 +319,8 @@
     <Compile Include="Repositories\ClassHelpers\SecretCodeRow.cs" />
     <Compile Include="Repositories\ClassHelpers\StatusChangeContext.cs" />
     <Compile Include="Repositories\Dtos\ChatMessageResult.cs" />
+    <Compile Include="Services\ChatHelpers\ProfanityFilter.cs" />
+    <Compile Include="Services\ChatHelpers\ProfanityResult.cs" />
     <Compile Include="Repositories\Dtos\PlayerRecordsDto.cs" />
     <Compile Include="Repositories\Dtos\PlayerStatusChangeResult.cs" />
     <Compile Include="Repositories\Dtos\ReportDto.cs" />

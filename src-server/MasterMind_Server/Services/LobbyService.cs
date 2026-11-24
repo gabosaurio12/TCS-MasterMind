@@ -25,14 +25,14 @@ namespace MasterMind_Server.Services
         private readonly LobbyRepository lobbyRepository = new LobbyRepository();
         private readonly RoomRepository roomRepository = new RoomRepository();
 
-        public string SendMessage(ChatMessage message)
+        public ChatMessageResult SendMessage(ChatMessage message)
         {
             try
             {
                 var result = lobbyRepository.SendMessage(message);
                 if (!IsMessageAccepted(result.Status))
                 {
-                    return result.Status;
+                    return result;
                 }
 
                 RegisterClient(message.RoomId, message.SenderUsername);
@@ -46,7 +46,7 @@ namespace MasterMind_Server.Services
                     message.SenderUsername,
                     sendMessageCallback);
 
-                return result.Status;
+                return result;
             }
             catch (EntityException ex)
             {

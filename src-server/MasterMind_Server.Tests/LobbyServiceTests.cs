@@ -49,7 +49,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestSendMessageSuccess()
         {
-            string result = firstClient.Service.SendMessage(BuildMessage("hello"));
+            string result = firstClient.Service.SendMessage(BuildMessage("hello")).Status;
 
             Assert.That(result, Is.EqualTo(LobbyResult.MessageSent.ToString()));
         }
@@ -79,9 +79,17 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestSendMessageWithBannedWordReturnsInappropriateVocabulary()
         {
-            string result = firstClient.Service.SendMessage(BuildMessage("mierda"));
+            string result = firstClient.Service.SendMessage(BuildMessage("mierda")).Status;
 
             Assert.That(result, Is.EqualTo(LobbyResult.InappropriateVocabulary.ToString()));
+        }
+
+        [Test]
+        public void TestSendMessageWithBannedWordReturnsCensoredText()
+        {
+            string censored = firstClient.Service.SendMessage(BuildMessage("mierda")).Message;
+
+            Assert.That(censored, Is.EqualTo("******"));
         }
 
         [Test]
@@ -95,7 +103,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestSendMessageWithEmptyTextReturnsError()
         {
-            string result = firstClient.Service.SendMessage(BuildMessage(string.Empty));
+            string result = firstClient.Service.SendMessage(BuildMessage(string.Empty)).Status;
 
             Assert.That(result, Is.EqualTo(LobbyResult.Error.ToString()));
         }
@@ -103,7 +111,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestSendMessageWithTooLongTextReturnsError()
         {
-            string result = firstClient.Service.SendMessage(BuildMessage(new string('a', 201)));
+            string result = firstClient.Service.SendMessage(BuildMessage(new string('a', 201))).Status;
 
             Assert.That(result, Is.EqualTo(LobbyResult.Error.ToString()));
         }
@@ -114,7 +122,7 @@ namespace MasterMind_Server.Tests
             ChatMessage message = BuildMessage("hello");
             message.SenderUsername = TestDataFactory.CreateUniqueUsername();
 
-            string result = firstClient.Service.SendMessage(message);
+            string result = firstClient.Service.SendMessage(message).Status;
 
             Assert.That(result, Is.EqualTo(LobbyResult.Error.ToString()));
         }
@@ -125,7 +133,7 @@ namespace MasterMind_Server.Tests
             ChatMessage message = BuildMessage("hello");
             message.RoomId = int.MaxValue;
 
-            string result = firstClient.Service.SendMessage(message);
+            string result = firstClient.Service.SendMessage(message).Status;
 
             Assert.That(result, Is.EqualTo(LobbyResult.Error.ToString()));
         }

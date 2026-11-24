@@ -92,6 +92,67 @@ namespace MasterMind_Client.LobbyService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChatMessageResult", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Repositories.Dtos")]
+    [System.SerializableAttribute()]
+    public partial class ChatMessageResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string StatusField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Status {
+            get {
+                return this.StatusField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.StatusField, value) != true)) {
+                    this.StatusField = value;
+                    this.RaisePropertyChanged("Status");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
     [System.SerializableAttribute()]
     public partial class ErrorMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -234,10 +295,10 @@ namespace MasterMind_Client.LobbyService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/SendMessage", ReplyAction="http://tempuri.org/ILobbyService/SendMessageResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.LobbyService.ErrorMessage), Action="http://tempuri.org/ILobbyService/SendMessageErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
-        string SendMessage(MasterMind_Client.LobbyService.ChatMessage message);
+        MasterMind_Client.LobbyService.ChatMessageResult SendMessage(MasterMind_Client.LobbyService.ChatMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/SendMessage", ReplyAction="http://tempuri.org/ILobbyService/SendMessageResponse")]
-        System.Threading.Tasks.Task<string> SendMessageAsync(MasterMind_Client.LobbyService.ChatMessage message);
+        System.Threading.Tasks.Task<MasterMind_Client.LobbyService.ChatMessageResult> SendMessageAsync(MasterMind_Client.LobbyService.ChatMessage message);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILobbyService/ChangePlayerStatus", ReplyAction="http://tempuri.org/ILobbyService/ChangePlayerStatusResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.LobbyService.ErrorMessage), Action="http://tempuri.org/ILobbyService/ChangePlayerStatusErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
@@ -285,11 +346,11 @@ namespace MasterMind_Client.LobbyService {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public string SendMessage(MasterMind_Client.LobbyService.ChatMessage message) {
+        public MasterMind_Client.LobbyService.ChatMessageResult SendMessage(MasterMind_Client.LobbyService.ChatMessage message) {
             return base.Channel.SendMessage(message);
         }
         
-        public System.Threading.Tasks.Task<string> SendMessageAsync(MasterMind_Client.LobbyService.ChatMessage message) {
+        public System.Threading.Tasks.Task<MasterMind_Client.LobbyService.ChatMessageResult> SendMessageAsync(MasterMind_Client.LobbyService.ChatMessage message) {
             return base.Channel.SendMessageAsync(message);
         }
         

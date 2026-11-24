@@ -110,6 +110,7 @@
     <Compile Include="FriendsCallbackTests.cs" />
     <Compile Include="RoomServiceTests.cs" />
     <Compile Include="LobbyServiceTests.cs" />
+    <Compile Include="ProfanityFilterTests.cs" />
     <Compile Include="CodeServiceTests.cs" />
     <Compile Include="DbFaultClassifierTests.cs" />
     <Compile Include="AvatarServiceTests.cs" />

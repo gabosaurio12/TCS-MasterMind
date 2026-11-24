@@ -4,20 +4,17 @@ using MasterMind_Server.Data;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
+using MasterMind_Server.Services.ChatHelpers;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace MasterMind_Server.Repositories
 {
     internal class LobbyRepository : ILobbyRepository
     {
         private const int MaxMessageLength = 200;
-        private const char CensorshipCharacter = '*';
-        private static readonly string[] bannedWords = { "pendejo", "mierda", "fuck", "shit" };
-        private static readonly Regex bannedWordsRegex = BuildBannedWordsRegex();
         private readonly MasterMindEntities context = new MasterMindEntities(true);
         private readonly IPlayerRepository playerRepository = new PlayerRepository();
 
@@ -25,37 +22,24 @@ namespace MasterMind_Server.Repositories
         {
             if (!IsMessageValid(message))
             {
-                return CreateResult(LobbyResult.Error, null);
+                return CreateResult(LobbyResult.Error, string.Empty);
             }
 
             var room = GetRoomEntity(message.RoomId);
             var member = GetRoomMember(room, message.SenderUsername);
             if (member == null)
             {
-                return CreateResult(LobbyResult.Error, null);
+                return CreateResult(LobbyResult.Error, string.Empty);
             }
 
-            bool hasBannedWords;
-            var content = message.Message.Trim();
-            var censoredMessage = CensorMessage(content, out hasBannedWords);
-
-            if (hasBannedWords)
+            var filtered = ProfanityFilter.Censor(message.Message.Trim());
+            if (!filtered.HasBannedWords)
             {
-                ReportOffensiveMessage(room, member);
+                return CreateResult(LobbyResult.MessageSent, filtered.CensoredText);
             }
 
-            LobbyResult status;
-            if (hasBannedWords)
-            {
-                status = LobbyResult.InappropriateVocabulary;
-
-            }
-            else
-            {
-                status = LobbyResult.MessageSent;
-            }
-
-            return CreateResult(status, censoredMessage);
+            ReportOffensiveMessage(room, member);
+            return CreateResult(LobbyResult.InappropriateVocabulary, filtered.CensoredText);
         }
 
         private static bool IsMessageValid(ChatMessage message)
@@ -65,15 +49,6 @@ namespace MasterMind_Server.Repositories
                 && !string.IsNullOrWhiteSpace(message.SenderUsername)
                 && !string.IsNullOrWhiteSpace(message.Message)
                 && message.Message.Trim().Length <= MaxMessageLength;
-        }
-
-        private static string CensorMessage(string message, out bool hasBannedWords)
-        {
-            var censoredMessage = bannedWordsRegex.Replace(
-                message,
-                match => new string(CensorshipCharacter, match.Length));
-            hasBannedWords = !string.Equals(censoredMessage, message, StringComparison.Ordinal);
-            return censoredMessage;
         }
 
         private void ReportOffensiveMessage(MatchRoom room, RoomMemberDto member)
@@ -142,14 +117,6 @@ namespace MasterMind_Server.Repositories
                 Status = status.ToString(),
                 Message = message
             };
-        }
-
-        private static Regex BuildBannedWordsRegex()
-        {
-            var pattern = string.Join("|", bannedWords.Select(Regex.Escape));
-            return new Regex(
-                $@"\b({pattern})\b",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(500));
         }
     }
 }
