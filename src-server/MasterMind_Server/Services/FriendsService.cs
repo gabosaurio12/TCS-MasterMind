@@ -3,6 +3,7 @@ using log4net;
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Services.ErrorHelpers;
 using MasterMind_Server.Repositories.Enums;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -107,7 +108,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -122,7 +123,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -137,7 +138,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -152,7 +153,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -167,7 +168,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -188,7 +189,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -209,7 +210,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }
@@ -224,7 +225,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+                clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
                 throw new FaultException<ErrorMessage>(clientMessage);
             }
         }

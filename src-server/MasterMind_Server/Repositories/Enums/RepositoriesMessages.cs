@@ -3,6 +3,7 @@
     public enum RepositoriesMessages
     {
         Success,
+        SuccessEmailFailed,
         ValidInfo,
         UsernameTaken,
         EmailTaken,

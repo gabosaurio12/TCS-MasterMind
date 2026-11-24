@@ -33,9 +33,32 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
+        public void TestSendVerificationCodeSmtpUnreachableThrowsSmtpServerError()
+        {
+            var exception = Assert.Throws<FaultException<ErrorMessage>>(
+                () => codeService.SendVerificationCode(player.player_id));
+
+            Assert.That(exception.Detail.Message, Is.EqualTo(ErrorMessages.SmtpServerError.ToString()));
+        }
+
+        [Test]
+        public void TestSendVerificationCodeInvalidEmailThrowsSendEmailError()
+        {
+            PlayerEntity invalidEmailPlayer = TestDatabase.CreatePlayer(
+                TestDataFactory.CreateUniqueUsername(),
+                "not-an-email",
+                TestDataFactory.DefaultPassword);
+
+            var exception = Assert.Throws<FaultException<ErrorMessage>>(
+                () => codeService.SendVerificationCode(invalidEmailPlayer.player_id));
+
+            Assert.That(exception.Detail.Message, Is.EqualTo(ErrorMessages.SendEmailError.ToString()));
+        }
+
+        [Test]
         public void TestSendVerificationCodeCreatesCode()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
 
             Assert.That(TestDatabase.DoesVerificationCodeExist(player.player_id), Is.True);
         }
@@ -43,8 +66,8 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestSendVerificationCodeReplacesPreviousCode()
         {
-            codeService.SendVerificationCode(player.player_id);
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
+            SendCode(player.player_id);
 
             int result = TestDatabase.CountVerificationCodes(player.player_id);
 
@@ -54,7 +77,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeWithValidCodeReturnsTrue()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
 
             bool result = codeService.AuthVerificationCode(player.username, code);
@@ -65,7 +88,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeRemovesUsedCode()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
             codeService.AuthVerificationCode(player.username, code);
 
@@ -75,7 +98,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeWithWrongCodeReturnsFalse()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
 
             bool result = codeService.AuthVerificationCode(player.username, "99999");
 
@@ -85,7 +108,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeWithUnknownUserReturnsFalse()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
 
             bool result = codeService.AuthVerificationCode(TestDataFactory.CreateUniqueUsername(), code);
@@ -96,7 +119,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeTwiceReturnsFalse()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
             codeService.AuthVerificationCode(player.username, code);
 
@@ -108,7 +131,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeExpiredThrowsFault()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
             TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
 
@@ -119,7 +142,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeExpiredFaultMessage()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
             TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
 
@@ -132,7 +155,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeExpiredRemovesRow()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
             TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
 
@@ -145,7 +168,7 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestAuthVerificationCodeBeforeLimitReturnsTrue()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
             TestDatabase.AgeVerificationCode(player.player_id, ValidAge);
 
@@ -157,14 +180,26 @@ namespace MasterMind_Server.Tests
         [Test]
         public void TestSendVerificationCodeResetsCreatedAt()
         {
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             TestDatabase.AgeVerificationCode(player.player_id, ExpiredAge);
-            codeService.SendVerificationCode(player.player_id);
+            SendCode(player.player_id);
             string code = TestDatabase.GetVerificationCode(player.player_id);
 
             bool result = codeService.AuthVerificationCode(player.username, code);
 
             Assert.That(result, Is.True);
+        }
+
+        private void SendCode(int playerId)
+        {
+            try
+            {
+                codeService.SendVerificationCode(playerId);
+            }
+            catch (FaultException<ErrorMessage>)
+            {
+                // The test SMTP server is unreachable; the code is stored before the email is attempted.
+            }
         }
     }
 }

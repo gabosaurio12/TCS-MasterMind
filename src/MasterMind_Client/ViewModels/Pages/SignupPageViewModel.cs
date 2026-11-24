@@ -82,31 +82,17 @@ namespace MasterMind_Client.ViewModels.Pages
             try
             {
                 var service = ServiceClientFactory.CreatePlayerClient();
-                var result = service.RegisterPlayer(player);
-                switch (result)
-                {
-                    case "Success":
-                        dialogService.ShowSuccess(
-                            Properties.Resources.SuccessNotification_Register,
-                            () => ShowVerificationCode(player.Username));
-                        break;
-                    case "UsernameTaken":
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
-                        break;
-                    case "EmailTaken":
-                        dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
-                        break;
-                }
+                HandleRegisterResult(service.RegisterPlayer(player), player.Username);
             }
             catch (FaultException<PlayerService.ErrorMessage> faultException)
             {
                 logger.WarnFormat("The server rejected the registration: {0}", faultException.Detail.Message);
-                ShowServerError(faultException.Detail.Message);
+                dialogService.ShowServerError(faultException.Detail.Message);
             }
             catch (FaultException faultException)
             {
                 logger.Error("Server fault during registration", faultException);
-                ShowServerError(faultException.Message);
+                dialogService.ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
@@ -115,22 +101,33 @@ namespace MasterMind_Client.ViewModels.Pages
             }
         }
 
-
-        private void ShowServerError(string errorDetail)
+        private void HandleRegisterResult(string result, string username)
         {
-            switch (errorDetail)
+            switch (result)
             {
-                case "DataBaseError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                case "Success":
+                    dialogService.ShowSuccess(
+                        Properties.Resources.SuccessNotification_Register,
+                        () => ShowVerificationCode(username));
                     break;
-                case "HashError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+                case "SuccessEmailFailed":
+                    dialogService.ShowSuccess(
+                        Properties.Resources.SuccessNotification_Register,
+                        () => ShowVerificationCodeAfterEmailFailure(username));
                     break;
-                default:
-                    logger.WarnFormat("Unknown server error: {0}", errorDetail);
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+                case "UsernameTaken":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameTaken);
+                    break;
+                case "EmailTaken":
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_EmailTaken);
                     break;
             }
+        }
+
+        private void ShowVerificationCodeAfterEmailFailure(string username)
+        {
+            ShowVerificationCode(username);
+            dialogService.ShowError(Properties.Resources.ErrorNotification_SendEmailError);
         }
 
         private void ShowVerificationCode(string username)

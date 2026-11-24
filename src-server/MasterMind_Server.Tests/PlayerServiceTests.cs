@@ -32,13 +32,13 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
-        public void TestRegisterPlayerSuccess()
+        public void TestRegisterPlayerSmtpUnreachableReturnsSuccessEmailFailed()
         {
             PlayerContract player = TestDataFactory.CreateContractPlayer();
 
             string result = playerService.RegisterPlayer(player);
 
-            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.SuccessEmailFailed.ToString()));
         }
 
         [Test]
@@ -113,13 +113,14 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
-        public void TestLoginPlayerSuccess()
+        public void TestLoginPlayerSmtpUnreachableThrowsSmtpServerError()
         {
             PlayerEntity existingPlayer = TestDataFactory.CreatePlayer();
 
-            bool result = playerService.LoginPlayer(existingPlayer.username, TestDataFactory.DefaultPassword);
+            var exception = Assert.Throws<FaultException<ErrorMessage>>(
+                () => playerService.LoginPlayer(existingPlayer.username, TestDataFactory.DefaultPassword));
 
-            Assert.That(result, Is.True);
+            Assert.That(exception.Detail.Message, Is.EqualTo(ErrorMessages.SmtpServerError.ToString()));
         }
 
         [Test]

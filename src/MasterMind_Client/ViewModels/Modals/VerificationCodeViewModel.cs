@@ -34,24 +34,41 @@ namespace MasterMind_Client.ViewModels.Modals
         public string CodeDigit3 { get; set; }
         public string CodeDigit4 { get; set; }
 
-        private const string ExpiredCodeFault = "VerificationCodeExpired";
         private static readonly ILog logger = LogManager.GetLogger(typeof(VerificationCodeViewModel));
         private readonly string username;
         private readonly IDialogService dialogService;
 
         private void ResendCode()
         {
-            var playerService = ServiceClientFactory.CreatePlayerClient();
-            var player = playerService.GetPlayerByUsername(username);
-            if (player == null)
+            try
             {
-                dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameNotFound);
-                return;
-            }
+                var playerService = ServiceClientFactory.CreatePlayerClient();
+                var player = playerService.GetPlayerByUsername(username);
+                if (player == null)
+                {
+                    dialogService.ShowError(Properties.Resources.ErrorNotification_UsernameNotFound);
+                    return;
+                }
 
-            var codeService = ServiceClientFactory.CreateCodeClient();
-            codeService.SendVerificationCode(player.PlayerId);
-            dialogService.ShowSuccess(Properties.Resources.VerificationCodeModal_CodeResent);
+                var codeService = ServiceClientFactory.CreateCodeClient();
+                codeService.SendVerificationCode(player.PlayerId);
+                dialogService.ShowSuccess(Properties.Resources.VerificationCodeModal_CodeResent);
+            }
+            catch (FaultException<CodeService.ErrorMessage> faultException)
+            {
+                logger.Warn(faultException);
+                dialogService.ShowServerError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error(faultException);
+                dialogService.ShowServerError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error(communicationException);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
         }
 
         private void Continue()
@@ -72,23 +89,17 @@ namespace MasterMind_Client.ViewModels.Modals
             catch (FaultException<CodeService.ErrorMessage> faultException)
             {
                 logger.Warn(faultException);
-                dialogService.ShowError(GetFaultMessage(faultException.Detail.Message));
+                dialogService.ShowServerError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error(faultException);
+                dialogService.ShowServerError(faultException.Message);
             }
             catch (CommunicationException communicationException)
             {
                 logger.Error(communicationException);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
-            }
-        }
-
-        private static string GetFaultMessage(string detail)
-        {
-            switch (detail)
-            {
-                case ExpiredCodeFault:
-                    return Properties.Resources.ErrorNotification_CodeExpired;
-                default:
-                    return Properties.Resources.ErrorNotification_DatabaseError;
             }
         }
 

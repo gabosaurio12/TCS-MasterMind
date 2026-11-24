@@ -2,6 +2,8 @@
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Services.ErrorHelpers;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Data.Entity.Infrastructure;
@@ -24,12 +26,12 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -42,12 +44,12 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -60,12 +62,12 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -78,12 +80,12 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -96,12 +98,12 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -114,12 +116,12 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -132,18 +134,18 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
             {
                 logger.Error(ex);
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
-        private FaultException<ErrorMessage> BuildDatabaseFault()
+        private FaultException<ErrorMessage> BuildDatabaseFault(Exception ex)
         {
-            clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+            clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
             return new FaultException<ErrorMessage>(clientMessage);
         }
     }

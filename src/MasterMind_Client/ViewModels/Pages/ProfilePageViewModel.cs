@@ -201,7 +201,8 @@ namespace MasterMind_Client.ViewModels.Pages
                     dialogService.ShowError(Properties.Resources.ErrorNotification_AlreadyReported);
                     break;
                 case "DataBaseError":
-                    dialogService.ShowError(Properties.Resources.ErrorNotification_DatabaseError);
+                case "DbServerError":
+                    dialogService.ShowServerError(detailMessage);
                     break;
                 default:
                     dialogService.ShowError(Properties.Resources.ErrorNotification_PlayerReportedError);

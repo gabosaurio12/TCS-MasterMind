@@ -19,6 +19,9 @@
         SelfReport,
         InvalidReportReason,
         AlreadyReported,
-        VerificationCodeExpired
+        VerificationCodeExpired,
+        DbServerError,
+        SendEmailError,
+        SmtpServerError
     }
 }

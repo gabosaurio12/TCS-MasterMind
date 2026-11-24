@@ -2,6 +2,7 @@
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Services.ErrorHelpers;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using System;
@@ -47,13 +48,13 @@ namespace MasterMind_Server.Services
 
                 return result.Status;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -72,13 +73,13 @@ namespace MasterMind_Server.Services
 
                 return result.Status;
             }
-            catch (EntityException)
+            catch (EntityException ex)
             {
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                throw BuildDatabaseFault();
+                throw BuildDatabaseFault(ex);
             }
         }
 
@@ -219,9 +220,9 @@ namespace MasterMind_Server.Services
             roomClientsByRoom.TryRemove(roomId, out removedRoom);
         }
 
-        private FaultException<ErrorMessage> BuildDatabaseFault()
+        private FaultException<ErrorMessage> BuildDatabaseFault(Exception ex)
         {
-            clientMessage.Message = ErrorMessages.DataBaseError.ToString();
+            clientMessage.Message = DbFaultClassifier.Classify(ex).ToString();
             return new FaultException<ErrorMessage>(clientMessage);
         }
     }

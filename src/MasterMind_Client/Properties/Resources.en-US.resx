@@ -507,4 +507,13 @@
   <data name="ProfilePage_ReportReasonCheating" xml:space="preserve">
     <value>Cheating</value>
   </data>
+  <data name="ErrorNotification_DbServerError" xml:space="preserve">
+    <value>The database server is unavailable. Try again later.</value>
+  </data>
+  <data name="ErrorNotification_SendEmailError" xml:space="preserve">
+    <value>The verification code could not be sent to your email. Use the resend code option.</value>
+  </data>
+  <data name="ErrorNotification_SmtpServerError" xml:space="preserve">
+    <value>The mail server is unavailable, so the verification code could not be sent.</value>
+  </data>
 </root>

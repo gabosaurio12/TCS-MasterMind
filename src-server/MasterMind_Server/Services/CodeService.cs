@@ -3,7 +3,9 @@ using log4net;
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Services.ErrorHelpers;
 using System;
+using System.IO;
 using System.Data.Entity.Core;
 using System.Net;
 using System.Net.Mail;
@@ -30,11 +32,7 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                var clientMessage = new ErrorMessage
-                {
-                    Message = ErrorMessages.DataBaseError.ToString()
-                };
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
             }
             
         }
@@ -54,27 +52,61 @@ namespace MasterMind_Server.Services
             catch (EntityException ex)
             {
                 logger.Error(ex);
-                var clientMessage = new ErrorMessage
-                {
-                    Message = ErrorMessages.DataBaseError.ToString()
-                };
-                throw new FaultException<ErrorMessage>(clientMessage);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
             }
         }
 
         private static void SendEmail(string email, string code)
         {
-            Env.Load();
-            MailAddress to = new MailAddress(email);
-            MailAddress from = new MailAddress(Environment.GetEnvironmentVariable("SMTP_SENDER"));
+            using (MailMessage emailMessage = BuildMessage(email, code))
+            using (SmtpClient smtp = BuildSmtpClient())
+            {
+                try
+                {
+                    smtp.Send(emailMessage);
+                }
+                catch (SmtpFailedRecipientException ex)
+                {
+                    logger.Warn(ex);
+                    throw BuildFault(ErrorMessages.SendEmailError);
+                }
+                catch (SmtpException ex)
+                {
+                    logger.Error(ex);
+                    throw BuildFault(ErrorMessages.SmtpServerError);
+                }
+            }
+        }
 
-            MailMessage emailMessage = new MailMessage(from, to)
+        private static MailMessage BuildMessage(string email, string code)
+        {
+            MailAddress to = ParseRecipient(email);
+            MailAddress from = ReadSmtpSetting(
+                () => new MailAddress(Environment.GetEnvironmentVariable("SMTP_SENDER")));
+
+            return new MailMessage(from, to)
             {
                 Subject = "Verification Code!",
                 Body = code
             };
+        }
 
-            SmtpClient smtp = new SmtpClient()
+        private static MailAddress ParseRecipient(string email)
+        {
+            try
+            {
+                return new MailAddress(email);
+            }
+            catch (FormatException ex)
+            {
+                logger.Warn(ex);
+                throw BuildFault(ErrorMessages.SendEmailError);
+            }
+        }
+
+        private static SmtpClient BuildSmtpClient()
+        {
+            return ReadSmtpSetting(() => new SmtpClient()
             {
                 Host = Environment.GetEnvironmentVariable("SMTP_SERVER"),
                 Port = int.Parse(Environment.GetEnvironmentVariable("SMTP_PORT")),
@@ -84,16 +116,26 @@ namespace MasterMind_Server.Services
                     Environment.GetEnvironmentVariable("SMTP_KEY")),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true
-            };
+            });
+        }
 
+        private static T ReadSmtpSetting<T>(Func<T> build)
+        {
             try
             {
-                smtp.Send(emailMessage);
+                Env.Load();
+                return build();
             }
-            catch (SmtpException ex)
+            catch (Exception ex) when (ex is ArgumentException || ex is FormatException || ex is IOException)
             {
-                logger.Error(ex);
+                logger.Error("The SMTP configuration is missing or invalid.", ex);
+                throw BuildFault(ErrorMessages.SmtpServerError);
             }
+        }
+
+        private static FaultException<ErrorMessage> BuildFault(ErrorMessages reason)
+        {
+            return new FaultException<ErrorMessage>(new ErrorMessage { Message = reason.ToString() });
         }
     }
 }

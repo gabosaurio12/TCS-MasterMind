@@ -507,4 +507,13 @@
   <data name="ProfilePage_ReportReasonCheating" xml:space="preserve">
     <value>Trampas</value>
   </data>
+  <data name="ErrorNotification_DbServerError" xml:space="preserve">
+    <value>El servidor de base de datos no está disponible. Intenta más tarde.</value>
+  </data>
+  <data name="ErrorNotification_SendEmailError" xml:space="preserve">
+    <value>No se pudo enviar el código de verificación a tu correo. Usa la opción de reenviar el código.</value>
+  </data>
+  <data name="ErrorNotification_SmtpServerError" xml:space="preserve">
+    <value>El servidor de correo no está disponible, por lo que no se pudo enviar el código de verificación.</value>
+  </data>
 </root>
