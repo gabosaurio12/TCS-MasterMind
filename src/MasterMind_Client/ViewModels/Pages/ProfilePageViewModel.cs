@@ -100,19 +100,50 @@ namespace MasterMind_Client.ViewModels.Pages
 
         private void SetRecords()
         {
-            var records = playerService.GetPlayerRecords(Username);
-            int rankCounter = 1;
-            foreach (var tries in records.TimeTrialRecords)
+            try
             {
-                BestTimes.Add(string.Concat(rankCounter.ToString(), ") ", tries.ToString()));
-                rankCounter++;
+                var records = playerService.GetPlayerRecords(Username);
+                CurrentPlayer.Instance.SetCachedRecords(records);
+                FillRecords(records);
+            }
+            catch (FaultException<ErrorMessage> ex)
+            {
+                logger.WarnFormat("The server rejected the records request: {0}", ex.Detail.Message);
+                dialogService.ShowServerError(ex.Detail.Message);
+            }
+            catch (FaultException ex)
+            {
+                logger.Error(ex);
+                dialogService.ShowServerError(ex.Message);
+            }
+            catch (CommunicationException ex)
+            {
+                logger.Error(ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+            catch (TimeoutException ex)
+            {
+                logger.Error(ex);
+                dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
+            }
+        }
+
+        private void FillRecords(PlayerRecords records)
+        {
+            FillRecordList(BestTimes, records.TimeTrialRecords);
+            FillRecordList(LeastTries, records.TriesRecords);
+        }
+
+        private static void FillRecordList(ObservableCollection<string> target, int[] values)
+        {
+            if (values == null)
+            {
+                return;
             }
 
-            rankCounter = 1;
-            foreach (var tries in records.TriesRecords)
+            for (int index = 0; index < values.Length; index++)
             {
-                LeastTries.Add(string.Concat(rankCounter.ToString(), ") ", tries.ToString()));
-                rankCounter++;
+                target.Add(string.Concat((index + 1).ToString(), ") ", values[index].ToString()));
             }
         }
 

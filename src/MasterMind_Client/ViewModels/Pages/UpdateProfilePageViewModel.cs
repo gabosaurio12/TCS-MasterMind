@@ -34,6 +34,8 @@ namespace MasterMind_Client.ViewModels.Pages
         private ImageSource avatarPreview;
         private byte[] pendingAvatarBytes = Array.Empty<byte>();
         private bool isSaving;
+        private string bestTimeText = string.Empty;
+        private string leastTriesText = string.Empty;
 
         public UpdateProfilePageViewModel(INavigationService navigationService, IDialogService dialogService)
         {
@@ -45,6 +47,7 @@ namespace MasterMind_Client.ViewModels.Pages
             username = CurrentPlayer.Instance.Username;
             email = CurrentPlayer.Instance.Email;
             avatarPreview = CurrentPlayer.Instance.Avatar ?? AvatarLoader.GetDefaultAvatar();
+            SetRecords();
             _ = LoadCurrentAvatarAsync();
         }
 
@@ -66,15 +69,40 @@ namespace MasterMind_Client.ViewModels.Pages
             private set { SetProperty(ref this.avatarPreview, value); }
         }
 
-        public string BestTimeText { get; } = "";
+        public string BestTimeText
+        {
+            get { return this.bestTimeText; }
+            private set { SetProperty(ref this.bestTimeText, value); }
+        }
 
-        public string LeastTriesText { get; } = "";
+        public string LeastTriesText
+        {
+            get { return this.leastTriesText; }
+            private set { SetProperty(ref this.leastTriesText, value); }
+        }
 
         public RelayCommand SaveCommand { get; }
 
         public RelayCommand CancelCommand { get; }
 
         public RelayCommand ChooseAvatarCommand { get; }
+
+        private void SetRecords()
+        {
+            var records = CurrentPlayer.Instance.CachedRecords;
+            if (records == null)
+            {
+                return;
+            }
+
+            BestTimeText = GetBestValue(records.TimeTrialRecords);
+            LeastTriesText = GetBestValue(records.TriesRecords);
+        }
+
+        private static string GetBestValue(int[] values)
+        {
+            return values != null && values.Length > 0 ? values[0].ToString() : string.Empty;
+        }
 
         private async Task LoadCurrentAvatarAsync()
         {
@@ -199,17 +227,17 @@ namespace MasterMind_Client.ViewModels.Pages
             }
             catch (FaultException ex)
             {
-                logger.Error("Server fault during profile update", ex);
+                logger.Error(ex);
                 dialogService.ShowServerError(ex.Message);
             }
             catch (CommunicationException ex)
             {
-                logger.Error("Communication failure during profile update", ex);
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_ServerDisconnected);
             }
             catch (TimeoutException ex)
             {
-                logger.Error("Timeout during profile update", ex);
+                logger.Error(ex);
                 dialogService.ShowError(Properties.Resources.ErrorNotification_Timeout);
             }
 

@@ -343,10 +343,12 @@
     <Compile Include="Repositories\Interfaces\ILobbyRepository.cs" />
     <Compile Include="Repositories\Interfaces\IMatchRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPlayerRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IRecordsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRoomRepository.cs" />
     <Compile Include="Repositories\LobbyRepository.cs" />
     <Compile Include="Repositories\MatchRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\RecordsRepository.cs" />
     <Compile Include="Repositories\RoomRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
     <Compile Include="Services\AvatarHelpers\AvatarImageProcessor.cs" />

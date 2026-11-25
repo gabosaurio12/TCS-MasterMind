@@ -121,6 +121,7 @@
     <Compile Include="MatchServiceTests.cs" />
     <Compile Include="MatchCallbackTests.cs" />
     <Compile Include="SecretCodeGeneratorTests.cs" />
+    <Compile Include="RecordsRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
