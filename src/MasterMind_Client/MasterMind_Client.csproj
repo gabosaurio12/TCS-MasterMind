@@ -694,25 +694,25 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\PlayerService\PlayerService.wsdl" />
-    <None Include="Connected Services\RoomService\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\RoomService\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\RoomService\item2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\RoomService\item3.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\RoomService\MasterMind_Client.RoomService.Room.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\RoomService\MasterMind_Client.RoomService.RoomCreationResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\RoomService\RoomService.wsdl" />
+    <None Include="Connected Services\RoomService\MasterMind_Server.Contracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\RoomService\MasterMind_Server.Exceptions.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\RoomService\service.wsdl" />
+    <None Include="Connected Services\RoomService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\RoomService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -756,7 +756,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Connected Services\RoomService\item.disco" />
     <None Include="Connected Services\RoomService\configuration91.svcinfo" />
     <None Include="Connected Services\RoomService\configuration.svcinfo" />
     <None Include="Connected Services\RoomService\Reference.svcmap">

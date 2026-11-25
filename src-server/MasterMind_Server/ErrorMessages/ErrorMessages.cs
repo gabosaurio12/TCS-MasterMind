@@ -22,6 +22,9 @@
         VerificationCodeExpired,
         DbServerError,
         SendEmailError,
-        SmtpServerError
+        SmtpServerError,
+        NotFriends,
+        RoomFull,
+        NotRoomMember
     }
 }

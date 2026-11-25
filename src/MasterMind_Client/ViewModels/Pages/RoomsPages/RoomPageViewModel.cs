@@ -98,6 +98,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         public RelayCommand SendCommand { get; }
 
+        public RelayCommand InviteCommand { get; }
+
         private string roomTitle;
         private string roomCode;
         private string messageText = string.Empty;
@@ -133,6 +135,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             ReadyCommand = new RelayCommand(_ => { SetReady(); MaybeStartCountdown(); });
             UnreadyCommand = new RelayCommand(_ => { SetUnready(); StopCountdown(); });
             EscapeCommand = new RelayCommand(_ => ExecuteEscapeCommand());
+            InviteCommand = new RelayCommand(_ => dialogService.ShowFriends(currentRoomId));
             SendCommand = new RelayCommand(_ => SendMessage(), _ => HasMessageText() && !IsCountdownActive);
 
             countdownTimer = new DispatcherTimer
@@ -305,7 +308,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
         private static PlayerSlotViewModel CreateEmptySlot()
         {
-            return new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot);
+            return new PlayerSlotViewModel(Properties.Resources.RoomPage_EmptySlot, true);
         }
 
         private PlayerSlotViewModel CreateOpponentSlot(string username)
