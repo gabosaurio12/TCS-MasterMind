@@ -135,7 +135,8 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             ReadyCommand = new RelayCommand(_ => { SetReady(); MaybeStartCountdown(); });
             UnreadyCommand = new RelayCommand(_ => { SetUnready(); StopCountdown(); });
             EscapeCommand = new RelayCommand(_ => ExecuteEscapeCommand());
-            InviteCommand = new RelayCommand(_ => dialogService.ShowFriends(currentRoomId));
+            InviteCommand = new RelayCommand(
+                _ => dialogService.ShowFriends(currentRoomId), _ => !CurrentPlayer.Instance.IsGuest);
             SendCommand = new RelayCommand(_ => SendMessage(), _ => HasMessageText() && !IsCountdownActive);
 
             countdownTimer = new DispatcherTimer

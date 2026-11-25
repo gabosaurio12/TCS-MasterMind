@@ -25,6 +25,7 @@
         SmtpServerError,
         NotFriends,
         RoomFull,
-        NotRoomMember
+        NotRoomMember,
+        GuestCannotReport
     }
 }

@@ -76,6 +76,7 @@
           <Property Name="avatar_path" Type="nvarchar" MaxLength="500" />
           <Property Name="is_online" Type="tinyint" />
           <Property Name="blocked_until" Type="datetime2" Precision="7" />
+          <Property Name="is_guest" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PlayerInMatch">
           <Key>
@@ -751,6 +752,7 @@
           <Property Name="avatar_path" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="is_online" Type="Byte" />
           <Property Name="blocked_until" Type="DateTime" Precision="7" />
+          <Property Name="is_guest" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Friendship" Relationship="Self.FK__Friendshi__addre__160F4887" FromRole="Player" ToRole="Friendship" />
           <NavigationProperty Name="Friendship1" Relationship="Self.FK__Friendshi__reque__151B244E" FromRole="Player" ToRole="Friendship" />
           <NavigationProperty Name="GameInvitation" Relationship="Self.FK__GameInvit__addre__18EBB532" FromRole="Player" ToRole="GameInvitation" />
@@ -1443,6 +1445,7 @@
                 <ScalarProperty Name="avatar_path" ColumnName="avatar_path" />
                 <ScalarProperty Name="is_online" ColumnName="is_online" />
                 <ScalarProperty Name="blocked_until" ColumnName="blocked_until" />
+                <ScalarProperty Name="is_guest" ColumnName="is_guest" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

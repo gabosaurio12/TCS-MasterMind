@@ -15,6 +15,8 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public RelayCommand ExitCommand { get; }
 
+        public bool IsRegisteredPlayer { get; } = !CurrentPlayer.Instance.IsGuest;
+
         public RelayCommand LanguageCommand { get; }
 
         private readonly INavigationService navigationService;

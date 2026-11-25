@@ -270,7 +270,7 @@ namespace MasterMind_Server.Repositories
 
         public string SendFriendRequest(int addresseeId, int requesterId)
         {
-            if (addresseeId == requesterId)
+            if (addresseeId == requesterId || IsAnyGuest(addresseeId, requesterId))
             {
                 return RepositoriesMessages.Error.ToString();
             }
@@ -311,6 +311,12 @@ namespace MasterMind_Server.Repositories
             }
 
             return RepositoriesMessages.Error.ToString();
+        }
+
+        private bool IsAnyGuest(int firstPlayerId, int secondPlayerId)
+        {
+            return Context.Player.Any(p => (p.player_id == firstPlayerId || p.player_id == secondPlayerId)
+                && p.is_guest);
         }
 
         public string AcceptFriendRequest(int requestId)

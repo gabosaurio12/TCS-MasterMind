@@ -327,6 +327,9 @@
     <Compile Include="Modals\YouWonTriesModal.xaml.cs">
       <DependentUpon>YouWonTriesModal.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modals\GuestNameModal.xaml.cs">
+      <DependentUpon>GuestNameModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modals\LogOutModal.xaml.cs">
       <DependentUpon>LogOutModal.xaml</DependentUpon>
     </Compile>
@@ -385,6 +388,8 @@
     </Compile>
     <Compile Include="Helpers\UtilsUI.cs" />
     <Compile Include="Helpers\PasswordValidator.cs" />
+    <Compile Include="Helpers\UsernameValidator.cs" />
+    <Compile Include="ViewModels\Modals\GuestNameViewModel.cs" />
     <Compile Include="AvatarManagement\AvatarImageCompressor.cs" />
     <Compile Include="AvatarManagement\AvatarCache.cs" />
     <Compile Include="AvatarManagement\AvatarZone.cs" />
@@ -448,6 +453,10 @@
     <Page Include="Modals\MatchMenuModal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modals\GuestNameModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modals\LogOutModal.xaml">
       <SubType>Designer</SubType>
@@ -656,19 +665,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\MatchService\MatchService.wsdl" />
-    <None Include="Connected Services\PlayerService\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerService\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerService\item2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerService\item3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerService\item4.xsd">
+    <None Include="Connected Services\PlayerService\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\PlayerService\MasterMind_Client.PlayerService.Player.datasource">
@@ -693,7 +690,19 @@
     <None Include="Connected Services\AvatarService\MasterMind_Client.AvatarService.AvatarImage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\PlayerService\PlayerService.wsdl" />
+    <None Include="Connected Services\PlayerService\MasterMind_Server.Contracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\MasterMind_Server.Exceptions.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\service.wsdl" />
+    <None Include="Connected Services\PlayerService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\RoomService\MasterMind_Client.RoomService.Room.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -728,7 +737,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Elements\DecipheringMachine.png" />
-    <None Include="Connected Services\PlayerService\item.disco" />
     <None Include="Connected Services\AvatarService\item.disco" />
     <None Include="Connected Services\AvatarService\configuration91.svcinfo" />
     <None Include="Connected Services\AvatarService\configuration.svcinfo" />

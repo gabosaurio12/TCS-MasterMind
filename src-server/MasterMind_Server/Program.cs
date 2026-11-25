@@ -1,5 +1,6 @@
 ﻿using log4net;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Services.GuestHelpers;
 using MasterMind_Server.Services.Network;
 using System;
 using System.Data.Entity.Core;
@@ -21,6 +22,7 @@ namespace MasterMind_Server
         {
             log4net.Config.XmlConfigurator.Configure();
             ResetOnlineStatuses();
+            PurgeGuests();
             IPAddress serverAddress = ServerAddressProvider.Resolve();
             List<ServiceHost> hosts = CreateHosts(serverAddress);
 
@@ -51,6 +53,18 @@ namespace MasterMind_Server
             catch (EntityException ex)
             {
                 logger.Error("Could not reset the online status of the players.", ex);
+            }
+        }
+
+        private static void PurgeGuests()
+        {
+            try
+            {
+                new GuestRemover().PurgeOffline();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error("Could not purge the offline guests.", ex);
             }
         }
 

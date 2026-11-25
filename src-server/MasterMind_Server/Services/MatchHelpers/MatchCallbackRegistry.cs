@@ -31,6 +31,12 @@ namespace MasterMind_Server.Services.MatchHelpers
                 .Remove(new KeyValuePair<string, IMatchCallbackService>(username, callback));
         }
 
+        public static void Remove(string username)
+        {
+            IMatchCallbackService removedCallback;
+            callbacksByUser.TryRemove(username, out removedCallback);
+        }
+
         public static void StartMatch(int roomId)
         {
             matchesByRoom[roomId] = new MatchState();

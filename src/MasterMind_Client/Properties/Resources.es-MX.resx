@@ -543,4 +543,13 @@
   <data name="SuccessNotification_InvitationSent" xml:space="preserve">
     <value>¡Invitación enviada por correo con éxito!</value>
   </data>
+  <data name="LoginPage_Guest" xml:space="preserve">
+    <value>Jugar como invitado</value>
+  </data>
+  <data name="GuestModal_Title" xml:space="preserve">
+    <value>Entrar como invitado</value>
+  </data>
+  <data name="GuestModal_Play" xml:space="preserve">
+    <value>Jugar</value>
+  </data>
 </root>

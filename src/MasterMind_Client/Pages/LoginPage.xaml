@@ -77,7 +77,13 @@
                         Content="{x:Static p:Resources.LoginPage_Login}"
                         Command="{Binding LoginCommand}" />
 
-                <StackPanel HorizontalAlignment="Center" Margin="0,36,0,0">
+                <Button x:Name="GuestBtn" Style="{StaticResource MetalButtonBlue}"
+                        FontFamily="{StaticResource Elite}" FontSize="30"
+                        Width="420" Height="80" Margin="0,24,0,0"
+                        Content="{x:Static p:Resources.LoginPage_Guest}"
+                        Command="{Binding GuestCommand}" />
+
+                <StackPanel HorizontalAlignment="Center" Margin="0,26,0,0">
                     <Label x:Name="AccountQuestionLbl" Content="{x:Static p:Resources.LoginPage_AccountQuestion}"
                            FontFamily="{StaticResource Elite}" FontSize="38"
                            Foreground="{StaticResource CreamBrush}"

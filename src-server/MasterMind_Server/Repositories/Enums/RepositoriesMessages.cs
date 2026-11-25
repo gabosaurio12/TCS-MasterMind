@@ -15,6 +15,7 @@
         FriendshipAccepted,
         SelfReport,
         InvalidReportReason,
-        AlreadyReported
+        AlreadyReported,
+        InvalidGuestName
     }
 }

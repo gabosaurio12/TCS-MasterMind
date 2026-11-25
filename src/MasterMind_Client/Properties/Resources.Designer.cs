@@ -565,6 +565,33 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jugar como invitado.
+        /// </summary>
+        public static string LoginPage_Guest {
+            get {
+                return ResourceManager.GetString("LoginPage_Guest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entrar como invitado.
+        /// </summary>
+        public static string GuestModal_Title {
+            get {
+                return ResourceManager.GetString("GuestModal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jugar.
+        /// </summary>
+        public static string GuestModal_Play {
+            get {
+                return ResourceManager.GetString("GuestModal_Play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registrate.
         /// </summary>
         public static string LoginPage_SignupLink {

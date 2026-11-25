@@ -418,6 +418,20 @@ namespace MasterMind_Client.PlayerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/SetOnlineStatus", ReplyAction="http://tempuri.org/IPlayerService/SetOnlineStatusResponse")]
         System.Threading.Tasks.Task<string> SetOnlineStatusAsync(int playerId, bool isOnline);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/CreateGuest", ReplyAction="http://tempuri.org/IPlayerService/CreateGuestResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/CreateGuestErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        string CreateGuest(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/CreateGuest", ReplyAction="http://tempuri.org/IPlayerService/CreateGuestResponse")]
+        System.Threading.Tasks.Task<string> CreateGuestAsync(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/DeleteGuest", ReplyAction="http://tempuri.org/IPlayerService/DeleteGuestResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/DeleteGuestErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void DeleteGuest(int playerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/DeleteGuest", ReplyAction="http://tempuri.org/IPlayerService/DeleteGuestResponse")]
+        System.Threading.Tasks.Task DeleteGuestAsync(int playerId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -517,6 +531,22 @@ namespace MasterMind_Client.PlayerService {
         
         public System.Threading.Tasks.Task<string> SetOnlineStatusAsync(int playerId, bool isOnline) {
             return base.Channel.SetOnlineStatusAsync(playerId, isOnline);
+        }
+        
+        public string CreateGuest(string username) {
+            return base.Channel.CreateGuest(username);
+        }
+        
+        public System.Threading.Tasks.Task<string> CreateGuestAsync(string username) {
+            return base.Channel.CreateGuestAsync(username);
+        }
+        
+        public void DeleteGuest(int playerId) {
+            base.Channel.DeleteGuest(playerId);
+        }
+        
+        public System.Threading.Tasks.Task DeleteGuestAsync(int playerId) {
+            return base.Channel.DeleteGuestAsync(playerId);
         }
     }
 }

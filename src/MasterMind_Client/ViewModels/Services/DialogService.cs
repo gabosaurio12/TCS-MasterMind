@@ -114,6 +114,20 @@ namespace MasterMind_Client.ViewModels.Services
             modal.Show();
         }
 
+        public void ShowGuestName(Action guestEntered)
+        {
+            var modal = new GuestNameModal();
+            var viewModel = new GuestNameViewModel(this);
+            modal.DataContext = viewModel;
+            viewModel.CloseRequested += (sender, e) => modal.Close();
+            viewModel.GuestEntered += (sender, e) =>
+            {
+                modal.Close();
+                guestEntered?.Invoke();
+            };
+            modal.Show();
+        }
+
         public void ShowFriends()
         {
             ShowFriends(FriendsViewModel.NoRoom);

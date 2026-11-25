@@ -4,6 +4,7 @@ using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -189,6 +190,81 @@ namespace MasterMind_Server.Repositories
                 }
 
                 context.SaveChanges();
+            }
+        }
+
+        public string CreateGuest(string username)
+        {
+            if (!GuestNamePolicy.IsValid(username))
+            {
+                return RepositoriesMessages.InvalidGuestName.ToString();
+            }
+
+            using (var context = new MasterMindEntities(true))
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                if (context.Player.Any(p => p.username == username))
+                {
+                    return RepositoriesMessages.UsernameTaken.ToString();
+                }
+
+                context.Player.Add(GuestNamePolicy.BuildGuest(username, OnlineValue));
+                context.SaveChanges();
+                transaction.Commit();
+
+                return RepositoriesMessages.Success.ToString();
+            }
+        }
+
+        public string DeleteGuest(int playerId)
+        {
+            using (var context = new MasterMindEntities(true))
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                var guest = context.Player.FirstOrDefault(p => p.player_id == playerId && p.is_guest);
+                if (guest == null)
+                {
+                    return RepositoriesMessages.PlayerNotFound.ToString();
+                }
+
+                var reports = context.PlayerReport.Where(
+                    r => r.reported_player_id == playerId || r.reported_by_player_id == playerId);
+                context.PlayerReport.RemoveRange(reports);
+                context.Player.Remove(guest);
+                context.SaveChanges();
+                transaction.Commit();
+
+                return RepositoriesMessages.Success.ToString();
+            }
+        }
+
+        public bool IsGuest(string username)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                return context.Player.Any(p => p.username == username && p.is_guest);
+            }
+        }
+
+        public string GetGuestUsername(int playerId)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                return context.Player
+                    .Where(p => p.player_id == playerId && p.is_guest)
+                    .Select(p => p.username)
+                    .FirstOrDefault();
+            }
+        }
+
+        public List<int> GetOfflineGuestIds()
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                return context.Player
+                    .Where(p => p.is_guest && p.is_online != OnlineValue)
+                    .Select(p => p.player_id)
+                    .ToList();
             }
         }
 

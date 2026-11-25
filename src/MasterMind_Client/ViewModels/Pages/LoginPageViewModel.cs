@@ -27,6 +27,8 @@ namespace MasterMind_Client.ViewModels.Pages
 
         public RelayCommand SignupCommand { get; }
 
+        public RelayCommand GuestCommand { get; }
+
         public RelayCommand LanguageCommand { get; }
 
         private readonly INavigationService navigationService;
@@ -39,6 +41,7 @@ namespace MasterMind_Client.ViewModels.Pages
             this.dialogService = dialogService;
             LoginCommand = new RelayCommand(async _ => await Login());
             SignupCommand = new RelayCommand(_ => NavigateTo("Pages/SignupPage.xaml"));
+            GuestCommand = new RelayCommand(_ => dialogService.ShowGuestName(OnGuestEntered));
             LanguageCommand = new RelayCommand(_ => ChangeLanguage());
         }
 
@@ -139,6 +142,11 @@ namespace MasterMind_Client.ViewModels.Pages
 
             Properties.Settings.Default.Save();
             navigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void OnGuestEntered()
+        {
+            NavigateTo("Pages/MainPage.xaml");
         }
 
         private void NavigateTo(string uri)

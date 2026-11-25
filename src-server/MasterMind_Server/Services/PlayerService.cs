@@ -4,6 +4,7 @@ using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
 using MasterMind_Server.Services.ErrorHelpers;
+using MasterMind_Server.Services.GuestHelpers;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using System.Data.Entity.Core;
@@ -70,7 +71,7 @@ namespace MasterMind_Server.Services
         {
             var playerService = new PlayerService();
             var player = playerService.GetPlayerByUsername(username);
-            if (player.PlayerId != 0)
+            if (player.PlayerId != 0 && !playerRepository.IsGuest(username))
             {
                 try
                 {
@@ -233,6 +234,11 @@ namespace MasterMind_Server.Services
                 throw BuildFault(ErrorMessages.InvalidReportReason);
             }
 
+            if (playerRepository.IsGuest(report.ReportedByPlayerUsername))
+            {
+                throw BuildFault(ErrorMessages.GuestCannotReport);
+            }
+
             var reportDto = new ReportDto
             {
                 ReportedPlayerUsername = report.ReportedPlayerUsername,
@@ -264,6 +270,38 @@ namespace MasterMind_Server.Services
                 }
 
                 return result;
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
+            }
+        }
+
+        public string CreateGuest(string username)
+        {
+            try
+            {
+                new GuestRemover().PurgeOffline();
+
+                return playerRepository.CreateGuest(username?.Trim());
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
+            }
+        }
+
+        public void DeleteGuest(int playerId)
+        {
+            try
+            {
+                var result = new GuestRemover().Remove(playerId);
+                if (result == RepositoriesMessages.PlayerNotFound.ToString())
+                {
+                    throw BuildFault(ErrorMessages.PlayerNotFound);
+                }
             }
             catch (EntityException ex)
             {
