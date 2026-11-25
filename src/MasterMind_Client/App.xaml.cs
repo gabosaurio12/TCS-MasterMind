@@ -71,6 +71,7 @@ namespace MasterMind_Client
 
         protected override void OnExit(ExitEventArgs e)
         {
+            CurrentPlayer.Instance.RegisterOffline();
             AvatarCache.ClearSession();
             base.OnExit(e);
         }

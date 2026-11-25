@@ -25,5 +25,9 @@ namespace MasterMind_Server.Repositories.Interfaces
         string UpdateAvatarPath(int playerId, string fileName);
 
         string ReportPlayer(ReportDto report);
+
+        string UpdateOnlineStatus(int playerId, bool isOnline);
+
+        void ResetAllOnlineStatus();
     }
 }

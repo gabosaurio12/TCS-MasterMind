@@ -81,7 +81,8 @@ namespace MasterMind_Server.Repositories
                 PlayerId = player.player_id,
                 Username = player.username,
                 Email = player.email,
-                AvatarPath = player.avatar_path
+                AvatarPath = player.avatar_path,
+                IsOnline = player.is_online == PlayerRepository.OnlineValue
             };
         }
 
@@ -141,7 +142,8 @@ namespace MasterMind_Server.Repositories
                         PlayerId = friendEntity.player_id,
                         Username = friendEntity.username,
                         Email = friendEntity.email,
-                        AvatarPath = friendEntity.avatar_path
+                        AvatarPath = friendEntity.avatar_path,
+                        IsOnline = friendEntity.is_online == PlayerRepository.OnlineValue
                     };
 
                     friends.Add(friend);

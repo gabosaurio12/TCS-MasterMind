@@ -11,6 +11,8 @@ namespace MasterMind_Server.Repositories
 {
     internal class PlayerRepository : IPlayerRepository
     {
+        internal const byte OnlineValue = 1;
+        private const byte OfflineValue = 0;
         private const int NoReasonId = 0;
 
         private readonly MasterMindEntities Context = new MasterMindEntities(true);
@@ -155,6 +157,39 @@ namespace MasterMind_Server.Repositories
             Context.SaveChanges();
 
             return RepositoriesMessages.Success.ToString();
+        }
+
+        public string UpdateOnlineStatus(int playerId, bool isOnline)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                var player = context.Player.FirstOrDefault(p => p.player_id == playerId);
+
+                if (player == null)
+                {
+                    return RepositoriesMessages.PlayerNotFound.ToString();
+                }
+
+                player.is_online = isOnline ? OnlineValue : OfflineValue;
+                context.SaveChanges();
+
+                return RepositoriesMessages.Success.ToString();
+            }
+        }
+
+        public void ResetAllOnlineStatus()
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                var onlinePlayers = context.Player.Where(p => p.is_online == OnlineValue).ToList();
+
+                foreach (var player in onlinePlayers)
+                {
+                    player.is_online = OfflineValue;
+                }
+
+                context.SaveChanges();
+            }
         }
 
         public string ReportPlayer(ReportDto report)

@@ -37,10 +37,10 @@ namespace MasterMind_Client.ViewModels.UserControls
         {
             Username = username;
             CanInvite = canInvite;
-            OnlineBrush = UtilsUI.OfflineGray;
             RemoveCommand = new RelayCommand(_ => Removed?.Invoke(this, EventArgs.Empty));
             InviteCommand = new RelayCommand(_ => Invited?.Invoke(this, EventArgs.Empty));
             var player = ServiceClientFactory.CreatePlayerClient().GetPlayerByUsername(username);
+            OnlineBrush = UtilsUI.GetOnlineBrush(player.IsOnline);
             _ = LoadAvatarAsync(player);
         }
 

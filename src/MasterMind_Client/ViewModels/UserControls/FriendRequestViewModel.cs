@@ -36,7 +36,7 @@ namespace MasterMind_Client.ViewModels.UserControls
         {
             Username = requester.Username;
             Request = request;
-            OnlineBrush = UtilsUI.OfflineGray;
+            OnlineBrush = UtilsUI.GetOnlineBrush(requester.IsOnline);
             AcceptCommand = new RelayCommand(_ => Accepted?.Invoke(this, Request));
             RejectCommand = new RelayCommand(_ => Rejected?.Invoke(this, Request));
             _ = LoadAvatarAsync(requester);

@@ -27,6 +27,7 @@ namespace MasterMind_Client.ViewModels.Pages
             FriendsCommand = new RelayCommand(_ => dialogService.ShowFriends());
             ExitCommand = new RelayCommand(_ => dialogService.ShowLogOut());
             LanguageCommand = new RelayCommand(_ => ChangeLanguage());
+            _ = CurrentPlayer.Instance.RegisterOnlineAsync();
         }
 
         private void NavigateTo(string uri)

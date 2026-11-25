@@ -37,6 +37,10 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         void ReportPlayer(Report report);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        string SetOnlineStatus(int playerId, bool isOnline);
     }
 
     [DataContract]

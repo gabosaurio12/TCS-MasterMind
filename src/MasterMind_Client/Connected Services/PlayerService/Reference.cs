@@ -411,6 +411,13 @@ namespace MasterMind_Client.PlayerService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/ReportPlayer", ReplyAction="http://tempuri.org/IPlayerService/ReportPlayerResponse")]
         System.Threading.Tasks.Task ReportPlayerAsync(MasterMind_Client.PlayerService.Report report);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/SetOnlineStatus", ReplyAction="http://tempuri.org/IPlayerService/SetOnlineStatusResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.PlayerService.ErrorMessage), Action="http://tempuri.org/IPlayerService/SetOnlineStatusErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        string SetOnlineStatus(int playerId, bool isOnline);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerService/SetOnlineStatus", ReplyAction="http://tempuri.org/IPlayerService/SetOnlineStatusResponse")]
+        System.Threading.Tasks.Task<string> SetOnlineStatusAsync(int playerId, bool isOnline);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -502,6 +509,14 @@ namespace MasterMind_Client.PlayerService {
         
         public System.Threading.Tasks.Task ReportPlayerAsync(MasterMind_Client.PlayerService.Report report) {
             return base.Channel.ReportPlayerAsync(report);
+        }
+        
+        public string SetOnlineStatus(int playerId, bool isOnline) {
+            return base.Channel.SetOnlineStatus(playerId, isOnline);
+        }
+        
+        public System.Threading.Tasks.Task<string> SetOnlineStatusAsync(int playerId, bool isOnline) {
+            return base.Channel.SetOnlineStatusAsync(playerId, isOnline);
         }
     }
 }
