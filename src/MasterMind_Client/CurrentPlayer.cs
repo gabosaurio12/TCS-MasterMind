@@ -1,10 +1,17 @@
-﻿using MasterMind_Client.PlayerService;
+﻿using log4net;
+using MasterMind_Client.PlayerService;
+using MasterMind_Client.ServerEndpoints;
+using System;
+using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace MasterMind_Client
 {
     public sealed class CurrentPlayer
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(CurrentPlayer));
+        private static readonly TimeSpan OnlineStatusTimeout = TimeSpan.FromSeconds(3);
         private static CurrentPlayer instance;
         public static CurrentPlayer Instance
         {
@@ -23,6 +30,7 @@ namespace MasterMind_Client
         public string Email { get; private set; }
         public ImageSource Avatar { get; private set; }
         public string AvatarPath { get; private set; }
+        public bool IsOnlineRegistered { get; private set; }
 
         private CurrentPlayer()
         {
@@ -39,6 +47,58 @@ namespace MasterMind_Client
             }
 
             AvatarPath = player.AvatarPath;
+        }
+
+        public async Task RegisterOnlineAsync()
+        {
+            if (IsOnlineRegistered)
+            {
+                return;
+            }
+
+            IsOnlineRegistered = true;
+
+            try
+            {
+                await CreateOnlineStatusClient().SetOnlineStatusAsync(Id, true);
+            }
+            catch (Exception ex) when (IsServiceException(ex))
+            {
+                IsOnlineRegistered = false;
+                logger.Error("Could not register the player as online.", ex);
+            }
+        }
+
+        public void RegisterOffline()
+        {
+            if (!IsOnlineRegistered)
+            {
+                return;
+            }
+
+            IsOnlineRegistered = false;
+
+            try
+            {
+                CreateOnlineStatusClient().SetOnlineStatus(Id, false);
+            }
+            catch (Exception ex) when (IsServiceException(ex))
+            {
+                logger.Error("Could not register the player as offline.", ex);
+            }
+        }
+
+        private static PlayerServiceClient CreateOnlineStatusClient()
+        {
+            var client = ServiceClientFactory.CreatePlayerClient();
+            client.InnerChannel.OperationTimeout = OnlineStatusTimeout;
+
+            return client;
+        }
+
+        private static bool IsServiceException(Exception ex)
+        {
+            return ex is FaultException || ex is CommunicationException || ex is TimeoutException;
         }
 
         public void SetAvatar(ImageSource avatar, string avatarPath)

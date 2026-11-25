@@ -6,6 +6,8 @@ namespace MasterMind_Client.Helpers
 {
     public static class UtilsUI
     {
+        public static readonly SolidColorBrush OnlineGreen =
+            new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3FBF4F"));
         public static readonly SolidColorBrush OfflineGray = 
             new SolidColorBrush((Color) ColorConverter.ConvertFromString("#929292"));
         public static readonly SolidColorBrush PressedBlue =
@@ -24,6 +26,11 @@ namespace MasterMind_Client.Helpers
             new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D9C22A"));
         public static readonly SolidColorBrush UnpressedOrange = 
             new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D97C2A"));
+
+        public static Brush GetOnlineBrush(bool isOnline)
+        {
+            return isOnline ? OnlineGreen : OfflineGray;
+        }
 
         public static void ToggleLanguage()
         {

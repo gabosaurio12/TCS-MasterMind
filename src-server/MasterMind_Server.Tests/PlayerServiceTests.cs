@@ -1,6 +1,7 @@
 ﻿using MasterMind_Server.Contracts;
 using MasterMind_Server.Data;
 using MasterMind_Server.Exceptions;
+using MasterMind_Server.Repositories;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Services;
 using MasterMind_Server.Tests.TestSupport;
@@ -102,6 +103,69 @@ namespace MasterMind_Server.Tests
             PlayerContract result = playerService.GetPlayerById(existingPlayer.player_id);
 
             Assert.That(result.Username, Is.EqualTo(existingPlayer.username));
+        }
+
+        [Test]
+        public void TestSetOnlineStatusTrueReturnsSuccess()
+        {
+            PlayerEntity player = TestDataFactory.CreatePlayer();
+
+            string result = playerService.SetOnlineStatus(player.player_id, true);
+
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
+        }
+
+        [Test]
+        public void TestSetOnlineStatusTrueGetPlayerByIdIsOnline()
+        {
+            PlayerEntity player = TestDataFactory.CreatePlayer();
+            playerService.SetOnlineStatus(player.player_id, true);
+
+            PlayerContract result = playerService.GetPlayerById(player.player_id);
+
+            Assert.That(result.IsOnline, Is.True);
+        }
+
+        [Test]
+        public void TestSetOnlineStatusFalseGetPlayerByIdIsOffline()
+        {
+            PlayerEntity player = TestDataFactory.CreatePlayer();
+            playerService.SetOnlineStatus(player.player_id, true);
+            playerService.SetOnlineStatus(player.player_id, false);
+
+            PlayerContract result = playerService.GetPlayerById(player.player_id);
+
+            Assert.That(result.IsOnline, Is.False);
+        }
+
+        [Test]
+        public void TestGetPlayerByIdNullOnlineStatusIsOffline()
+        {
+            PlayerEntity player = TestDataFactory.CreatePlayer();
+
+            PlayerContract result = playerService.GetPlayerById(player.player_id);
+
+            Assert.That(result.IsOnline, Is.False);
+        }
+
+        [Test]
+        public void TestSetOnlineStatusNotFoundPlayerNotFound()
+        {
+            var exception = Assert.Throws<FaultException<ErrorMessage>>(
+                () => playerService.SetOnlineStatus(TestDataFactory.InvalidPlayerId, true));
+
+            Assert.That(exception.Detail.Message, Is.EqualTo(ErrorMessages.PlayerNotFound.ToString()));
+        }
+
+        [Test]
+        public void TestResetAllOnlineStatusSetsPlayerOffline()
+        {
+            PlayerEntity player = TestDataFactory.CreatePlayer();
+            playerService.SetOnlineStatus(player.player_id, true);
+
+            new PlayerRepository().ResetAllOnlineStatus();
+
+            Assert.That(playerService.GetPlayerById(player.player_id).IsOnline, Is.False);
         }
 
         [Test]

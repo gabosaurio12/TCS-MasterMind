@@ -110,7 +110,8 @@ namespace MasterMind_Server.Services
                         Username = playerEntity.username,
                         Email = playerEntity.email,
                         Password = playerEntity.password,
-                        AvatarPath = playerEntity.avatar_path
+                        AvatarPath = playerEntity.avatar_path,
+                        IsOnline = playerEntity.is_online == PlayerRepository.OnlineValue
                     };
                     return player;
                 }
@@ -144,7 +145,8 @@ namespace MasterMind_Server.Services
                         Username = playerEntity.username,
                         Email = playerEntity.email,
                         Password = playerEntity.password,
-                        AvatarPath = playerEntity.avatar_path
+                        AvatarPath = playerEntity.avatar_path,
+                        IsOnline = playerEntity.is_online == PlayerRepository.OnlineValue
                     };
                     return player;
                 }
@@ -242,6 +244,26 @@ namespace MasterMind_Server.Services
             {
                 var result = playerRepository.ReportPlayer(reportDto);
                 ThrowIfReportRejected(result);
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
+            }
+        }
+
+        public string SetOnlineStatus(int playerId, bool isOnline)
+        {
+            try
+            {
+                var result = playerRepository.UpdateOnlineStatus(playerId, isOnline);
+
+                if (result == RepositoriesMessages.PlayerNotFound.ToString())
+                {
+                    throw BuildFault(ErrorMessages.PlayerNotFound);
+                }
+
+                return result;
             }
             catch (EntityException ex)
             {

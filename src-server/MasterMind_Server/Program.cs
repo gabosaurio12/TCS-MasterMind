@@ -1,6 +1,8 @@
 ﻿using log4net;
+using MasterMind_Server.Repositories;
 using MasterMind_Server.Services.Network;
 using System;
+using System.Data.Entity.Core;
 using System.Collections.Generic;
 using System.Net;
 using System.ServiceModel;
@@ -18,6 +20,7 @@ namespace MasterMind_Server
         static void Main(string[] args)
         {
             log4net.Config.XmlConfigurator.Configure();
+            ResetOnlineStatuses();
             IPAddress serverAddress = ServerAddressProvider.Resolve();
             List<ServiceHost> hosts = CreateHosts(serverAddress);
 
@@ -37,6 +40,18 @@ namespace MasterMind_Server
             }
 
             logger.Info("Server is closed");
+        }
+
+        private static void ResetOnlineStatuses()
+        {
+            try
+            {
+                new PlayerRepository().ResetAllOnlineStatus();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error("Could not reset the online status of the players.", ex);
+            }
         }
 
         private static List<ServiceHost> CreateHosts(IPAddress serverAddress)

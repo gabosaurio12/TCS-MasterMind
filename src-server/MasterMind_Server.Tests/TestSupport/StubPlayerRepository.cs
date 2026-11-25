@@ -51,5 +51,15 @@ namespace MasterMind_Server.Tests.TestSupport
         {
             return innerRepository.ReportPlayer(report);
         }
+
+        public string UpdateOnlineStatus(int playerId, bool isOnline)
+        {
+            return innerRepository.UpdateOnlineStatus(playerId, isOnline);
+        }
+
+        public void ResetAllOnlineStatus()
+        {
+            innerRepository.ResetAllOnlineStatus();
+        }
     }
 }
