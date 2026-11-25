@@ -32,6 +32,7 @@ namespace MasterMind_Client
         public string AvatarPath { get; private set; }
         public bool IsOnlineRegistered { get; private set; }
         public bool IsGuest { get; private set; }
+        public PlayerRecords CachedRecords { get; private set; }
 
         private CurrentPlayer()
         {
@@ -134,6 +135,11 @@ namespace MasterMind_Client
         {
             Avatar = avatar;
             AvatarPath = avatarPath;
+        }
+
+        public void SetCachedRecords(PlayerRecords records)
+        {
+            CachedRecords = records;
         }
     }
 }

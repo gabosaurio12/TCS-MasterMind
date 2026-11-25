@@ -83,14 +83,14 @@ namespace MasterMind_Server.Repositories
             if (player != null)
             {
                 var triesRecords = Context.PlayerTriesRecords
-                    .Where(tr => tr.player_id == player.player_id)
+                    .Where(tr => tr.player_id == player.player_id && tr.tries_record.HasValue)
                     .OrderBy(gr => gr.rank)
-                    .Select(gr => gr.rank)
+                    .Select(gr => gr.tries_record.Value)
                     .ToArray();
                 var timeTrialRecords = Context.PlayerTimeTrialRecords
-                    .Where(gr => gr.player_id == player.player_id)
+                    .Where(gr => gr.player_id == player.player_id && gr.time_record.HasValue)
                     .OrderBy(gr => gr.rank)
-                    .Select(gr => gr.rank)
+                    .Select(gr => gr.time_record.Value)
                     .ToArray();
 
                 return new PlayerRecordsDto

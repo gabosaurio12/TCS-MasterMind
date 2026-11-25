@@ -42,9 +42,9 @@ namespace MasterMind_Server.Services.MatchHelpers
             matchesByRoom[roomId] = new MatchState();
         }
 
-        public static void ApplyRoundOutcome(int roomId, RoundResult result)
+        public static IReadOnlyDictionary<string, int> ApplyRoundOutcome(int roomId, RoundResult result)
         {
-            matchesByRoom.GetOrAdd(roomId, key => new MatchState()).Apply(result);
+            return matchesByRoom.GetOrAdd(roomId, key => new MatchState()).Apply(result);
         }
 
         public static void OpenRound(int roomId)

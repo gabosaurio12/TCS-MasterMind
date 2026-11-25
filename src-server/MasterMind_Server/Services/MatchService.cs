@@ -8,6 +8,7 @@ using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
 using MasterMind_Server.Services.MatchHelpers;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
@@ -20,6 +21,7 @@ namespace MasterMind_Server.Services
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(MatchService));
         private readonly IMatchRepository matchRepository = new MatchRepository();
+        private readonly IRecordsRepository recordsRepository = new RecordsRepository();
 
         public string UpdateCode(string username)
         {
@@ -206,8 +208,12 @@ namespace MasterMind_Server.Services
 
         private void ResolveRound(MatchParticipation participation, string username, RoundResult result)
         {
-            MatchCallbackRegistry.ApplyRoundOutcome(participation.RoomId, result);
-            if (!result.IsMatchOver)
+            var bestTries = MatchCallbackRegistry.ApplyRoundOutcome(participation.RoomId, result);
+            if (result.IsMatchOver)
+            {
+                SaveRecords(bestTries);
+            }
+            else
             {
                 matchRepository.SaveSecretCode(participation.RoomId, SecretCodeGenerator.Generate());
                 MatchCallbackRegistry.OpenRound(participation.RoomId);
@@ -216,6 +222,26 @@ namespace MasterMind_Server.Services
             MatchCallbackRegistry.Notify(username, callback => callback.OnRoundResolvedCallback(result));
             MatchCallbackRegistry.Notify(
                 participation.OpponentUsername, callback => callback.OnRoundResolvedCallback(result));
+        }
+
+        private void SaveRecords(IReadOnlyDictionary<string, int> bestTries)
+        {
+            try
+            {
+                recordsRepository.SaveTriesRecords(bestTries);
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+            }
+            catch (DbUpdateException ex)
+            {
+                logger.Error(ex);
+            }
+            catch (SqlException ex)
+            {
+                logger.Error(ex);
+            }
         }
 
         private void NotifyAbandonment(string username)
