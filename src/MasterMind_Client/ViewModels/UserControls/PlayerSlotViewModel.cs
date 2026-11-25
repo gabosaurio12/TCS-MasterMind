@@ -12,6 +12,11 @@ namespace MasterMind_Client.ViewModels.UserControls
             Username = username;
         }
 
+        public PlayerSlotViewModel(string username, bool isEmpty) : this(username)
+        {
+            IsEmpty = isEmpty;
+        }
+
         public PlayerSlotViewModel(string username, int playerId, string avatarPath) : this(username)
         {
             _ = LoadAvatarAsync(playerId, avatarPath);
@@ -23,6 +28,8 @@ namespace MasterMind_Client.ViewModels.UserControls
         }
 
         public string Username { get; }
+
+        public bool IsEmpty { get; }
 
         public ImageSource Avatar
         {

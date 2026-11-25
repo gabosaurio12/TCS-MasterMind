@@ -2,6 +2,7 @@
 using MasterMind_Server.Contracts;
 using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories;
+using MasterMind_Server.Services.EmailHelpers;
 using MasterMind_Server.Services.ErrorHelpers;
 using System;
 using System.Collections.Generic;
@@ -137,6 +138,29 @@ namespace MasterMind_Server.Services
                 throw BuildDatabaseFault(ex);
             }
             catch (DbUpdateException ex)
+            {
+                logger.Error(ex);
+                throw BuildDatabaseFault(ex);
+            }
+        }
+
+        public void InviteFriendToRoom(int roomId, string inviterUsername, string friendUsername)
+        {
+            try
+            {
+                var invitation = roomRepository.GetRoomInvitation(roomId, inviterUsername, friendUsername);
+                EmailSender.Send(
+                    invitation.FriendEmail,
+                    InvitationEmailBuilder.Subject,
+                    InvitationEmailBuilder.BuildBody(invitation));
+            }
+            catch (InvalidOperationException ex)
+            {
+                logger.Warn(ex);
+                clientMessage.Message = ex.Message;
+                throw new FaultException<ErrorMessage>(clientMessage);
+            }
+            catch (EntityException ex)
             {
                 logger.Error(ex);
                 throw BuildDatabaseFault(ex);

@@ -531,4 +531,16 @@
   <data name="MatchMenu_ExitGame" xml:space="preserve">
     <value>Salir del juego</value>
   </data>
+  <data name="ErrorNotification_NotFriends" xml:space="preserve">
+    <value>Solo puedes invitar a tus amigos.</value>
+  </data>
+  <data name="ErrorNotification_PlayerAlreadyJoined" xml:space="preserve">
+    <value>El jugador ya se unió a la sala.</value>
+  </data>
+  <data name="ErrorNotification_InvitationNotSent" xml:space="preserve">
+    <value>No se pudo enviar la invitación. Intenta de nuevo más tarde.</value>
+  </data>
+  <data name="SuccessNotification_InvitationSent" xml:space="preserve">
+    <value>¡Invitación enviada por correo con éxito!</value>
+  </data>
 </root>

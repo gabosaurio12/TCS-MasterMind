@@ -7,6 +7,10 @@
              mc:Ignorable="d"
              d:DesignHeight="120" d:DesignWidth="560">
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
@@ -38,7 +42,9 @@
         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
 
             <Button x:Name="InviteBtn" Style="{StaticResource MetalButtonPlus}"
-                    Width="45" Height="45" Padding="0" />
+                    Width="45" Height="45" Padding="0"
+                    Command="{Binding InviteCommand}"
+                    Visibility="{Binding CanInvite, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
             <Button x:Name="RemoveFriend" Style="{StaticResource MetalButtonMinus}"
                     Width="45" Height="45" Padding="0" Margin="16,0,0,0"

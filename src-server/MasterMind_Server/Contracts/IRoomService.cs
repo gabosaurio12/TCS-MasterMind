@@ -35,6 +35,10 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         Room GetRoomByCode(string code);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        void InviteFriendToRoom(int roomId, string inviterUsername, string friendUsername);
     }
 
     [DataContract]

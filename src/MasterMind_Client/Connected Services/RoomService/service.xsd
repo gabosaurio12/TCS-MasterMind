@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8086/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" />
   <xs:element name="GetPublicRooms">
     <xs:complexType>
       <xs:sequence />
@@ -98,6 +98,20 @@
       <xs:sequence>
         <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts" minOccurs="0" name="GetRoomByCodeResult" nillable="true" type="q8:Room" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InviteFriendToRoom">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="roomId" type="xs:int" />
+        <xs:element minOccurs="0" name="inviterUsername" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="friendUsername" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InviteFriendToRoomResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

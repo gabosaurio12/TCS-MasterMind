@@ -328,6 +328,13 @@ namespace MasterMind_Client.RoomService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoomService/GetRoomByCode", ReplyAction="http://tempuri.org/IRoomService/GetRoomByCodeResponse")]
         System.Threading.Tasks.Task<MasterMind_Client.RoomService.Room> GetRoomByCodeAsync(string code);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoomService/InviteFriendToRoom", ReplyAction="http://tempuri.org/IRoomService/InviteFriendToRoomResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.RoomService.ErrorMessage), Action="http://tempuri.org/IRoomService/InviteFriendToRoomErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void InviteFriendToRoom(int roomId, string inviterUsername, string friendUsername);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRoomService/InviteFriendToRoom", ReplyAction="http://tempuri.org/IRoomService/InviteFriendToRoomResponse")]
+        System.Threading.Tasks.Task InviteFriendToRoomAsync(int roomId, string inviterUsername, string friendUsername);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -411,6 +418,14 @@ namespace MasterMind_Client.RoomService {
         
         public System.Threading.Tasks.Task<MasterMind_Client.RoomService.Room> GetRoomByCodeAsync(string code) {
             return base.Channel.GetRoomByCodeAsync(code);
+        }
+        
+        public void InviteFriendToRoom(int roomId, string inviterUsername, string friendUsername) {
+            base.Channel.InviteFriendToRoom(roomId, inviterUsername, friendUsername);
+        }
+        
+        public System.Threading.Tasks.Task InviteFriendToRoomAsync(int roomId, string inviterUsername, string friendUsername) {
+            return base.Channel.InviteFriendToRoomAsync(roomId, inviterUsername, friendUsername);
         }
     }
 }

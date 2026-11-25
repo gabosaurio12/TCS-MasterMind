@@ -19,15 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8086" Protocol="http" SourceId="1" />
+    <MetadataSource Address="net.tcp://192.168.100.15:8087/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="4bc04d86-50f6-451c-af46-22bcda8c62be" SourceId="1" SourceUrl="http://localhost:8086/?disco" />
-    <MetadataFile FileName="RoomService.wsdl" MetadataType="Wsdl" ID="7c4cf17a-3738-49a2-ac6b-0de52d522035" SourceId="1" SourceUrl="http://localhost:8086/?wsdl" />
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="14a33d20-8c3f-4424-a4b7-fcd329e0048d" SourceId="1" SourceUrl="http://localhost:8086/?xsd=xsd0" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="5c69cede-c021-40b6-86e1-1caee9d92d21" SourceId="1" SourceUrl="http://localhost:8086/?xsd=xsd1" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="398d9413-5476-4826-bb6f-82081fbf69a5" SourceId="1" SourceUrl="http://localhost:8086/?xsd=xsd2" />
-    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="5c176ac4-13fd-47f9-a0fb-b5cb4b6dd7fb" SourceId="1" SourceUrl="http://localhost:8086/?xsd=xsd3" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="bddadbdd-7240-490f-90bc-7ea7ec19b5f7" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8087/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="ccd49098-98ef-4fdb-b144-23e4385fb56b" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8087/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="19f8d46b-b1b9-4117-868c-3eb2b607c6c0" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8087/mex" />
+    <MetadataFile FileName="MasterMind_Server.Contracts.xsd" MetadataType="Schema" ID="9046a3a9-f907-40db-9554-8d96f4ce26bc" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8087/mex" />
+    <MetadataFile FileName="MasterMind_Server.Exceptions.xsd" MetadataType="Schema" ID="aac210c5-424c-4890-a122-92955bcd75a9" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8087/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -20,6 +20,8 @@ namespace MasterMind_Server.Repositories.Interfaces
 
         Room GetRoomByCode(string code);
 
+        RoomInvitationDto GetRoomInvitation(int roomId, string inviterUsername, string friendUsername);
+
         PlayerStatusChangeResult ChangePlayerStatus(PlayerStatus status);
     }
 }

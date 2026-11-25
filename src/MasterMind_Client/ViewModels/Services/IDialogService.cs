@@ -23,6 +23,8 @@ namespace MasterMind_Client.ViewModels.Services
 
         void ShowFriends();
 
+        void ShowFriends(int roomId);
+
         void ShowFriendRequests();
 
         void ShowLogOut();

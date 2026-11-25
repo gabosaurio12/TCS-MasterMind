@@ -1301,5 +1301,40 @@ namespace MasterMind_Client.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Solo puedes invitar a tus amigos..
+        /// </summary>
+        public static string ErrorNotification_NotFriends {
+            get {
+                return ResourceManager.GetString("ErrorNotification_NotFriends", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El jugador ya se unió a la sala..
+        /// </summary>
+        public static string ErrorNotification_PlayerAlreadyJoined {
+            get {
+                return ResourceManager.GetString("ErrorNotification_PlayerAlreadyJoined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No se pudo enviar la invitación. Intenta de nuevo más tarde..
+        /// </summary>
+        public static string ErrorNotification_InvitationNotSent {
+            get {
+                return ResourceManager.GetString("ErrorNotification_InvitationNotSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¡Invitación enviada por correo con éxito!.
+        /// </summary>
+        public static string SuccessNotification_InvitationSent {
+            get {
+                return ResourceManager.GetString("SuccessNotification_InvitationSent", resourceCulture);
+            }
+        }
     }
 }

@@ -33,7 +33,10 @@ namespace MasterMind_Client.ViewModels.Services
                 { "VerificationCodeExpired", () => Properties.Resources.ErrorNotification_CodeExpired },
                 { "InvalidImage", () => Properties.Resources.ErrorNotification_InvalidImage },
                 { "ImageTooLarge", () => Properties.Resources.ErrorNotification_ImageTooLarge },
-                { "ImageProcessingError", () => Properties.Resources.ErrorNotification_AvatarNotSaved }
+                { "ImageProcessingError", () => Properties.Resources.ErrorNotification_AvatarNotSaved },
+                { "NotFriends", () => Properties.Resources.ErrorNotification_NotFriends },
+                { "RoomFull", () => Properties.Resources.ErrorNotification_PlayerAlreadyJoined },
+                { "NotRoomMember", () => Properties.Resources.ErrorNotification_InvitationNotSent }
             };
 
         public void ShowError(string message)
@@ -113,8 +116,13 @@ namespace MasterMind_Client.ViewModels.Services
 
         public void ShowFriends()
         {
+            ShowFriends(FriendsViewModel.NoRoom);
+        }
+
+        public void ShowFriends(int roomId)
+        {
             var modal = new FriendsModal();
-            var viewModel = new FriendsViewModel(this);
+            var viewModel = new FriendsViewModel(this, roomId);
             modal.DataContext = viewModel;
             viewModel.CloseRequested += (sender, e) => modal.Close();
             Present(modal);

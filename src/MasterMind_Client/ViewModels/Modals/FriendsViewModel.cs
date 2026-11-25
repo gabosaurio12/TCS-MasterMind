@@ -20,6 +20,8 @@ namespace MasterMind_Client.ViewModels.Modals
 
         public ObservableCollection<FriendViewModel> Friends { get; }
 
+        public const int NoRoom = 0;
+
         public RelayCommand CloseCommand { get; }
 
         public RelayCommand FriendRequestsCommand { get; }
@@ -28,11 +30,20 @@ namespace MasterMind_Client.ViewModels.Modals
 
         private readonly FriendsServiceClient friendService;
 
+        private readonly int roomId;
+
         private bool disposed;
 
-        public FriendsViewModel(IDialogService dialogService)
+        private bool isInviting;
+
+        public FriendsViewModel(IDialogService dialogService) : this(dialogService, NoRoom)
+        {
+        }
+
+        public FriendsViewModel(IDialogService dialogService, int roomId)
         {
             this.dialogService = dialogService;
+            this.roomId = roomId;
 
             InstanceContext instanceContext = new InstanceContext(this);
             friendService = ServiceClientFactory.CreateFriendsClient(instanceContext);
@@ -51,8 +62,9 @@ namespace MasterMind_Client.ViewModels.Modals
                 var friends = friendService.GetFriendships(CurrentPlayer.Instance.Id);
                 foreach (var friend in friends)
                 {
-                    var friendVm = new FriendViewModel(friend.Username);
+                    var friendVm = new FriendViewModel(friend.Username, roomId != NoRoom);
                     friendVm.Removed += OnFriendRemoved;
+                    friendVm.Invited += OnFriendInvited;
                     Friends.Add(friendVm);
                 }
             }
@@ -107,6 +119,7 @@ namespace MasterMind_Client.ViewModels.Modals
             foreach (var friendVm in Friends)
             {
                 friendVm.Removed -= OnFriendRemoved;
+                friendVm.Invited -= OnFriendInvited;
             }
 
             Friends.Clear();
@@ -137,6 +150,7 @@ namespace MasterMind_Client.ViewModels.Modals
             foreach (var friendVm in Friends)
             {
                 friendVm.Removed -= OnFriendRemoved;
+                friendVm.Invited -= OnFriendInvited;
             }
 
             CloseChannel();
@@ -192,6 +206,44 @@ namespace MasterMind_Client.ViewModels.Modals
             {
                 logger.Error(communicationException);
                 dialogService.ShowServerError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+        }
+
+        private void OnFriendInvited(object sender, EventArgs e)
+        {
+            var friendVm = sender as FriendViewModel;
+            if (friendVm == null || isInviting)
+            {
+                return;
+            }
+
+            isInviting = true;
+            var roomClient = ServiceClientFactory.CreateRoomClient();
+            try
+            {
+                roomClient.InviteFriendToRoom(roomId, CurrentPlayer.Instance.Username, friendVm.Username);
+                roomClient.Close();
+                dialogService.ShowSuccess(Properties.Resources.SuccessNotification_InvitationSent);
+            }
+            catch (FaultException<RoomService.ErrorMessage> faultException)
+            {
+                logger.Error(faultException);
+                dialogService.ShowServerError(faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error(faultException);
+                dialogService.ShowServerError(faultException.Message);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error(communicationException);
+                dialogService.ShowServerError(Properties.Resources.ErrorNotification_ServerDisconnected);
+            }
+            finally
+            {
+                roomClient.Abort();
+                isInviting = false;
             }
         }
     }

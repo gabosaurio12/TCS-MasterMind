@@ -23,15 +23,23 @@ namespace MasterMind_Client.ViewModels.UserControls
 
         public Brush OnlineBrush { get; }
 
+        public bool CanInvite { get; }
+
         public RelayCommand RemoveCommand { get; }
+
+        public RelayCommand InviteCommand { get; }
 
         public event EventHandler Removed;
 
-        public FriendViewModel(string username)
+        public event EventHandler Invited;
+
+        public FriendViewModel(string username, bool canInvite = false)
         {
             Username = username;
+            CanInvite = canInvite;
             OnlineBrush = UtilsUI.OfflineGray;
             RemoveCommand = new RelayCommand(_ => Removed?.Invoke(this, EventArgs.Empty));
+            InviteCommand = new RelayCommand(_ => Invited?.Invoke(this, EventArgs.Empty));
             var player = ServiceClientFactory.CreatePlayerClient().GetPlayerByUsername(username);
             _ = LoadAvatarAsync(player);
         }

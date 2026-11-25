@@ -1,5 +1,6 @@
 ﻿using MasterMind_Server.Contracts;
 using MasterMind_Server.Data;
+using MasterMind_Server.Exceptions;
 using MasterMind_Server.Repositories.ClassHelpers;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
@@ -109,7 +110,7 @@ namespace MasterMind_Server.Repositories
             {
                 var roomEntity = GetRoomEntityByName(dbContext, room.Name, true);
                 var player = playerRepository.GetPlayerByUsername(username);
-                if (roomEntity == null || player == null || IsPublic(roomEntity))
+                if (roomEntity == null || player == null)
                 {
                     return RoomResult.Error.ToString();
                 }
@@ -150,6 +151,54 @@ namespace MasterMind_Server.Repositories
                     ? new Room { RoomId = 0 }
                     : RoomEntityToContract(roomEntity);
             }
+        }
+
+        public RoomInvitationDto GetRoomInvitation(int roomId, string inviterUsername, string friendUsername)
+        {
+            using (var dbContext = new MasterMindEntities(true))
+            {
+                var roomEntity = GetRoomEntityById(dbContext, roomId, false)
+                    ?? throw BuildInvitationError(ErrorMessages.RoomNotFound);
+                var inviter = playerRepository.GetPlayerByUsername(inviterUsername)
+                    ?? throw BuildInvitationError(ErrorMessages.PlayerNotFound);
+                var friend = playerRepository.GetPlayerByUsername(friendUsername)
+                    ?? throw BuildInvitationError(ErrorMessages.PlayerNotFound);
+
+                if (roomEntity.player_one_id != inviter.player_id && roomEntity.player_two_id != inviter.player_id)
+                {
+                    throw BuildInvitationError(ErrorMessages.NotRoomMember);
+                }
+                if (roomEntity.player_two_id.HasValue)
+                {
+                    throw BuildInvitationError(ErrorMessages.RoomFull);
+                }
+                if (!AreFriends(dbContext, inviter.player_id, friend.player_id))
+                {
+                    throw BuildInvitationError(ErrorMessages.NotFriends);
+                }
+
+                return new RoomInvitationDto
+                {
+                    FriendEmail = friend.email,
+                    InviterUsername = inviter.username,
+                    RoomName = roomEntity.match_room_name,
+                    RoomCode = roomEntity.room_code
+                };
+            }
+        }
+
+        private static bool AreFriends(MasterMindEntities dbContext, int firstId, int secondId)
+        {
+            var accepted = FriendshipStatus.Accepted.ToString();
+            return dbContext.Friendship.Any(friendship =>
+                friendship.RequestStatusCatalog.status == accepted
+                && ((friendship.requester_id == firstId && friendship.addressee_id == secondId)
+                    || (friendship.requester_id == secondId && friendship.addressee_id == firstId)));
+        }
+
+        private static InvalidOperationException BuildInvitationError(ErrorMessages reason)
+        {
+            return new InvalidOperationException(reason.ToString());
         }
 
         public Room GetRoomByCode(string code)
@@ -209,7 +258,7 @@ namespace MasterMind_Server.Repositories
                 }
 
                 var roomEntity = BuildRoomEntity(dbContext, data);
-                if (data.Privacy == RoomPrivacy.Private && roomEntity.room_code == null)
+                if (roomEntity.room_code == null)
                 {
                     return CreateEmptyRoomResult(RoomResult.Error);
                 }
@@ -619,9 +668,7 @@ namespace MasterMind_Server.Repositories
             }
 
             var roomCode = code.Trim();
-            var roomEntity = RoomsForQuery(dbContext, false).FirstOrDefault(room => room.room_code == roomCode);
-
-            return roomEntity != null && !IsPublic(roomEntity) ? roomEntity : null;
+            return RoomsForQuery(dbContext, false).FirstOrDefault(room => room.room_code == roomCode);
         }
 
         private Room RoomEntityToContract(MatchRoom room)
