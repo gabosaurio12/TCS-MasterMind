@@ -113,6 +113,9 @@
     <Compile Include="ProfanityFilterTests.cs" />
     <Compile Include="CodeServiceTests.cs" />
     <Compile Include="DbFaultClassifierTests.cs" />
+    <Compile Include="EmailTemplateReaderTests.cs" />
+    <Compile Include="InvitationEmailBuilderTests.cs" />
+    <Compile Include="VerificationEmailBuilderTests.cs" />
     <Compile Include="AvatarServiceTests.cs" />
     <Compile Include="ClueCalculatorTests.cs" />
     <Compile Include="MatchServiceTests.cs" />
@@ -126,6 +129,10 @@
       <Link>.env</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="..\MasterMind_Server\Emails\email_template.html">
+      <Link>Emails\email_template.html</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MasterMind_Server\MasterMind_Server.csproj">

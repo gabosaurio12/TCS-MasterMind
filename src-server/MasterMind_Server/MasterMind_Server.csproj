@@ -351,8 +351,11 @@
     <Compile Include="Services\AvatarHelpers\AvatarStorage.cs" />
     <Compile Include="Services\AvatarService.cs" />
     <Compile Include="Services\CodeService.cs" />
+    <Compile Include="Services\EmailHelpers\EmailContent.cs" />
     <Compile Include="Services\EmailHelpers\EmailSender.cs" />
+    <Compile Include="Services\EmailHelpers\EmailTemplateReader.cs" />
     <Compile Include="Services\EmailHelpers\InvitationEmailBuilder.cs" />
+    <Compile Include="Services\EmailHelpers\VerificationEmailBuilder.cs" />
     <Compile Include="Services\ErrorHelpers\DbFaultClassifier.cs" />
     <Compile Include="Services\Network\ServerAddressProvider.cs" />
     <Compile Include="Services\Network\ServicePorts.cs" />
@@ -374,6 +377,9 @@
     </None>
     <None Include=".env.example" />
     <None Include="App.config" />
+    <Content Include="Emails\email_template.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Data\MasterMindModel.Context.Custom.cs" />
     <EntityDeploy Include="Data\MasterMindModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

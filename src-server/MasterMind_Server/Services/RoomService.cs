@@ -151,8 +151,7 @@ namespace MasterMind_Server.Services
                 var invitation = roomRepository.GetRoomInvitation(roomId, inviterUsername, friendUsername);
                 EmailSender.Send(
                     invitation.FriendEmail,
-                    InvitationEmailBuilder.Subject,
-                    InvitationEmailBuilder.BuildBody(invitation));
+                    InvitationEmailBuilder.Build(invitation));
             }
             catch (InvalidOperationException ex)
             {

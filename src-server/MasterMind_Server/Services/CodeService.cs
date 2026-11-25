@@ -13,7 +13,6 @@ namespace MasterMind_Server.Services
     internal class CodeService : ICodeService
     {
         private readonly static ILog logger = LogManager.GetLogger(typeof(CodeService));
-        private const string VerificationSubject = "Verification Code!";
 
         public bool AuthVerificationCode(string username, string code)
         {
@@ -44,7 +43,7 @@ namespace MasterMind_Server.Services
 
                 if (!String.IsNullOrWhiteSpace(email))
                 {
-                    EmailSender.Send(email, VerificationSubject, code);
+                    EmailSender.Send(email, VerificationEmailBuilder.Build(code, email));
                 }
             }
             catch (EntityException ex)

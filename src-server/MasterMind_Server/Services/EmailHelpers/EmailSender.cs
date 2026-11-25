@@ -14,9 +14,9 @@ namespace MasterMind_Server.Services.EmailHelpers
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(EmailSender));
 
-        public static void Send(string email, string subject, string body)
+        public static void Send(string email, EmailContent content)
         {
-            using (MailMessage emailMessage = BuildMessage(email, subject, body))
+            using (MailMessage emailMessage = BuildMessage(email, content))
             using (SmtpClient smtp = BuildSmtpClient())
             {
                 try
@@ -36,7 +36,7 @@ namespace MasterMind_Server.Services.EmailHelpers
             }
         }
 
-        private static MailMessage BuildMessage(string email, string subject, string body)
+        private static MailMessage BuildMessage(string email, EmailContent content)
         {
             MailAddress to = ParseRecipient(email);
             MailAddress from = ReadSmtpSetting(
@@ -44,8 +44,9 @@ namespace MasterMind_Server.Services.EmailHelpers
 
             return new MailMessage(from, to)
             {
-                Subject = subject,
-                Body = body
+                Subject = content.Subject,
+                Body = content.Body,
+                IsBodyHtml = content.IsHtml
             };
         }
 
