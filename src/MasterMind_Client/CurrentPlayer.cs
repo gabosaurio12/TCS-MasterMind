@@ -31,6 +31,7 @@ namespace MasterMind_Client
         public ImageSource Avatar { get; private set; }
         public string AvatarPath { get; private set; }
         public bool IsOnlineRegistered { get; private set; }
+        public bool IsGuest { get; private set; }
 
         private CurrentPlayer()
         {
@@ -47,6 +48,13 @@ namespace MasterMind_Client
             }
 
             AvatarPath = player.AvatarPath;
+            IsGuest = false;
+        }
+
+        public void SetGuest(Player guest)
+        {
+            SetCurrentPlayer(guest);
+            IsGuest = true;
         }
 
         public async Task RegisterOnlineAsync()
@@ -71,6 +79,12 @@ namespace MasterMind_Client
 
         public void RegisterOffline()
         {
+            if (IsGuest)
+            {
+                DeleteGuest();
+                return;
+            }
+
             if (!IsOnlineRegistered)
             {
                 return;
@@ -85,6 +99,21 @@ namespace MasterMind_Client
             catch (Exception ex) when (IsServiceException(ex))
             {
                 logger.Error("Could not register the player as offline.", ex);
+            }
+        }
+
+        private void DeleteGuest()
+        {
+            IsGuest = false;
+            IsOnlineRegistered = false;
+
+            try
+            {
+                CreateOnlineStatusClient().DeleteGuest(Id);
+            }
+            catch (Exception ex) when (IsServiceException(ex))
+            {
+                logger.Error("Could not delete the guest player.", ex);
             }
         }
 

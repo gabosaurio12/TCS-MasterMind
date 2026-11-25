@@ -83,7 +83,7 @@ namespace MasterMind_Server.Services
             }
         }
 
-        private static void NotifyStatusChanges(PlayerStatus status, PlayerStatusChangeResult result)
+        internal static void NotifyStatusChanges(PlayerStatus status, PlayerStatusChangeResult result)
         {
             if (result.RoomDeleted)
             {

@@ -41,6 +41,18 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
+        public void TestSendFriendRequestToGuestReturnsError()
+        {
+            string guestName = TestDataFactory.CreateUniqueUsername();
+            new PlayerService().CreateGuest(guestName);
+            PlayerEntity guest = TestDatabase.GetPlayerByUsername(guestName);
+
+            string result = friendsService.SendFriendRequest(guest.player_id, requester.player_id);
+
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Error.ToString()));
+        }
+
+        [Test]
         public void TestSendFriendRequestDuplicateReturnsPending()
         {
             friendsService.SendFriendRequest(addressee.player_id, requester.player_id);

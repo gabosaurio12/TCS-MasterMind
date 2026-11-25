@@ -402,6 +402,195 @@ namespace MasterMind_Server.Tests
             AssertReportFault(report, ErrorMessages.AlreadyReported);
         }
 
+        [Test]
+        public void TestCreateGuestValidNameReturnsSuccess()
+        {
+            string result = playerService.CreateGuest(TestDataFactory.CreateUniqueUsername());
+
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.Success.ToString()));
+        }
+
+        [Test]
+        public void TestCreateGuestMarksPlayerAsGuest()
+        {
+            string guestName = TestDataFactory.CreateUniqueUsername();
+            playerService.CreateGuest(guestName);
+
+            Assert.That(TestDatabase.GetPlayerByUsername(guestName).is_guest, Is.True);
+        }
+
+        [Test]
+        public void TestCreateGuestDuplicateGuestNameReturnsUsernameTaken()
+        {
+            string guestName = TestDataFactory.CreateUniqueUsername();
+            playerService.CreateGuest(guestName);
+
+            string result = playerService.CreateGuest(guestName);
+
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.UsernameTaken.ToString()));
+        }
+
+        [Test]
+        public void TestCreateGuestRegisteredNameReturnsUsernameTaken()
+        {
+            PlayerEntity existingPlayer = TestDataFactory.CreatePlayer();
+
+            string result = playerService.CreateGuest(existingPlayer.username);
+
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.UsernameTaken.ToString()));
+        }
+
+        [Test]
+        public void TestCreateGuestNameWithSpacesReturnsInvalidGuestName()
+        {
+            string result = playerService.CreateGuest(TestDataFactory.CreateUniqueUsername() + " guest");
+
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.InvalidGuestName.ToString()));
+        }
+
+        [Test]
+        public void TestCreateGuestEmptyNameReturnsInvalidGuestName()
+        {
+            string result = playerService.CreateGuest("   ");
+
+            Assert.That(result, Is.EqualTo(RepositoriesMessages.InvalidGuestName.ToString()));
+        }
+
+        [Test]
+        public void TestCreateGuestPurgesOfflineGuests()
+        {
+            PlayerEntity offlineGuest = CreateGuestPlayer();
+            TestDatabase.SetOnlineStatus(offlineGuest.player_id, null);
+
+            playerService.CreateGuest(TestDataFactory.CreateUniqueUsername());
+
+            Assert.That(TestDatabase.DoesPlayerExist(offlineGuest.username), Is.False);
+        }
+
+        [Test]
+        public void TestCreateGuestKeepsOnlineGuests()
+        {
+            PlayerEntity onlineGuest = CreateGuestPlayer();
+
+            playerService.CreateGuest(TestDataFactory.CreateUniqueUsername());
+
+            Assert.That(TestDatabase.DoesPlayerExist(onlineGuest.username), Is.True);
+        }
+
+        [Test]
+        public void TestDeleteGuestRemovesPlayer()
+        {
+            PlayerEntity guest = CreateGuestPlayer();
+
+            playerService.DeleteGuest(guest.player_id);
+
+            Assert.That(TestDatabase.DoesPlayerExist(guest.username), Is.False);
+        }
+
+        [Test]
+        public void TestDeleteGuestRegisteredPlayerThrowsPlayerNotFound()
+        {
+            PlayerEntity registeredPlayer = TestDataFactory.CreatePlayer();
+
+            Assert.That(
+                () => playerService.DeleteGuest(registeredPlayer.player_id),
+                Throws.TypeOf<FaultException<ErrorMessage>>()
+                    .With.Property("Detail").Property("Message").EqualTo(ErrorMessages.PlayerNotFound.ToString()));
+        }
+
+        [Test]
+        public void TestDeleteGuestRemovesReportsAgainstGuest()
+        {
+            PlayerEntity guest = CreateGuestPlayer();
+            TestDatabase.SeedReports(guest.player_id, TestDataFactory.CreatePlayer().player_id, 1);
+
+            playerService.DeleteGuest(guest.player_id);
+
+            Assert.That(TestDatabase.CountReportsAgainst(guest.player_id), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TestDeleteGuestAloneInRoomDeletesRoom()
+        {
+            PlayerEntity guest = CreateGuestPlayer();
+            int roomId = CreateRoomFor(guest);
+
+            playerService.DeleteGuest(guest.player_id);
+
+            Assert.That(TestDatabase.DoesRoomExist(roomId), Is.False);
+        }
+
+        [Test]
+        public void TestDeleteGuestHostWithCompanionPromotesCompanion()
+        {
+            PlayerEntity guest = CreateGuestPlayer();
+            PlayerEntity companion = TestDataFactory.CreatePlayer();
+            int roomId = CreateRoomFor(guest);
+            new RoomService().JoinRoom(new Room { Name = GetRoomName(roomId) }, companion.username);
+
+            playerService.DeleteGuest(guest.player_id);
+
+            Assert.That(TestDatabase.GetRoomPlayerOneId(roomId), Is.EqualTo(companion.player_id));
+        }
+
+        [Test]
+        public void TestLoginPlayerGuestUsernameReturnsFalse()
+        {
+            PlayerEntity guest = CreateGuestPlayer();
+
+            bool result = playerService.LoginPlayer(guest.username, TestDataFactory.DefaultPassword);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void TestReportPlayerGuestReporterThrowsGuestCannotReport()
+        {
+            PlayerEntity reportedPlayer = TestDataFactory.CreatePlayer();
+            PlayerEntity guest = CreateGuestPlayer();
+            Report report = BuildReport(reportedPlayer.username, guest.username, "Cheating");
+
+            AssertReportFault(report, ErrorMessages.GuestCannotReport);
+        }
+
+        [Test]
+        public void TestReportPlayerGuestReportedCreatesReport()
+        {
+            PlayerEntity guest = CreateGuestPlayer();
+            PlayerEntity reporter = TestDataFactory.CreatePlayer();
+
+            playerService.ReportPlayer(BuildReport(guest.username, reporter.username, "Cheating"));
+
+            Assert.That(TestDatabase.DoesReportExist(guest.username), Is.True);
+        }
+
+        private PlayerEntity CreateGuestPlayer()
+        {
+            string guestName = TestDataFactory.CreateUniqueUsername();
+            playerService.CreateGuest(guestName);
+
+            return TestDatabase.GetPlayerByUsername(guestName);
+        }
+
+        private static int CreateRoomFor(PlayerEntity owner)
+        {
+            var room = new Room
+            {
+                Name = TestDataFactory.CreateUniqueRoomName(),
+                Gamemode = TestDataFactory.DefaultGamemode,
+                Difficulty = TestDataFactory.DefaultDifficulty,
+                PlayerOneUsername = owner.username,
+                RoomPrivacy = TestDataFactory.PublicPrivacy
+            };
+
+            return new RoomService().CreateRoom(room).Room.RoomId;
+        }
+
+        private static string GetRoomName(int roomId)
+        {
+            return new RoomService().GetRoomById(roomId).Name;
+        }
+
         private static Report BuildReport(string reportedUsername, string reporterUsername, string reason)
         {
             return new Report

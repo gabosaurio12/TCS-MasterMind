@@ -29,5 +29,15 @@ namespace MasterMind_Server.Repositories.Interfaces
         string UpdateOnlineStatus(int playerId, bool isOnline);
 
         void ResetAllOnlineStatus();
+
+        string CreateGuest(string username);
+
+        string DeleteGuest(int playerId);
+
+        bool IsGuest(string username);
+
+        string GetGuestUsername(int playerId);
+
+        List<int> GetOfflineGuestIds();
     }
 }

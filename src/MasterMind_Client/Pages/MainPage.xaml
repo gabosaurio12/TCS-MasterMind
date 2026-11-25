@@ -9,6 +9,10 @@
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="{x:Static p:Resources.MainPage_Title}">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -59,12 +63,14 @@
                         FontFamily="{StaticResource Elite}" FontSize="52"
                         Width="360" Height="110" Margin="0,0,0,34"
                         Content="{x:Static p:Resources.MainPage_Profile}"
+                        Visibility="{Binding IsRegisteredPlayer, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Command="{Binding ProfileCommand}" />
 
                 <Button x:Name="FriendsBtn" Style="{StaticResource MetalButtonBlue}"
                         FontFamily="{StaticResource Elite}" FontSize="52"
                         Width="360" Height="110" Margin="0,0,0,34"
                         Content="{x:Static p:Resources.MainPage_Friends}"
+                        Visibility="{Binding IsRegisteredPlayer, Converter={StaticResource BooleanToVisibilityConverter}}"
                         Command="{Binding FriendsCommand}" />
 
                 <Button x:Name="ExitBtn" Style="{StaticResource MetalButtonRed}"

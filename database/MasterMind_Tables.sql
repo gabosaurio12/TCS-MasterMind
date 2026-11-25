@@ -9,7 +9,8 @@ CREATE TABLE [Player] (
   [password] nvarchar(255) NOT NULL,
   [avatar_path] nvarchar(500),
   [is_online] tinyint,
-  [blocked_until] datetime2
+  [blocked_until] datetime2,
+  [is_guest] bit NOT NULL DEFAULT 0
 )
 GO
 

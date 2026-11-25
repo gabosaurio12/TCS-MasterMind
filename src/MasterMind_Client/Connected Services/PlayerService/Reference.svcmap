@@ -19,16 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8080" Protocol="http" SourceId="1" />
+    <MetadataSource Address="net.tcp://192.168.100.15:8081/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="2d584ccc-a398-4ce1-8b31-01e5ac0f4b09" SourceId="1" SourceUrl="http://localhost:8080/?disco" />
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="55381a50-6bc3-4130-a2a4-b1ae52aa975c" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd4" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="a74ab55d-c814-4e32-81b5-540b387dcc03" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd2" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="1f318013-ea26-4900-b666-9f949327a1d3" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd3" />
-    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="86b5f030-d13d-4010-b39f-0342e1e50c8f" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd0" />
-    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="8058bb3c-9970-4003-ab4f-cce78a56d795" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd1" />
-    <MetadataFile FileName="PlayerService.wsdl" MetadataType="Wsdl" ID="cd82c372-6eb7-417d-8639-9c65a0038f08" SourceId="1" SourceUrl="http://localhost:8080/?wsdl" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="145cacb6-bee7-41d1-9055-2f19b87c9065" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8081/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="e35783b8-284a-4a81-8e91-1acf632fa823" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8081/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="e2ce56ec-1157-4eb4-a683-1fb0abc0ff67" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8081/mex" />
+    <MetadataFile FileName="MasterMind_Server.Contracts.xsd" MetadataType="Schema" ID="e77c702c-c8e8-47e8-bbce-ac588281d215" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8081/mex" />
+    <MetadataFile FileName="MasterMind_Server.Exceptions.xsd" MetadataType="Schema" ID="3195f618-15e0-4445-a23d-1b304e5d8ad7" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8081/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="5bb3e5ef-5485-40c7-9b21-21b390781ab3" SourceId="1" SourceUrl="net.tcp://192.168.100.15:8081/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

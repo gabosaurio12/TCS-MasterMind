@@ -21,6 +21,8 @@ namespace MasterMind_Client.ViewModels.Services
 
         void ShowChangePassword();
 
+        void ShowGuestName(Action guestEntered);
+
         void ShowFriends();
 
         void ShowFriends(int roomId);

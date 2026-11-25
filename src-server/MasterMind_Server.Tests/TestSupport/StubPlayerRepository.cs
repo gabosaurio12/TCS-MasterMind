@@ -3,6 +3,7 @@ using MasterMind_Server.Repositories;
 using MasterMind_Server.Repositories.Dtos;
 using MasterMind_Server.Repositories.Enums;
 using MasterMind_Server.Repositories.Interfaces;
+using System.Collections.Generic;
 
 namespace MasterMind_Server.Tests.TestSupport
 {
@@ -60,6 +61,31 @@ namespace MasterMind_Server.Tests.TestSupport
         public void ResetAllOnlineStatus()
         {
             innerRepository.ResetAllOnlineStatus();
+        }
+
+        public string CreateGuest(string username)
+        {
+            return innerRepository.CreateGuest(username);
+        }
+
+        public string DeleteGuest(int playerId)
+        {
+            return innerRepository.DeleteGuest(playerId);
+        }
+
+        public bool IsGuest(string username)
+        {
+            return innerRepository.IsGuest(username);
+        }
+
+        public string GetGuestUsername(int playerId)
+        {
+            return innerRepository.GetGuestUsername(playerId);
+        }
+
+        public List<int> GetOfflineGuestIds()
+        {
+            return innerRepository.GetOfflineGuestIds();
         }
     }
 }

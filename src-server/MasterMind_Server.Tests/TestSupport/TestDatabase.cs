@@ -186,6 +186,23 @@ namespace MasterMind_Server.Tests.TestSupport
             }
         }
 
+        public static bool DoesRoomExist(int roomId)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                return context.MatchRoom.Any(room => room.match_room_id == roomId);
+            }
+        }
+
+        public static void SetOnlineStatus(int playerId, byte? onlineStatus)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                context.Player.First(p => p.player_id == playerId).is_online = onlineStatus;
+                context.SaveChanges();
+            }
+        }
+
         public static bool DoesPlayerExist(string username)
         {
             using (var context = new MasterMindEntities(true))

@@ -41,6 +41,14 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         string SetOnlineStatus(int playerId, bool isOnline);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        string CreateGuest(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        void DeleteGuest(int playerId);
     }
 
     [DataContract]
