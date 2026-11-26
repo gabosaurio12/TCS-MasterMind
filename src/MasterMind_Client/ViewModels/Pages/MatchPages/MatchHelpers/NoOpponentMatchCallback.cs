@@ -1,7 +1,7 @@
 using MasterMind_Client.MatchService;
 using System.ServiceModel;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers
 {
     [CallbackBehavior(UseSynchronizationContext = false)]
     public class NoOpponentMatchCallback : IMatchServiceCallback
@@ -15,6 +15,10 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
         }
 
         public void OnOpponentAbandonedCallback(string username)
+        {
+        }
+
+        public void OnTimeTrialStartedCallback(int remainingMs)
         {
         }
     }

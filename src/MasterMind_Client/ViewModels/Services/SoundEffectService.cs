@@ -19,7 +19,8 @@ namespace MasterMind_Client.ViewModels.Services
             { SoundEffect.CodeTryResult, "CodeTryResult.mp3" },
             { SoundEffect.CodeTryCorrect, "CodeTryCorrect.mp3" },
             { SoundEffect.MessageReceived, "MessageReceived.mp3" },
-            { SoundEffect.PinSelect, "PinSelect.mp3" }
+            { SoundEffect.PinSelect, "PinSelect.mp3" },
+            { SoundEffect.TimeIsOver, "TimeIsOver.mp3" }
         };
 
         public bool IsMuted => Properties.Settings.Default.SfxMuted;

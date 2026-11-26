@@ -266,6 +266,9 @@
     <Compile Include="Data\MatchRoom.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\MatchRoundState.cs">
+      <DependentUpon>MasterMindModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Player.cs">
       <DependentUpon>MasterMindModel.tt</DependentUpon>
     </Compile>
@@ -319,6 +322,10 @@
     <Compile Include="Repositories\ClassHelpers\ReportBlockPolicy.cs" />
     <Compile Include="Repositories\ClassHelpers\RoomMember.cs" />
     <Compile Include="Repositories\ClassHelpers\MatchParticipation.cs" />
+    <Compile Include="Repositories\ClassHelpers\MatchRoomInfo.cs" />
+    <Compile Include="Repositories\ClassHelpers\MatchRoundRecord.cs" />
+    <Compile Include="Repositories\Interfaces\IMatchRoundStateRepository.cs" />
+    <Compile Include="Repositories\MatchRoundStateRepository.cs" />
     <Compile Include="Repositories\ClassHelpers\SecretCodeRow.cs" />
     <Compile Include="Repositories\ClassHelpers\StatusChangeContext.cs" />
     <Compile Include="Repositories\Dtos\ChatMessageResult.cs" />
@@ -370,7 +377,12 @@
     <Compile Include="Services\MatchHelpers\MatchState.cs" />
     <Compile Include="Services\MatchHelpers\TriesRules.cs" />
     <Compile Include="Services\MatchHelpers\RoundState.cs" />
+    <Compile Include="Services\MatchHelpers\MatchRestorer.cs" />
+    <Compile Include="Services\MatchHelpers\MatchRoundCoordinator.cs" />
+    <Compile Include="Services\MatchHelpers\MatchRoundPersistence.cs" />
+    <Compile Include="Services\MatchHelpers\MatchRoundScheduler.cs" />
     <Compile Include="Services\MatchHelpers\SecretCodeGenerator.cs" />
+    <Compile Include="Services\MatchHelpers\TimeTrialRules.cs" />
     <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\RoomService.cs" />
@@ -381,6 +393,16 @@
     </None>
     <None Include=".env.example" />
     <None Include="App.config" />
+    <Content Include="Data\MasterMindModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MasterMindModel.edmx</DependentUpon>
+      <LastGenOutput>MasterMindModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\MasterMindModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MasterMindModel.edmx</DependentUpon>
+      <LastGenOutput>MasterMindModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Emails\email_template.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -398,18 +420,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="Data\MasterMindModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MasterMindModel.edmx</DependentUpon>
-      <LastGenOutput>MasterMindModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Data\MasterMindModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MasterMindModel.edmx</DependentUpon>
-      <LastGenOutput>MasterMindModel.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

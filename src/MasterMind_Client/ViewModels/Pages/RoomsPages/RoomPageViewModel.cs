@@ -7,7 +7,7 @@ using MasterMind_Client.MatchService;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Base;
-using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers;
 using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
 using System;
@@ -22,6 +22,9 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private const string MessageSentResult = "MessageSent";
         private const string InappropriateVocabularyResult = "InappropriateVocabulary";
         private const string RoomsPageRoute = "Pages/RoomsPages/RoomsPage.xaml";
+        private const string TriesPageRoute = "Pages/MatchPages/MatchTriesPage.xaml";
+        private const string TimeTrialPageRoute = "Pages/MatchPages/MatchTimeTrialPage.xaml";
+        private const string TimeTrialGamemode = "TimeTrial";
 
 
         private readonly static ILog logger = LogManager.GetLogger(typeof(RoomPageViewModel));
@@ -108,6 +111,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         private PlayerSlotViewModel playerTwo;
         private bool isReady;
         private int currentRoomId;
+        private string gamemode;
 
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
@@ -235,6 +239,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
 
                 RoomTitle = room.Name;
                 RoomCode = room.RoomCode;
+                gamemode = room.Gamemode;
                 SetPlayers(room);
                 NotifyPlayerJoined(room);
             }
@@ -513,7 +518,12 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
                 return;
             }
 
-            NavigateTo($"Pages/MatchPages/MatchTriesPage.xaml?roomId={currentRoomId}");
+            NavigateTo($"{GetMatchPageRoute()}?roomId={currentRoomId}");
+        }
+
+        private string GetMatchPageRoute()
+        {
+            return gamemode == TimeTrialGamemode ? TimeTrialPageRoute : TriesPageRoute;
         }
 
         private bool PrepareSecretCode()

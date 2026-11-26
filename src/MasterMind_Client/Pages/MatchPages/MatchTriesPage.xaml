@@ -78,6 +78,10 @@
                    Visibility="{Binding IsWaitingForOpponent, Converter={StaticResource BooleanToVisibilityConverter}}"
                    FontFamily="{StaticResource Elite}" FontSize="32" Foreground="{DynamicResource CreamBrush}"
                    HorizontalAlignment="Center" Margin="0,20,0,0"/>
+            <Label x:Name="ReconnectingLbl" Content="{x:Static p:Resources.MatchTimeTrial_Reconnecting}"
+                   Visibility="{Binding IsReconnecting, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   FontFamily="{StaticResource Elite}" FontSize="26" Foreground="{DynamicResource CreamBrush}"
+                   HorizontalAlignment="Center" Margin="0,10,0,0"/>
         </StackPanel>
 
         <!-- Center: Deciphering Machine & Board -->

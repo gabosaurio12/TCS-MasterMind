@@ -30,6 +30,59 @@ namespace MasterMind_Server.Repositories
             }
         }
 
+        public void SaveTimeRecords(IReadOnlyDictionary<string, int> bestSecondsByUsername)
+        {
+            if (bestSecondsByUsername == null || bestSecondsByUsername.Count == 0)
+            {
+                return;
+            }
+
+            using (var context = new MasterMindEntities(true))
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.Serializable))
+            {
+                foreach (var entry in bestSecondsByUsername)
+                {
+                    SavePlayerTime(context, entry.Key, entry.Value);
+                }
+
+                transaction.Commit();
+            }
+        }
+
+        private static void SavePlayerTime(MasterMindEntities context, string username, int seconds)
+        {
+            var player = context.Player.FirstOrDefault(candidate => candidate.username == username);
+            if (player == null || player.is_guest)
+            {
+                return;
+            }
+
+            var existing = context.PlayerTimeTrialRecords
+                .Where(record => record.player_id == player.player_id)
+                .OrderBy(record => record.rank)
+                .ToList();
+            var values = existing
+                .Where(record => record.time_record.HasValue)
+                .Select(record => record.time_record.Value)
+                .Concat(new[] { seconds })
+                .OrderBy(value => value)
+                .Take(MaxRecordsPerPlayer)
+                .ToList();
+            context.PlayerTimeTrialRecords.RemoveRange(existing);
+            context.SaveChanges();
+            for (int index = 0; index < values.Count; index++)
+            {
+                context.PlayerTimeTrialRecords.Add(new PlayerTimeTrialRecords
+                {
+                    player_id = player.player_id,
+                    time_record = values[index],
+                    rank = index + 1
+                });
+            }
+
+            context.SaveChanges();
+        }
+
         private static void SavePlayerTries(MasterMindEntities context, string username, int tries)
         {
             var player = context.Player.FirstOrDefault(candidate => candidate.username == username);

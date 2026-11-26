@@ -26,6 +26,36 @@ namespace MasterMind_Server.Contracts
         [OperationContract]
         [FaultContract(typeof(ErrorMessage))]
         void Unsubscribe(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        void ReadyForRound(string username);
+
+        [OperationContract]
+        [FaultContract(typeof(ErrorMessage))]
+        MatchSnapshot GetMatchSnapshot(string username);
+    }
+
+    [DataContract]
+    public class MatchSnapshot
+    {
+        [DataMember]
+        public bool IsActive { get; set; }
+
+        [DataMember]
+        public bool IsTimeTrial { get; set; }
+
+        [DataMember]
+        public bool IsClockRunning { get; set; }
+
+        [DataMember]
+        public int RemainingMs { get; set; }
+
+        [DataMember]
+        public int RoundNumber { get; set; }
+
+        [DataMember]
+        public PlayerScore[] Scores { get; set; }
     }
 
     [DataContract]

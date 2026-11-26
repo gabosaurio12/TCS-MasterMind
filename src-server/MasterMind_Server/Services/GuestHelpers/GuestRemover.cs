@@ -59,6 +59,7 @@ namespace MasterMind_Server.Services.GuestHelpers
         {
             if (MatchCallbackRegistry.TryAbandonRound(participation.RoomId))
             {
+                new MatchRoundPersistence().Delete(participation.RoomId);
                 MatchCallbackRegistry.Notify(
                     participation.OpponentUsername, callback => callback.OnOpponentAbandonedCallback(username));
             }

@@ -8,6 +8,8 @@ namespace MasterMind_Server.Repositories.Interfaces
 
         void SaveSecretCode(int roomId, string[] code);
 
+        MatchRoomInfo GetRoomInfo(int roomId);
+
         string[] GetSecretCode(int roomId);
 
         bool RegisterTry(MatchParticipation participation);

@@ -6,6 +6,7 @@ namespace MasterMind_Client.ViewModels.Services
         CodeTryResult,
         CodeTryCorrect,
         MessageReceived,
-        PinSelect
+        PinSelect,
+        TimeIsOver
     }
 }

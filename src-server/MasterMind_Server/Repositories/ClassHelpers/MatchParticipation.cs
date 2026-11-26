@@ -16,6 +16,10 @@ namespace MasterMind_Server.Repositories.ClassHelpers
 
         public int MaxTries { get; set; }
 
+        public bool IsTimeTrial { get; set; }
+
+        public int RoundSeconds { get; set; }
+
         public bool AreBothReady
         {
             get

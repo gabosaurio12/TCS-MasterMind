@@ -52,8 +52,58 @@ namespace MasterMind_Server.Services.MatchHelpers
             roundsByRoom[roomId] = new RoundState();
         }
 
+        public static void RestoreMatch(int roomId, MatchState match)
+        {
+            matchesByRoom[roomId] = match;
+        }
+
+        public static void RestoreRound(int roomId, RoundState round)
+        {
+            roundsByRoom[roomId] = round;
+        }
+
+        public static MatchState GetMatch(int roomId)
+        {
+            MatchState match;
+            return matchesByRoom.TryGetValue(roomId, out match) ? match : null;
+        }
+
+        public static RoundState GetRound(int roomId)
+        {
+            RoundState round;
+            return roundsByRoom.TryGetValue(roomId, out round) ? round : null;
+        }
+
+        public static bool IsClockRunning(int roomId)
+        {
+            return GetRound(roomId)?.IsClockRunning ?? false;
+        }
+
+        public static int GetRemainingMs(int roomId)
+        {
+            return GetRound(roomId)?.GetRemainingMs() ?? 0;
+        }
+
+        public static bool TryStartClock(int roomId, string username, TimeSpan duration)
+        {
+            return GetRound(roomId)?.TryStartClock(username, duration) ?? false;
+        }
+
+        public static RoundResult SolveFirst(int roomId, OpponentProgress winner, string opponentUsername)
+        {
+            var round = GetRound(roomId);
+            return round == null ? RoundState.CreatePendingResult() : round.SolveFirst(winner, opponentUsername);
+        }
+
+        public static RoundResult ExpireRound(int roomId, string firstUsername, string secondUsername)
+        {
+            var round = GetRound(roomId);
+            return round == null ? RoundState.CreatePendingResult() : round.Expire(firstUsername, secondUsername);
+        }
+
         public static bool TryAbandonRound(int roomId)
         {
+            MatchRoundScheduler.Cancel(roomId);
             RoundState round;
             return roundsByRoom.TryRemove(roomId, out round) && !round.IsResolved;
         }
