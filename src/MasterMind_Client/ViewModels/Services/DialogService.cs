@@ -1,4 +1,4 @@
-using MasterMind_Client.Modals;
+﻿using MasterMind_Client.Modals;
 using MasterMind_Client.PlayerService;
 using MasterMind_Client.RoomService;
 using MasterMind_Client.ViewModels.Modals;
@@ -191,7 +191,8 @@ namespace MasterMind_Client.ViewModels.Services
             modal.DataContext = viewModel;
             viewModel.CloseRequested += (sender, e) => modal.Close();
             modal.Closed += (sender, e) => menuClosed?.Invoke();
-            Present(modal);
+            modal.Owner = Application.Current.MainWindow;
+            modal.Show();
             return true;
         }
 

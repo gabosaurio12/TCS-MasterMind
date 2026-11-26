@@ -1,4 +1,4 @@
-using MasterMind_Client.AvatarManagement;
+﻿using MasterMind_Client.AvatarManagement;
 using MasterMind_Client.ServerEndpoints;
 using log4net;
 using MasterMind_Client.Helpers;
@@ -12,6 +12,7 @@ using MasterMind_Client.ViewModels.Services;
 using MasterMind_Client.ViewModels.UserControls;
 using System;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -388,24 +389,38 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             lobbyService.ChangePlayerStatusAsync(playerStatus);
         }
 
-        private void SendEscapeToServer()
+        private async Task SendEscapeToServerAsync()
         {
-            int roomId = currentRoomId;
             var playerStatus = new PlayerStatus
             {
-                RoomId = roomId,
+                RoomId = currentRoomId,
                 Username = CurrentPlayer.Instance.Username,
                 Status = "Escaped",
                 IsPlayerOne = CurrentPlayer.Instance.Username.Equals(PlayerOne?.Username)
             };
-            lobbyService.ChangePlayerStatusAsync(playerStatus);
+
+            try
+            {
+                await lobbyService.ChangePlayerStatusAsync(playerStatus);
+            }
+            catch (FaultException<LobbyService.ErrorMessage> faultException)
+            {
+                logger.WarnFormat("The server rejected the escape: {0}", faultException.Detail.Message);
+            }
+            catch (FaultException faultException)
+            {
+                logger.Error("Server fault while escaping the room", faultException);
+            }
+            catch (CommunicationException communicationException)
+            {
+                logger.Error("Communication failure while escaping the room", communicationException);
+            }
         }
 
-
-        private void ExecuteEscapeCommand()
+        private async Task ExecuteEscapeCommand()
         {
             StopCountdown();
-            SendEscapeToServer();
+            await SendEscapeToServerAsync();
             NavigateTo(RoomsPageRoute);
         }
 
@@ -496,6 +511,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         {
             if (PlayerOne.IsReady && PlayerTwo.IsReady && !IsCountdownActive)
             {
+                MessageText = string.Empty;
                 CountdownTime = CountdownDuration;
                 IsCountdownActive = true;
                 countdownTimer.Start();
