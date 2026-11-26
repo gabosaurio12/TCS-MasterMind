@@ -417,7 +417,7 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
             }
         }
 
-        private async void ExecuteEscapeCommand()
+        private async Task ExecuteEscapeCommand()
         {
             StopCountdown();
             await SendEscapeToServerAsync();
