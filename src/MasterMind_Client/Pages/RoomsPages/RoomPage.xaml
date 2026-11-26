@@ -36,16 +36,8 @@
                    FontFamily="{StaticResource Elite}" FontSize="44"
                    VerticalAlignment="Top" Height="74" Margin="0,44,0,0" />
 
-            <!-- Countdown overlay for game start -->
-            <Label x:Name="CountdownLbl" Content="{Binding CountdownText}"
-                   Visibility="{Binding IsCountdownActive, Converter={StaticResource BooleanToVisibilityConverter}}"
-                   Style="{StaticResource MetalFieldLbl}"
-                   FontFamily="{StaticResource Elite}" FontSize="36"
-                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                   Margin="0,120,0,0" Height="80" />
-
             <ScrollViewer x:Name="ChatScroll" Margin="84,134,84,180"
-                          VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch">
+                          VerticalScrollBarVisibility="Hidden" VerticalAlignment="Stretch">
                 <TextBlock x:Name="ChatTxt" TextWrapping="Wrap"
                            Text="{Binding ChatText, NotifyOnTargetUpdated=True}"
                            FontFamily="{StaticResource Elite}" FontSize="26"
@@ -58,6 +50,15 @@
                      MaxLength="200"
                      Text="{Binding MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      FontFamily="{StaticResource Elite}" />
+
+            <!-- Countdown overlay for game start -->
+            <Label x:Name="CountdownLbl" Content="{Binding CountdownText}"
+                   Visibility="{Binding IsCountdownActive, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Style="{StaticResource MetalFieldLbl}"
+                   FontFamily="{StaticResource Elite}" FontSize="26"
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   Background="{StaticResource ChatInputBrush}"
+                   VerticalAlignment="Top" Height="40" Margin="120,518,230,0" />
 
             <Button x:Name="SendBtn" Style="{StaticResource MetalSendButton}"
                     Width="45" Height="45"
