@@ -427,7 +427,8 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTimeTrial
         {
             CloseRound();
             Score.Update(result.Scores, username);
-            Action continued = result.IsMatchOver ? (Action)ReturnToRoom : StartNextRound;
+
+            Action continued = result.IsMatchOver ? (Action)ReturnToRoom : async () => await StartNextRound();
             if (string.Equals(result.WinnerUsername, username, StringComparison.OrdinalIgnoreCase))
             {
                 dialogService.ShowYouWon(lastCode, continued);
@@ -449,15 +450,13 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTimeTrial
                 : Properties.Resources.MatchTries_RoundLost;
         }
 
-        private async void StartNextRound()
+        private async Task StartNextRound()
         {
-            if (disposed)
+            if (!disposed)
             {
-                return;
-            }
-
-            ResetBoard();
-            await ReadyForRoundAsync();
+                ResetBoard();
+                await ReadyForRoundAsync();
+            }            
         }
 
         private void ResetBoard()
@@ -500,10 +499,10 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTimeTrial
                 return;
             }
 
-            ApplySession(session);
+            await ApplySession(session);
         }
 
-        private void ApplySession(MatchSession session)
+        private async Task ApplySession(MatchSession session)
         {
             matchService = session.Client;
             AttachChannelEvents();
@@ -514,10 +513,10 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTimeTrial
             }
 
             Score.Update(session.Snapshot.Scores, username);
-            SyncClock(session.Snapshot);
+            await SyncClock(session.Snapshot);
         }
 
-        private async void SyncClock(MatchSnapshot snapshot)
+        private async Task SyncClock(MatchSnapshot snapshot)
         {
             if (isRoundClosed)
             {
