@@ -1,0 +1,6 @@
+<UserControl x:Class="MasterMind_Client.Pages.PagesUserControls.MusicToggleUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Button x:Name="MusicBtn" Style="{StaticResource MusicButton}"
+            Command="{Binding ToggleCommand}" />
+</UserControl>

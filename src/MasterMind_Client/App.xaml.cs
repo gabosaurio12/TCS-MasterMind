@@ -8,6 +8,8 @@ using MasterMind_Client.ViewModels.Services;
 using System.Globalization;
 using System.ServiceModel;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using MasterMind_Client.Helpers;
 
 namespace MasterMind_Client
 {
@@ -31,6 +33,10 @@ namespace MasterMind_Client
 
             AppServices.NavigationService = new NavigationServiceAdapter();
             AppServices.DialogService = new DialogService();
+            AppServices.MusicService = new MusicService();
+            AppServices.MusicService.Play();
+            AppServices.SoundEffectService = new SoundEffectService();
+            EventManager.RegisterClassHandler(typeof(ButtonBase), ButtonBase.ClickEvent, new RoutedEventHandler(OnButtonClick));
 
             var mainWindow = new MainWindow();
 
@@ -71,9 +77,18 @@ namespace MasterMind_Client
 
         protected override void OnExit(ExitEventArgs e)
         {
+            AppServices.MusicService?.Stop();
             CurrentPlayer.Instance.RegisterOffline();
             AvatarCache.ClearSession();
             base.OnExit(e);
+        }
+
+        private static void OnButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!SoundEffects.GetIsSilent((DependencyObject)sender))
+            {
+                AppServices.SoundEffectService.Play(SoundEffect.ButtonClick);
+            }
         }
 
         private static CultureInfo DetermineStartupCulture()

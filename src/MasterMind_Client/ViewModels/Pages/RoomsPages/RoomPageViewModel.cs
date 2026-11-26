@@ -434,7 +434,10 @@ namespace MasterMind_Client.ViewModels.Pages.RoomsPages
         public void OnMessageReceivedCallback(ChatMessage message)
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
-                AppendChatMessage(message.SenderUsername, message.Message));
+            {
+                AppServices.SoundEffectService.Play(SoundEffect.MessageReceived);
+                AppendChatMessage(message.SenderUsername, message.Message);
+            });
         }
 
         public void OnChangePlayerStatusCallback(PlayerStatus status)

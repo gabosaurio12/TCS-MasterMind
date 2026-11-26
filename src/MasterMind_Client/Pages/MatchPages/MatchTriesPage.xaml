@@ -140,7 +140,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Command="{Binding PlacePinCommand}" Width="70" Height="70" Margin="5" Background="Transparent"
+                                        <Button helpers:SoundEffects.IsSilent="True" Command="{Binding PlacePinCommand}" Width="70" Height="70" Margin="5" Background="Transparent"
                                                 BorderThickness="0" Cursor="Hand">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">

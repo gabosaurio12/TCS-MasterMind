@@ -351,6 +351,12 @@
     <Compile Include="Pages\PagesUserControls\MatchRoomUserControl.xaml.cs">
       <DependentUpon>MatchRoomUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PagesUserControls\MusicToggleUserControl.xaml.cs">
+      <DependentUpon>MusicToggleUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PagesUserControls\SoundToggleUserControl.xaml.cs">
+      <DependentUpon>SoundToggleUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PagesUserControls\RoomPlayerUserControl.xaml.cs">
       <DependentUpon>RoomPlayerUserControl.xaml</DependentUpon>
     </Compile>
@@ -416,11 +422,19 @@
     <Compile Include="ViewModels\Pages\UpdateProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Services\DialogService.cs" />
     <Compile Include="ViewModels\Services\IDialogService.cs" />
+    <Compile Include="ViewModels\Services\IMusicService.cs" />
+    <Compile Include="ViewModels\Services\ISoundEffectService.cs" />
+    <Compile Include="ViewModels\Services\SoundEffect.cs" />
+    <Compile Include="ViewModels\Services\SoundEffectService.cs" />
+    <Compile Include="Helpers\SoundEffects.cs" />
+    <Compile Include="ViewModels\Services\MusicService.cs" />
     <Compile Include="ViewModels\Services\INavigationService.cs" />
     <Compile Include="ViewModels\Services\NavigationServiceAdapter.cs" />
     <Compile Include="ViewModels\UserControls\FriendRequestViewModel.cs" />
     <Compile Include="ViewModels\UserControls\FriendViewModel.cs" />
     <Compile Include="ViewModels\UserControls\MatchRoomViewModel.cs" />
+    <Compile Include="ViewModels\UserControls\MusicToggleViewModel.cs" />
+    <Compile Include="ViewModels\UserControls\SoundToggleViewModel.cs" />
     <Compile Include="ViewModels\UserControls\PlayerSlotViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -495,6 +509,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PagesUserControls\MatchRoomUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PagesUserControls\MusicToggleUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PagesUserControls\SoundToggleUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -784,6 +806,16 @@
     <Resource Include="Assets\Elements\Green_Button_Medium.png" />
     <Resource Include="Assets\Elements\Red_Button_Medium.png" />
     <Resource Include="Assets\Elements\Language_Button.png" />
+    <Resource Include="Assets\Elements\MusicOn_Button.png" />
+    <Resource Include="Assets\Elements\MusicOff_Button.png" />
+    <Resource Include="Assets\Elements\SoundOn_Button.png" />
+    <Resource Include="Assets\Elements\SoundOff_Button.png" />
+    <Content Include="Assets\Sounds\*.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tracks\*.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Assets\Elements\Chat_Background.png" />
     <Resource Include="Assets\Elements\Player_Room_Card_NotReady.png" />
     <Resource Include="Assets\Elements\Player_Room_Card_Ready.png" />
