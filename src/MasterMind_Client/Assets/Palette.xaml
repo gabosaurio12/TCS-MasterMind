@@ -17,6 +17,10 @@
     <BitmapImage x:Key="LongFieldImage" UriSource="/Assets/Elements/TextBox_Long.png" />
     <BitmapImage x:Key="CodeFieldImage" UriSource="/Assets/Elements/CodeTextBox.png" />
     <BitmapImage x:Key="BtnLanguageImage" UriSource="/Assets/Elements/Language_Button.png" />
+    <BitmapImage x:Key="BtnMusicOnImage" UriSource="/Assets/Elements/MusicOn_Button.png" />
+    <BitmapImage x:Key="BtnMusicOffImage" UriSource="/Assets/Elements/MusicOff_Button.png" />
+    <BitmapImage x:Key="BtnSoundOnImage" UriSource="/Assets/Elements/SoundOn_Button.png" />
+    <BitmapImage x:Key="BtnSoundOffImage" UriSource="/Assets/Elements/SoundOff_Button.png" />
     <BitmapImage x:Key="ComboBoxMainBoxImage" UriSource="/Assets/Elements/ComboBox_MainBox.png" />
     <BitmapImage x:Key="ComboBoxMainBoxLongImage" UriSource="/Assets/Elements/ComboBox_MainBox_Long.png" />
     <BitmapImage x:Key="ComboBoxOptionsImage" UriSource="/Assets/Elements/ComboBox_Options.png" />

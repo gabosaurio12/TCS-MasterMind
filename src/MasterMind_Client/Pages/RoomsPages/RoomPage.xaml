@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:MasterMind_Client.Pages.RoomsPages"
       mc:Ignorable="d"
       xmlns:p="clr-namespace:MasterMind_Client.Properties"
+      xmlns:pages="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
       xmlns:userControls="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="{x:Static p:Resources.RoomsPage_Title}"
@@ -84,16 +85,26 @@
 
         <Button x:Name="InvitePlayerOneBtn" Style="{StaticResource MetalButtonPlus}"
                 Width="45" Height="45" Padding="0"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,425,866,0"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,425,150,0"
                 Command="{Binding InviteCommand}"
                 Visibility="{Binding PlayerOne.IsEmpty,
                              Converter={StaticResource BooleanToVisibilityConverter}}" />
         <Button x:Name="InvitePlayerTwoBtn" Style="{StaticResource MetalButtonPlus}"
                 Width="45" Height="45" Padding="0"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,685,866,0"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,685,150,0"
                 Command="{Binding InviteCommand}"
                 Visibility="{Binding PlayerTwo.IsEmpty,
                              Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <!-- Music -->
+
+        <pages:MusicToggleUserControl x:Name="MusicToggle"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Margin="180,0,0,100" Width="100" Height="100" />
+
+        <pages:SoundToggleUserControl x:Name="SoundToggle"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Margin="70,0,0,100" Width="100" Height="100" />
 
         <!-- Room code -->
 

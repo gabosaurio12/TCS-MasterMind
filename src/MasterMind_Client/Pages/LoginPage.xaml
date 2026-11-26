@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:MasterMind_Client.Pages"
       mc:Ignorable="d" 
       xmlns:p="clr-namespace:MasterMind_Client.Properties"
+      xmlns:pages="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
       d:DesignHeight="1080" d:DesignWidth="1920"
       Title="{x:Static p:Resources.LoginPage_Title}">
 
@@ -98,12 +99,22 @@
             </StackPanel>
         </Grid>
 
-        <Button x:Name="LanguageBtn" Grid.Column="1"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                Margin="0,0,50,40"
-                Width="120" Height="120"
-                Style="{StaticResource LanguageButton}"
-                FontFamily="{StaticResource Elite}" FontSize="32"
-                Command="{Binding LanguageCommand}" />
+        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                    Margin="0,0,60,40">
+            <pages:MusicToggleUserControl x:Name="MusicToggle"
+                    Margin="0,0,0,8" Width="100" Height="100" />
+
+            <pages:SoundToggleUserControl x:Name="SoundToggle"
+                    Margin="0,8,0,8" Width="100" Height="100" />
+
+            <Button x:Name="LanguageBtn"
+                    Margin="0,8,0,0"
+                    Width="100" Height="100"
+                    Style="{StaticResource LanguageButton}"
+                    FontFamily="{StaticResource Elite}" FontSize="32"
+                    Command="{Binding LanguageCommand}" />
+        </StackPanel>
+
+        
     </Grid>
 </Page>

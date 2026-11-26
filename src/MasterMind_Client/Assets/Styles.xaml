@@ -365,6 +365,26 @@
         <Setter Property="controls:NineSlice.SliceRatio" Value="0.06,0.06,0.06,0.06" />
     </Style>
 
+    <Style x:Key="MusicButton" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnMusicOnImage}" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.06,0.06,0.06,0.06" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMuted}" Value="True">
+                <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnMusicOffImage}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SoundButton" TargetType="Button" BasedOn="{StaticResource MetalButton}">
+        <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnSoundOnImage}" />
+        <Setter Property="controls:NineSlice.SliceRatio" Value="0.06,0.06,0.06,0.06" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMuted}" Value="True">
+                <Setter Property="controls:NineSlice.SliceImage" Value="{StaticResource BtnSoundOffImage}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- ============================ Text fields ============================ -->
 
     <Style x:Key="MetalTextBox" TargetType="TextBox">

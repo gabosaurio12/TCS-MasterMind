@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:MasterMind_Client.Properties"
+        xmlns:pages="clr-namespace:MasterMind_Client.Pages.PagesUserControls"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -22,10 +23,13 @@
                    FontSize="48" />
         </Viewbox>
 
-        <Button x:Name="MusicBtn" Content="{x:Static p:Resources.MatchMenu_Music}"
-                Style="{StaticResource MetalButtonBlue}" IsEnabled="False"
-                Width="230" Height="72" VerticalAlignment="Top" HorizontalAlignment="Center"
-                Margin="0,162,0,0" FontFamily="{StaticResource Elite}" FontSize="26" />
+        <pages:MusicToggleUserControl x:Name="MusicToggle"
+                Width="84" Height="79" VerticalAlignment="Top" HorizontalAlignment="Center"
+                Margin="0,150,100,0" />
+
+        <pages:SoundToggleUserControl x:Name="SoundToggle"
+                Width="84" Height="79" VerticalAlignment="Top" HorizontalAlignment="Center"
+                Margin="100,150,0,0" />
 
         <Button x:Name="ResumeBtn" Content="{x:Static p:Resources.MatchMenu_Resume}"
                 Style="{StaticResource MetalButtonBlue}"

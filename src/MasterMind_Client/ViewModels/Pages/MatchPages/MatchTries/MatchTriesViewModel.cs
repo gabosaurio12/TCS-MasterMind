@@ -183,6 +183,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
                 return;
             }
 
+            AppServices.SoundEffectService.Play(SoundEffect.PinSelect);
             slot.Colour = selectedColour.Colour;
             CommandManager.InvalidateRequerySuggested();
         }
@@ -304,6 +305,8 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
         private void HandleClues(Clues clues, IReadOnlyList<PinColour> code)
         {
             CurrentRow.ApplyClues(clues.CluesResult);
+            var effect = clues.IsCorrect ? SoundEffect.CodeTryCorrect : SoundEffect.CodeTryResult;
+            AppServices.SoundEffectService.Play(effect);
 
             if (clues.IsCorrect)
             {
