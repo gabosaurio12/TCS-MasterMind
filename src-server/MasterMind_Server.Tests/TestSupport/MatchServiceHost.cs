@@ -11,6 +11,7 @@ namespace MasterMind_Server.Tests.TestSupport
     internal class MatchServiceHost : IDisposable
     {
         private static readonly TimeSpan BindingTimeout = TimeSpan.FromSeconds(10);
+        private static readonly TimeSpan IdleTimeout = TimeSpan.FromMinutes(1);
 
         private readonly ServiceHost host;
         private readonly NetTcpBinding binding;
@@ -25,7 +26,7 @@ namespace MasterMind_Server.Tests.TestSupport
                 OpenTimeout = BindingTimeout,
                 CloseTimeout = BindingTimeout,
                 SendTimeout = BindingTimeout,
-                ReceiveTimeout = BindingTimeout
+                ReceiveTimeout = IdleTimeout
             };
 
             host = new ServiceHost(typeof(MatchService), new Uri(baseAddress));

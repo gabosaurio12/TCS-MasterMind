@@ -14,6 +14,9 @@ namespace MasterMind_Server.Contracts
 
         [OperationContract(IsOneWay = true)]
         void OnOpponentAbandonedCallback(string username);
+
+        [OperationContract(IsOneWay = true)]
+        void OnTimeTrialStartedCallback(int remainingMs);
     }
 
     [DataContract]

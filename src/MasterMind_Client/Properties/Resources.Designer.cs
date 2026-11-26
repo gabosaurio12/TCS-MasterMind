@@ -736,6 +736,42 @@ namespace MasterMind_Client.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tiempo restante:.
+        /// </summary>
+        public static string MatchTimeTrial_RemainingTime {
+            get {
+                return ResourceManager.GetString("MatchTimeTrial_RemainingTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reconectando con el servidor....
+        /// </summary>
+        public static string MatchTimeTrial_Reconnecting {
+            get {
+                return ResourceManager.GetString("MatchTimeTrial_Reconnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se perdió la conexión con la partida..
+        /// </summary>
+        public static string MatchTimeTrial_ReconnectFailed {
+            get {
+                return ResourceManager.GetString("MatchTimeTrial_ReconnectFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¡Se acabó el tiempo!.
+        /// </summary>
+        public static string MatchTimeTrial_TimeIsUp {
+            get {
+                return ResourceManager.GetString("MatchTimeTrial_TimeIsUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Intentos restantes:.
         /// </summary>
         public static string MatchTries_RemainingTries {

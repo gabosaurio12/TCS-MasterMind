@@ -26,6 +26,19 @@ namespace MasterMind_Server.Tests
         }
 
         [Test]
+        public void TestSaveTimeRecordsKeepsBestThreeOrdered()
+        {
+            Player player = TestDataFactory.CreatePlayer();
+
+            recordsRepository.SaveTimeRecords(BuildBestTries(player.username, 40));
+            recordsRepository.SaveTimeRecords(BuildBestTries(player.username, 10));
+            recordsRepository.SaveTimeRecords(BuildBestTries(player.username, 30));
+            recordsRepository.SaveTimeRecords(BuildBestTries(player.username, 20));
+
+            Assert.That(TestDatabase.GetTimeRecords(player.player_id), Is.EqualTo(new[] { 10, 20, 30 }));
+        }
+
+        [Test]
         public void TestSaveTriesRecordsCreatesBestValue()
         {
             Player player = TestDataFactory.CreatePlayer();

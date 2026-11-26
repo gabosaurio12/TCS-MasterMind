@@ -3,7 +3,7 @@ using System;
 using System.ServiceModel;
 using System.Windows;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers
 {
     [CallbackBehavior(UseSynchronizationContext = false)]
     public class MatchCallbackHandler : IMatchServiceCallback
@@ -13,6 +13,8 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
         public event EventHandler<RoundResult> RoundResolved;
 
         public event EventHandler<string> OpponentAbandoned;
+
+        public event EventHandler<int> TimeTrialStarted;
 
         public void OnOpponentFinishedCallback(OpponentProgress progress)
         {
@@ -27,6 +29,11 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers
         public void OnOpponentAbandonedCallback(string username)
         {
             RaiseOnUiThread(OpponentAbandoned, username);
+        }
+
+        public void OnTimeTrialStartedCallback(int remainingMs)
+        {
+            RaiseOnUiThread(TimeTrialStarted, remainingMs);
         }
 
         private void RaiseOnUiThread<T>(EventHandler<T> handler, T argument)

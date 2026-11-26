@@ -1,11 +1,11 @@
 ﻿using MasterMind_Client.MatchService;
 using MasterMind_Client.ViewModels.Base;
-using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.ViewModels
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers
 {
     public class MatchScoreViewModel : ViewModelBase
     {

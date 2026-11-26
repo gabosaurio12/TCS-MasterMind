@@ -1,7 +1,7 @@
 using MasterMind_Client.ViewModels.Base;
-using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers;
 
-namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.ViewModels
+namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers
 {
     public class PaletteColourViewModel : ViewModelBase
     {

@@ -1,5 +1,5 @@
 using MasterMind_Client.MatchService;
-using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
+using MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers;
 using System.Collections.Generic;
 using System.Linq;
 

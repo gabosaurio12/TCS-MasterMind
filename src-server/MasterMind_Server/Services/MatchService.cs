@@ -21,7 +21,8 @@ namespace MasterMind_Server.Services
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(MatchService));
         private readonly IMatchRepository matchRepository = new MatchRepository();
-        private readonly IRecordsRepository recordsRepository = new RecordsRepository();
+        private readonly MatchRoundCoordinator coordinator = new MatchRoundCoordinator();
+        private readonly MatchRoundPersistence persistence = new MatchRoundPersistence();
 
         public string UpdateCode(string username)
         {
@@ -117,6 +118,57 @@ namespace MasterMind_Server.Services
             }
         }
 
+        public void ReadyForRound(string username)
+        {
+            try
+            {
+                var participation = matchRepository.GetParticipation(username);
+                if (participation.IsTimeTrial)
+                {
+                    coordinator.MarkReady(matchRepository.GetRoomInfo(participation.RoomId), username);
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                logger.Warn(ex);
+                throw BuildFault(ParseReason(ex.Message));
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
+            }
+            catch (SqlException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
+            }
+        }
+
+        public MatchSnapshot GetMatchSnapshot(string username)
+        {
+            try
+            {
+                var participation = matchRepository.GetParticipation(username);
+                return BuildSnapshot(matchRepository.GetRoomInfo(participation.RoomId));
+            }
+            catch (InvalidOperationException ex)
+            {
+                logger.Warn(ex);
+                throw BuildFault(ParseReason(ex.Message));
+            }
+            catch (EntityException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
+            }
+            catch (SqlException ex)
+            {
+                logger.Error(ex);
+                throw BuildFault(DbFaultClassifier.Classify(ex));
+            }
+        }
+
         public Clues ValidateTry(string username, CodeTry codeTry)
         {
             try
@@ -164,8 +216,7 @@ namespace MasterMind_Server.Services
             }
 
             matchRepository.SaveSecretCode(participation.RoomId, SecretCodeGenerator.Generate());
-            MatchCallbackRegistry.StartMatch(participation.RoomId);
-            MatchCallbackRegistry.OpenRound(participation.RoomId);
+            coordinator.BeginMatch(participation.RoomId);
             return RepositoriesMessages.Success.ToString();
         }
 
@@ -174,6 +225,11 @@ namespace MasterMind_Server.Services
             var guess = ValidateGuess(codeTry);
             var participation = matchRepository.GetParticipation(username);
             var secretCode = matchRepository.GetSecretCode(participation.RoomId);
+            if (participation.IsTimeTrial && !MatchCallbackRegistry.IsClockRunning(participation.RoomId))
+            {
+                throw new InvalidOperationException(ErrorMessages.RoundNotStarted.ToString());
+            }
+
             if (!matchRepository.RegisterTry(participation))
             {
                 throw new InvalidOperationException(ErrorMessages.TriesExhausted.ToString());
@@ -195,6 +251,12 @@ namespace MasterMind_Server.Services
             }
 
             var progress = new OpponentProgress { Username = username, Solved = isCorrect, TriesUsed = triesUsed };
+            if (participation.IsTimeTrial)
+            {
+                ResolveTimeTrial(participation, progress);
+                return;
+            }
+
             var result = MatchCallbackRegistry.RecordFinish(participation.RoomId, progress);
             if (RoundState.IsPending(result))
             {
@@ -203,45 +265,39 @@ namespace MasterMind_Server.Services
                 return;
             }
 
-            ResolveRound(participation, username, result);
+            coordinator.Resolve(matchRepository.GetRoomInfo(participation.RoomId), result);
         }
 
-        private void ResolveRound(MatchParticipation participation, string username, RoundResult result)
+        private void ResolveTimeTrial(MatchParticipation participation, OpponentProgress progress)
         {
-            var bestTries = MatchCallbackRegistry.ApplyRoundOutcome(participation.RoomId, result);
-            if (result.IsMatchOver)
+            var result = MatchCallbackRegistry.SolveFirst(
+                participation.RoomId, progress, participation.OpponentUsername);
+            if (!RoundState.IsPending(result))
             {
-                SaveRecords(bestTries);
+                coordinator.Resolve(matchRepository.GetRoomInfo(participation.RoomId), result);
             }
-            else
-            {
-                matchRepository.SaveSecretCode(participation.RoomId, SecretCodeGenerator.Generate());
-                MatchCallbackRegistry.OpenRound(participation.RoomId);
-            }
-
-            MatchCallbackRegistry.Notify(username, callback => callback.OnRoundResolvedCallback(result));
-            MatchCallbackRegistry.Notify(
-                participation.OpponentUsername, callback => callback.OnRoundResolvedCallback(result));
         }
 
-        private void SaveRecords(IReadOnlyDictionary<string, int> bestTries)
+        private static MatchSnapshot BuildSnapshot(MatchRoomInfo info)
         {
-            try
+            var round = MatchCallbackRegistry.GetRound(info.RoomId);
+            var match = MatchCallbackRegistry.GetMatch(info.RoomId);
+            if (round == null || match == null)
             {
-                recordsRepository.SaveTriesRecords(bestTries);
+                return new MatchSnapshot { Scores = new PlayerScore[0] };
             }
-            catch (EntityException ex)
+
+            return new MatchSnapshot
             {
-                logger.Error(ex);
-            }
-            catch (DbUpdateException ex)
-            {
-                logger.Error(ex);
-            }
-            catch (SqlException ex)
-            {
-                logger.Error(ex);
-            }
+                IsActive = true,
+                IsTimeTrial = info.IsTimeTrial,
+                IsClockRunning = round.IsClockRunning,
+                RemainingMs = round.GetRemainingMs(),
+                RoundNumber = match.RoundNumber,
+                Scores = new[] { info.PlayerOneUsername, info.PlayerTwoUsername }
+                    .Select(name => new PlayerScore { Username = name, Points = match.GetPoints(name) })
+                    .ToArray()
+            };
         }
 
         private void NotifyAbandonment(string username)
@@ -249,6 +305,7 @@ namespace MasterMind_Server.Services
             var participation = matchRepository.GetParticipation(username);
             if (MatchCallbackRegistry.TryAbandonRound(participation.RoomId))
             {
+                persistence.Delete(participation.RoomId);
                 MatchCallbackRegistry.Notify(
                     participation.OpponentUsername, callback => callback.OnOpponentAbandonedCallback(username));
             }

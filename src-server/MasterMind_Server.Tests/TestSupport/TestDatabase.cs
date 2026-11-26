@@ -198,6 +198,18 @@ namespace MasterMind_Server.Tests.TestSupport
             }
         }
 
+        public static int[] GetTimeRecords(int playerId)
+        {
+            using (var context = new MasterMindEntities(true))
+            {
+                return context.PlayerTimeTrialRecords
+                    .Where(record => record.player_id == playerId && record.time_record.HasValue)
+                    .OrderBy(record => record.rank)
+                    .Select(record => record.time_record.Value)
+                    .ToArray();
+            }
+        }
+
         public static bool DoesRoomExist(int roomId)
         {
             using (var context = new MasterMindEntities(true))

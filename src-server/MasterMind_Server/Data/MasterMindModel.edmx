@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="MasterMindModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MasterMindModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="DifficultiesCatalog">
           <Key>
             <PropertyRef Name="difficulty_id" />
@@ -63,6 +63,20 @@
           <Property Name="player_two_tries" Type="int" Nullable="false" />
           <Property Name="room_privacy_id" Type="int" Nullable="false" />
           <Property Name="room_code" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MatchRoundState">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="int" Nullable="false" />
+          <Property Name="round_number" Type="int" Nullable="false" />
+          <Property Name="player_one_points" Type="int" Nullable="false" />
+          <Property Name="player_two_points" Type="int" Nullable="false" />
+          <Property Name="started_at_utc" Type="datetime2" Precision="7" />
+          <Property Name="deadline_utc" Type="datetime2" Precision="7" />
+          <Property Name="finished_username" Type="nvarchar" MaxLength="255" />
+          <Property Name="finished_solved" Type="bit" />
+          <Property Name="finished_tries" Type="int" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -525,6 +539,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MatchRoundState_MatchRoom">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MatchRoundState" Type="Self.MatchRoundState" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="MatchRoundState">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MasterMindModelStoreContainer">
           <EntitySet Name="DifficultiesCatalog" EntityType="Self.DifficultiesCatalog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Friendship" EntityType="Self.Friendship" Schema="dbo" store:Type="Tables" />
@@ -532,6 +560,7 @@
           <EntitySet Name="GameModesCatalog" EntityType="Self.GameModesCatalog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchResults" EntityType="Self.MatchResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchRoom" EntityType="Self.MatchRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchRoundState" EntityType="Self.MatchRoundState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlayerInMatch" EntityType="Self.PlayerInMatch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlayerReport" EntityType="Self.PlayerReport" Schema="dbo" store:Type="Tables" />
@@ -654,8 +683,13 @@
             <End Role="Player" EntitySet="Player" />
             <End Role="VerificationCode" EntitySet="VerificationCode" />
           </AssociationSet>
+          <AssociationSet Name="FK_MatchRoundState_MatchRoom" Association="Self.FK_MatchRoundState_MatchRoom">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="MatchRoundState" EntitySet="MatchRoundState" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MasterMindModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -739,6 +773,22 @@
           <NavigationProperty Name="SecretCode" Relationship="Self.FK__SecretCod__match__2739D489" FromRole="MatchRoom" ToRole="SecretCode" />
           <NavigationProperty Name="TimeTrialConfig" Relationship="Self.FK__TimeTrial__match__25518C17" FromRole="MatchRoom" ToRole="TimeTrialConfig" />
           <NavigationProperty Name="TriesConfig" Relationship="Self.FK__TriesConf__match__2645B050" FromRole="MatchRoom" ToRole="TriesConfig" />
+          <NavigationProperty Name="MatchRoundState" Relationship="Self.FK_MatchRoundState_MatchRoom" FromRole="MatchRoom" ToRole="MatchRoundState" />
+        </EntityType>
+        <EntityType Name="MatchRoundState">
+          <Key>
+            <PropertyRef Name="match_room_id" />
+          </Key>
+          <Property Name="match_room_id" Type="Int32" Nullable="false" />
+          <Property Name="round_number" Type="Int32" Nullable="false" />
+          <Property Name="player_one_points" Type="Int32" Nullable="false" />
+          <Property Name="player_two_points" Type="Int32" Nullable="false" />
+          <Property Name="started_at_utc" Type="DateTime" Precision="7" />
+          <Property Name="deadline_utc" Type="DateTime" Precision="7" />
+          <Property Name="finished_username" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="finished_solved" Type="Boolean" />
+          <Property Name="finished_tries" Type="Int32" />
+          <NavigationProperty Name="MatchRoom" Relationship="Self.FK_MatchRoundState_MatchRoom" FromRole="MatchRoundState" ToRole="MatchRoom" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -892,8 +942,8 @@
           <Property Name="verification_code_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="verification_code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="player_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Player" Relationship="Self.FK__Verificat__playe__14270015" FromRole="VerificationCode" ToRole="Player" />
           <Property Name="created_at" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Player" Relationship="Self.FK__Verificat__playe__14270015" FromRole="VerificationCode" ToRole="Player" />
         </EntityType>
         <Association Name="FK__MatchRoom__diffi__2180FB33">
           <End Role="DifficultiesCatalog" Type="Self.DifficultiesCatalog" Multiplicity="1" />
@@ -1121,6 +1171,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MatchRoundState_MatchRoom">
+          <End Role="MatchRoom" Type="Self.MatchRoom" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MatchRoundState" Type="Self.MatchRoundState" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="MatchRoom">
+              <PropertyRef Name="match_room_id" />
+            </Principal>
+            <Dependent Role="MatchRoundState">
+              <PropertyRef Name="match_room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__PlayerInM__playe__282DF8C2">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="PlayerInMatch" Type="Self.PlayerInMatch" Multiplicity="*" />
@@ -1240,6 +1304,7 @@
           <EntitySet Name="GameModesCatalog" EntityType="Self.GameModesCatalog" />
           <EntitySet Name="MatchResults" EntityType="Self.MatchResults" />
           <EntitySet Name="MatchRoom" EntityType="Self.MatchRoom" />
+          <EntitySet Name="MatchRoundState" EntityType="Self.MatchRoundState" />
           <EntitySet Name="Player" EntityType="Self.Player" />
           <EntitySet Name="PlayerInMatch" EntityType="Self.PlayerInMatch" />
           <EntitySet Name="PlayerReport" EntityType="Self.PlayerReport" />
@@ -1325,6 +1390,10 @@
           <AssociationSet Name="FK__TriesConf__match__2645B050" Association="Self.FK__TriesConf__match__2645B050">
             <End Role="MatchRoom" EntitySet="MatchRoom" />
             <End Role="TriesConfig" EntitySet="TriesConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MatchRoundState_MatchRoom" Association="Self.FK_MatchRoundState_MatchRoom">
+            <End Role="MatchRoom" EntitySet="MatchRoom" />
+            <End Role="MatchRoundState" EntitySet="MatchRoundState" />
           </AssociationSet>
           <AssociationSet Name="FK__PlayerInM__playe__282DF8C2" Association="Self.FK__PlayerInM__playe__282DF8C2">
             <End Role="Player" EntitySet="Player" />
@@ -1431,6 +1500,21 @@
                 <ScalarProperty Name="player_two_tries" ColumnName="player_two_tries" />
                 <ScalarProperty Name="room_privacy_id" ColumnName="room_privacy_id" />
                 <ScalarProperty Name="room_code" ColumnName="room_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchRoundState">
+            <EntityTypeMapping TypeName="MasterMindModel.MatchRoundState">
+              <MappingFragment StoreEntitySet="MatchRoundState">
+                <ScalarProperty Name="match_room_id" ColumnName="match_room_id" />
+                <ScalarProperty Name="round_number" ColumnName="round_number" />
+                <ScalarProperty Name="player_one_points" ColumnName="player_one_points" />
+                <ScalarProperty Name="player_two_points" ColumnName="player_two_points" />
+                <ScalarProperty Name="started_at_utc" ColumnName="started_at_utc" />
+                <ScalarProperty Name="deadline_utc" ColumnName="deadline_utc" />
+                <ScalarProperty Name="finished_username" ColumnName="finished_username" />
+                <ScalarProperty Name="finished_solved" ColumnName="finished_solved" />
+                <ScalarProperty Name="finished_tries" ColumnName="finished_tries" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1564,10 +1648,10 @@
           <EntitySetMapping Name="VerificationCode">
             <EntityTypeMapping TypeName="MasterMindModel.VerificationCode">
               <MappingFragment StoreEntitySet="VerificationCode">
-                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="verification_code_id" ColumnName="verification_code_id" />
                 <ScalarProperty Name="verification_code" ColumnName="verification_code" />
                 <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

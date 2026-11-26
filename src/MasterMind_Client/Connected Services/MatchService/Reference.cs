@@ -411,6 +411,131 @@ namespace MasterMind_Client.MatchService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MatchSnapshot", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Contracts")]
+    [System.SerializableAttribute()]
+    public partial class MatchSnapshot : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsActiveField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsClockRunningField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsTimeTrialField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RemainingMsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RoundNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MasterMind_Client.MatchService.PlayerScore[] ScoresField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsActive {
+            get {
+                return this.IsActiveField;
+            }
+            set {
+                if ((this.IsActiveField.Equals(value) != true)) {
+                    this.IsActiveField = value;
+                    this.RaisePropertyChanged("IsActive");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsClockRunning {
+            get {
+                return this.IsClockRunningField;
+            }
+            set {
+                if ((this.IsClockRunningField.Equals(value) != true)) {
+                    this.IsClockRunningField = value;
+                    this.RaisePropertyChanged("IsClockRunning");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsTimeTrial {
+            get {
+                return this.IsTimeTrialField;
+            }
+            set {
+                if ((this.IsTimeTrialField.Equals(value) != true)) {
+                    this.IsTimeTrialField = value;
+                    this.RaisePropertyChanged("IsTimeTrial");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RemainingMs {
+            get {
+                return this.RemainingMsField;
+            }
+            set {
+                if ((this.RemainingMsField.Equals(value) != true)) {
+                    this.RemainingMsField = value;
+                    this.RaisePropertyChanged("RemainingMs");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RoundNumber {
+            get {
+                return this.RoundNumberField;
+            }
+            set {
+                if ((this.RoundNumberField.Equals(value) != true)) {
+                    this.RoundNumberField = value;
+                    this.RaisePropertyChanged("RoundNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MasterMind_Client.MatchService.PlayerScore[] Scores {
+            get {
+                return this.ScoresField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ScoresField, value) != true)) {
+                    this.ScoresField = value;
+                    this.RaisePropertyChanged("Scores");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="MatchService.IMatchService", CallbackContract=typeof(MasterMind_Client.MatchService.IMatchServiceCallback))]
     public interface IMatchService {
@@ -449,6 +574,20 @@ namespace MasterMind_Client.MatchService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/Unsubscribe", ReplyAction="http://tempuri.org/IMatchService/UnsubscribeResponse")]
         System.Threading.Tasks.Task UnsubscribeAsync(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/ReadyForRound", ReplyAction="http://tempuri.org/IMatchService/ReadyForRoundResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.MatchService.ErrorMessage), Action="http://tempuri.org/IMatchService/ReadyForRoundErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        void ReadyForRound(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/ReadyForRound", ReplyAction="http://tempuri.org/IMatchService/ReadyForRoundResponse")]
+        System.Threading.Tasks.Task ReadyForRoundAsync(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/GetMatchSnapshot", ReplyAction="http://tempuri.org/IMatchService/GetMatchSnapshotResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(MasterMind_Client.MatchService.ErrorMessage), Action="http://tempuri.org/IMatchService/GetMatchSnapshotErrorMessageFault", Name="ErrorMessage", Namespace="http://schemas.datacontract.org/2004/07/MasterMind_Server.Exceptions")]
+        MasterMind_Client.MatchService.MatchSnapshot GetMatchSnapshot(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IMatchService/GetMatchSnapshot", ReplyAction="http://tempuri.org/IMatchService/GetMatchSnapshotResponse")]
+        System.Threading.Tasks.Task<MasterMind_Client.MatchService.MatchSnapshot> GetMatchSnapshotAsync(string username);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -462,6 +601,9 @@ namespace MasterMind_Client.MatchService {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMatchService/OnOpponentAbandonedCallback")]
         void OnOpponentAbandonedCallback(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IMatchService/OnTimeTrialStartedCallback")]
+        void OnTimeTrialStartedCallback(int remainingMs);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -530,6 +672,22 @@ namespace MasterMind_Client.MatchService {
         
         public System.Threading.Tasks.Task UnsubscribeAsync(string username) {
             return base.Channel.UnsubscribeAsync(username);
+        }
+        
+        public void ReadyForRound(string username) {
+            base.Channel.ReadyForRound(username);
+        }
+        
+        public System.Threading.Tasks.Task ReadyForRoundAsync(string username) {
+            return base.Channel.ReadyForRoundAsync(username);
+        }
+        
+        public MasterMind_Client.MatchService.MatchSnapshot GetMatchSnapshot(string username) {
+            return base.Channel.GetMatchSnapshot(username);
+        }
+        
+        public System.Threading.Tasks.Task<MasterMind_Client.MatchService.MatchSnapshot> GetMatchSnapshotAsync(string username) {
+            return base.Channel.GetMatchSnapshotAsync(username);
         }
     }
 }

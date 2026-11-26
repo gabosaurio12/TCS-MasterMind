@@ -46,5 +46,6 @@ namespace MasterMind_Server.Data
         public virtual SecretCode SecretCode { get; set; }
         public virtual TimeTrialConfig TimeTrialConfig { get; set; }
         public virtual TriesConfig TriesConfig { get; set; }
+        public virtual MatchRoundState MatchRoundState { get; set; }
     }
 }

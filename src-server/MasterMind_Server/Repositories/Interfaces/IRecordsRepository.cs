@@ -5,5 +5,7 @@ namespace MasterMind_Server.Repositories.Interfaces
     interface IRecordsRepository
     {
         void SaveTriesRecords(IReadOnlyDictionary<string, int> bestTriesByUsername);
+
+        void SaveTimeRecords(IReadOnlyDictionary<string, int> bestSecondsByUsername);
     }
 }

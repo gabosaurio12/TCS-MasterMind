@@ -109,6 +109,7 @@
     <BitmapImage x:Key="DecipheringMachineWithoutOkImage" UriSource="/Assets/Elements/DecipheringMachine/DecipheringMachine_Empty_WithoutOk.png" />
     <BitmapImage x:Key="OkButtonImage" UriSource="/Assets/Elements/DecipheringMachine/Ok_Button.png" />
     <BitmapImage x:Key="CounterImage" UriSource="/Assets/Elements/DecipheringMachine/Counter.png" />
+    <BitmapImage x:Key="TimerImage" UriSource="/Assets/Elements/DecipheringMachine/Timer.png" />
     <BitmapImage x:Key="PinColoursPanelImage" UriSource="/Assets/Elements/DecipheringMachine/PinColours.png" />
     <BitmapImage x:Key="BluePinImage" UriSource="/Assets/Elements/DecipheringMachine/BluePin.png" />
     <BitmapImage x:Key="RedPinImage" UriSource="/Assets/Elements/DecipheringMachine/RedPin.png" />

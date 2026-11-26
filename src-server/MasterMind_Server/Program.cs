@@ -1,6 +1,7 @@
 ﻿using log4net;
 using MasterMind_Server.Repositories;
 using MasterMind_Server.Services.GuestHelpers;
+using MasterMind_Server.Services.MatchHelpers;
 using MasterMind_Server.Services.Network;
 using System;
 using System.Data.Entity.Core;
@@ -23,6 +24,7 @@ namespace MasterMind_Server
             log4net.Config.XmlConfigurator.Configure();
             ResetOnlineStatuses();
             PurgeGuests();
+            RestoreMatches();
             IPAddress serverAddress = ServerAddressProvider.Resolve();
             List<ServiceHost> hosts = CreateHosts(serverAddress);
 
@@ -53,6 +55,18 @@ namespace MasterMind_Server
             catch (EntityException ex)
             {
                 logger.Error("Could not reset the online status of the players.", ex);
+            }
+        }
+
+        private static void RestoreMatches()
+        {
+            try
+            {
+                new MatchRestorer().RestoreAll();
+            }
+            catch (EntityException ex)
+            {
+                logger.Error("Could not restore the matches in progress.", ex);
             }
         }
 

@@ -4,8 +4,6 @@ using MasterMind_Client.Helpers;
 using MasterMind_Client.MatchService;
 using MasterMind_Client.ViewModels.Base;
 using MasterMind_Client.ViewModels.Pages.MatchPages.MatchHelpers;
-using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.Helpers;
-using MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries.ViewModels;
 using MasterMind_Client.ViewModels.Services;
 using System;
 using System.Collections.Generic;
@@ -13,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
@@ -28,7 +27,8 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
         private readonly INavigationService navigationService;
         private readonly IDialogService dialogService;
         private readonly MatchCallbackHandler callbackHandler = new MatchCallbackHandler();
-        private readonly MatchServiceClient matchService;
+        private readonly MatchReconnector reconnector;
+        private MatchServiceClient matchService;
 
         private int remainingTries;
         private int maxTries;
@@ -40,6 +40,7 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
         private bool disposed;
         private bool isWaitingForOpponent;
         private bool isMenuOpen;
+        private bool isReconnecting;
         private RoundResult pendingResult;
         private IReadOnlyList<PinColour> lastCode;
         private PaletteColourViewModel selectedColour;
@@ -54,6 +55,12 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
         {
             get => isWaitingForOpponent;
             private set => SetProperty(ref isWaitingForOpponent, value);
+        }
+
+        public bool IsReconnecting
+        {
+            get => isReconnecting;
+            private set => SetProperty(ref isReconnecting, value);
         }
 
         public bool IsMenuOpen
@@ -82,7 +89,9 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
             this.dialogService = dialogService;
             roomId = RouteQuery.GetInt(uri, "roomId");
             
+            reconnector = new MatchReconnector(callbackHandler);
             matchService = ServiceClientFactory.CreateMatchClient(new InstanceContext(callbackHandler));
+            AttachChannelEvents();
 
             callbackHandler.OpponentFinished += OnOpponentFinished;
             callbackHandler.RoundResolved += OnRoundResolved;
@@ -115,11 +124,59 @@ namespace MasterMind_Client.ViewModels.Pages.MatchPages.MatchTries
             callbackHandler.OpponentFinished -= OnOpponentFinished;
             callbackHandler.RoundResolved -= OnRoundResolved;
             callbackHandler.OpponentAbandoned -= OnOpponentAbandoned;
+            DetachChannelEvents();
             Unsubscribe();
             CloseClient(matchService);
         }
 
         private MatchRowViewModel CurrentRow => TriesRows[currentRowIndex];
+
+        private void AttachChannelEvents()
+        {
+            matchService.InnerChannel.Faulted += OnChannelLost;
+            matchService.InnerChannel.Closed += OnChannelLost;
+        }
+
+        private void DetachChannelEvents()
+        {
+            matchService.InnerChannel.Faulted -= OnChannelLost;
+            matchService.InnerChannel.Closed -= OnChannelLost;
+        }
+
+        private void OnChannelLost(object sender, EventArgs e)
+        {
+            Application.Current?.Dispatcher.BeginInvoke((Action)(async () => await ReconnectAsync()));
+        }
+
+        private async Task ReconnectAsync()
+        {
+            if (disposed || IsReconnecting)
+            {
+                return;
+            }
+
+            IsReconnecting = true;
+            DetachChannelEvents();
+            matchService.Abort();
+            var session = await reconnector.ReconnectAsync(CurrentPlayer.Instance.Username);
+            IsReconnecting = false;
+            if (session == null || disposed || !session.Snapshot.IsActive)
+            {
+                session?.Client.Abort();
+                LeaveAfterConnectionLost();
+                return;
+            }
+
+            matchService = session.Client;
+            AttachChannelEvents();
+            Score.Update(session.Snapshot.Scores, CurrentPlayer.Instance.Username);
+        }
+
+        private void LeaveAfterConnectionLost()
+        {
+            dialogService.ShowError(Properties.Resources.MatchTimeTrial_ReconnectFailed);
+            ReturnToRoom();
+        }
 
         private void CreateBoard()
         {

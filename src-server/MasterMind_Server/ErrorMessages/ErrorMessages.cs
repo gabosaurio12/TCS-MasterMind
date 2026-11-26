@@ -16,6 +16,7 @@
         TriesExhausted,
         PlayerNotInRoom,
         SecretCodeNotFound,
+        RoundNotStarted,
         SelfReport,
         InvalidReportReason,
         AlreadyReported,

@@ -22,21 +22,59 @@ namespace MasterMind_Server.Repositories
                 throw new InvalidOperationException(ErrorMessages.PlayerNotFound.ToString());
             }
 
-            var room = context.MatchRoom.AsNoTracking().Include(r => r.DifficultiesCatalog).FirstOrDefault(
-                r => r.player_one_id == player.player_id || r.player_two_id == player.player_id);
+            var room = context.MatchRoom.AsNoTracking()
+                .Include(r => r.DifficultiesCatalog)
+                .Include(r => r.GameModesCatalog)
+                .FirstOrDefault(r => r.player_one_id == player.player_id || r.player_two_id == player.player_id);
             if (room == null)
             {
                 throw new InvalidOperationException(ErrorMessages.PlayerNotInRoom.ToString());
             }
 
+            return BuildParticipation(room, player.player_id);
+        }
+
+        public MatchRoomInfo GetRoomInfo(int roomId)
+        {
+            using (var db = new MasterMindEntities(true))
+            {
+                var room = db.MatchRoom.AsNoTracking()
+                    .Include(r => r.DifficultiesCatalog)
+                    .Include(r => r.GameModesCatalog)
+                    .Include(r => r.Player)
+                    .Include(r => r.Player1)
+                    .FirstOrDefault(r => r.match_room_id == roomId);
+                if (room == null)
+                {
+                    throw new InvalidOperationException(ErrorMessages.RoomNotFound.ToString());
+                }
+
+                return new MatchRoomInfo
+                {
+                    RoomId = room.match_room_id,
+                    PlayerOneUsername = room.Player?.username,
+                    PlayerTwoUsername = room.Player1?.username,
+                    PlayerOneTries = room.player_one_tries,
+                    PlayerTwoTries = room.player_two_tries,
+                    IsTimeTrial = TimeTrialRules.IsTimeTrial(room.GameModesCatalog?.gamemode),
+                    RoundSeconds = TimeTrialRules.GetRoundSeconds(room.DifficultiesCatalog?.difficulty)
+                };
+            }
+        }
+
+        private MatchParticipation BuildParticipation(MatchRoom room, int playerId)
+        {
+            bool isTimeTrial = TimeTrialRules.IsTimeTrial(room.GameModesCatalog?.gamemode);
             return new MatchParticipation
             {
                 RoomId = room.match_room_id,
-                IsPlayerOne = room.player_one_id == player.player_id,
-                OpponentUsername = GetOpponentUsername(room, player.player_id),
+                IsPlayerOne = room.player_one_id == playerId,
+                OpponentUsername = GetOpponentUsername(room, playerId),
                 PlayerOneStatus = room.player_one_status,
                 PlayerTwoStatus = room.player_two_status,
-                MaxTries = TriesRules.GetMaxTries(room.DifficultiesCatalog?.difficulty)
+                MaxTries = isTimeTrial ? int.MaxValue : TriesRules.GetMaxTries(room.DifficultiesCatalog?.difficulty),
+                IsTimeTrial = isTimeTrial,
+                RoundSeconds = TimeTrialRules.GetRoundSeconds(room.DifficultiesCatalog?.difficulty)
             };
         }
 

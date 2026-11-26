@@ -11,12 +11,15 @@ namespace MasterMind_Server.Tests.TestSupport
         private readonly ManualResetEventSlim finishedEvent = new ManualResetEventSlim(false);
         private readonly ManualResetEventSlim resolvedEvent = new ManualResetEventSlim(false);
         private readonly ManualResetEventSlim abandonedEvent = new ManualResetEventSlim(false);
+        private readonly ManualResetEventSlim startedEvent = new ManualResetEventSlim(false);
 
         public OpponentProgress LastProgress { get; private set; }
 
         public RoundResult LastResult { get; private set; }
 
         public string LastAbandonedUsername { get; private set; }
+
+        public int LastRemainingMs { get; private set; }
 
         public void OnOpponentFinishedCallback(OpponentProgress progress)
         {
@@ -34,6 +37,17 @@ namespace MasterMind_Server.Tests.TestSupport
         {
             LastAbandonedUsername = username;
             abandonedEvent.Set();
+        }
+
+        public void OnTimeTrialStartedCallback(int remainingMs)
+        {
+            LastRemainingMs = remainingMs;
+            startedEvent.Set();
+        }
+
+        public bool WaitForTimeTrialStarted(TimeSpan timeout)
+        {
+            return startedEvent.Wait(timeout);
         }
 
         public void ResetRoundResolved()

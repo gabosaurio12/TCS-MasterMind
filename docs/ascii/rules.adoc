@@ -51,13 +51,13 @@ Mediante estas pistas los jugadores deben adivinar el código e ir ajustando sus
 
 En este modo se tiene intentos ilimitados, consta de cuatro dificultades:
 
-* *Fácil:* 3 minutos
+* *Fácil:* 1 minutos
 
-* *Medio:* 2 minutos
+* *Medio:* 30 segundos
 
-* *Difícil:* 1 minuto
+* *Difícil:* 15 segundos
 
-* *Enigma:* 30 segundos
+* *Enigma:* 10 segundos
 
 ==== Intentos
 

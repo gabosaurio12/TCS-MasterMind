@@ -120,6 +120,8 @@
     <Compile Include="ClueCalculatorTests.cs" />
     <Compile Include="MatchServiceTests.cs" />
     <Compile Include="MatchCallbackTests.cs" />
+    <Compile Include="MatchTimeTrialTests.cs" />
+    <Compile Include="TimeTrialRulesTests.cs" />
     <Compile Include="SecretCodeGeneratorTests.cs" />
     <Compile Include="RecordsRepositoryTests.cs" />
   </ItemGroup>

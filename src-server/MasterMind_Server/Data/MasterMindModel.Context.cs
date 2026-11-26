@@ -31,6 +31,7 @@ namespace MasterMind_Server.Data
         public virtual DbSet<GameModesCatalog> GameModesCatalog { get; set; }
         public virtual DbSet<MatchResults> MatchResults { get; set; }
         public virtual DbSet<MatchRoom> MatchRoom { get; set; }
+        public virtual DbSet<MatchRoundState> MatchRoundState { get; set; }
         public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<PlayerInMatch> PlayerInMatch { get; set; }
         public virtual DbSet<PlayerReport> PlayerReport { get; set; }

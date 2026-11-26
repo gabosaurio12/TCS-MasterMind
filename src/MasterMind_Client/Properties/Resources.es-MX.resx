@@ -471,6 +471,18 @@
   <data name="ErrorNotification_ErrorJoiningRoomGiveRoomCode" xml:space="preserve">
     <value>Hubo un error al tratar de unirte directamente a la sala, intenta unirte con este código:</value>
   </data>
+  <data name="MatchTimeTrial_RemainingTime" xml:space="preserve">
+    <value>Tiempo restante:</value>
+  </data>
+  <data name="MatchTimeTrial_Reconnecting" xml:space="preserve">
+    <value>Reconectando con el servidor...</value>
+  </data>
+  <data name="MatchTimeTrial_ReconnectFailed" xml:space="preserve">
+    <value>Se perdió la conexión con la partida.</value>
+  </data>
+  <data name="MatchTimeTrial_TimeIsUp" xml:space="preserve">
+    <value>¡Se acabó el tiempo!</value>
+  </data>
   <data name="MatchTries_RemainingTries" xml:space="preserve">
     <value>Intentos restantes:</value>
   </data>

@@ -52,17 +52,21 @@
     <Compile Include="ViewModels\Modals\YouWonTriesViewModel.cs" />
     <Compile Include="ViewModels\Modals\MatchMenuViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\RoomEscapeNotifier.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\ClueColour.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchClueSlotViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchPinSlotViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchRowViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\MatchScoreViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\MatchCallbackHandler.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\MatchRules.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\NoOpponentMatchCallback.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\ClueColour.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchClueSlotViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchPinSlotViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchRowViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchScoreViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchCallbackHandler.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchRules.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\NoOpponentMatchCallback.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchClockViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchReconnector.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\MatchSession.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchTimeTrial\MatchTimeTrialViewModel.cs" />
     <Compile Include="ViewModels\Pages\MatchPages\MatchTries\MatchTriesViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\ViewModels\PaletteColourViewModel.cs" />
-    <Compile Include="ViewModels\Pages\MatchPages\MatchTries\Helpers\PinColour.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\PaletteColourViewModel.cs" />
+    <Compile Include="ViewModels\Pages\MatchPages\MatchHelpers\PinColour.cs" />
     <Reference Include="BCrypt-Net-Next, Version=4.2.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>packages\BCrypt.Net-Next.4.2.0\lib\net472\BCrypt-Net-Next.dll</HintPath>
     </Reference>
@@ -258,6 +262,7 @@
     </Reference>
     <Resource Include="Assets\Backgrounds\Match_Background.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\Counter.png" />
+    <Resource Include="Assets\Elements\DecipheringMachine\Timer.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\DecipheringMachine_Empty_WithoutOk.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\Ok_Button.png" />
     <Resource Include="Assets\Elements\DecipheringMachine\PinColours.png" />
@@ -344,6 +349,9 @@
     </Compile>
     <Compile Include="Modals\VerificationCodeModal.xaml.cs">
       <DependentUpon>VerificationCodeModal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MatchPages\MatchTimeTrialPage.xaml.cs">
+      <DependentUpon>MatchTimeTrialPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MatchPages\MatchTriesPage.xaml.cs">
       <DependentUpon>MatchTriesPage.xaml</DependentUpon>
@@ -501,6 +509,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MatchPages\MatchTimeTrialPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
